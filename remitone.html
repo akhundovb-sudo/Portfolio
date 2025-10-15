@@ -306,12 +306,11 @@
         <div class="photo-viewer-content">
             <img class="photo-viewer-img" id="photoViewerImg" alt="Full size image">
             <button class="photo-viewer-close" onclick="closePhotoViewer()">
-                <img src="images/close-icon.svg" alt="Close" width="24" height="24">
+                <img src="images/close-icon.svg" alt="Close" width="32" height="32">
             </button>
             <div class="photo-viewer-controls">
-                <button class="photo-viewer-btn" onclick="zoomOut()">−</button>
                 <div class="photo-viewer-zoom-indicator" id="zoomIndicator">100%</div>
-                <button class="photo-viewer-btn" onclick="zoomIn()">+</button>
+                <input type="range" class="photo-viewer-zoom-slider" id="zoomSlider" min="25" max="300" value="100" oninput="updateZoomFromSlider(this.value)">
             </div>
         </div>
     </div>
@@ -409,6 +408,7 @@
         function openPhotoViewer(imgSrc) {
             const viewer = document.getElementById('photoViewer');
             const img = document.getElementById('photoViewerImg');
+            const zoomSlider = document.getElementById('zoomSlider');
             
             img.src = imgSrc;
             viewer.classList.add('active');
@@ -419,6 +419,11 @@
             translateY = 0;
             updateImageTransform();
             updateZoomIndicator();
+            
+            // Sync slider with current zoom
+            if (zoomSlider) {
+                zoomSlider.value = currentZoom * 100;
+            }
             
             // Prevent body scroll
             document.body.style.overflow = 'hidden';
@@ -432,14 +437,8 @@
             document.body.style.overflow = '';
         }
 
-        function zoomIn() {
-            currentZoom = Math.min(currentZoom * 1.2, 5);
-            updateImageTransform();
-            updateZoomIndicator();
-        }
-
-        function zoomOut() {
-            currentZoom = Math.max(currentZoom / 1.2, 0.5);
+        function updateZoomFromSlider(value) {
+            currentZoom = value / 100;
             updateImageTransform();
             updateZoomIndicator();
         }
@@ -536,27 +535,25 @@
             }
         });
 
-        // Add click handlers to all images on mobile (excluding icons)
-        if (window.innerWidth <= 768) {
-            document.addEventListener('DOMContentLoaded', function() {
-                const images = document.querySelectorAll('.project-page img');
-                images.forEach(img => {
-                    // Skip icons and small images
-                    if (img.width <= 48 || img.height <= 48 || 
-                        img.src.includes('icon') || 
-                        img.closest('.mobile-social-links') ||
-                        img.closest('.social-links') ||
-                        img.closest('.mobile-close-btn') ||
-                        img.closest('.hamburger')) {
-                        return;
-                    }
-                    
-                    img.addEventListener('click', function() {
-                        openPhotoViewer(this.src);
-                    });
+        // Add click handlers to all images (excluding icons)
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.project-page img');
+            images.forEach(img => {
+                // Skip icons and small images
+                if (img.width <= 48 || img.height <= 48 || 
+                    img.src.includes('icon') || 
+                    img.closest('.mobile-social-links') ||
+                    img.closest('.social-links') ||
+                    img.closest('.mobile-close-btn') ||
+                    img.closest('.hamburger')) {
+                    return;
+                }
+                
+                img.addEventListener('click', function() {
+                    openPhotoViewer(this.src);
                 });
             });
-        }
+        });
     </script>
 </body>
 
