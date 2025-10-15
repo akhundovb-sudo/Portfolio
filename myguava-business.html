@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyGuava Business - Bahruz</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="about.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400&display=swap" rel="stylesheet">
+</head>
+<body class="project-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Bahruz</a>
+                <nav class="nav">
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <button onclick="openModal()" class="nav-button">Get in Touch</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="index.html" class="breadcrumb-link">Home</a>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-current">MyGuava Business</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Project Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="about-title">About the Product</h2>
+                    <p class="about-description">
+                        MyGuava Business is a powerful analytics dashboard designed for merchants to manage and monitor their payment operations across both physical POS terminals and connected e-commerce platforms.<br><br>
+                        As the product designer, I was responsible for designing the full dashboard experience from the ground up — including user flows, interface layout, data visualization, and usability logic. The main goal was to create a clean, intuitive interface that simplifies access to complex financial data.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img src="images/myguava-business-hero-12d155.png" alt="MyGuava Business hero" class="profile-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Overview Section -->
+    <section class="system-section">
+        <div class="container">
+            <div class="system-content">
+                <div class="system-text">
+                    <h3 class="about-title">Overview</h3>
+                    <p class="about-description">Main dashboard with key metrics like total sales, average transaction size, and payment breakdown. Designed for quick insight at a glance using modular charts and KPIs.</p>
+                </div>
+                <div class="system-image">
+                    <img src="images/myguava-business-overview.png" alt="MyGuava Business overview" class="system-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- POS/E-commerce Section -->
+    <section class="system-section">
+        <div class="container">
+            <div class="system-content">
+                <div class="system-text">
+                    <h3 class="about-title">POS/E-commerce</h3>
+                    <p class="about-description">Displays active and inactive POS terminals and e-commerce merchants. Allows quick monitoring of each channel’s activity and health.</p>
+                </div>
+                <div class="system-image">
+                    <img src="images/myguava-business-pos-ecom.png" alt="POS and E-commerce dashboard" class="system-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="system-section">
+        <div class="container">
+            <div class="system-content">
+                <div class="system-text">
+                    <h3 class="about-title">Charts</h3>
+                    <p class="about-description">Interactive graphs showing trends over time — filtered by date, channel, and currency. Helps users compare performance across POS and e-commerce.</p>
+                </div>
+                <div class="charts-illustration">
+                    <img src="images/myguava-business-charts.png" alt="Charts illustration" class="system-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section class="system-section">
+        <div class="container">
+            <div class="system-content">
+                <div class="system-text">
+                    <h3 class="about-title">Applications</h3>
+                    <p class="about-description">Tracks the status of submitted applications (e.g. onboarding, product access). Users can filter, view details, and take action in a side panel.</p>
+                </div>
+                <div class="system-image">
+                    <img src="images/myguava-business-applications.png" alt="Applications dashboard" class="system-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 class="footer-title">Let's work together</h3>
+            <div class="footer-social">
+                <a href="mailto:akhundovb@gmail.com" class="social-icon" title="Email">
+                    <img src="images/social-icon-1.svg" alt="Email" width="24" height="24">
+                </a>
+                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon" title="LinkedIn" target="_blank" rel="noopener noreferrer">
+                    <img src="images/social-icon-2.svg" alt="LinkedIn" width="24" height="24">
+                </a>
+                <a href="https://t.me/akhundesign" class="social-icon" title="Telegram" target="_blank" rel="noopener noreferrer">
+                    <img src="images/social-icon-3.svg" alt="Telegram" width="24" height="24">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Let's connect!</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Choose how you'd like to get in touch:</p>
+                <div class="contact-buttons">
+                    <a href="mailto:akhundovb@gmail.com" class="contact-button email">
+                        <span>Email</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank" rel="noopener noreferrer">
+                        <span>Telegram</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank" rel="noopener noreferrer">
+                        <span>LinkedIn</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

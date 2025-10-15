@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyGuava Design System - Bahruz</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="about.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="project-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Bahruz</a>
+                <nav class="nav">
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <button onclick="openModal()" class="nav-button">Get in Touch</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="index.html" class="breadcrumb-link">Home</a>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-current">MyGuava Design System</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Project Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="about-title">About the Product</h2>
+                    <p class="about-description">
+                        MyGuava Business Payment is a payment management platform designed for the CPG sector. The
+                        platform is used by merchants of all sizes — from local retailers to international chains. The
+                        challenge was to create a design system that is both consistent across the product and flexible
+                        enough to allow each merchant to customize the interface to match their brand.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img src="images/myguava-design-system-hero-updated.png" alt="MyGuava Design System project"
+                        class="profile-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design System Goals Section -->
+    <section class="ui-detail-section">
+        <div class="container">
+            <div class="ui-detail-content-large">
+                <div class="ui-detail-header">
+                    <h3 class="about-title">Design System Goals</h3>
+                    <div class="ui-detail-description">
+                        <ul class="about-description component-list">
+                            <li>Establish a unified visual language across all interfaces (desktop + mobile)</li>
+                            <li>Enable merchants to customize the interface to reflect their brand</li>
+                            <li>Simplify scaling, maintenance, and feature development</li>
+                            <li>Improve overall UX and UI quality through systemization</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ui-images-row">
+                    <img src="images/myguava-design-system-goals.png" alt="Design System Goals" class="ui-showcase-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Architecture Section -->
+    <section class="ui-detail-section customizable-section">
+        <div class="container">
+            <h3 class="about-title">System Architecture</h3>
+
+            <!-- Color Tokens -->
+            <div class="system-architecture-item">
+                <h4 class="architecture-subtitle">1. Color Tokens</h4>
+                <div class="ui-images-row">
+                    <img src="images/myguava-design-system-color-tokens.png" alt="Color Tokens" class="ui-showcase-img">
+                </div>
+            </div>
+
+            <!-- Radius Tokens -->
+            <div class="system-architecture-item">
+                <h4 class="architecture-subtitle">2. Radius Tokens</h4>
+                <div class="ui-images-row">
+                    <img src="images/myguava-design-system-radius-tokens.png" alt="Radius Tokens"
+                        class="ui-showcase-img">
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <div class="system-architecture-item">
+                <h4 class="architecture-subtitle">3. Typography</h4>
+                <div class="ui-images-row">
+                    <img src="images/myguava-design-system-typography.png" alt="Typography" class="ui-showcase-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Section -->
+    <section class="ui-detail-section component-section">
+        <div class="container">
+            <div class="ui-detail-content-large">
+                <div class="ui-detail-header">
+                    <h3 class="about-title">Components</h3>
+                    <div class="ui-detail-description">
+                        <p class="about-description component-desc">We followed an atomic approach and organized
+                            components into three
+                            levels:
+                        </p>
+                        <ul class="component-list">
+                            <li>Base Elements – Buttons, Inputs, Icons, Tags</li>
+                            <li>UI Modules – Forms, Cards, Tables, Navigation, Alerts</li>
+                            <li>Product-Specific Components – Payment Summary Block, Transaction Row, POS Keypad</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ui-images-row">
+                    <img src="images/myguava-design-system-components-1.png" alt="Components" class="ui-showcase-img">
+                </div>
+                <div class="ui-images-row">
+                    <img src="images/myguava-design-system-components-2.png" alt="Components continued"
+                        class="ui-showcase-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developer Handoff Section -->
+    <section class="ui-detail-section">
+        <div class="container">
+            <div class="ui-detail-content-large">
+                <div class="ui-detail-header">
+                    <h3 class="about-title">Developer Handoff</h3>
+                    <div class="ui-detail-description">
+                        <p class="about-description">Comprehensive documentation including component specifications,
+                            usage guidelines, and implementation details for seamless development integration.</p>
+                    </div>
+                </div>
+                <div class="ui-images-row">
+                    <img src="images/myguava-design-system-developer-handoff.png" alt="Developer Handoff Documentation"
+                        class="ui-showcase-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 class="footer-title">Let's work together</h3>
+            <div class="footer-social">
+                <a href="mailto:akhundovb@gmail.com" class="social-icon" title="Email">
+                    <img src="images/social-icon-1.svg" alt="Email" width="24" height="24">
+                </a>
+                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon" title="LinkedIn" target="_blank"
+                    rel="noopener noreferrer">
+                    <img src="images/social-icon-2.svg" alt="LinkedIn" width="24" height="24">
+                </a>
+                <a href="https://t.me/akhundesign" class="social-icon" title="Telegram" target="_blank"
+                    rel="noopener noreferrer">
+                    <img src="images/social-icon-3.svg" alt="Telegram" width="24" height="24">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Let's connect!</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Choose how you'd like to get in touch:</p>
+                <div class="contact-buttons">
+                    <a href="mailto:akhundovb@gmail.com" class="contact-button email">
+                        <span>Email</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank"
+                        rel="noopener noreferrer">
+                        <span>Telegram</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank"
+                        rel="noopener noreferrer">
+                        <span>LinkedIn</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

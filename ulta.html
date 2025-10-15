@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULTA - Bahruz</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="about.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="project-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Bahruz</a>
+                <nav class="nav">
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <button onclick="openModal()" class="nav-button">Get in Touch</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="index.html" class="breadcrumb-link">Home</a>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-current">ULTA</span>
+            </nav>
+        </div>
+    </section>
+
+
+
+
+
+
+    <!-- Project Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="about-title">About the Product</h2>
+                    <p class="about-description">
+                        Our vision for seamless restaurant discovery and booking integrates AI-powered search with an
+                        intuitive interface, helping you find the best dining spots based on real user reviews. This
+                        project aims to make each step, from search to reservation, effortless and personalized, with
+                        smart recommendations always within reach.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img src="images/ulta-hero-main.png" alt="ULTA project" class="profile-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Process Section -->
+    <section class="design-process-section">
+        <div class="container">
+            <h3 class="about-title">Design Process</h3>
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-number">01</div>
+                    <div class="process-content">
+                        <h4 class="process-title">Research and Discovery</h4>
+                        <p class="process-description">Gather insights on user needs and behaviors through interviews
+                            and Jobs-to-be-Done (JTBD) framework. Analyze competitors to identify strengths, weaknesses,
+                            and opportunities for differentiation.</p>
+                    </div>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">02</div>
+                    <div class="process-content">
+                        <h4 class="process-title">Define Requirements</h4>
+                        <p class="process-description">Define the app's core functionalities based on research findings.
+                            Prioritize features to align with user needs and business objectives, ensuring a seamless
+                            booking experience.</p>
+                    </div>
+                </div>
+                <div class="process-card process-card-highlight">
+                    <div class="process-number">03</div>
+                    <div class="process-content">
+                        <h4 class="process-title">UI Design</h4>
+                        <p class="process-description">Develop wireframes and high-fidelity prototypes, focusing on
+                            intuitive navigation, accessibility, and AI-driven recommendations. Establish a strong
+                            visual identity with well-balanced typography and color schemes.</p>
+                    </div>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">04</div>
+                    <div class="process-content">
+                        <h4 class="process-title">Prototype Testing & Iteration</h4>
+                        <p class="process-description">Conduct usability testing on prototypes to validate design
+                            decisions. Analyze user feedback, refine interactions, and improve overall usability before
+                            final implementation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitive Analysis Section -->
+    <section class="competitive-section">
+        <div class="container">
+            <h3 class="about-title">Competitive Analyze</h3>
+            <div class="competitive-table">
+                <img src="images/competitive-analysis-table-updated.png" alt="Competitive Analysis Table"
+                    class="table-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- User Interviews Section -->
+    <section class="interviews-section">
+        <div class="container">
+            <h3 class="about-title">User Interviews</h3>
+            <div class="interviews-grid">
+                <div class="interview-card interview-card-large">
+                    <img src="images/search-icon.svg" alt="Search icon" class="interview-icon">
+                    <div class="interview-content">
+                        <h4 class="interview-title">Search</h4>
+                        <p class="interview-description">Do you remember the last time you searched for a restaurant?
+                            What steps did you take?<br>What apps or websites did you use for this? Why did you choose
+                            them?<br>In general, what is more convenient for you when searching for restaurants: using
+                            apps, recommendations from friends, or other methods?</p>
+                    </div>
+                </div>
+                <div class="interview-card">
+                    <img src="images/filter-icon.svg" alt="Filter icon" class="interview-icon">
+                    <div class="interview-content">
+                        <h4 class="interview-title">Filters</h4>
+                        <p class="interview-description">What type of venues do you visit most often (cafes,
+                            restaurants, bars)? Why?<br><br>How do you usually find a suitable venue through an app?
+                            What filters do you use?<br><br>What additional filter options could make your search
+                            easier?</p>
+                    </div>
+                </div>
+                <div class="interview-card">
+                    <img src="images/reviews-icon.svg" alt="Reviews icon" class="interview-icon">
+                    <div class="interview-content">
+                        <h4 class="interview-title">Reviews</h4>
+                        <p class="interview-description">Have you ever encountered unreliable reviews? How do you
+                            determine if they can be trusted?<br><br>What review formats do you find most useful? Why?
+                            (Video, text, photo)</p>
+                    </div>
+                </div>
+                <div class="interview-card">
+                    <img src="images/choice-icon.svg" alt="Choice icon" class="interview-icon">
+                    <div class="interview-content">
+                        <h4 class="interview-title">Choice & Experience</h4>
+                        <p class="interview-description">What usually stops you when you can't decide on a restaurant?
+                            How do you solve this problem?<br>How do you choose new places when traveling?<br>What does
+                            your ideal restaurant selection process look like? What would you add or remove?</p>
+                    </div>
+                </div>
+                <div class="interview-card">
+                    <img src="images/recommendations-icon.svg" alt="Recommendations icon" class="interview-icon">
+                    <div class="interview-content">
+                        <h4 class="interview-title">Recommendations</h4>
+                        <p class="interview-description">How often do you use recommendations in apps? Do they meet your
+                            expectations?<br>What data should an app consider to make recommendations more personalized
+                            for you?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design System Section -->
+    <section class="system-section">
+        <div class="container">
+            <div class="system-content">
+                <div class="system-text">
+                    <h3 class="about-title">Design System</h3>
+                    <p class="about-description">Our design system implements a three-tier color token architecture:</p>
+                    <ul class="design-system-list">
+                        <li><strong>Primitive Tokens</strong> - Foundational raw color values serving as the base of the
+                            system</li>
+                        <li><strong>Alias Tokens</strong> - Semantic mappings that translate primitive tokens into
+                            meaningful design roles</li>
+                        <li><strong>Component Base Tokens</strong> - Implementation-level tokens that apply colors to
+                            specific UI elements</li>
+                    </ul>
+                    <p class="about-description">This hierarchical approach ensures systematic color application while
+                        maintaining flexibility for theming and scalability across products and platforms. The token
+                        structure enables consistent visual language while allowing controlled adaptation to different
+                        use cases.</p>
+                </div>
+                <div class="system-image">
+                    <img src="images/ulta-design-system-updated.png" alt="Design System illustration"
+                        class="system-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Section -->
+    <section class="system-section">
+        <div class="container">
+            <div class="system-content">
+                <div class="system-text">
+                    <h3 class="about-title">Components</h3>
+                    <ul class="component-list">
+                        <li>Light & dark theme support</li>
+                        <li>iOS & Android adaptations</li>
+                        <li>Platform-specific styling</li>
+                        <li>Unified system with shared core tokens</li>
+                    </ul>
+                </div>
+                <div class="system-image">
+                    <img src="images/ulta-components.png" alt="Components illustration" class="system-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login/Signup Section -->
+    <section class="system-section">
+        <div class="container">
+            <div class="system-content">
+                <div class="system-text">
+                    <h3 class="about-title">Login/Signup</h3>
+                </div>
+                <div class="system-image">
+                    <img src="images/ulta-login-signup-4fb9e5.png" alt="Login/Signup interface" class="system-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Screen Section -->
+    <section class="ui-detail-section">
+        <div class="container">
+            <div class="ui-detail-content-large">
+                <div class="ui-detail-header">
+                    <h3 class="about-title">Main screen</h3>
+                    <div class="ui-detail-text">
+                        <p class="ui-detail-description"><strong>Decision:</strong> Emphasis on restaurant search with
+                            intuitive filters, large restaurant cards, and AI-powered interaction. High-quality images
+                            make the experience more engaging.</p>
+                        <p class="ui-detail-description"><strong>Why:</strong> Users rely on visuals and well-structured
+                            information when choosing a place. Large cards improve readability, showcase key details at
+                            a glance, and AI suggestions help streamline the decision-making process.</p>
+                    </div>
+                </div>
+                <div class="ui-images-row">
+                    <img src="images/ulta-main-screen-updated.png" alt="Main screen interface" class="ui-showcase-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Restaurant Screen Section -->
+    <section class="ui-detail-section">
+        <div class="container">
+            <div class="ui-detail-content-large">
+                <div class="ui-detail-header">
+                    <h3 class="about-title">Restaurant screen</h3>
+                    <div class="ui-detail-text">
+                        <p class="ui-detail-description"><strong>Decision:</strong> Detailed restaurant information –
+                            description, map, rating, reviews, and similar places.</p>
+                        <p class="ui-detail-description"><strong>Why:</strong> Users trust restaurants with clear,
+                            structured information, and the "Similar Places" section helps retain engagement.</p>
+                    </div>
+                </div>
+                <div class="restaurant-imgs">
+                    <img src="images/ulta-1.jpg" alt="Restaurant screen interface" class="restaurant-img">
+                    <img src="images/ulta-2.jpg" alt="Restaurant screen interface" class="restaurant-img">
+                    <img src="images/ulta-3.jpg" alt="Restaurant screen interface" class="restaurant-img">
+                    <img src="images/ulta-4.jpg" alt="Restaurant screen interface" class="restaurant-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ulti AI Assistant Section -->
+    <section class="ui-detail-section">
+        <div class="container">
+            <div class="ui-detail-content-large">
+                <div class="ui-detail-header">
+                    <h3 class="about-title">Ulti AI Assistant</h3>
+                    <div class="ui-detail-text">
+                        <p class="ui-detail-description"><strong>Decision:</strong> AI-powered assistant for restaurant
+                            search, booking, and personalized recommendations. It also features a simplified chat
+                            interface that helps users quickly compose messages and interact effortlessly.</p>
+                        <p class="ui-detail-description"><strong>Why:</strong> Users often spend too much time choosing
+                            a restaurant. Ulti simplifies the process by suggesting relevant options, handling
+                            reservations, and providing a seamless, guided experience.</p>
+                    </div>
+                </div>
+                <div class="ui-images-row">
+                    <img src="images/ulta-ai-assistant-updated.png" alt="Ulti AI Assistant interface"
+                        class="ui-showcase-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 class="footer-title">Let's work together</h3>
+            <div class="footer-social">
+                <a href="mailto:akhundovb@gmail.com" class="social-icon" title="Email">
+                    <img src="images/social-icon-1.svg" alt="Email" width="24" height="24">
+                </a>
+                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon" title="LinkedIn" target="_blank"
+                    rel="noopener noreferrer">
+                    <img src="images/social-icon-2.svg" alt="LinkedIn" width="24" height="24">
+                </a>
+                <a href="https://t.me/akhundesign" class="social-icon" title="Telegram" target="_blank"
+                    rel="noopener noreferrer">
+                    <img src="images/social-icon-3.svg" alt="Telegram" width="24" height="24">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Let's connect!</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Choose how you'd like to get in touch:</p>
+                <div class="contact-buttons">
+                    <a href="mailto:akhundovb@gmail.com" class="contact-button email">
+                        <span>Email</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank"
+                        rel="noopener noreferrer">
+                        <span>Telegram</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank"
+                        rel="noopener noreferrer">
+                        <span>LinkedIn</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

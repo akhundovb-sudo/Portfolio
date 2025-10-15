@@ -1,0 +1,985 @@
+/* About Page Specific Styles */
+
+/* Breadcrumbs */
+.breadcrumbs {
+    padding: 4px 0;
+    margin-bottom: 24px;
+}
+
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #757575;
+}
+
+.breadcrumb-link {
+    color: #757575;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-link:hover {
+    color: #0F0F0F;
+}
+
+.breadcrumb-separator {
+    color: #757575;
+}
+
+.breadcrumb-current {
+    color: #0F0F0F;
+    font-weight: 500;
+}
+
+/* Remove background for project pages */
+.project-page .about-hero {
+    background-color: transparent;
+}
+
+.about-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.about-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.2727272727272727;
+    color: #1E1E1E;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+/* Project Page Title */
+.project-page .about-title {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 28px;
+    color: #1E1E1E;
+}
+
+/* Consistent spacing between headings and body text across all pages */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 12px;
+}
+
+.about-description,
+.ui-detail-description {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.about-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.399999976158142;
+    color: #757575;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.about-description p {
+    margin-bottom: 4px;
+}
+
+.about-description p:last-child {
+    margin-bottom: 0;
+}
+
+.about-image {
+    flex: 0 0 420px;
+    height: 232px;
+    background-color: #F7F7F7;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 24px;
+}
+
+/* Experience and Education Sections */
+.experience-section,
+.education-section {
+    padding: 52px 0;
+    background-color: #FFFFFF;
+}
+
+.section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.2727272727272727em;
+    color: #1E1E1E;
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: #FFFFFF;
+    border-radius: 24px;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 32px;
+    padding: 24px;
+    background-color: #F7F7F7;
+}
+
+.timeline-item:first-child {
+    border-radius: 24px 24px 0 0;
+}
+
+.timeline-item:last-child {
+    border-radius: 0 0 24px 24px;
+}
+
+.timeline-item:not(:first-child):not(:last-child) {
+    border-radius: 0;
+}
+
+.timeline-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5555555555555556em;
+    color: #0F0F0F;
+    text-align: left;
+    width: 368px;
+    flex-shrink: 0;
+}
+
+.timeline-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.timeline-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.timeline-company {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5555555555555556em;
+    color: #0F0F0F;
+    text-align: left;
+}
+
+.timeline-role {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5555555555555556em;
+    color: rgba(15, 15, 15, 0.6);
+    text-align: left;
+}
+
+.timeline-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5em;
+    letter-spacing: 3.125%;
+    color: #0F0F0F;
+    text-align: left;
+    margin-top: 8px;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.timeline-description li {
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 4px;
+}
+
+.timeline-description li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #0F0F0F;
+    font-weight: bold;
+}
+
+.timeline-description li:last-child {
+    margin-bottom: 0;
+}
+
+/* Active navigation link */
+.nav-link.active {
+    color: rgba(15, 15, 15, 0.6);
+    font-weight: 600;
+}
+
+/* Design Process Section */
+.design-process-section {
+    padding: 52px 0;
+}
+
+.process-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.process-card {
+    background-color: #F7F7F7;
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+    max-width: 564px;
+}
+
+.process-card-highlight {
+    background-color: #F7F7F7;
+}
+
+.process-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #000000;
+}
+
+.process-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.process-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #000000;
+    margin: 0;
+}
+
+.process-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #757575;
+    margin: 0;
+}
+
+/* Competitive Analysis Section */
+.competitive-section {
+    padding: 52px 0;
+}
+
+.competitive-table {
+    margin-top: 24px;
+}
+
+.table-img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+/* User Interviews Section */
+.interviews-section {
+    padding: 52px 0;
+    background-color: #F7F7F7;
+}
+
+.interviews-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.interview-card {
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+}
+
+.interview-card-large {
+    grid-column: 1 / -1;
+    max-width: 570px;
+}
+
+.interview-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.interview-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.interview-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #000000;
+    margin: 0;
+}
+
+.interview-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #757575;
+    margin: 0;
+}
+
+/* Design System & Components Sections */
+.system-section {
+    padding: 52px 0;
+}
+
+.system-content,
+.components-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.system-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.system-image,
+.components-image {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #F7F7F7;
+    padding: 24px;
+    border-radius: 24px;
+}
+
+.system-img,
+.components-img {
+    width: 100%;
+
+}
+
+/* Charts single illustration - show full image without rounding */
+.charts-illustration img {
+    width: 100%;
+    display: block;
+    border-radius: 0;
+}
+
+/* Remove background from system-image in project pages */
+.project-page .system-image {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* Design System section specific layout */
+.project-page .system-section:first-of-type .system-content {
+    flex-direction: column;
+    gap: 32px;
+}
+
+.project-page .system-section:first-of-type .system-text {
+    max-width: 100%;
+    text-align: left;
+}
+
+.project-page .system-section:first-of-type .system-image {
+    width: 100%;
+    display: block;
+}
+
+/* Design System list styling */
+.design-system-list {
+    margin: 16px 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.design-system-list li {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #757575;
+    margin-bottom: 8px;
+    padding-left: 0;
+}
+
+.design-system-list li:last-child {
+    margin-bottom: 0;
+}
+
+.design-system-list li strong {
+    color: #1E1E1E;
+    font-weight: 500;
+}
+
+/* Remove background from ui-images-row in project pages */
+.project-page .ui-images-row {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    gap: 12px;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    min-height: auto;
+}
+
+/* Add background to Sale Screen section */
+.project-page .sale-section .ui-images-row {
+    background: #ECECEC;
+    padding: 24px;
+    border-radius: 24px;
+    min-height: 340px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* Adjust image sizing within ui-images-row for project pages */
+.project-page .ui-images-row img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+    /* max-height: 600px; */
+}
+
+/* Ensure proper alignment and spacing for Reports section */
+.project-page .system-content {
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.project-page .system-text {
+    flex: 1;
+    max-width: none;
+}
+
+.project-page .system-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Reverse layout for More section - text on left, image on right */
+.project-page .more-section .system-content {
+    flex-direction: row;
+}
+
+/* Remove background from process cards in project pages (except ULTA) */
+.project-page .process-card {
+    background: none;
+    padding: 0;
+    border: none;
+    gap: 8px;
+}
+
+/* Restore background for ULTA design process cards */
+.project-page .design-process-section .process-card {
+    background-color: #F7F7F7;
+    border-radius: 24px;
+    padding: 24px;
+    gap: 44px;
+}
+
+/* Charts grid inside system-image */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 12px;
+}
+
+/* Large overview spans both columns on top */
+.charts-grid .charts-top {
+    grid-column: 1 / span 2;
+}
+
+/* Middle row: filters left, calendar right */
+.charts-grid .charts-filters {
+    grid-column: 1;
+}
+
+.charts-grid .charts-calendar {
+    grid-column: 2;
+}
+
+/* Bottom row: small charts strip spans both columns */
+.charts-grid .charts-bottom {
+    grid-column: 1 / span 2;
+}
+
+.pos-research .system-text {
+    max-width: none !important;
+}
+
+.reports {
+    flex-direction: row;
+}
+
+.reports img {
+    width: 49.5%;
+}
+
+@media (max-width: 1024px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .process-card {
+        max-width: 100%;
+    }
+
+    .charts-grid .charts-top,
+    .charts-grid .charts-filters,
+    .charts-grid .charts-calendar,
+    .charts-grid .charts-bottom {
+        grid-column: auto;
+    }
+
+    /* Responsive adjustments for project pages */
+    .project-page .system-content {
+        flex-direction: column;
+    }
+
+    .project-page .system-text {
+        max-width: 100%;
+    }
+
+    .project-page .ui-images-row {
+        min-height: auto;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .project-page .ui-images-row img {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: contain;
+    }
+}
+
+/* UI Design Sections */
+.ui-design-section,
+.ui-detail-section {
+    padding: 52px 0;
+}
+
+.login-section {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.login-section .ui-detail-content {
+    gap: 12px;
+}
+
+.login-section .ui-detail-img {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Add extra inner spacing for the Login/Signup frame */
+.login-section .components-image {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+}
+
+.ui-design-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ui-design-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5.45px;
+}
+
+.ui-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #757575;
+    max-width: 388.79px;
+}
+
+.ui-design-images {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ui-showcase-img {
+    width: 100%;
+}
+
+.ui-detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ui-detail-content-large {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 725px;
+}
+
+/* Two-column grid for detail sections (text left, image right) */
+.ui-two-col {
+    display: grid;
+    grid-template-columns: 1fr 570px;
+    gap: 24px;
+    align-items: start;
+}
+
+/* New section content layout */
+.ui-section-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.ui-text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ui-image-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ui-image-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F7F7F7;
+    padding: 24px;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 570px;
+    min-height: 608px;
+}
+
+.ui-detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ui-detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ui-detail-text {
+    display: flex;
+    gap: 44px;
+}
+
+.ui-detail-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #757575;
+    margin: 0;
+    flex: 1;
+}
+
+.ui-showcase-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    max-width: none;
+    /* min-height: 400px; */
+    /* max-height: 600px; */
+}
+
+.ui-images-row {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    max-height: 800px;
+}
+
+.ui-detail-img,
+.ui-main-img {
+    width: auto;
+    height: 560px;
+    max-width: 100%;
+    border-radius: 24px;
+    object-fit: contain;
+}
+
+/* Restaurant screen image keeps natural aspect */
+.ui-restaurant-img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    object-fit: contain;
+    max-height: 600px;
+    min-height: 400px;
+}
+
+/* Restaurant 2x2 grid */
+.ui-restaurant-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.ui-restaurant-card {
+    background: #F7F7F7;
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ui-restaurant-card.dark {
+    background: #0E0E0E;
+}
+
+
+/* System Architecture Styles */
+.system-architecture-item {
+    margin-bottom: 24px;
+}
+
+.system-architecture-item:last-child {
+    margin-bottom: 0;
+}
+
+.architecture-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #1E1E1E;
+    margin-bottom: 12px;
+}
+
+.project-page .system-text {
+    max-width: 83%;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+
+    .about-image {
+        flex: none;
+        width: 100%;
+    }
+
+    .interview-card-large {
+        max-width: none;
+    }
+
+    .timeline-item {
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .timeline-date {
+        min-width: auto;
+    }
+
+
+    .interviews-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .interview-card-large {
+        grid-column: 1;
+    }
+
+    .ui-detail-text {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .ui-two-col {
+        grid-template-columns: 1fr;
+    }
+
+    .ui-images-row {
+        flex-direction: column;
+        gap: 24px;
+        min-height: auto;
+    }
+
+    .ui-detail-content-large {
+        min-height: auto;
+    }
+
+    .ui-restaurant-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .design-system-list {
+        margin: 2px 0;
+    }
+
+    .design-system-list li {
+        margin: 4px 0;
+    }
+
+    .project-page .system-text {
+        max-width: none;
+    }
+
+    .process-card {
+        max-width: 100%;
+    }
+
+
+}
+
+@media (max-width: 768px) {
+    .reports {
+        width: 100%;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .reports img {
+        width: 100%;
+    }
+
+    .project-page .more-section .system-content {
+        flex-direction: column;
+    }
+
+    .about-hero {
+        padding: 15px 0;
+    }
+
+    .about-content {
+        gap: 24px;
+    }
+
+    /* .about-image {
+        width: 280px;
+        height: 155px;
+    } */
+
+    .section-title {
+        font-size: 20px;
+    }
+
+    .timeline-date,
+    .timeline-company,
+    .timeline-role,
+    .timeline-description {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .system-section,
+    .customizable-section {
+        padding: 36px 0;
+    }
+
+    .about-hero {
+        padding: 10px 0;
+    }
+
+    /* .about-image {
+        width: 200px;
+        height: 111px;
+    } */
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .timeline-date,
+    .timeline-company,
+    .timeline-role,
+    .timeline-description {
+        font-size: 16px;
+    }
+
+    .ui-images-row .ui-showcase-img {
+        min-height: none !important;
+    }
+}
