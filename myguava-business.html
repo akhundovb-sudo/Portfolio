@@ -217,7 +217,263 @@
         </div>
     </div>
 
+    <!-- Photo Viewer -->
+    <div class="photo-viewer" id="photoViewer">
+        <div class="photo-viewer-content">
+            <img class="photo-viewer-img" id="photoViewerImg" alt="Full size image">
+            <button class="photo-viewer-close" onclick="closePhotoViewer()">
+                <img src="images/close-icon.svg" alt="Close" width="24" height="24">
+            </button>
+            <div class="photo-viewer-controls">
+                <button class="photo-viewer-btn" onclick="zoomOut()">−</button>
+                <div class="photo-viewer-zoom-indicator" id="zoomIndicator">100%</div>
+                <button class="photo-viewer-btn" onclick="zoomIn()">+</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script>
+        // Mobile Menu Functionality
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const body = document.body;
+            const html = document.documentElement;
+            
+            overlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            body.classList.toggle('mobile-menu-open');
+            html.classList.toggle('mobile-menu-open');
+            
+            // Hide mobile nav when menu is open
+            if (overlay.classList.contains('active')) {
+                mobileNav.style.display = 'none';
+                // Prevent scrolling
+                body.style.overflow = 'hidden';
+                html.style.overflow = 'hidden';
+            } else {
+                mobileNav.style.display = 'flex';
+                // Restore scrolling
+                body.style.overflow = '';
+                html.style.overflow = '';
+            }
+        }
+
+        // Close mobile menu when clicking on overlay
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        toggleMobileMenu();
+                    }
+                });
+
+                // Handle mobile menu navigation links
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        const href = this.getAttribute('href');
+                        
+                        if (href.startsWith('#')) {
+                            // For anchor links, close menu first, then navigate
+                            e.preventDefault();
+                            
+                            // Close the mobile menu using the toggle function
+                            toggleMobileMenu();
+                            
+                            // Wait for menu to close, then scroll to target
+                            setTimeout(() => {
+                                const target = document.querySelector(href);
+                                if (target) {
+                                    // Ensure the target is visible and scroll to it
+                                    target.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                        inline: 'nearest'
+                                    });
+                                    
+                                    // Fallback: if smooth scroll doesn't work, try direct scroll
+                                    setTimeout(() => {
+                                        if (window.pageYOffset === 0) {
+                                            window.scrollTo({
+                                                top: target.offsetTop - 100,
+                                                behavior: 'smooth'
+                                            });
+                                        }
+                                    }, 100);
+                                }
+                            }, 600);
+                        } else {
+                            // For external links, close menu immediately
+                            toggleMobileMenu();
+                        }
+                    });
+                });
+            }
+        });
+
+        // Photo Viewer functionality
+        let currentZoom = 1;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+        let translateX = 0;
+        let translateY = 0;
+
+        function openPhotoViewer(imgSrc) {
+            const viewer = document.getElementById('photoViewer');
+            const img = document.getElementById('photoViewerImg');
+            
+            img.src = imgSrc;
+            viewer.classList.add('active');
+            
+            // Reset zoom and position
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            updateImageTransform();
+            updateZoomIndicator();
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoViewer() {
+            const viewer = document.getElementById('photoViewer');
+            viewer.classList.remove('active');
+            
+            // Restore body scroll
+            document.body.style.overflow = '';
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom * 1.2, 5);
+            updateImageTransform();
+            updateZoomIndicator();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom / 1.2, 0.5);
+            updateImageTransform();
+            updateZoomIndicator();
+        }
+
+        function updateImageTransform() {
+            const img = document.getElementById('photoViewerImg');
+            img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+        }
+
+        function updateZoomIndicator() {
+            const indicator = document.getElementById('zoomIndicator');
+            indicator.textContent = Math.round(currentZoom * 100) + '%';
+        }
+
+        // Touch and mouse events for panning
+        const photoViewerImg = document.getElementById('photoViewerImg');
+
+        photoViewerImg.addEventListener('mousedown', startDrag);
+        photoViewerImg.addEventListener('touchstart', handleTouchStart, { passive: false });
+
+        function startDrag(e) {
+            if (currentZoom <= 1) return;
+            
+            isDragging = true;
+            const clientX = e.clientX;
+            const clientY = e.clientY;
+            
+            startX = clientX - translateX;
+            startY = clientY - translateY;
+            
+            e.preventDefault();
+        }
+
+        function handleTouchStart(e) {
+            if (e.touches.length === 1) {
+                // Single touch - panning
+                if (currentZoom <= 1) return;
+                
+                isDragging = true;
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                
+                e.preventDefault();
+            }
+        }
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+        function drag(e) {
+            if (!isDragging) return;
+            
+            const clientX = e.clientX;
+            const clientY = e.clientY;
+            
+            translateX = clientX - startX;
+            translateY = clientY - startY;
+            
+            updateImageTransform();
+            e.preventDefault();
+        }
+
+        function handleTouchMove(e) {
+            if (e.touches.length === 1 && isDragging) {
+                // Single touch - panning
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                
+                updateImageTransform();
+                e.preventDefault();
+            }
+        }
+
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+
+        function endDrag() {
+            isDragging = false;
+        }
+
+        // Close viewer when clicking outside image
+        document.getElementById('photoViewer').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePhotoViewer();
+            }
+        });
+
+        // Close viewer with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoViewer();
+            }
+        });
+
+        // Add click handlers to all images on mobile (excluding icons)
+        if (window.innerWidth <= 768) {
+            document.addEventListener('DOMContentLoaded', function() {
+                const images = document.querySelectorAll('.project-page img');
+                images.forEach(img => {
+                    // Skip icons and small images
+                    if (img.width <= 48 || img.height <= 48 || 
+                        img.src.includes('icon') || 
+                        img.closest('.mobile-social-links') ||
+                        img.closest('.social-links') ||
+                        img.closest('.mobile-close-btn') ||
+                        img.closest('.hamburger')) {
+                        return;
+                    }
+                    
+                    img.addEventListener('click', function() {
+                        openPhotoViewer(this.src);
+                    });
+                });
+            });
+        }
+    </script>
 </body>
 </html>
 

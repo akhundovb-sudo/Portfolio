@@ -272,6 +272,87 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Mobile Menu Functionality
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const body = document.body;
+            const html = document.documentElement;
+            
+            overlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            body.classList.toggle('mobile-menu-open');
+            html.classList.toggle('mobile-menu-open');
+            
+            // Hide mobile nav when menu is open
+            if (overlay.classList.contains('active')) {
+                mobileNav.style.display = 'none';
+                // Prevent scrolling
+                body.style.overflow = 'hidden';
+                html.style.overflow = 'hidden';
+            } else {
+                mobileNav.style.display = 'flex';
+                // Restore scrolling
+                body.style.overflow = '';
+                html.style.overflow = '';
+            }
+        }
+
+        // Close mobile menu when clicking on overlay
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        toggleMobileMenu();
+                    }
+                });
+
+                // Handle mobile menu navigation links
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        const href = this.getAttribute('href');
+                        
+                        if (href.startsWith('#')) {
+                            // For anchor links, close menu first, then navigate
+                            e.preventDefault();
+                            
+                            // Close the mobile menu using the toggle function
+                            toggleMobileMenu();
+                            
+                            // Wait for menu to close, then scroll to target
+                            setTimeout(() => {
+                                const target = document.querySelector(href);
+                                if (target) {
+                                    // Ensure the target is visible and scroll to it
+                                    target.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                        inline: 'nearest'
+                                    });
+                                    
+                                    // Fallback: if smooth scroll doesn't work, try direct scroll
+                                    setTimeout(() => {
+                                        if (window.pageYOffset === 0) {
+                                            window.scrollTo({
+                                                top: target.offsetTop - 100,
+                                                behavior: 'smooth'
+                                            });
+                                        }
+                                    }, 100);
+                                }
+                            }, 600);
+                        } else {
+                            // For external links, close menu immediately
+                            toggleMobileMenu();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
