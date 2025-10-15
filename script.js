@@ -165,34 +165,7 @@ function addModalEventListeners() {
 // Initialize modal event listeners
 addModalEventListeners();
 
-// Mobile Menu Functionality
-function toggleMobileMenu() {
-    const overlay = document.getElementById('mobileMenuOverlay');
-    const hamburger = document.querySelector('.hamburger');
-    const mobileNav = document.querySelector('.mobile-nav');
-    const body = document.body;
-    const html = document.documentElement;
-    
-    if (overlay && hamburger && mobileNav) {
-        overlay.classList.toggle('active');
-        hamburger.classList.toggle('active');
-        body.classList.toggle('mobile-menu-open');
-        html.classList.toggle('mobile-menu-open');
-        
-        // Hide mobile nav when menu is open
-        if (overlay.classList.contains('active')) {
-            mobileNav.style.display = 'none';
-            // Prevent scrolling
-            body.style.overflow = 'hidden';
-            html.style.overflow = 'hidden';
-        } else {
-            mobileNav.style.display = 'flex';
-            // Restore scrolling
-            body.style.overflow = '';
-            html.style.overflow = '';
-        }
-    }
-}
+// Mobile Menu Functionality - function is defined in index.html
 
 // Scrollbar visibility control
 let scrollTimeout;
@@ -212,21 +185,4 @@ function handleScroll() {
 // Add scroll event listener
 window.addEventListener('scroll', handleScroll, { passive: true });
 
-// Close mobile menu when clicking on overlay
-document.addEventListener('DOMContentLoaded', function() {
-    const overlay = document.getElementById('mobileMenuOverlay');
-    if (overlay) {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === this) {
-                toggleMobileMenu();
-            }
-        });
-
-        // Close mobile menu when clicking on nav links
-        document.querySelectorAll('.mobile-nav-link').forEach(link => {
-            link.addEventListener('click', function() {
-                toggleMobileMenu();
-            });
-        });
-    }
-});
+// Mobile menu event listeners are handled in index.html
