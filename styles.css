@@ -548,11 +548,12 @@ html.mobile-menu-open {
     width: 100%;
     max-width: 600px;
     padding: 24px 16px;
+    height: auto;
 }
 
 .mobile-social-links {
     position: absolute;
-    bottom: 40px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -560,6 +561,7 @@ html.mobile-menu-open {
     align-items: center;
     justify-content: center;
     gap: 24px;
+    z-index: 1002;
 }
 
 .mobile-nav-link {
@@ -602,6 +604,8 @@ html.mobile-menu-open {
     width: 48px;
     height: 48px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    visibility: visible;
 }
 
 .mobile-social-link:hover {
