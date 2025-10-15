@@ -749,6 +749,11 @@ html.mobile-menu-open {
     justify-content: center;
     gap: 24px;
     z-index: 1002;
+    pointer-events: none;
+}
+
+.mobile-menu-overlay.active .mobile-social-links {
+    pointer-events: auto;
 }
 
 .mobile-nav-link {
