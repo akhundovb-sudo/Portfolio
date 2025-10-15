@@ -170,7 +170,7 @@
                     <div class="project-info">
                         <h3 class="project-title">MyGuava POS</h3>
                         <p class="project-description">POS Terminal app</p>
-                        <span class="project-year">2024</span>
+                        <span class="project-year">2024 - 2025</span>
                     </div>
                 </a>
 
@@ -191,7 +191,7 @@
                         <img src="images/design-system.png" alt="Design system" class="project-img">
                     </div>
                     <div class="project-info">
-                        <h3 class="project-title">MyGuava Design System</h3>
+                        <h3 class="project-title">MG Payment Design System</h3>
                         <p class="project-description">Design system</p>
                         <span class="project-year">2024 - 2025</span>
                     </div>
@@ -374,6 +374,24 @@
                         checkPassword();
                     }
                 });
+            }
+        });
+
+        // Close password modal when clicking outside of it
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('passwordModal');
+            if (modal && event.target === modal) {
+                closePasswordModal();
+            }
+        });
+
+        // Close password modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('passwordModal');
+                if (modal && modal.style.display === 'block') {
+                    closePasswordModal();
+                }
             }
         });
     </script>
