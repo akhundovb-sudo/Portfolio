@@ -586,7 +586,7 @@ html.mobile-menu-open {
 
 .mobile-social-links {
     position: absolute;
-    bottom: 60px;
+    bottom: 100px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;

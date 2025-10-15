@@ -472,22 +472,8 @@
                     // For anchor links, close menu first, then navigate
                     e.preventDefault();
                     
-                    // Close the mobile menu
-                    const overlay = document.getElementById('mobileMenuOverlay');
-                    const hamburger = document.querySelector('.hamburger');
-                    const mobileNav = document.querySelector('.mobile-nav');
-                    const body = document.body;
-                    const html = document.documentElement;
-                    
-                    if (overlay && hamburger && mobileNav) {
-                        overlay.classList.remove('active');
-                        hamburger.classList.remove('active');
-                        body.classList.remove('mobile-menu-open');
-                        html.classList.remove('mobile-menu-open');
-                        mobileNav.style.display = 'flex';
-                        body.style.overflow = '';
-                        html.style.overflow = '';
-                    }
+                    // Close the mobile menu using the toggle function
+                    toggleMobileMenu();
                     
                     // Wait for menu to close, then scroll to target
                     setTimeout(() => {
