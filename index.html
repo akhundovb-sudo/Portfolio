@@ -118,11 +118,45 @@
         <div class="container">
             <div class="header-content">
                 <a href="index.html" class="logo">Bahruz</a>
-                <nav class="nav">
+                
+                <!-- Desktop Navigation -->
+                <nav class="nav desktop-nav">
                     <a href="about.html" class="nav-link">About</a>
                     <a href="#projects" class="nav-link">Projects</a>
                     <button onclick="openModal()" class="nav-button">Get in Touch</button>
                 </nav>
+
+                <!-- Mobile Navigation -->
+                <div class="mobile-nav">
+                    <button onclick="openModal()" class="nav-button mobile-button">Get in Touch</button>
+                    <button class="hamburger" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Overlay -->
+                <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+                    <button class="mobile-close-btn" onclick="toggleMobileMenu()">
+                        <img src="images/close-icon.svg" alt="Close" width="24" height="24">
+                    </button>
+                    <nav class="mobile-menu">
+                        <a href="about.html" class="mobile-nav-link">About</a>
+                        <a href="#projects" class="mobile-nav-link">Projects</a>
+                    </nav>
+                    <div class="mobile-social-links">
+                        <a href="mailto:akhundovb@gmail.com" class="mobile-social-link">
+                            <img src="images/email-icon-new.svg" alt="Email" width="24" height="24">
+                        </a>
+                        <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
+                            <img src="images/linkedin-icon-new.svg" alt="LinkedIn" width="24" height="24">
+                        </a>
+                        <a href="https://t.me/akhundesign" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
+                            <img src="images/telegram-icon-new.svg" alt="Telegram" width="24" height="24">
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -393,6 +427,47 @@
                     closePasswordModal();
                 }
             }
+        });
+
+        // Mobile Menu Functionality
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const body = document.body;
+            const html = document.documentElement;
+            
+            overlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            body.classList.toggle('mobile-menu-open');
+            html.classList.toggle('mobile-menu-open');
+            
+            // Hide mobile nav when menu is open
+            if (overlay.classList.contains('active')) {
+                mobileNav.style.display = 'none';
+                // Prevent scrolling
+                body.style.overflow = 'hidden';
+                html.style.overflow = 'hidden';
+            } else {
+                mobileNav.style.display = 'flex';
+                // Restore scrolling
+                body.style.overflow = '';
+                html.style.overflow = '';
+            }
+        }
+
+        // Close mobile menu when clicking on overlay
+        document.getElementById('mobileMenuOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleMobileMenu();
+            }
+        });
+
+        // Close mobile menu when clicking on nav links
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                toggleMobileMenu();
+            });
         });
     </script>
 </body>
