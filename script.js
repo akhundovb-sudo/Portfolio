@@ -194,6 +194,24 @@ function toggleMobileMenu() {
     }
 }
 
+// Scrollbar visibility control
+let scrollTimeout;
+function handleScroll() {
+    // Add scrolling class
+    document.documentElement.classList.add('scrolling');
+    
+    // Clear existing timeout
+    clearTimeout(scrollTimeout);
+    
+    // Remove scrolling class after scroll stops
+    scrollTimeout = setTimeout(() => {
+        document.documentElement.classList.remove('scrolling');
+    }, 150);
+}
+
+// Add scroll event listener
+window.addEventListener('scroll', handleScroll, { passive: true });
+
 // Close mobile menu when clicking on overlay
 document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById('mobileMenuOverlay');

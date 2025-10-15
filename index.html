@@ -493,12 +493,24 @@
                     setTimeout(() => {
                         const target = document.querySelector(href);
                         if (target) {
+                            // Ensure the target is visible and scroll to it
                             target.scrollIntoView({
                                 behavior: 'smooth',
-                                block: 'start'
+                                block: 'start',
+                                inline: 'nearest'
                             });
+                            
+                            // Fallback: if smooth scroll doesn't work, try direct scroll
+                            setTimeout(() => {
+                                if (window.pageYOffset === 0) {
+                                    window.scrollTo({
+                                        top: target.offsetTop - 100,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            }, 100);
                         }
-                    }, 500);
+                    }, 600);
                 } else {
                     // For external links, close menu immediately
                     toggleMobileMenu();

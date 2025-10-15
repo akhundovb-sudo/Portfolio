@@ -5,6 +5,39 @@
     box-sizing: border-box;
 }
 
+/* Scrollbar styles - show only while scrolling */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+html::-webkit-scrollbar {
+    width: 8px;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Show scrollbar on scroll */
+html.scrolling::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+html.scrolling {
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -503,8 +536,8 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -516,8 +549,8 @@ body {
 }
 
 .mobile-close-btn img {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     transition: all 0.3s ease;
 }
 
