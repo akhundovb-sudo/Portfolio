@@ -21,95 +21,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400&display=swap"
         rel="stylesheet">
-    <style>
-        .password-input-group {
-            margin-bottom: 16px;
-        }
-
-        .password-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.2s;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .password-input:focus {
-            outline: none;
-            border-color: #1a1a1a;
-        }
-
-        .password-input.error {
-            border-color: #ef4444;
-            animation: shake 0.4s;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .password-error {
-            color: #ef4444;
-            font-size: 14px;
-            margin-top: 8px;
-            display: none;
-        }
-
-        .password-error.show {
-            display: block;
-        }
-
-        .password-submit {
-            width: 100%;
-            padding: 12px 24px;
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .password-submit:hover {
-            background: #333;
-            border-radius: 0;
-        }
-
-        .password-submit:active {
-            transform: scale(0.98);
-        }
-
-        /* Custom close button for password modal */
-        .password-close {
-            background: none;
-            border: none;
-            font-size: 28px;
-            color: #757575;
-            padding: 0;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .password-close:hover {
-            background-color: #F7F7F7;
-            color: #1E1E1E;
-            border-radius: 0;
-        }
-    </style>
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -219,7 +130,7 @@
                     </div>
                 </a>
 
-                <a href="#" class="project-card" onclick="openPasswordModal(event)">
+                <a href="pos-terminal.html" class="project-card">
                     <div class="project-image">
                         <img src="images/myguava-pos.png" alt="MyGuava POS Terminal app" class="project-img">
                     </div>
@@ -298,23 +209,6 @@
         </div>
     </footer>
 
-    <!-- Password Protection Modal -->
-    <div id="passwordModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Protected Page</h3>
-                <button class="password-close" onclick="closePasswordModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p class="modal-description">Please enter the password to view this project</p>
-                <div class="password-input-group">
-                    <input type="password" id="passwordInput" class="password-input" placeholder="Enter password" autofocus>
-                    <div id="passwordError" class="password-error">Incorrect password. Please try again.</div>
-                </div>
-                <button onclick="checkPassword()" class="password-submit">Access Page</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Contact Modal -->
     <div id="contactModal" class="modal">
@@ -377,79 +271,6 @@
 
     <script src="script.js"></script>
     <script>
-        // Password protection functionality
-        const CORRECT_PASSWORD = '1878';
-
-        function openPasswordModal(event) {
-            event.preventDefault();
-            const modal = document.getElementById('passwordModal');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            
-            requestAnimationFrame(() => {
-                modal.classList.add('show');
-            });
-        }
-
-        function checkPassword() {
-            const input = document.getElementById('passwordInput');
-            const error = document.getElementById('passwordError');
-            const modal = document.getElementById('passwordModal');
-            
-            if (input.value === CORRECT_PASSWORD) {
-                // Correct password - redirect to POS terminal page
-                window.location.href = 'pos-terminal.html';
-            } else {
-                // Incorrect password - show error
-                input.classList.add('error');
-                error.classList.add('show');
-                input.value = '';
-                
-                setTimeout(() => {
-                    input.classList.remove('error');
-                }, 400);
-            }
-        }
-
-        function closePasswordModal() {
-            const modal = document.getElementById('passwordModal');
-            modal.classList.remove('show');
-            document.body.style.overflow = 'auto';
-            
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 200);
-        }
-
-        // Allow Enter key to submit password
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordInput = document.getElementById('passwordInput');
-            if (passwordInput) {
-                passwordInput.addEventListener('keypress', function(event) {
-                    if (event.key === 'Enter') {
-                        checkPassword();
-                    }
-                });
-            }
-        });
-
-        // Close password modal when clicking outside of it
-        document.addEventListener('click', function(event) {
-            const modal = document.getElementById('passwordModal');
-            if (modal && event.target === modal) {
-                closePasswordModal();
-            }
-        });
-
-        // Close password modal with Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const modal = document.getElementById('passwordModal');
-                if (modal && modal.style.display === 'block') {
-                    closePasswordModal();
-                }
-            }
-        });
 
         // Mobile Menu Functionality
         function toggleMobileMenu() {

@@ -18,6 +18,8 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .photo-viewer.active {
@@ -38,12 +40,14 @@
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .photo-viewer-img:active {
@@ -116,12 +120,12 @@
     right: 20px;
     width: 40px;
     height: 40px;
-    background: transparent;
+    background: rgba(87, 87, 87, 0.56);
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: pointer !important;
     z-index: 10000;
     border-radius: 36px;
 }
@@ -134,6 +138,7 @@
 
 .photo-viewer-close:hover {
     transform: scale(1.1);
+    cursor: pointer !important;
 }
 
 .photo-viewer-zoom-indicator {
@@ -148,6 +153,34 @@
     text-align: center;
 }
 
+/* Hide zoom controls on desktop */
+@media (min-width: 769px) {
+    .photo-viewer-zoom-slider {
+        display: none;
+    }
+    
+    .photo-viewer-zoom-indicator {
+        display: none;
+    }
+}
+
+/* Desktop Photo Viewer - Zoom cursor for photos, hand cursor for logo */
+@media (min-width: 769px) {
+    .project-page img {
+        cursor: zoom-in;
+    }
+    
+    .logo,
+    .logo img {
+        cursor: pointer !important;
+    }
+    
+    /* Ensure logo hover effect is same as home page */
+    .project-page .logo:hover {
+        color: rgba(15, 15, 15, 0.6) !important;
+    }
+}
+
 /* Make project images clickable on mobile */
 @media (max-width: 768px) {
     .project-page img {
@@ -157,6 +190,120 @@
     
     .project-page img:hover {
         transform: scale(1.02);
+    }
+    
+    /* Mobile Zoom Controls */
+    .mobile-zoom-controls {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 8px 16px;
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        z-index: 10001;
+    }
+    
+    .mobile-zoom-controls .zoom-indicator {
+        background: #333;
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 500;
+        min-width: 50px;
+        text-align: center;
+        white-space: nowrap;
+    }
+    
+    .mobile-zoom-controls .zoom-slider {
+        width: 180px;
+        height: 4px;
+        background: #ddd;
+        border-radius: 2px;
+        outline: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        position: relative;
+    }
+    
+    .mobile-zoom-controls .zoom-slider::-webkit-slider-track {
+        background: #ddd;
+        height: 4px;
+        border-radius: 2px;
+    }
+    
+    .mobile-zoom-controls .zoom-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        transition: all 0.2s ease;
+        border: 1px solid #ddd;
+    }
+    
+    .mobile-zoom-controls .zoom-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    }
+    
+    .mobile-zoom-controls .zoom-slider::-moz-range-track {
+        background: #ddd;
+        height: 4px;
+        border-radius: 2px;
+        border: none;
+    }
+    
+    .mobile-zoom-controls .zoom-slider::-moz-range-thumb {
+        width: 16px;
+        height: 16px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        transition: all 0.2s ease;
+    }
+    
+    .mobile-zoom-controls .zoom-slider::-moz-range-thumb:hover {
+        transform: scale(1.1);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    }
+    
+    
+    /* Enhanced mobile photo viewer */
+    .photo-viewer-img {
+        border-radius: 12px;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Smooth animations for mobile */
+    .photo-viewer {
+        transition: opacity 0.3s ease;
+    }
+    
+    .photo-viewer.active {
+        opacity: 1;
+    }
+    
+    /* Better touch targets for mobile */
+    .mobile-zoom-controls .zoom-indicator {
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
