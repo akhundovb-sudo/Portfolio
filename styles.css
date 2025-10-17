@@ -1040,8 +1040,8 @@ html.mobile-menu-open {
 .modal-close {
     background: none;
     border: none;
-    font-size: 0;
-    color: transparent;
+    font-size: 24px;
+    color: #666;
     padding: 0;
     width: 40px;
     height: 40px;
@@ -1050,6 +1050,8 @@ html.mobile-menu-open {
     justify-content: center;
     border-radius: 36px;
     transition: all 0.2s ease;
+    font-weight: 300;
+    cursor: pointer;
 }
 
 .modal-close:hover {
