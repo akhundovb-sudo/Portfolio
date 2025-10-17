@@ -358,6 +358,7 @@
                 <div class="zoom-indicator" id="mobileZoomIndicator">100%</div>
                 <input type="range" class="zoom-slider" id="mobileZoomSlider" min="25" max="300" value="100" oninput="updateMobileZoom(this.value)">
             </div>
+            
         </div>
     </div>
 
@@ -450,26 +451,22 @@
         let startY = 0;
         let translateX = 0;
         let translateY = 0;
+        let lastTouchDistance = 0;
+        let initialZoom = 1;
+        let isZooming = false;
 
         function openPhotoViewer(imgSrc) {
             const viewer = document.getElementById('photoViewer');
             const img = document.getElementById('photoViewerImg');
-            const zoomSlider = document.getElementById('zoomSlider');
+            const mobileSlider = document.getElementById('mobileZoomSlider');
+            
+            if (!viewer || !img) return;
             
             img.src = imgSrc;
             viewer.classList.add('active');
             
             // Reset zoom and position
-            currentZoom = 1;
-            translateX = 0;
-            translateY = 0;
-            updateImageTransform();
-            updateZoomIndicator();
-            
-            // Sync slider with current zoom
-            if (zoomSlider) {
-                zoomSlider.value = currentZoom * 100;
-            }
+            resetZoom();
             
             // Prevent body scroll
             document.body.style.overflow = 'hidden';
@@ -477,95 +474,190 @@
 
         function closePhotoViewer() {
             const viewer = document.getElementById('photoViewer');
+            if (!viewer) return;
+            
             viewer.classList.remove('active');
+            
+            // Reset zoom to 1x
+            resetZoom();
             
             // Restore body scroll
             document.body.style.overflow = '';
         }
 
-        function updateZoomFromSlider(value) {
-            currentZoom = value / 100;
+        function resetZoom() {
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            isDragging = false;
+            isZooming = false;
+            lastTouchDistance = 0;
+            
             updateImageTransform();
-            updateZoomIndicator();
+            updateMobileZoomIndicator();
+            
+            // Reset slider
+            const mobileSlider = document.getElementById('mobileZoomSlider');
+            if (mobileSlider) {
+                mobileSlider.value = 100;
+            }
+        }
+
+        function updateMobileZoom(value) {
+            currentZoom = Math.max(0.25, Math.min(3, value / 100));
+            updateImageTransform();
+            updateMobileZoomIndicator();
         }
 
         function updateImageTransform() {
             const img = document.getElementById('photoViewerImg');
-            img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+            if (img) {
+                // Disable transition during dragging for smooth panning
+                if (isDragging) {
+                    img.style.transition = 'none';
+                } else {
+                    img.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                }
+                
+                img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+            }
         }
 
-        function updateZoomIndicator() {
-            const indicator = document.getElementById('zoomIndicator');
-            indicator.textContent = Math.round(currentZoom * 100) + '%';
+        function updateMobileZoomIndicator() {
+            const indicator = document.getElementById('mobileZoomIndicator');
+            if (indicator) {
+                indicator.textContent = Math.round(currentZoom * 100) + '%';
+            }
         }
 
-        // Touch and mouse events for panning
-        const photoViewerImg = document.getElementById('photoViewerImg');
+        function constrainPan() {
+            const img = document.getElementById('photoViewerImg');
+            const viewer = document.getElementById('photoViewer');
+            
+            if (!img || !viewer) return;
+            
+            const imgRect = img.getBoundingClientRect();
+            const viewerRect = viewer.getBoundingClientRect();
+            
+            const maxTranslateX = Math.max(0, (imgRect.width * currentZoom - viewerRect.width) / 2);
+            const maxTranslateY = Math.max(0, (imgRect.height * currentZoom - viewerRect.height) / 2);
+            
+            translateX = Math.max(-maxTranslateX, Math.min(maxTranslateX, translateX));
+            translateY = Math.max(-maxTranslateY, Math.min(maxTranslateY, translateY));
+        }
 
-        photoViewerImg.addEventListener('mousedown', startDrag);
-        photoViewerImg.addEventListener('touchstart', handleTouchStart, { passive: false });
-
+        // Touch and mouse events for panning and pinch zoom
         function startDrag(e) {
             if (currentZoom <= 1) return;
-            
             isDragging = true;
-            const clientX = e.clientX;
-            const clientY = e.clientY;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
             
-            startX = clientX - translateX;
-            startY = clientY - translateY;
-            
-            e.preventDefault();
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                img.style.cursor = 'grabbing';
+            }
         }
 
         function handleTouchStart(e) {
             if (e.touches.length === 1) {
-                // Single touch - panning
-                if (currentZoom <= 1) return;
-                
-                isDragging = true;
-                const touch = e.touches[0];
-                startX = touch.clientX - translateX;
-                startY = touch.clientY - translateY;
-                
+                // Single touch - start drag
+                if (currentZoom > 1) {
+                    isDragging = true;
+                    startX = e.touches[0].clientX - translateX;
+                    startY = e.touches[0].clientY - translateY;
+                }
+            } else if (e.touches.length === 2) {
+                // Two touches - pinch zoom
                 e.preventDefault();
+                isDragging = false;
+                isZooming = true;
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                lastTouchDistance = Math.sqrt(
+                    Math.pow(touch2.clientX - touch1.clientX, 2) +
+                    Math.pow(touch2.clientY - touch1.clientY, 2)
+                );
+                initialZoom = currentZoom;
             }
         }
-
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('touchmove', handleTouchMove, { passive: false });
 
         function drag(e) {
             if (!isDragging) return;
-            
-            const clientX = e.clientX;
-            const clientY = e.clientY;
-            
-            translateX = clientX - startX;
-            translateY = clientY - startY;
-            
-            updateImageTransform();
             e.preventDefault();
+            
+            if (e.type === 'mousemove') {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+            } else if (e.type === 'touchmove' && e.touches.length === 1) {
+                translateX = e.touches[0].clientX - startX;
+                translateY = e.touches[0].clientY - startY;
+            }
+            
+            constrainPan();
+            updateImageTransform();
         }
 
         function handleTouchMove(e) {
-            if (e.touches.length === 1 && isDragging) {
-                // Single touch - panning
-                const touch = e.touches[0];
-                translateX = touch.clientX - startX;
-                translateY = touch.clientY - startY;
-                
-                updateImageTransform();
+            if (e.touches.length === 2) {
+                // Pinch zoom
                 e.preventDefault();
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = Math.sqrt(
+                    Math.pow(touch2.clientX - touch1.clientX, 2) +
+                    Math.pow(touch2.clientY - touch1.clientY, 2)
+                );
+                
+                if (lastTouchDistance > 0) {
+                    const scale = currentDistance / lastTouchDistance;
+                    const newZoom = initialZoom * scale;
+                    currentZoom = Math.max(0.25, Math.min(3, newZoom));
+                    
+                    // Update slider
+                    const mobileSlider = document.getElementById('mobileZoomSlider');
+                    if (mobileSlider) {
+                        mobileSlider.value = currentZoom * 100;
+                    }
+                    
+                    updateImageTransform();
+                    updateMobileZoomIndicator();
+                }
+                
+                lastTouchDistance = currentDistance;
+            } else if (e.touches.length === 1 && isDragging) {
+                // Single touch drag
+                drag(e);
             }
         }
 
-        document.addEventListener('mouseup', endDrag);
-        document.addEventListener('touchend', endDrag);
-
         function endDrag() {
             isDragging = false;
+            isZooming = false;
+            lastTouchDistance = 0;
+            
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                img.style.cursor = 'grab';
+            }
         }
+
+        // Add event listeners when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const photoViewerImg = document.getElementById('photoViewerImg');
+            
+            if (photoViewerImg) {
+                // Mouse events
+                photoViewerImg.addEventListener('mousedown', startDrag);
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', endDrag);
+
+                // Touch events
+                photoViewerImg.addEventListener('touchstart', handleTouchStart, { passive: false });
+                photoViewerImg.addEventListener('touchmove', handleTouchMove, { passive: false });
+                photoViewerImg.addEventListener('touchend', endDrag);
+            }
+        });
 
         // Close viewer when clicking outside image
         document.getElementById('photoViewer').addEventListener('click', function(e) {
@@ -581,154 +673,24 @@
             }
         });
 
-        // Mobile zoom functionality
-        let currentZoom = 1;
-        let isDragging = false;
-        let startX = 0;
-        let startY = 0;
-        let translateX = 0;
-        let translateY = 0;
-
-        function updateMobileZoom(value) {
-            currentZoom = value / 100;
-            updateImageTransform();
-            updateMobileZoomIndicator();
-        }
-
-
-        function updateImageTransform() {
-            const img = document.getElementById('photoViewerImg');
-            img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
-        }
-
-        function updateMobileZoomIndicator() {
-            const indicator = document.getElementById('mobileZoomIndicator');
-            if (indicator) {
-                indicator.textContent = Math.round(currentZoom * 100) + '%';
-            }
-        }
-
-        function openPhotoViewer(imgSrc) {
-            const viewer = document.getElementById('photoViewer');
-            const img = document.getElementById('photoViewerImg');
-            const mobileSlider = document.getElementById('mobileZoomSlider');
-            
-            img.src = imgSrc;
-            viewer.classList.add('active');
-            
-            // Reset zoom and position
-            currentZoom = 1;
-            translateX = 0;
-            translateY = 0;
-            updateImageTransform();
-            updateMobileZoomIndicator();
-            
-            // Sync mobile slider with current zoom
-            if (mobileSlider) {
-                mobileSlider.value = currentZoom * 100;
-            }
-            
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePhotoViewer() {
-            const viewer = document.getElementById('photoViewer');
-            viewer.classList.remove('active');
-            
-            // Restore body scroll
-            document.body.style.overflow = '';
-        }
-
-        // Touch and mouse events for panning
-        const photoViewerImg = document.getElementById('photoViewerImg');
-
-        if (photoViewerImg) {
-            photoViewerImg.addEventListener('mousedown', startDrag);
-            photoViewerImg.addEventListener('touchstart', handleTouchStart, { passive: false });
-
-            function startDrag(e) {
-                if (currentZoom <= 1) return;
-                
-                isDragging = true;
-                const clientX = e.clientX;
-                const clientY = e.clientY;
-                
-                startX = clientX - translateX;
-                startY = clientY - translateY;
-                
-                e.preventDefault();
-            }
-
-            function handleTouchStart(e) {
-                if (e.touches.length === 1) {
-                    // Single touch - panning
-                    if (currentZoom <= 1) return;
-                    
-                    isDragging = true;
-                    const touch = e.touches[0];
-                    startX = touch.clientX - translateX;
-                    startY = touch.clientY - translateY;
-                    
-                    e.preventDefault();
-                }
-            }
-
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('touchmove', handleTouchMove, { passive: false });
-
-            function drag(e) {
-                if (!isDragging) return;
-                
-                const clientX = e.clientX;
-                const clientY = e.clientY;
-                
-                translateX = clientX - startX;
-                translateY = clientY - startY;
-                
-                updateImageTransform();
-                e.preventDefault();
-            }
-
-            function handleTouchMove(e) {
-                if (e.touches.length === 1 && isDragging) {
-                    // Single touch - panning
-                    const touch = e.touches[0];
-                    translateX = touch.clientX - startX;
-                    translateY = touch.clientY - startY;
-                    
-                    updateImageTransform();
-                    e.preventDefault();
-                }
-            }
-
-            document.addEventListener('mouseup', endDrag);
-            document.addEventListener('touchend', endDrag);
-
-            function endDrag() {
-                isDragging = false;
-            }
-        }
 
         // Add click handlers to all images (excluding icons)
-        document.addEventListener('DOMContentLoaded', function() {
-            const images = document.querySelectorAll('.project-page img');
-            images.forEach(img => {
-                // Skip icons and small images
-                if (img.width <= 48 || img.height <= 48 || 
-                    img.src.includes('icon') || 
-                    img.closest('.mobile-social-links') ||
-                    img.closest('.social-links') ||
-                    img.closest('.mobile-close-btn') ||
-                    img.closest('.hamburger')) {
-                    return;
-                }
-                
+        function addImageClickHandlers() {
+            // Target specific image classes that should be clickable
+            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img');
+            
+            clickableImages.forEach((img) => {
                 img.addEventListener('click', function() {
                     openPhotoViewer(this.src);
                 });
             });
-        });
+        }
+
+        // Add click handlers when DOM is loaded
+        document.addEventListener('DOMContentLoaded', addImageClickHandlers);
+        
+        // Also add click handlers when window loads (in case images load later)
+        window.addEventListener('load', addImageClickHandlers);
     </script>
 </body>
 

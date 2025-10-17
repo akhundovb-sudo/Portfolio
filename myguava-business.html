@@ -248,6 +248,12 @@
             <button class="photo-viewer-close" onclick="closePhotoViewer()">
                 <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
             </button>
+            
+            <!-- Mobile Zoom Controls -->
+            <div class="mobile-zoom-controls">
+                <div class="zoom-indicator" id="mobileZoomIndicator">100%</div>
+                <input type="range" class="zoom-slider" id="mobileZoomSlider" min="25" max="300" value="100" oninput="updateMobileZoom(this.value)">
+            </div>
         </div>
     </div>
 
