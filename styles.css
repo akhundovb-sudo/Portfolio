@@ -120,7 +120,7 @@
     right: 20px;
     width: 40px;
     height: 40px;
-    background: rgba(87, 87, 87, 0.56);
+    background: transparent;
     border: none;
     display: flex;
     align-items: center;
@@ -1038,10 +1038,8 @@ html.mobile-menu-open {
 }
 
 .modal-close {
-    background: none;
+    background: rgba(219, 219, 219, 0.29);
     border: none;
-    font-size: 24px;
-    color: #666;
     padding: 0;
     width: 40px;
     height: 40px;
@@ -1049,14 +1047,41 @@ html.mobile-menu-open {
     align-items: center;
     justify-content: center;
     border-radius: 36px;
-    transition: all 0.2s ease;
-    font-weight: 300;
-    cursor: pointer;
+    transition: all 0.3s ease;
+    cursor: pointer !important;
+    z-index: 1005;
+    font-size: 24px;
+    font-weight: 400;
+    color: #000;
+    line-height: 1;
+}
+
+.modal-close img {
+    width: 40px !important;
+    height: 40px !important;
+    max-width: 40px;
+    max-height: 40px;
+    object-fit: contain;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.modal-close img svg {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .modal-close:hover {
-    background-color: #F7F7F7;
-    color: #1E1E1E;
+    background: rgba(219, 219, 219, 0.5);
+    color: #000;
+    transform: scale(1.05);
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><text y='24' font-size='24'>😢</text></svg>"), auto !important;
+}
+
+
+.modal-close:hover img {
+    transform: scale(1.1);
 }
 
 .modal-body {
