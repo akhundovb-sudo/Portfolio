@@ -213,6 +213,13 @@ h6 {
     text-align: left;
 }
 
+.timeline-location {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(15, 15, 15, 0.5);
+}
+
 .timeline-description {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
@@ -947,6 +954,7 @@ h6 {
     .timeline-date,
     .timeline-company,
     .timeline-role,
+    .timeline-location,
     .timeline-description {
         font-size: 18px;
     }
@@ -975,6 +983,7 @@ h6 {
     .timeline-date,
     .timeline-company,
     .timeline-role,
+    .timeline-location,
     .timeline-description {
         font-size: 16px;
     }
