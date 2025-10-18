@@ -155,7 +155,7 @@
                         rely on stakeholder input, competitor analysis, and rapid prototyping to shape the core UX.</p>
                 </div>
                 <div class="system-image">
-                    <img src="images/pos-product-hunch-image.png" alt="Product Hunch illustration" class="system-img">
+                    <img src="images/pos-product-hunch-image.png" alt="Product Hunch illustration" class="system-img white-bg">
                 </div>
             </div>
         </div>
@@ -548,6 +548,7 @@
             const img = document.getElementById('photoViewerImg');
             if (img) {
                 img.style.transform = 'scale(1)';
+                img.classList.remove('zoomed');
             }
             
             viewer.classList.remove('active');
@@ -567,12 +568,14 @@
                 // Zoom in
                 img.style.transform = `scale(${zoomScale})`;
                 img.style.cursor = 'zoom-out';
+                img.classList.add('zoomed');
                 // Enable scroll for zoomed image
                 enableImageScroll();
             } else {
                 // Zoom out
                 img.style.transform = 'scale(1)';
                 img.style.cursor = 'zoom-in';
+                img.classList.remove('zoomed');
                 // Disable scroll
                 disableImageScroll();
             }
@@ -852,6 +855,7 @@
             
             img.style.transform = 'scale(1)';
             img.style.cursor = 'zoom-in';
+            img.classList.remove('zoomed');
             
             // Add fade effect
             img.style.transition = 'opacity 0.3s ease';
