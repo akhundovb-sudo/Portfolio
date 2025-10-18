@@ -656,10 +656,11 @@
                 if (isDragging) {
                     img.style.transition = 'none';
                 } else {
-                    img.style.transition = 'transform 0.3s ease';
+                    img.style.transition = 'transform 0.2s ease-out';
                 }
                 
-                img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+                // Use transform3d for hardware acceleration
+                img.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${currentZoom})`;
             }
         }
 
@@ -699,6 +700,9 @@
         }
 
         function handleTouchStart(e) {
+            const img = document.getElementById('photoViewerImg');
+            if (!img) return;
+            
             if (e.touches.length === 1) {
                 // Single touch - panning
                 if (currentZoom <= 1) return;
@@ -735,6 +739,9 @@
         }
 
         function handleTouchMove(e) {
+            const img = document.getElementById('photoViewerImg');
+            if (!img) return;
+            
             if (e.touches.length === 1 && isDragging) {
                 // Single touch - panning
                 const touch = e.touches[0];
@@ -751,20 +758,28 @@
                     Math.pow(touch2.clientY - touch1.clientY, 2)
                 );
                 
-                const img = document.getElementById('photoViewerImg');
                 const initialDistance = parseFloat(img.dataset.initialDistance);
                 const initialZoom = parseFloat(img.dataset.initialZoom);
                 
                 if (initialDistance > 0) {
                     const scale = currentDistance / initialDistance;
-                    currentZoom = Math.max(0.25, Math.min(3, initialZoom * scale));
-                    updateImageTransform();
-                    updateZoomDisplay();
+                    const newZoom = Math.max(0.25, Math.min(3, initialZoom * scale));
                     
-                    // Update slider
-                    const slider = document.getElementById('simpleZoomSlider');
-                    if (slider) {
-                        slider.value = currentZoom * 100;
+                    // Only update if zoom changed significantly to improve performance
+                    if (Math.abs(newZoom - currentZoom) > 0.01) {
+                        currentZoom = newZoom;
+                        
+                        // Use requestAnimationFrame for smooth updates
+                        requestAnimationFrame(() => {
+                            updateImageTransform();
+                            updateZoomDisplay();
+                            
+                            // Update slider
+                            const slider = document.getElementById('simpleZoomSlider');
+                            if (slider) {
+                                slider.value = currentZoom * 100;
+                            }
+                        });
                     }
                 }
                 
