@@ -55,6 +55,13 @@
     cursor: grabbing;
 }
 
+/* Desktop: Keep zoom-in cursor even when active */
+@media (min-width: 769px) {
+    .photo-viewer-img:active {
+        cursor: zoom-in !important;
+    }
+}
+
 .photo-viewer-controls {
     position: absolute;
     bottom: 20px;
@@ -285,7 +292,7 @@
     
     /* Photo modal cursor styles */
     .photo-viewer-img {
-        cursor: zoom-in;
+        cursor: zoom-in !important;
         transition: transform 0.3s ease;
         transform-origin: center center;
     }
