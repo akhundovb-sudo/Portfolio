@@ -341,7 +341,7 @@
     <div class="photo-viewer" id="photoViewer">
         <div class="photo-viewer-content">
             <img class="photo-viewer-img" id="photoViewerImg" alt="Full size image">
-            <button class="photo-viewer-close" onclick="closePhotoViewer()">
+            <button class="photo-viewer-close" onclick="closePhotoViewer(); event.stopPropagation();">
                 <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
             </button>
             
@@ -413,6 +413,7 @@
                         if (href.startsWith('#')) {
                             // For anchor links, close menu first, then navigate
                             e.preventDefault();
+            e.stopPropagation(); // Prevent modal close
                             
                             // Close the mobile menu using the toggle function
                             toggleMobileMenu();
@@ -457,7 +458,7 @@
         
         // Desktop zoom functionality
         let isZoomed = false;
-        const zoomScale = 2; // 2x zoom
+        const zoomScale = 1.2; // 1.2x zoom
         
         // Mobile zoom functionality
         let currentZoom = 1;
@@ -471,26 +472,72 @@
             const viewer = document.getElementById('photoViewer');
             const img = document.getElementById('photoViewerImg');
             
-            if (!viewer || !img) return;
+            if (!viewer || !img) {
+                console.error('Photo viewer elements not found');
+                return;
+            }
+            
+            // Complete state reset before opening
+            resetPhotoViewerState();
             
             // Populate available photos array
             populateAvailablePhotos();
             
             // Find current photo index
             currentPhotoIndex = availablePhotos.findIndex(photo => photo.src === imgSrc);
-            if (currentPhotoIndex === -1) currentPhotoIndex = 0;
+            if (currentPhotoIndex === -1) {
+                console.warn('Image not found in gallery, using first image');
+                currentPhotoIndex = 0;
+            }
             
-            // Reset zoom state
+            // Set image source and show modal
+            img.src = imgSrc;
+            img.alt = 'Full size image';
+            
+            // Show modal with proper state
+            viewer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Ensure image loads properly
+            img.onload = function() {
+                console.log('Image loaded successfully:', imgSrc);
+            };
+            
+            img.onerror = function() {
+                console.error('Failed to load image:', imgSrc);
+            };
+        }
+        
+        function resetPhotoViewerState() {
+            const viewer = document.getElementById('photoViewer');
+            const img = document.getElementById('photoViewerImg');
+            
+            if (!viewer || !img) return;
+            
+            // Reset all zoom and transform states
             isZoomed = false;
             currentZoom = 1;
             translateX = 0;
             translateY = 0;
-            img.style.transform = 'scale(1)';
-            img.style.transition = 'transform 0.3s ease';
+            isTransitioning = false;
             
-            img.src = imgSrc;
-            viewer.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            // Reset image styles
+            img.style.transform = 'scale(1)';
+            img.style.cursor = 'zoom-in';
+            img.style.transition = 'transform 0.3s ease';
+            img.classList.remove('zoomed');
+            
+            // Reset viewer classes
+            viewer.classList.remove('zoomed');
+            
+            // Reset slider
+            const slider = document.getElementById('simpleZoomSlider');
+            if (slider) {
+                slider.value = 100;
+            }
+            
+            // Reset zoom display
+            updateZoomDisplay();
         }
 
         function populateAvailablePhotos() {
@@ -505,33 +552,14 @@
             const viewer = document.getElementById('photoViewer');
             if (!viewer) return;
             
-            // Reset zoom state
-            isZoomed = false;
-            currentZoom = 1;
-            translateX = 0;
-            translateY = 0;
+            // Complete state reset
+            resetPhotoViewerState();
             
-            // Reset slider
-            const slider = document.getElementById('simpleZoomSlider');
-            if (slider) {
-                slider.value = 100;
-            }
-            
-            // Reset zoom display
-            updateZoomDisplay();
-            
-            // Disable scroll
-            disableImageScroll();
-            
-            const img = document.getElementById('photoViewerImg');
-            if (img) {
-                img.style.transform = 'scale(1)';
-                img.classList.remove('zoomed');
-            }
-            
+            // Hide modal and reset body overflow
             viewer.classList.remove('active');
-            viewer.classList.remove('zoomed');
             document.body.style.overflow = '';
+            
+            console.log('Photo viewer closed and state reset');
         }
 
         function toggleZoom() {
@@ -545,166 +573,26 @@
             isZoomed = !isZoomed;
             
             if (isZoomed) {
-                // Zoom in
+                // Zoom in - simple 1.2x scale from center
                 img.style.transform = `scale(${zoomScale})`;
                 img.style.cursor = 'zoom-out';
                 img.classList.add('zoomed');
                 viewer.classList.add('zoomed');
-                // Enable scroll for zoomed image
-                enableImageScroll();
             } else {
-                // Zoom out
+                // Zoom out - reset to normal
                 img.style.transform = 'scale(1)';
                 img.style.cursor = 'zoom-in';
                 img.classList.remove('zoomed');
                 viewer.classList.remove('zoomed');
-                // Disable scroll
-                disableImageScroll();
             }
         }
 
-        function enableImageScroll() {
-            const img = document.getElementById('photoViewerImg');
-            const viewer = document.getElementById('photoViewer');
-            if (!img || !viewer) return;
-            
-            // Add wheel event listener for scrolling
-            img.addEventListener('wheel', handleWheelScroll, { passive: false });
-            
-            // Add scroll event listener for keyboard navigation
-            viewer.addEventListener('scroll', handleViewerScroll);
-            
-            // Enable overflow scroll on viewer
-            viewer.style.overflow = 'auto';
-            viewer.style.cursor = 'grab';
-        }
 
-        function disableImageScroll() {
-            const img = document.getElementById('photoViewerImg');
-            const viewer = document.getElementById('photoViewer');
-            if (!img || !viewer) return;
-            
-            // Remove wheel event listener
-            img.removeEventListener('wheel', handleWheelScroll);
-            
-            // Remove scroll event listener
-            viewer.removeEventListener('scroll', handleViewerScroll);
-            
-            // Disable overflow scroll on viewer
-            viewer.style.overflow = 'hidden';
-            viewer.style.cursor = 'default';
-            
-            // Reset scroll position
-            viewer.scrollLeft = 0;
-            viewer.scrollTop = 0;
-        }
 
-        function handleWheelScroll(e) {
-            if (!isZoomed) return;
-            
-            e.preventDefault();
-            
-            const viewer = document.getElementById('photoViewer');
-            if (!viewer) return;
-            
-            // Get current scroll position
-            const scrollLeft = viewer.scrollLeft;
-            const scrollTop = viewer.scrollTop;
-            
-            // Calculate scroll amount (adjust sensitivity)
-            const scrollAmount = 50;
-            
-            // Apply scroll based on wheel direction
-            if (e.deltaY > 0) {
-                // Scroll down
-                viewer.scrollTop = Math.min(scrollTop + scrollAmount, viewer.scrollHeight - viewer.clientHeight);
-            } else {
-                // Scroll up
-                viewer.scrollTop = Math.max(scrollTop - scrollAmount, 0);
-            }
-            
-            if (e.deltaX > 0) {
-                // Scroll right
-                viewer.scrollLeft = Math.min(scrollLeft + scrollAmount, viewer.scrollWidth - viewer.clientWidth);
-            } else if (e.deltaX < 0) {
-                // Scroll left
-                viewer.scrollLeft = Math.max(scrollLeft - scrollAmount, 0);
-            }
-        }
 
-        function handleViewerScroll() {
-            // This function can be used for additional scroll handling if needed
-            // For now, it's just a placeholder
-        }
 
-        function enableImageScroll() {
-            const img = document.getElementById('photoViewerImg');
-            const viewer = document.getElementById('photoViewer');
-            if (!img || !viewer) return;
-            
-            // Add wheel event listener for scrolling
-            img.addEventListener('wheel', handleWheelScroll, { passive: false });
-            
-            // Add scroll event listener for keyboard navigation
-            viewer.addEventListener('scroll', handleViewerScroll);
-            
-            // Enable overflow scroll on viewer
-            viewer.style.overflow = 'auto';
-            viewer.style.cursor = 'grab';
-        }
 
-        function disableImageScroll() {
-            const img = document.getElementById('photoViewerImg');
-            const viewer = document.getElementById('photoViewer');
-            if (!img || !viewer) return;
-            
-            // Remove wheel event listener
-            img.removeEventListener('wheel', handleWheelScroll);
-            
-            // Remove scroll event listener
-            viewer.removeEventListener('scroll', handleViewerScroll);
-            
-            // Disable overflow scroll on viewer
-            viewer.style.overflow = 'hidden';
-            viewer.style.cursor = 'default';
-            
-            // Reset scroll position
-            viewer.scrollLeft = 0;
-            viewer.scrollTop = 0;
-        }
 
-        function handleWheelScroll(e) {
-            if (!isZoomed) return;
-            
-            e.preventDefault();
-            
-            const viewer = document.getElementById('photoViewer');
-            if (!viewer) return;
-            
-            // Get current scroll position
-            const scrollLeft = viewer.scrollLeft;
-            const scrollTop = viewer.scrollTop;
-            
-            // Calculate scroll amount (adjust sensitivity)
-            const scrollAmount = 50;
-            
-            // Apply scroll based on wheel direction
-            if (e.deltaY > 0) {
-                // Scroll down
-                viewer.scrollTop = Math.min(scrollTop + scrollAmount, viewer.scrollHeight - viewer.clientHeight);
-            } else {
-                // Scroll up
-                viewer.scrollTop = Math.max(scrollTop - scrollAmount, 0);
-            }
-            
-            if (e.deltaX > 0) {
-                // Scroll right
-                viewer.scrollLeft = Math.min(scrollLeft + scrollAmount, viewer.scrollWidth - viewer.clientWidth);
-            } else if (e.deltaX < 0) {
-                // Scroll left
-                viewer.scrollLeft = Math.max(scrollLeft - scrollAmount, 0);
-            }
-        }
 
         // Mobile zoom functions
         function updateSimpleZoom(value) {
@@ -777,6 +665,7 @@
                 startY = touch.clientY - translateY;
                 
                 e.preventDefault();
+            e.stopPropagation(); // Prevent modal close
             } else if (e.touches.length === 2) {
                 // Two touches - pinch to zoom
                 const touch1 = e.touches[0];
@@ -791,12 +680,14 @@
                 img.dataset.initialZoom = currentZoom;
                 
                 e.preventDefault();
+            e.stopPropagation(); // Prevent modal close
             }
         }
 
         function drag(e) {
             if (!isDragging || currentZoom <= 1) return;
             e.preventDefault();
+            e.stopPropagation(); // Prevent modal close
             translateX = e.clientX - startX;
             translateY = e.clientY - startY;
             constrainPan();
@@ -813,6 +704,7 @@
                 translateY = touch.clientY - startY;
                 constrainPan();
                 e.preventDefault();
+            e.stopPropagation(); // Prevent modal close
             } else if (e.touches.length === 2) {
                 // Two touches - pinch to zoom
                 const touch1 = e.touches[0];
@@ -848,6 +740,7 @@
                 }
                 
                 e.preventDefault();
+            e.stopPropagation(); // Prevent modal close
             }
         }
 
@@ -885,6 +778,7 @@
             
             isTransitioning = true;
             const img = document.getElementById('photoViewerImg');
+            const viewer = document.getElementById('photoViewer');
             
             // Reset zoom state when switching photos
             isZoomed = false;
@@ -901,14 +795,11 @@
             // Reset zoom display
             updateZoomDisplay();
             
-            // Disable scroll
-            disableImageScroll();
-            
+            // Reset image transform and classes
             img.style.transform = 'scale(1)';
             img.style.cursor = 'zoom-in';
             img.classList.remove('zoomed');
             
-            const viewer = document.getElementById('photoViewer');
             if (viewer) {
                 viewer.classList.remove('zoomed');
             }
