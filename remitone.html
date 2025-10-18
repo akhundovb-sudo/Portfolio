@@ -341,7 +341,15 @@
     <div class="photo-viewer" id="photoViewer">
         <div class="photo-viewer-content">
             <img class="photo-viewer-img" id="photoViewerImg" alt="Full size image">
-            <button class="photo-viewer-close" onclick="closePhotoViewer(); event.stopPropagation();">
+            <!-- Mobile Zoom Button -->
+            <button class="mobile-zoom-button photo-modal-button" id="mobileZoomButton" onclick="toggleMobileZoom(); event.stopPropagation();">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.5 7V14M7 10.5H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            
+            <button class="photo-viewer-close photo-modal-button" onclick="closePhotoViewer(); event.stopPropagation();">
                 <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
             </button>
             
@@ -598,54 +606,170 @@
 
 
 
-        // Mobile zoom functions with smooth animation
-        let targetZoom = 1;
-        let isZoomAnimating = false;
-        let zoomAnimationId = null;
+        // Mobile zoom button functionality - Dribbble style
+        let isMobileZoomed = false;
+        const mobileZoomScale = 2.0;
 
-        function updateSimpleZoom(value) {
-            targetZoom = Math.max(0.25, Math.min(3, value / 100));
+        function isMobileDevice() {
+            return window.innerWidth <= 768;
+        }
+
+        function toggleMobileZoom() {
+            if (!isMobileDevice()) return;
             
-            if (!isZoomAnimating) {
-                startSmoothZoom();
+            const img = document.getElementById('photoViewerImg');
+            const zoomButton = document.getElementById('mobileZoomButton');
+            
+            if (!img || !zoomButton) return;
+            
+            if (isMobileZoomed) {
+                // Zoom out
+                resetMobileZoom();
+            } else {
+                // Zoom in
+                applyMobileZoom();
             }
         }
 
-        function startSmoothZoom() {
-            if (isZoomAnimating) return;
+        function applyMobileZoom() {
+            const img = document.getElementById('photoViewerImg');
+            const zoomButton = document.getElementById('mobileZoomButton');
             
-            isZoomAnimating = true;
-            animateZoom();
+            if (!img || !zoomButton) return;
+            
+            isMobileZoomed = true;
+            currentZoom = mobileZoomScale;
+            
+            // Update button state
+            zoomButton.classList.add('zoomed');
+            
+            // Smooth zoom transition
+            img.style.transition = 'transform 0.3s ease';
+            img.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${currentZoom})`;
+            img.style.cursor = 'grab';
+            
+            // Enable panning
+            enableMobilePanning();
         }
 
-        function animateZoom() {
-            const zoomDifference = Math.abs(currentZoom - targetZoom);
+        function resetMobileZoom() {
+            const img = document.getElementById('photoViewerImg');
+            const zoomButton = document.getElementById('mobileZoomButton');
             
-            if (zoomDifference < 0.01) {
-                // Close enough, stop animating
-                currentZoom = targetZoom;
-                updateImageTransform();
-                updateZoomDisplay();
-                isZoomAnimating = false;
-                return;
-            }
+            if (!img || !zoomButton) return;
             
-            // Smooth interpolation towards target zoom
-            currentZoom += (targetZoom - currentZoom) * 0.15;
+            isMobileZoomed = false;
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
             
-            updateImageTransform();
-            updateZoomDisplay();
+            // Update button state
+            zoomButton.classList.remove('zoomed');
             
-            // Continue animation
-            zoomAnimationId = requestAnimationFrame(animateZoom);
+            // Smooth zoom out transition with recentering
+            img.style.transition = 'transform 0.3s ease';
+            img.style.transform = 'scale(1)';
+            img.style.cursor = 'zoom-in';
+            
+            // Disable panning
+            disableMobilePanning();
         }
 
-        function stopZoomAnimation() {
-            if (zoomAnimationId) {
-                cancelAnimationFrame(zoomAnimationId);
-                zoomAnimationId = null;
+        function enableMobilePanning() {
+            const img = document.getElementById('photoViewerImg');
+            if (!img) return;
+            
+            img.addEventListener('touchstart', handleMobileTouchStart, { passive: false });
+            img.addEventListener('touchmove', handleMobileTouchMove, { passive: false });
+            img.addEventListener('touchend', handleMobileTouchEnd, { passive: false });
+        }
+
+        function disableMobilePanning() {
+            const img = document.getElementById('photoViewerImg');
+            if (!img) return;
+            
+            img.removeEventListener('touchstart', handleMobileTouchStart);
+            img.removeEventListener('touchmove', handleMobileTouchMove);
+            img.removeEventListener('touchend', handleMobileTouchEnd);
+        }
+
+        let mobileTouchStartX = 0;
+        let mobileTouchStartY = 0;
+        let mobileLastTouchX = 0;
+        let mobileLastTouchY = 0;
+        let mobileIsPanning = false;
+
+        function handleMobileTouchStart(e) {
+            if (!isMobileZoomed) return;
+            
+            e.preventDefault();
+            const touch = e.touches[0];
+            mobileTouchStartX = touch.clientX;
+            mobileTouchStartY = touch.clientY;
+            mobileLastTouchX = touch.clientX;
+            mobileLastTouchY = touch.clientY;
+            mobileIsPanning = true;
+            
+            // Disable transition during panning
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                img.style.transition = 'none';
             }
-            isZoomAnimating = false;
+        }
+
+        function handleMobileTouchMove(e) {
+            if (!isMobileZoomed || !mobileIsPanning) return;
+            
+            e.preventDefault();
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - mobileLastTouchX;
+            const deltaY = touch.clientY - mobileLastTouchY;
+            
+            translateX += deltaX;
+            translateY += deltaY;
+            
+            // Constrain panning to keep image in bounds
+            constrainMobilePanning();
+            
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                img.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${currentZoom})`;
+            }
+            
+            mobileLastTouchX = touch.clientX;
+            mobileLastTouchY = touch.clientY;
+        }
+
+        function handleMobileTouchEnd(e) {
+            if (!isMobileZoomed) return;
+            
+            mobileIsPanning = false;
+            
+            // Re-enable transition
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                img.style.transition = 'transform 0.3s ease';
+            }
+        }
+
+        function constrainMobilePanning() {
+            const img = document.getElementById('photoViewerImg');
+            if (!img) return;
+            
+            const viewer = document.getElementById('photoViewer');
+            if (!viewer) return;
+            
+            const viewerRect = viewer.getBoundingClientRect();
+            const imgRect = img.getBoundingClientRect();
+            
+            const scaledWidth = imgRect.width * currentZoom;
+            const scaledHeight = imgRect.height * currentZoom;
+            
+            const maxTranslateX = Math.max(0, (scaledWidth - viewerRect.width) / 2);
+            const maxTranslateY = Math.max(0, (scaledHeight - viewerRect.height) / 2);
+            
+            translateX = Math.max(-maxTranslateX, Math.min(maxTranslateX, translateX));
+            translateY = Math.max(-maxTranslateY, Math.min(maxTranslateY, translateY));
         }
 
         function updateImageTransform() {

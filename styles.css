@@ -22,6 +22,28 @@
     -webkit-backdrop-filter: blur(10px);
 }
 
+/* Shared button background styling for photo modal controls */
+.photo-modal-button {
+    width: 40px !important;
+    height: 40px !important;
+    background: #282828 !important;
+    border: none !important;
+    border-radius: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 10000 !important;
+    transition: all 0.3s ease !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+.photo-modal-button:hover {
+    transform: scale(1.1) !important;
+    cursor: pointer !important;
+}
+
 .photo-viewer.active {
     display: flex;
 }
@@ -83,32 +105,15 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 40px;
-    height: 40px;
-    background: #282828;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer !important;
-    z-index: 10000;
-    border-radius: 36px;
 }
 
 .photo-viewer-close img {
     width: 40px;
     height: 40px;
     transition: all 0.3s ease;
+    filter: brightness(0) invert(1); /* Makes the X icon white */
 }
 
-.photo-viewer-close:hover {
-    transform: scale(1.1);
-    cursor: pointer !important;
-}
-
-.photo-viewer-close {
-    cursor: pointer;
-}
 
 /* Photo Navigation Buttons */
 .photo-nav-btn {
@@ -183,6 +188,48 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Hide zoom slider on mobile screens - use zoom button instead */
+@media (max-width: 768px) {
+    .simple-zoom-controls {
+        display: none !important;
+    }
+}
+
+/* Mobile zoom button - Match close button styling */
+@media (max-width: 768px) {
+    .mobile-zoom-button {
+        position: absolute;
+        top: 20px;
+        right: 70px; /* Position next to close button */
+    }
+    
+    
+    .mobile-zoom-button svg {
+        width: 20px;
+        height: 20px;
+        stroke: #FFFFFF !important;
+        fill: none !important;
+        color: #FFFFFF !important;
+        transition: transform 0.3s ease;
+    }
+    
+    .mobile-zoom-button svg path {
+        stroke: #FFFFFF !important;
+        fill: none !important;
+    }
+    
+    .mobile-zoom-button.zoomed svg {
+        transform: rotate(45deg);
+    }
+}
+
+/* Hide zoom button on desktop */
+@media (min-width: 769px) {
+    .mobile-zoom-button {
+        display: none !important;
+    }
 }
 
 .zoom-percentage {
@@ -310,9 +357,6 @@ img[src*="pos-product-hunch-image.png"] {
         cursor: zoom-out !important;
     }
     
-    .photo-viewer-close {
-        cursor: pointer;
-    }
     
     /* Show scrollbars when image is zoomed */
     .photo-viewer-img.zoomed {
@@ -342,7 +386,8 @@ img[src*="pos-product-hunch-image.png"] {
     /* Ensure close button and controls stay fixed when zoomed */
     .photo-viewer.zoomed .photo-viewer-close,
     .photo-viewer.zoomed .photo-viewer-controls,
-    .photo-viewer.zoomed .photo-nav-btn {
+    .photo-viewer.zoomed .photo-nav-btn,
+    .photo-viewer.zoomed .mobile-zoom-button {
         position: fixed !important;
         z-index: 10001 !important;
         /* Prevent them from moving with the image */
@@ -353,6 +398,12 @@ img[src*="pos-product-hunch-image.png"] {
     .photo-viewer.zoomed .photo-viewer-close {
         top: 20px !important;
         right: 20px !important;
+        transform: none !important;
+    }
+    
+    .photo-viewer.zoomed .mobile-zoom-button {
+        top: 20px !important;
+        right: 70px !important;
         transform: none !important;
     }
     
