@@ -457,11 +457,24 @@
                 <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
             </button>
             
-            <!-- Mobile Zoom Controls -->
-            <div class="mobile-zoom-controls">
-                <div class="zoom-indicator" id="mobileZoomIndicator">100%</div>
-                <input type="range" class="zoom-slider" id="mobileZoomSlider" min="25" max="300" value="100" oninput="updateMobileZoom(this.value)">
+            <!-- Navigation Arrows -->
+            <button class="photo-nav-btn photo-nav-prev" onclick="previousPhoto()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15,18 9,12 15,6"></polyline>
+                </svg>
+            </button>
+            <button class="photo-nav-btn photo-nav-next" onclick="nextPhoto()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                </svg>
+            </button>
+            
+            <!-- Simple Zoom Slider -->
+            <div class="simple-zoom-controls">
+                <div class="zoom-percentage" id="zoomPercentage">100%</div>
+                <input type="range" class="simple-zoom-slider" id="simpleZoomSlider" min="25" max="300" value="100" oninput="updateSimpleZoom(this.value)">
             </div>
+            
         </div>
     </div>
 
@@ -557,6 +570,11 @@
         let lastTouchDistance = 0;
         let initialZoom = 1;
         let isZooming = false;
+        
+        // Photo navigation
+        let currentPhotoIndex = 0;
+        let availablePhotos = [];
+        let isTransitioning = false;
 
         function openPhotoViewer(imgSrc) {
             const viewer = document.getElementById('photoViewer');
@@ -564,6 +582,13 @@
             const mobileSlider = document.getElementById('mobileZoomSlider');
             
             if (!viewer || !img) return;
+            
+            // Populate available photos array
+            populateAvailablePhotos();
+            
+            // Find current photo index
+            currentPhotoIndex = availablePhotos.findIndex(photo => photo.src === imgSrc);
+            if (currentPhotoIndex === -1) currentPhotoIndex = 0;
             
             img.src = imgSrc;
             viewer.classList.add('active');
@@ -573,6 +598,14 @@
             
             // Prevent body scroll
             document.body.style.overflow = 'hidden';
+        }
+
+        function populateAvailablePhotos() {
+            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img');
+            availablePhotos = Array.from(clickableImages).map(img => ({
+                src: img.src,
+                alt: img.alt || 'Project image'
+            }));
         }
 
         function closePhotoViewer() {
@@ -597,12 +630,14 @@
             lastTouchDistance = 0;
             
             updateImageTransform();
-            updateMobileZoomIndicator();
-            
-            // Reset slider
-            const mobileSlider = document.getElementById('mobileZoomSlider');
-            if (mobileSlider) {
-                mobileSlider.value = 100;
+            updateZoomDisplay();
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const slider = document.getElementById('simpleZoomSlider');
+            if (slider) {
+                slider.value = 100;
             }
         }
 
@@ -610,6 +645,12 @@
             currentZoom = Math.max(0.25, Math.min(3, value / 100));
             updateImageTransform();
             updateMobileZoomIndicator();
+        }
+
+        function updateSimpleZoom(value) {
+            currentZoom = Math.max(0.25, Math.min(3, value / 100));
+            updateImageTransform();
+            updateZoomDisplay();
         }
 
         function updateImageTransform() {
@@ -630,6 +671,13 @@
             const indicator = document.getElementById('mobileZoomIndicator');
             if (indicator) {
                 indicator.textContent = Math.round(currentZoom * 100) + '%';
+            }
+        }
+
+        function updateZoomDisplay() {
+            const percentage = document.getElementById('zoomPercentage');
+            if (percentage) {
+                percentage.textContent = Math.round(currentZoom * 100) + '%';
             }
         }
 
@@ -745,6 +793,77 @@
             }
         }
 
+        // Photo navigation functions
+        function nextPhoto() {
+            if (isTransitioning || availablePhotos.length === 0) return;
+            
+            currentPhotoIndex = (currentPhotoIndex + 1) % availablePhotos.length;
+            loadPhoto(availablePhotos[currentPhotoIndex].src);
+        }
+
+        function previousPhoto() {
+            if (isTransitioning || availablePhotos.length === 0) return;
+            
+            currentPhotoIndex = (currentPhotoIndex - 1 + availablePhotos.length) % availablePhotos.length;
+            loadPhoto(availablePhotos[currentPhotoIndex].src);
+        }
+
+        function loadPhoto(src) {
+            if (isTransitioning) return;
+            
+            isTransitioning = true;
+            const img = document.getElementById('photoViewerImg');
+            
+            // Reset zoom and position
+            resetZoom();
+            
+            // Add fade effect
+            img.style.transition = 'opacity 0.3s ease';
+            img.style.opacity = '0';
+            
+            setTimeout(() => {
+                img.src = src;
+                img.style.opacity = '1';
+                
+                setTimeout(() => {
+                    img.style.transition = '';
+                    isTransitioning = false;
+                }, 300);
+            }, 150);
+        }
+
+        // Swipe navigation for mobile
+        let swipeStartX = 0;
+        let swipeStartY = 0;
+        let swipeThreshold = 50;
+
+        function handleSwipeStart(e) {
+            if (e.touches.length === 1) {
+                swipeStartX = e.touches[0].clientX;
+                swipeStartY = e.touches[0].clientY;
+            }
+        }
+
+        function handleSwipeEnd(e) {
+            if (e.changedTouches.length === 1) {
+                const swipeEndX = e.changedTouches[0].clientX;
+                const swipeEndY = e.changedTouches[0].clientY;
+                const deltaX = swipeEndX - swipeStartX;
+                const deltaY = swipeEndY - swipeStartY;
+                
+                // Only trigger swipe if horizontal movement is greater than vertical
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+                    if (deltaX > 0) {
+                        // Swipe right - previous photo
+                        previousPhoto();
+                    } else {
+                        // Swipe left - next photo
+                        nextPhoto();
+                    }
+                }
+            }
+        }
+
         // Add event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             const photoViewerImg = document.getElementById('photoViewerImg');
@@ -759,6 +878,10 @@
                 photoViewerImg.addEventListener('touchstart', handleTouchStart, { passive: false });
                 photoViewerImg.addEventListener('touchmove', handleTouchMove, { passive: false });
                 photoViewerImg.addEventListener('touchend', endDrag);
+                
+                // Add swipe navigation for mobile
+                photoViewerImg.addEventListener('touchstart', handleSwipeStart, { passive: true });
+                photoViewerImg.addEventListener('touchend', handleSwipeEnd, { passive: true });
             }
         });
 

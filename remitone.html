@@ -331,11 +331,24 @@
                 <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
             </button>
             
-            <!-- Mobile Zoom Controls -->
-            <div class="mobile-zoom-controls">
-                <div class="zoom-indicator" id="mobileZoomIndicator">100%</div>
-                <input type="range" class="zoom-slider" id="mobileZoomSlider" min="25" max="300" value="100" oninput="updateMobileZoom(this.value)">
+            <!-- Navigation Arrows -->
+            <button class="photo-nav-btn photo-nav-prev" onclick="previousPhoto()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15,18 9,12 15,6"></polyline>
+                </svg>
+            </button>
+            <button class="photo-nav-btn photo-nav-next" onclick="nextPhoto()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                </svg>
+            </button>
+            
+            <!-- Simple Zoom Slider -->
+            <div class="simple-zoom-controls">
+                <div class="zoom-percentage" id="zoomPercentage">100%</div>
+                <input type="range" class="simple-zoom-slider" id="simpleZoomSlider" min="25" max="300" value="100" oninput="updateSimpleZoom(this.value)">
             </div>
+            
         </div>
     </div>
 
@@ -428,72 +441,141 @@
         let startY = 0;
         let translateX = 0;
         let translateY = 0;
+        
+        // Photo navigation
+        let currentPhotoIndex = 0;
+        let availablePhotos = [];
+        let isTransitioning = false;
 
         function openPhotoViewer(imgSrc) {
             const viewer = document.getElementById('photoViewer');
             const img = document.getElementById('photoViewerImg');
-            const zoomSlider = document.getElementById('zoomSlider');
+            
+            if (!viewer || !img) return;
+            
+            // Populate available photos array
+            populateAvailablePhotos();
+            
+            // Find current photo index
+            currentPhotoIndex = availablePhotos.findIndex(photo => photo.src === imgSrc);
+            if (currentPhotoIndex === -1) currentPhotoIndex = 0;
+            
+            // Reset zoom first (before opening)
+            resetZoom();
             
             img.src = imgSrc;
             viewer.classList.add('active');
-            
-            // Reset zoom and position
-            currentZoom = 1;
-            translateX = 0;
-            translateY = 0;
-            updateImageTransform();
-            updateZoomIndicator();
-            
-            // Sync slider with current zoom
-            if (zoomSlider) {
-                zoomSlider.value = currentZoom * 100;
-            }
-            
-            // Prevent body scroll
             document.body.style.overflow = 'hidden';
+        }
+
+        function populateAvailablePhotos() {
+            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img');
+            availablePhotos = Array.from(clickableImages).map(img => ({
+                src: img.src,
+                alt: img.alt || 'Project image'
+            }));
         }
 
         function closePhotoViewer() {
             const viewer = document.getElementById('photoViewer');
-            viewer.classList.remove('active');
+            if (!viewer) return;
             
-            // Restore body scroll
+            // Reset zoom before closing
+            resetZoom();
+            
+            viewer.classList.remove('active');
             document.body.style.overflow = '';
         }
 
+        function resetZoom() {
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            updateImageTransform();
+            updateZoomDisplay();
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const slider = document.getElementById('simpleZoomSlider');
+            if (slider) {
+                slider.value = 100;
+            }
+        }
+
         function updateZoomFromSlider(value) {
-            currentZoom = value / 100;
+            currentZoom = Math.max(0.25, Math.min(3, value / 100));
+            updateImageTransform();
+            updateZoomIndicator();
+        }
+
+        function updateSimpleZoom(value) {
+            currentZoom = Math.max(0.25, Math.min(3, value / 100));
             updateImageTransform();
             updateZoomIndicator();
         }
 
         function updateImageTransform() {
             const img = document.getElementById('photoViewerImg');
-            img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+            if (img) {
+                // Disable transition during dragging for smooth panning
+                if (isDragging) {
+                    img.style.transition = 'none';
+                } else {
+                    img.style.transition = 'transform 0.3s ease';
+                }
+                
+                img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+                
+                // Remove transition after animation completes (only if not dragging)
+                if (!isDragging) {
+                    setTimeout(() => {
+                        img.style.transition = '';
+                    }, 300);
+                }
+            }
         }
 
         function updateZoomIndicator() {
-            const indicator = document.getElementById('zoomIndicator');
-            indicator.textContent = Math.round(currentZoom * 100) + '%';
+            const indicator = document.getElementById('zoomPercentage');
+            if (indicator) {
+                indicator.textContent = Math.round(currentZoom * 100) + '%';
+            }
         }
 
-        // Touch and mouse events for panning
-        const photoViewerImg = document.getElementById('photoViewerImg');
+        function updateZoomDisplay() {
+            const indicator = document.getElementById('zoomPercentage');
+            if (indicator) {
+                indicator.textContent = Math.round(currentZoom * 100) + '%';
+            }
+        }
 
-        photoViewerImg.addEventListener('mousedown', startDrag);
-        photoViewerImg.addEventListener('touchstart', handleTouchStart, { passive: false });
+        function constrainPan() {
+            const img = document.getElementById('photoViewerImg');
+            const viewer = document.getElementById('photoViewer');
+            if (!img || !viewer) return;
+
+            const imgRect = img.getBoundingClientRect();
+            const viewerRect = viewer.getBoundingClientRect();
+            
+            const maxTranslateX = Math.max(0, (imgRect.width * currentZoom - viewerRect.width) / 2);
+            const maxTranslateY = Math.max(0, (imgRect.height * currentZoom - viewerRect.height) / 2);
+            
+            translateX = Math.max(-maxTranslateX, Math.min(maxTranslateX, translateX));
+            translateY = Math.max(-maxTranslateY, Math.min(maxTranslateY, translateY));
+            
+            updateImageTransform();
+        }
 
         function startDrag(e) {
             if (currentZoom <= 1) return;
-            
             isDragging = true;
-            const clientX = e.clientX;
-            const clientY = e.clientY;
-            
-            startX = clientX - translateX;
-            startY = clientY - translateY;
-            
-            e.preventDefault();
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                img.style.cursor = 'grabbing';
+            }
         }
 
         function handleTouchStart(e) {
@@ -507,23 +589,28 @@
                 startY = touch.clientY - translateY;
                 
                 e.preventDefault();
+            } else if (e.touches.length === 2) {
+                // Two touches - pinch to zoom
+                isZooming = true;
+                isDragging = false;
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                lastTouchDistance = Math.sqrt(
+                    Math.pow(touch2.clientX - touch1.clientX, 2) + 
+                    Math.pow(touch2.clientY - touch1.clientY, 2)
+                );
+                initialZoom = currentZoom;
+                
+                e.preventDefault();
             }
         }
 
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('touchmove', handleTouchMove, { passive: false });
-
         function drag(e) {
-            if (!isDragging) return;
-            
-            const clientX = e.clientX;
-            const clientY = e.clientY;
-            
-            translateX = clientX - startX;
-            translateY = clientY - startY;
-            
-            updateImageTransform();
+            if (!isDragging || currentZoom <= 1) return;
             e.preventDefault();
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            constrainPan();
         }
 
         function handleTouchMove(e) {
@@ -532,18 +619,127 @@
                 const touch = e.touches[0];
                 translateX = touch.clientX - startX;
                 translateY = touch.clientY - startY;
+                constrainPan();
+                e.preventDefault();
+            } else if (e.touches.length === 2 && isZooming) {
+                // Two touches - pinch to zoom
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = Math.sqrt(
+                    Math.pow(touch2.clientX - touch1.clientX, 2) + 
+                    Math.pow(touch2.clientY - touch1.clientY, 2)
+                );
                 
-                updateImageTransform();
+                if (lastTouchDistance > 0) {
+                    const scale = currentDistance / lastTouchDistance;
+                    currentZoom = Math.max(0.25, Math.min(3, initialZoom * scale));
+                    updateImageTransform();
+                    updateZoomDisplay();
+                    updateSlider();
+                }
+                
                 e.preventDefault();
             }
         }
 
-        document.addEventListener('mouseup', endDrag);
-        document.addEventListener('touchend', endDrag);
-
         function endDrag() {
             isDragging = false;
+            isZooming = false;
+            lastTouchDistance = 0;
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                img.style.cursor = 'grab';
+            }
         }
+
+        // Photo navigation functions
+        function nextPhoto() {
+            if (isTransitioning || availablePhotos.length === 0) return;
+            
+            currentPhotoIndex = (currentPhotoIndex + 1) % availablePhotos.length;
+            loadPhoto(availablePhotos[currentPhotoIndex].src);
+        }
+
+        function previousPhoto() {
+            if (isTransitioning || availablePhotos.length === 0) return;
+            
+            currentPhotoIndex = (currentPhotoIndex - 1 + availablePhotos.length) % availablePhotos.length;
+            loadPhoto(availablePhotos[currentPhotoIndex].src);
+        }
+
+        function loadPhoto(src) {
+            if (isTransitioning) return;
+            
+            isTransitioning = true;
+            const img = document.getElementById('photoViewerImg');
+            
+            // Reset zoom and position
+            resetZoom();
+            
+            // Add fade effect
+            img.style.transition = 'opacity 0.3s ease';
+            img.style.opacity = '0';
+            
+            setTimeout(() => {
+                img.src = src;
+                img.style.opacity = '1';
+                
+                setTimeout(() => {
+                    img.style.transition = '';
+                    isTransitioning = false;
+                }, 300);
+            }, 150);
+        }
+
+        // Swipe navigation for mobile
+        let swipeStartX = 0;
+        let swipeStartY = 0;
+        let swipeThreshold = 50;
+
+        function handleSwipeStart(e) {
+            if (e.touches.length === 1) {
+                swipeStartX = e.touches[0].clientX;
+                swipeStartY = e.touches[0].clientY;
+            }
+        }
+
+        function handleSwipeEnd(e) {
+            if (e.changedTouches.length === 1) {
+                const swipeEndX = e.changedTouches[0].clientX;
+                const swipeEndY = e.changedTouches[0].clientY;
+                const deltaX = swipeEndX - swipeStartX;
+                const deltaY = swipeEndY - swipeStartY;
+                
+                // Only trigger swipe if horizontal movement is greater than vertical
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+                    if (deltaX > 0) {
+                        // Swipe right - previous photo
+                        previousPhoto();
+                    } else {
+                        // Swipe left - next photo
+                        nextPhoto();
+                    }
+                }
+            }
+        }
+
+        // Add event listeners for touch and mouse events
+        document.addEventListener('DOMContentLoaded', function() {
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                img.addEventListener('mousedown', startDrag);
+                img.addEventListener('touchstart', handleTouchStart, { passive: false });
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('touchmove', handleTouchMove, { passive: false });
+                document.addEventListener('mouseup', endDrag);
+                document.addEventListener('touchend', endDrag);
+                
+                // Add swipe navigation for mobile
+                img.addEventListener('touchstart', handleSwipeStart, { passive: true });
+                img.addEventListener('touchend', handleSwipeEnd, { passive: true });
+            }
+        });
+
 
         // Close viewer when clicking outside image
         document.getElementById('photoViewer').addEventListener('click', function(e) {

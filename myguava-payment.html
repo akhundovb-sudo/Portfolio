@@ -310,11 +310,24 @@
                 <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
             </button>
             
-            <!-- Mobile Zoom Controls -->
-            <div class="mobile-zoom-controls">
-                <div class="zoom-indicator" id="mobileZoomIndicator">100%</div>
-                <input type="range" class="zoom-slider" id="mobileZoomSlider" min="25" max="300" value="100" oninput="updateMobileZoom(this.value)">
+            <!-- Navigation Arrows -->
+            <button class="photo-nav-btn photo-nav-prev" onclick="previousPhoto()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15,18 9,12 15,6"></polyline>
+                </svg>
+            </button>
+            <button class="photo-nav-btn photo-nav-next" onclick="nextPhoto()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                </svg>
+            </button>
+            
+            <!-- Simple Zoom Slider -->
+            <div class="simple-zoom-controls">
+                <div class="zoom-percentage" id="zoomPercentage">100%</div>
+                <input type="range" class="simple-zoom-slider" id="simpleZoomSlider" min="25" max="300" value="100" oninput="updateSimpleZoom(this.value)">
             </div>
+            
         </div>
     </div>
 
@@ -411,20 +424,20 @@
         let initialZoom = 1;
         let isZooming = false;
 
+        // Photo Viewer functionality
+        let currentZoom = 1;
+
         function openPhotoViewer(imgSrc) {
             const viewer = document.getElementById('photoViewer');
             const img = document.getElementById('photoViewerImg');
-            const mobileSlider = document.getElementById('mobileZoomSlider');
             
             if (!viewer || !img) return;
             
-            img.src = imgSrc;
-            viewer.classList.add('active');
-            
-            // Reset zoom and position
+            // Reset zoom first (before opening)
             resetZoom();
             
-            // Prevent body scroll
+            img.src = imgSrc;
+            viewer.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
@@ -432,13 +445,59 @@
             const viewer = document.getElementById('photoViewer');
             if (!viewer) return;
             
-            viewer.classList.remove('active');
-            
-            // Reset zoom to 1x
+            // Reset zoom before closing
             resetZoom();
             
-            // Restore body scroll
+            viewer.classList.remove('active');
             document.body.style.overflow = '';
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            updateImageTransform();
+            updateZoomDisplay();
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const slider = document.getElementById('simpleZoomSlider');
+            if (slider) {
+                slider.value = 100;
+            }
+        }
+
+        function updateSimpleZoom(value) {
+            currentZoom = Math.max(0.25, Math.min(3, value / 100));
+            updateImageTransform();
+            updateZoomDisplay();
+        }
+
+        function updateImageTransform() {
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                // Disable transition during dragging for smooth panning
+                if (isDragging) {
+                    img.style.transition = 'none';
+                } else {
+                    img.style.transition = 'transform 0.3s ease';
+                }
+                
+                img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+                
+                // Remove transition after animation completes (only if not dragging)
+                if (!isDragging) {
+                    setTimeout(() => {
+                        img.style.transition = '';
+                    }, 300);
+                }
+            }
+        }
+
+        function updateZoomDisplay() {
+            const percentage = document.getElementById('zoomPercentage');
+            if (percentage) {
+                percentage.textContent = Math.round(currentZoom * 100) + '%';
+            }
         }
 
         function resetZoom() {
@@ -465,6 +524,12 @@
             updateMobileZoomIndicator();
         }
 
+        function updateSimpleZoom(value) {
+            currentZoom = Math.max(0.25, Math.min(3, value / 100));
+            updateImageTransform();
+            updateZoomDisplay();
+        }
+
         function updateImageTransform() {
             const img = document.getElementById('photoViewerImg');
             if (img) {
@@ -483,6 +548,13 @@
             const indicator = document.getElementById('mobileZoomIndicator');
             if (indicator) {
                 indicator.textContent = Math.round(currentZoom * 100) + '%';
+            }
+        }
+
+        function updateZoomDisplay() {
+            const percentage = document.getElementById('zoomPercentage');
+            if (percentage) {
+                percentage.textContent = Math.round(currentZoom * 100) + '%';
             }
         }
 
