@@ -14,8 +14,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyGuava Payment - Bahruz</title>
+    <link rel="icon" type="image/svg+xml" href="favicon-32.svg">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon-32.svg">
+    <link rel="shortcut icon" href="favicon-32.svg">
     <link rel="alternate icon" href="favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="about.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -786,35 +790,6 @@
             }, 150);
         }
 
-        // Swipe navigation for mobile
-        let swipeStartX = 0;
-        let swipeStartY = 0;
-        const swipeThreshold = 50;
-
-        function handleSwipeStart(e) {
-            swipeStartX = e.touches[0].clientX;
-            swipeStartY = e.touches[0].clientY;
-        }
-
-        function handleSwipeEnd(e) {
-            if (isTransitioning) return;
-            
-            const swipeEndX = e.changedTouches[0].clientX;
-            const swipeEndY = e.changedTouches[0].clientY;
-            const deltaX = swipeEndX - swipeStartX;
-            const deltaY = swipeEndY - swipeStartY;
-            
-            // Check if it's a horizontal swipe
-            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
-                if (deltaX > 0) {
-                    // Swipe right - previous photo
-                    previousPhoto();
-                } else {
-                    // Swipe left - next photo
-                    nextPhoto();
-                }
-            }
-        }
 
 
 
@@ -857,9 +832,6 @@
                     openPhotoViewer(this.src);
                 });
                 
-                // Add swipe navigation for mobile
-                img.addEventListener('touchstart', handleSwipeStart, { passive: true });
-                img.addEventListener('touchend', handleSwipeEnd, { passive: true });
             });
         });
 
@@ -880,9 +852,6 @@
                 photoViewerImg.addEventListener('touchmove', handleTouchMove, { passive: false });
                 photoViewerImg.addEventListener('touchend', endDrag);
                 
-                // Add swipe navigation for mobile
-                photoViewerImg.addEventListener('touchstart', handleSwipeStart, { passive: true });
-                photoViewerImg.addEventListener('touchend', handleSwipeEnd, { passive: true });
             }
             
             // Add document-level mouse events for dragging
