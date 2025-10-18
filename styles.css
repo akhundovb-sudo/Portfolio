@@ -264,9 +264,12 @@
 }
 
 
-/* Desktop Photo Viewer - Zoom cursor for photos, hand cursor for logo */
+/* Desktop Photo Viewer - Zoom-in cursor for photos, hand cursor for logo */
 @media (min-width: 769px) {
-    .project-page img {
+    .project-page .system-img,
+    .project-page .profile-img,
+    .project-page .ui-showcase-img,
+    .project-page .restaurant-img {
         cursor: zoom-in;
     }
     
@@ -283,6 +286,8 @@
     /* Photo modal cursor styles */
     .photo-viewer-img {
         cursor: zoom-in;
+        transition: transform 0.3s ease;
+        transform-origin: center center;
     }
     
     .photo-viewer-close {
@@ -297,13 +302,11 @@
 
 /* Make project images clickable on mobile */
 @media (max-width: 768px) {
-    .project-page img {
-        cursor: pointer;
-        transition: transform 0.2s ease;
-    }
-    
-    .project-page img:hover {
-        transform: scale(1.02);
+    .project-page .system-img,
+    .project-page .profile-img,
+    .project-page .ui-showcase-img,
+    .project-page .restaurant-img {
+        cursor: zoom-in;
     }
     
     

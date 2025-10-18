@@ -457,20 +457,23 @@
         });
 
         // Photo Viewer functionality
+        
+        // Photo navigation
+        let currentPhotoIndex = 0;
+        let availablePhotos = [];
+        let isTransitioning = false;
+        
+        // Desktop zoom functionality
+        let isZoomed = false;
+        const zoomScale = 2; // 2x zoom
+        
+        // Mobile zoom functionality
         let currentZoom = 1;
         let isDragging = false;
         let startX = 0;
         let startY = 0;
         let translateX = 0;
         let translateY = 0;
-        let lastTouchDistance = 0;
-        let initialZoom = 1;
-        let isZooming = false;
-        
-        // Photo navigation
-        let currentPhotoIndex = 0;
-        let availablePhotos = [];
-        let isTransitioning = false;
 
         function openPhotoViewer(imgSrc) {
             const viewer = document.getElementById('photoViewer');
@@ -485,8 +488,13 @@
             currentPhotoIndex = availablePhotos.findIndex(photo => photo.src === imgSrc);
             if (currentPhotoIndex === -1) currentPhotoIndex = 0;
             
-            // Reset zoom first (before opening)
-            resetZoom();
+            // Reset zoom state
+            isZoomed = false;
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            img.style.transform = 'scale(1)';
+            img.style.transition = 'transform 0.3s ease';
             
             img.src = imgSrc;
             viewer.classList.add('active');
@@ -505,32 +513,132 @@
             const viewer = document.getElementById('photoViewer');
             if (!viewer) return;
             
-            // Reset zoom before closing
-            resetZoom();
+            // Reset zoom state
+            isZoomed = false;
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            
+            // Reset slider
+            const slider = document.getElementById('simpleZoomSlider');
+            if (slider) {
+                slider.value = 100;
+            }
+            
+            // Reset zoom display
+            updateZoomDisplay();
+            
+            // Disable scroll
+            disableImageScroll();
+            
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                img.style.transform = 'scale(1)';
+            }
             
             viewer.classList.remove('active');
             document.body.style.overflow = '';
         }
 
-        function resetZoom() {
-            currentZoom = 1;
-            translateX = 0;
-            translateY = 0;
-            isDragging = false;
-            isZooming = false;
-            lastTouchDistance = 0;
-            updateImageTransform();
-            updateZoomDisplay();
-            updateSlider();
-        }
-
-        function updateSlider() {
-            const slider = document.getElementById('simpleZoomSlider');
-            if (slider) {
-                slider.value = 100;
+        function toggleZoom() {
+            // Only work on desktop (screen width > 768px)
+            if (window.innerWidth <= 768) return;
+            
+            const img = document.getElementById('photoViewerImg');
+            if (!img) return;
+            
+            isZoomed = !isZoomed;
+            
+            if (isZoomed) {
+                // Zoom in
+                img.style.transform = `scale(${zoomScale})`;
+                img.style.cursor = 'zoom-out';
+                // Enable scroll for zoomed image
+                enableImageScroll();
+            } else {
+                // Zoom out
+                img.style.transform = 'scale(1)';
+                img.style.cursor = 'zoom-in';
+                // Disable scroll
+                disableImageScroll();
             }
         }
 
+        function enableImageScroll() {
+            const img = document.getElementById('photoViewerImg');
+            const viewer = document.getElementById('photoViewer');
+            if (!img || !viewer) return;
+            
+            // Add wheel event listener for scrolling
+            img.addEventListener('wheel', handleWheelScroll, { passive: false });
+            
+            // Add scroll event listener for keyboard navigation
+            viewer.addEventListener('scroll', handleViewerScroll);
+            
+            // Enable overflow scroll on viewer
+            viewer.style.overflow = 'auto';
+            viewer.style.cursor = 'grab';
+        }
+
+        function disableImageScroll() {
+            const img = document.getElementById('photoViewerImg');
+            const viewer = document.getElementById('photoViewer');
+            if (!img || !viewer) return;
+            
+            // Remove wheel event listener
+            img.removeEventListener('wheel', handleWheelScroll);
+            
+            // Remove scroll event listener
+            viewer.removeEventListener('scroll', handleViewerScroll);
+            
+            // Disable overflow scroll on viewer
+            viewer.style.overflow = 'hidden';
+            viewer.style.cursor = 'default';
+            
+            // Reset scroll position
+            viewer.scrollLeft = 0;
+            viewer.scrollTop = 0;
+        }
+
+        function handleWheelScroll(e) {
+            if (!isZoomed) return;
+            
+            e.preventDefault();
+            
+            const viewer = document.getElementById('photoViewer');
+            if (!viewer) return;
+            
+            // Get current scroll position
+            const scrollLeft = viewer.scrollLeft;
+            const scrollTop = viewer.scrollTop;
+            
+            // Calculate scroll amount (adjust sensitivity)
+            const scrollAmount = 50;
+            
+            // Apply scroll based on wheel direction
+            if (e.deltaY > 0) {
+                // Scroll down
+                viewer.scrollTop = Math.min(scrollTop + scrollAmount, viewer.scrollHeight - viewer.clientHeight);
+            } else {
+                // Scroll up
+                viewer.scrollTop = Math.max(scrollTop - scrollAmount, 0);
+            }
+            
+            if (e.deltaX > 0) {
+                // Scroll right
+                viewer.scrollLeft = Math.min(scrollLeft + scrollAmount, viewer.scrollWidth - viewer.clientWidth);
+            } else if (e.deltaX < 0) {
+                // Scroll left
+                viewer.scrollLeft = Math.max(scrollLeft - scrollAmount, 0);
+            }
+        }
+
+        function handleViewerScroll() {
+            // This function can be used for additional scroll handling if needed
+            // For now, it's just a placeholder
+        }
+
+        // Mobile zoom functions
         function updateSimpleZoom(value) {
             currentZoom = Math.max(0.25, Math.min(3, value / 100));
             updateImageTransform();
@@ -548,20 +656,13 @@
                 }
                 
                 img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
-                
-                // Remove transition after animation completes (only if not dragging)
-                if (!isDragging) {
-                    setTimeout(() => {
-                        img.style.transition = '';
-                    }, 300);
-                }
             }
         }
 
         function updateZoomDisplay() {
-            const percentage = document.getElementById('zoomPercentage');
-            if (percentage) {
-                percentage.textContent = Math.round(currentZoom * 100) + '%';
+            const indicator = document.getElementById('zoomPercentage');
+            if (indicator) {
+                indicator.textContent = Math.round(currentZoom * 100) + '%';
             }
         }
 
@@ -606,15 +707,16 @@
                 e.preventDefault();
             } else if (e.touches.length === 2) {
                 // Two touches - pinch to zoom
-                isZooming = true;
-                isDragging = false;
                 const touch1 = e.touches[0];
                 const touch2 = e.touches[1];
-                lastTouchDistance = Math.sqrt(
+                const distance = Math.sqrt(
                     Math.pow(touch2.clientX - touch1.clientX, 2) + 
                     Math.pow(touch2.clientY - touch1.clientY, 2)
                 );
-                initialZoom = currentZoom;
+                
+                // Store initial values for pinch zoom
+                img.dataset.initialDistance = distance;
+                img.dataset.initialZoom = currentZoom;
                 
                 e.preventDefault();
             }
@@ -636,7 +738,7 @@
                 translateY = touch.clientY - startY;
                 constrainPan();
                 e.preventDefault();
-            } else if (e.touches.length === 2 && isZooming) {
+            } else if (e.touches.length === 2) {
                 // Two touches - pinch to zoom
                 const touch1 = e.touches[0];
                 const touch2 = e.touches[1];
@@ -645,12 +747,21 @@
                     Math.pow(touch2.clientY - touch1.clientY, 2)
                 );
                 
-                if (lastTouchDistance > 0) {
-                    const scale = currentDistance / lastTouchDistance;
+                const img = document.getElementById('photoViewerImg');
+                const initialDistance = parseFloat(img.dataset.initialDistance);
+                const initialZoom = parseFloat(img.dataset.initialZoom);
+                
+                if (initialDistance > 0) {
+                    const scale = currentDistance / initialDistance;
                     currentZoom = Math.max(0.25, Math.min(3, initialZoom * scale));
                     updateImageTransform();
                     updateZoomDisplay();
-                    updateSlider();
+                    
+                    // Update slider
+                    const slider = document.getElementById('simpleZoomSlider');
+                    if (slider) {
+                        slider.value = currentZoom * 100;
+                    }
                 }
                 
                 e.preventDefault();
@@ -659,13 +770,17 @@
 
         function endDrag() {
             isDragging = false;
-            isZooming = false;
-            lastTouchDistance = 0;
             const img = document.getElementById('photoViewerImg');
             if (img) {
                 img.style.cursor = 'grab';
             }
         }
+
+
+
+
+
+
 
         // Photo navigation functions
         function nextPhoto() {
@@ -688,8 +803,26 @@
             isTransitioning = true;
             const img = document.getElementById('photoViewerImg');
             
-            // Reset zoom and position
-            resetZoom();
+            // Reset zoom state when switching photos
+            isZoomed = false;
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            
+            // Reset slider
+            const slider = document.getElementById('simpleZoomSlider');
+            if (slider) {
+                slider.value = 100;
+            }
+            
+            // Reset zoom display
+            updateZoomDisplay();
+            
+            // Disable scroll
+            disableImageScroll();
+            
+            img.style.transform = 'scale(1)';
+            img.style.cursor = 'zoom-in';
             
             // Add fade effect
             img.style.transition = 'opacity 0.3s ease';
@@ -744,8 +877,8 @@
             if (img) {
                 img.addEventListener('mousedown', startDrag);
                 img.addEventListener('touchstart', handleTouchStart, { passive: false });
-                document.addEventListener('mousemove', drag);
-                document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
                 document.addEventListener('mouseup', endDrag);
                 document.addEventListener('touchend', endDrag);
                 
@@ -766,128 +899,33 @@
                 });
             });
         }
-            
-            const imgRect = img.getBoundingClientRect();
-            const viewerRect = viewer.getBoundingClientRect();
-            
-            const maxTranslateX = Math.max(0, (imgRect.width * currentZoom - viewerRect.width) / 2);
-            const maxTranslateY = Math.max(0, (imgRect.height * currentZoom - viewerRect.height) / 2);
-            
-            translateX = Math.max(-maxTranslateX, Math.min(maxTranslateX, translateX));
-            translateY = Math.max(-maxTranslateY, Math.min(maxTranslateY, translateY));
-        }
 
-        // Touch and mouse events for panning and pinch zoom
-        function startDrag(e) {
-            if (currentZoom <= 1) return;
-            isDragging = true;
-            startX = e.clientX - translateX;
-            startY = e.clientY - translateY;
-            
-            const img = document.getElementById('photoViewerImg');
-            if (img) {
-                img.style.cursor = 'grabbing';
-            }
-        }
-
-        function handleTouchStart(e) {
-            if (e.touches.length === 1) {
-                // Single touch - start drag
-                if (currentZoom > 1) {
-                    isDragging = true;
-                    startX = e.touches[0].clientX - translateX;
-                    startY = e.touches[0].clientY - translateY;
-                }
-            } else if (e.touches.length === 2) {
-                // Two touches - pinch zoom
-                e.preventDefault();
-                isDragging = false;
-                isZooming = true;
-                const touch1 = e.touches[0];
-                const touch2 = e.touches[1];
-                lastTouchDistance = Math.sqrt(
-                    Math.pow(touch2.clientX - touch1.clientX, 2) +
-                    Math.pow(touch2.clientY - touch1.clientY, 2)
-                );
-                initialZoom = currentZoom;
-            }
-        }
-
-        function drag(e) {
-            if (!isDragging) return;
-            e.preventDefault();
-            
-            if (e.type === 'mousemove') {
-                translateX = e.clientX - startX;
-                translateY = e.clientY - startY;
-            } else if (e.type === 'touchmove' && e.touches.length === 1) {
-                translateX = e.touches[0].clientX - startX;
-                translateY = e.touches[0].clientY - startY;
-            }
-            
-            constrainPan();
-            updateImageTransform();
-        }
-
-        function handleTouchMove(e) {
-            if (e.touches.length === 2) {
-                // Pinch zoom
-                e.preventDefault();
-                const touch1 = e.touches[0];
-                const touch2 = e.touches[1];
-                const currentDistance = Math.sqrt(
-                    Math.pow(touch2.clientX - touch1.clientX, 2) +
-                    Math.pow(touch2.clientY - touch1.clientY, 2)
-                );
-                
-                if (lastTouchDistance > 0) {
-                    const scale = currentDistance / lastTouchDistance;
-                    const newZoom = initialZoom * scale;
-                    currentZoom = Math.max(0.25, Math.min(3, newZoom));
-                    
-                    // Update slider
-                    const mobileSlider = document.getElementById('mobileZoomSlider');
-                    if (mobileSlider) {
-                        mobileSlider.value = currentZoom * 100;
-                    }
-                    
-                    updateImageTransform();
-                    updateMobileZoomIndicator();
-                }
-                
-                lastTouchDistance = currentDistance;
-            } else if (e.touches.length === 1 && isDragging) {
-                // Single touch drag
-                drag(e);
-            }
-        }
-
-        function endDrag() {
-            isDragging = false;
-            isZooming = false;
-            lastTouchDistance = 0;
-            
-            const img = document.getElementById('photoViewerImg');
-            if (img) {
-                img.style.cursor = 'grab';
-            }
-        }
 
         // Add event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             const photoViewerImg = document.getElementById('photoViewerImg');
             
             if (photoViewerImg) {
-                // Mouse events
+                // Desktop zoom toggle on click
+                photoViewerImg.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent modal close
+                    toggleZoom();
+                });
+                
+                // Add mobile zoom and pan functionality
                 photoViewerImg.addEventListener('mousedown', startDrag);
-                document.addEventListener('mousemove', drag);
-                document.addEventListener('mouseup', endDrag);
-
-                // Touch events
                 photoViewerImg.addEventListener('touchstart', handleTouchStart, { passive: false });
                 photoViewerImg.addEventListener('touchmove', handleTouchMove, { passive: false });
                 photoViewerImg.addEventListener('touchend', endDrag);
+                
+                // Add swipe navigation for mobile
+                photoViewerImg.addEventListener('touchstart', handleSwipeStart, { passive: true });
+                photoViewerImg.addEventListener('touchend', handleSwipeEnd, { passive: true });
             }
+            
+            // Add document-level mouse events for dragging
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', endDrag);
         });
 
         // Close viewer when clicking outside image
