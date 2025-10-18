@@ -497,9 +497,13 @@
             
             if (!viewer || !img) return;
             
+            // Stop any ongoing zoom animation
+            stopZoomAnimation();
+            
             // Reset all zoom and transform states
             isZoomed = false;
             currentZoom = 1;
+            targetZoom = 1;
             translateX = 0;
             translateY = 0;
             isTransitioning = false;
@@ -566,11 +570,54 @@
 
 
 
-        // Mobile zoom functions
+        // Mobile zoom functions with smooth animation
+        let targetZoom = 1;
+        let isZoomAnimating = false;
+        let zoomAnimationId = null;
+
         function updateSimpleZoom(value) {
-            currentZoom = Math.max(0.25, Math.min(3, value / 100));
+            targetZoom = Math.max(0.25, Math.min(3, value / 100));
+            
+            if (!isZoomAnimating) {
+                startSmoothZoom();
+            }
+        }
+
+        function startSmoothZoom() {
+            if (isZoomAnimating) return;
+            
+            isZoomAnimating = true;
+            animateZoom();
+        }
+
+        function animateZoom() {
+            const zoomDifference = Math.abs(currentZoom - targetZoom);
+            
+            if (zoomDifference < 0.01) {
+                // Close enough, stop animating
+                currentZoom = targetZoom;
+                updateImageTransform();
+                updateZoomDisplay();
+                isZoomAnimating = false;
+                return;
+            }
+            
+            // Smooth interpolation towards target zoom
+            currentZoom += (targetZoom - currentZoom) * 0.15;
+            
             updateImageTransform();
             updateZoomDisplay();
+            
+            // Continue animation
+            zoomAnimationId = requestAnimationFrame(animateZoom);
+        }
+
+        function stopZoomAnimation() {
+            if (zoomAnimationId) {
+                cancelAnimationFrame(zoomAnimationId);
+                zoomAnimationId = null;
+            }
+            isZoomAnimating = false;
         }
 
         function updateImageTransform() {
@@ -580,7 +627,8 @@
                 if (isDragging) {
                     img.style.transition = 'none';
                 } else {
-                    img.style.transition = 'transform 0.2s ease-out';
+                    // Use a very short transition for smooth scaling
+                    img.style.transition = 'transform 0.1s cubic-bezier(0.4, 0, 0.2, 1)';
                 }
                 
                 // Use transform3d for hardware acceleration
