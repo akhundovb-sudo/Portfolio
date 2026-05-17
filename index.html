@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EGSLKL72KZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EGSLKL72KZ');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bahruz - Portfolio</title>
+    <link rel="icon" type="image/x-icon" href="images/Faicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/Faicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/Faicon.png">
+    <link rel="icon" type="image/svg+xml" href="images/Faicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/Faicon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/Faicon.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/Faicon.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/Faicon.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/Faicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/Faicon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/Faicon.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/Faicon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="images/Faicon.png">
+    <link rel="shortcut icon" href="images/Faicon.ico">
+    <link rel="alternate icon" href="images/Faicon.ico">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400&display=swap"
+        rel="stylesheet">
+    <!-- Social meta -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Bahruz - Portfolio">
+    <meta property="og:description" content="I create digital interfaces that are not only functional, but effortless to use. I believe great design lives in the details and is always built around people.">
+    <meta property="og:image" content="https://akhundovb.com/images/og-image.png?v=4">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bahruz - Portfolio">
+    <meta name="twitter:description" content="I create digital interfaces that are not only functional, but effortless to use. I believe great design lives in the details and is always built around people.">
+    <meta name="twitter:image" content="https://akhundovb.com/images/og-image.png?v=4">
+    
+    <!-- Hotjar Tracking Code -->
+    <script>
+        (function (c, s, q, u, a, r, e) {
+            c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
+            c._hjSettings = { hjid: a };
+            r = s.getElementsByTagName('head')[0];
+            e = s.createElement('script');
+            e.async = true;
+            e.src = q + c._hjSettings.hjid + u;
+            r.appendChild(e);
+        })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', 6550275);
+    </script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Bahruz</a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="nav desktop-nav">
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <button onclick="openModal()" class="nav-button">Get in Touch</button>
+                </nav>
+
+                <!-- Mobile Navigation -->
+                <div class="mobile-nav">
+                    <button onclick="openModal()" class="nav-button mobile-button">Get in Touch</button>
+                    <button class="hamburger" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Overlay -->
+                <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+                    <button class="mobile-close-btn" onclick="toggleMobileMenu()">
+                        <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
+                    </button>
+                    <nav class="mobile-menu">
+                        <a href="index.html" class="mobile-nav-link">Home</a>
+                        <a href="about.html" class="mobile-nav-link">About</a>
+                        <a href="#projects" class="mobile-nav-link">Projects</a>
+                    </nav>
+                    <div class="mobile-social-links">
+                        <a href="mailto:akhundovb@gmail.com" class="mobile-social-link">
+                            <img src="images/email-icon-new.svg" alt="Email" width="24" height="24">
+                        </a>
+                        <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
+                            <img src="images/linkedin-icon-new.svg" alt="LinkedIn" width="24" height="24">
+                        </a>
+                        <a href="https://t.me/akhundesign" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
+                            <img src="images/telegram-icon-new.svg" alt="Telegram" width="24" height="24">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">Hi, I'm Bahruz<br>I design digital products</h2>
+                <p class="hero-description">
+                    I create digital interfaces that are not only functional, but effortless to use.
+                    I believe great design lives in the details and is always built around people.
+                </p>
+                <div class="social-links">
+                    <a href="mailto:akhundovb@gmail.com" class="social-link">Email</a>
+                    <a href="https://www.linkedin.com/in/bahruzakh/" class="social-link" target="_blank"
+                        rel="noopener noreferrer">Linkedin</a>
+                    <a href="https://t.me/akhundesign" class="social-link" target="_blank"
+                        rel="noopener noreferrer">Telegram</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="projects-grid">
+                <!-- Row 1 -->
+                <a href="ulta.html" class="project-card">
+                    <div class="project-image">
+                        <img src="images/ulta-project.png" alt="ULTA Restaurant booking app" class="project-img">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">ULTA</h3>
+                        <p class="project-description">Restaurant booking app</p>
+                        <span class="project-year">2025</span>
+                    </div>
+                </a>
+
+                <a href="pos-terminal.html" class="project-card">
+                    <div class="project-image">
+                        <img src="images/myguava-pos.png" alt="MyGuava POS Terminal app" class="project-img">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">MyGuava POS</h3>
+                        <p class="project-description">POS terminal</p>
+                        <span class="project-year">2024 - 2025</span>
+                    </div>
+                </a>
+
+                <a href="myguava-payment.html" class="project-card">
+                    <div class="project-image">
+                        <img src="images/myguava-payment.png" alt="MyGuava Payment page" class="project-img">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">MyGuava Payment</h3>
+                        <p class="project-description">Checkout page</p>
+                        <span class="project-year">2024 - 2025</span>
+                    </div>
+                </a>
+
+                <!-- Row 2 -->
+                <a href="myguava-design-system.html" class="project-card">
+                    <div class="project-image">
+                        <img src="images/design-system.png" alt="Design system" class="project-img">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">MyGuava Design System</h3>
+                        <p class="project-description">Customizable design system</p>
+                        <span class="project-year">2024 - 2025</span>
+                    </div>
+                </a>
+
+                <a href="myguava-business.html" class="project-card">
+                    <div class="project-image">
+                        <img src="images/myguava-business.png" alt="MyGuava Business dashboard" class="project-img">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">MyGuava Business</h3>
+                        <p class="project-description">Business dashboard</p>
+                        <span class="project-year">2023 - 2025</span>
+                    </div>
+                </a>
+
+                <a href="remitone.html" class="project-card">
+                    <div class="project-image">
+                        <img src="images/remiton.png" alt="Remiton mobile app" class="project-img">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Remiton</h3>
+                        <p class="project-description">Money transfer app</p>
+                        <span class="project-year">2023</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 class="footer-title">Let's work together</h3>
+            <div class="footer-social">
+                <a href="mailto:akhundovb@gmail.com" class="social-icon" data-tooltip="Email" aria-label="Email">
+                    <img src="images/social-icon-1.svg" alt="Email" width="24" height="24">
+                </a>
+                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon" data-tooltip="LinkedIn" aria-label="LinkedIn" target="_blank"
+                    rel="noopener noreferrer">
+                    <img src="images/social-icon-2.svg" alt="LinkedIn" width="24" height="24">
+                </a>
+                <a href="https://t.me/akhundesign" class="social-icon" data-tooltip="Telegram" aria-label="Telegram" target="_blank"
+                    rel="noopener noreferrer">
+                    <img src="images/social-icon-3.svg" alt="Telegram" width="24" height="24">
+                </a>
+                <a href="https://medium.com/@akhundov.design" class="social-icon medium-link" data-tooltip="Medium" aria-label="Medium" target="_blank"
+                    rel="noopener noreferrer">
+                    <img src="images/social-icon-4.svg" alt="Medium" width="24" height="24">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Let's connect!</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="contact-buttons">
+                    <a href="mailto:akhundovb@gmail.com" class="contact-button email">
+                        <img src="images/social-icon-1.svg" alt="Email" width="24" height="24">
+                        <span>Email</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank"
+                        rel="noopener noreferrer">
+                        <img src="images/social-icon-3.svg" alt="Telegram" width="24" height="24">
+                        <span>Telegram</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank"
+                        rel="noopener noreferrer">
+                        <img src="images/social-icon-2.svg" alt="LinkedIn" width="24" height="24">
+                        <span>LinkedIn</span>
+                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+
+        // Mobile Menu Functionality
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const body = document.body;
+            const html = document.documentElement;
+            
+            overlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            body.classList.toggle('mobile-menu-open');
+            html.classList.toggle('mobile-menu-open');
+            
+            // Hide mobile nav when menu is open
+            if (overlay.classList.contains('active')) {
+                mobileNav.style.display = 'none';
+                // Prevent scrolling
+                body.style.overflow = 'hidden';
+                html.style.overflow = 'hidden';
+            } else {
+                mobileNav.style.display = 'flex';
+                // Restore scrolling
+                body.style.overflow = '';
+                html.style.overflow = '';
+            }
+        }
+
+        // Close mobile menu when clicking on overlay
+        document.getElementById('mobileMenuOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleMobileMenu();
+            }
+        });
+
+        // Handle mobile menu navigation links
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                
+                if (href.startsWith('#')) {
+                    // For anchor links, close menu first, then navigate
+                    e.preventDefault();
+                    
+                    // Close the mobile menu using the toggle function
+                    toggleMobileMenu();
+                    
+                    // Wait for menu to close, then scroll to target
+                    setTimeout(() => {
+                        const target = document.querySelector(href);
+                        if (target) {
+                            // Ensure the target is visible and scroll to it
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start',
+                                inline: 'nearest'
+                            });
+                            
+                            // Fallback: if smooth scroll doesn't work, try direct scroll
+                            setTimeout(() => {
+                                if (window.pageYOffset === 0) {
+                                    window.scrollTo({
+                                        top: target.offsetTop - 100,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            }, 100);
+                        }
+                    }, 600);
+                } else {
+                    // For external links, close menu immediately
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Smooth scrolling for desktop anchor links
+        document.querySelectorAll('.desktop-nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
