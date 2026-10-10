@@ -1,0 +1,648 @@
+/* About page (about.html, body.about-v2).
+   An editorial page in the site's own type: a large lead line, a portrait
+   beside the bio, then index sections — a small uppercase label on the left,
+   the content on the right — split by the site's dashed rule. */
+
+body.about-v2 {
+    --ab-ink: #0F0F0F;
+    --ab-muted: rgba(15, 15, 15, 0.5);
+    --ab-soft: rgba(15, 15, 15, 0.72);
+    --ab-dash: rgba(15, 15, 15, 0.22);
+    --ab-photo-bg: #E6E6E4;
+}
+
+html[data-theme="dark"] body.about-v2 {
+    --ab-ink: #EDEDEC;
+    --ab-muted: rgba(237, 237, 236, 0.5);
+    --ab-soft: rgba(237, 237, 236, 0.72);
+    --ab-dash: rgba(255, 255, 255, 0.2);
+    --ab-photo-bg: #222221;
+}
+
+.ab {
+    padding-bottom: 8px;
+    color: var(--ab-ink);
+    font-family: 'PP Neue Montreal', sans-serif;
+}
+
+/* 1. Portrait beside the lead line and bio ------------------------------ */
+.ab-intro {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+    padding-top: 56px;
+    padding-bottom: 96px;
+}
+
+.ab-lead {
+    margin: 0 0 32px;
+    font-size: clamp(32px, 3.3vw, 50px);
+    font-weight: 400;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    color: var(--ab-ink);
+}
+
+.ab-side {
+    grid-column: 1 / span 4;
+}
+
+.ab-photo {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--ab-photo-bg);
+    container-type: inline-size;
+}
+
+.ab-photo img {
+    display: block;
+    width: 100%;
+    /* A touch shorter than the frame, so the portrait is smaller with air
+       above the head; the strip left at the bottom sits under the glass. */
+    height: 91%;
+    object-fit: cover;
+    object-position: 50% 0;
+}
+
+.ab-bio {
+    grid-column: 6 / -1;
+    max-width: 720px;
+}
+
+.ab-bio > p {
+    margin: 0 0 16px;
+    font-size: clamp(20px, 1.7vw, 24px);
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--ab-soft);
+}
+
+/* Contacts sit on the bottom of the photo on a pane of dark smoked glass
+   with a crisp top edge, so white text and the orange hover read. */
+.ab-contact {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 18px 20px 18px;
+    color: #fff;
+}
+
+.ab-contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(14, 14, 14, 0.62);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    backdrop-filter: blur(20px) saturate(1.3);
+    /* The glass's cut edge catches the light. */
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.ab-hello {
+    position: relative;
+    display: inline-block;
+    margin: 0 0 10px;
+    font-size: 21px;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: #fff;
+}
+
+.ab-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+}
+
+/* Links in the nav's voice, with the site's marching dashed underline. */
+.ab-link {
+    position: relative;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+    transition: color 200ms ease;
+}
+
+.ab-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 2px;
+    background-image: linear-gradient(90deg, currentColor 6px, transparent 6px);
+    background-size: 10px 2px;
+    background-repeat: repeat-x;
+    opacity: 0;
+    transition: opacity 200ms ease;
+    animation: hover-dash-march 600ms linear infinite paused;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .ab-link:hover {
+        color: rgb(255, 72, 16);
+    }
+
+    .ab-link:hover::after {
+        opacity: 1;
+        animation-play-state: running;
+    }
+}
+
+.ab-link:focus-visible {
+    outline: none;
+    color: rgb(255, 72, 16);
+}
+
+.ab-link:focus-visible::after {
+    opacity: 1;
+}
+
+/* A few plain facts under the bio, label over value. */
+.ab-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 40px 0 0;
+    padding-top: 24px;
+    background: linear-gradient(90deg, var(--ab-dash) 6px, transparent 6px) 0 0 / 10px 1px repeat-x;
+}
+
+.ab-facts dt {
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ab-muted);
+}
+
+.ab-facts dd {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.35;
+    color: var(--ab-ink);
+}
+
+/* Fun: pointing at a contact link waves a hand after "Say hello". */
+body.about-v2:has(.ab-link:hover) .about-wave,
+body.about-v2:has(.ab-link:focus-visible) .about-wave {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+    transition: opacity 120ms ease, transform 320ms cubic-bezier(0.3, 1.8, 0.5, 1);
+    animation: about-wave 1200ms ease-in-out 280ms infinite;
+}
+
+/* 2. Index sections ----------------------------------------------------- */
+.ab-section {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    padding-bottom: 88px;
+}
+
+/* The dashed rule opens each section as its own full-width line, with
+   room under it (as a background it hugged the content). */
+.ab-section::before {
+    content: '';
+    grid-column: 1 / -1;
+    height: 1px;
+    margin-bottom: 72px;
+    background: linear-gradient(90deg, var(--ab-dash) 6px, transparent 6px) 0 0 / 10px 1px repeat-x;
+}
+
+.ab-label {
+    grid-column: 1 / span 4;
+    margin: 0;
+    padding-top: 2px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ab-muted);
+}
+
+.ab-body {
+    /* Same column as the bio above, so text runs on one line down the page. */
+    grid-column: 6 / -1;
+}
+
+/* Experience rows: years, company (with city), role, [ + ]. */
+.ab .exp {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ab .exp-row {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1.1fr) minmax(0, 1fr) 48px;
+    column-gap: 24px;
+    align-items: baseline;
+    padding: 18px 0 20px;
+    cursor: default;
+    outline: none;
+}
+
+.ab .exp-row + .exp-row {
+    background: linear-gradient(90deg, var(--ab-dash) 6px, transparent 6px) 0 0 / 10px 1px repeat-x;
+}
+
+.ab .exp-row:first-child {
+    padding-top: 0;
+}
+
+.ab .exp-date {
+    font-size: 14px;
+    line-height: 24px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ab-muted);
+    white-space: nowrap;
+}
+
+.ab .exp-co {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.ab .exp-name,
+.ab .exp-role {
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.015em;
+    color: var(--ab-ink);
+    transition: color 200ms ease;
+}
+
+.ab .exp-city {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--ab-muted);
+}
+
+.ab .exp-toggle {
+    justify-self: end;
+    font-size: 15px;
+    line-height: 24px;
+    white-space: pre;
+    color: var(--ab-muted);
+    transition: color 200ms ease;
+}
+
+.ab .exp-toggle::before { content: '[ '; }
+.ab .exp-toggle::after { content: ' ]'; }
+
+.ab .exp-plus {
+    display: inline-block;
+    transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ab .exp-row.is-active .exp-plus,
+.ab .exp-row.is-open .exp-plus {
+    transform: rotate(45deg);
+}
+
+.ab .exp-row.is-active .exp-name,
+.ab .exp-row.is-active .exp-role,
+.ab .exp-row.is-active .exp-toggle,
+.ab .exp-row:focus-visible .exp-name {
+    color: rgb(255, 72, 16);
+}
+
+/* Details: read by screen readers, opened in place on touch; on a mouse
+   they show in the floating card (script in about.html, .xp-card). */
+.ab .exp-details {
+    display: none;
+    grid-column: 2 / -1;
+    margin: 14px 0 0;
+    padding: 0 0 0 18px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ab-soft);
+}
+
+.ab .exp-details li + li {
+    margin-top: 6px;
+}
+
+.ab .exp-row.is-open .exp-details {
+    display: block;
+}
+
+.ab-hint {
+    margin: 8px 0 0;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ab-muted);
+}
+
+.ab-hint {
+    font-size: 0;
+}
+
+.ab-hint::after {
+    content: 'Hover a row for details';
+    font-size: 12px;
+    letter-spacing: 0.14em;
+}
+
+@media not all and (hover: hover) and (pointer: fine) {
+    .ab-hint::after {
+        content: 'Tap a row for details';
+    }
+
+    .ab .exp-row {
+        cursor: pointer;
+    }
+}
+
+/* What I do */
+.ab-do {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ab-do-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    column-gap: 24px;
+    padding: 18px 0 20px;
+}
+
+.ab-do-row:first-child {
+    padding-top: 0;
+}
+
+.ab-do-row + .ab-do-row {
+    background: linear-gradient(90deg, var(--ab-dash) 6px, transparent 6px) 0 0 / 10px 1px repeat-x;
+}
+
+.ab-do-name {
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.015em;
+}
+
+.ab-do-note {
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--ab-soft);
+}
+
+/* Hobbies: one line; "football" drops a ball (script in about.html). */
+.ab-hobbies {
+    max-width: 640px;
+    margin: 0;
+    font-size: clamp(20px, 1.7vw, 24px);
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--ab-soft);
+}
+
+.ab-ball-trigger {
+    position: relative;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    color: var(--ab-ink);
+    cursor: pointer;
+    transition: color 200ms ease;
+}
+
+/* A quiet dashed line hints it can be clicked; on hover it marches. */
+.ab-ball-trigger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background-image: linear-gradient(90deg, currentColor 6px, transparent 6px);
+    background-size: 10px 2px;
+    background-repeat: repeat-x;
+    opacity: 0.35;
+    transition: opacity 200ms ease;
+    animation: hover-dash-march 600ms linear infinite paused;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .ab-ball-trigger:hover {
+        color: rgb(255, 72, 16);
+    }
+
+    .ab-ball-trigger:hover::after {
+        opacity: 1;
+        animation-play-state: running;
+    }
+}
+
+.ab-ball-trigger:focus-visible {
+    outline: none;
+    color: rgb(255, 72, 16);
+}
+
+.ab-ball-trigger:focus-visible::after {
+    opacity: 1;
+}
+
+/* The ball: fixed over the page, moved by script; kick it to keep it up. */
+.ab-ball,
+.ab-ball-shadow,
+.ab-ball-count {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1200;
+    will-change: transform;
+}
+
+.ab-ball {
+    width: 72px;
+    height: 72px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: grab;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 400ms ease;
+}
+
+.ab-ball:focus-visible {
+    outline: 2px dashed rgb(255, 72, 16);
+    outline-offset: 4px;
+}
+
+.ab-ball.is-gone {
+    opacity: 0;
+}
+
+.ab-ball-squash {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 100%;
+}
+
+.ab-ball-spin {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.ab-ball-spin > img:first-child {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* The crest is printed on the ball's front panel: it fits inside the
+   panel's seams, multiplies into the white leather like ink, is a touch
+   faded and soft, and turns with the ball under the same light. */
+.ab-ball-crest {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 29%;
+    height: 29%;
+    object-fit: contain;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: multiply;
+    opacity: 0.9;
+    filter: saturate(0.85) contrast(0.95) blur(0.15px);
+    pointer-events: none;
+}
+
+/* Light from the top left; it does not turn with the ball. */
+.ab-ball-squash::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 38%),
+        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.28) 100%);
+    pointer-events: none;
+}
+
+.ab-ball-shadow {
+    width: 64px;
+    height: 10px;
+    margin-left: -32px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0));
+    pointer-events: none;
+    transition: opacity 400ms ease;
+}
+
+.ab-ball-count {
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+    color: rgb(255, 72, 16);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms ease;
+}
+
+.ab-ball-count.is-on {
+    opacity: 1;
+}
+
+/* Tablet: bio under a smaller photo. */
+@media (max-width: 1023px) {
+    .ab-side {
+        grid-column: 1 / span 5;
+    }
+
+    .ab-bio {
+        grid-column: 7 / -1;
+    }
+
+    .ab-label {
+        grid-column: 1 / -1;
+        margin-bottom: 24px;
+    }
+
+    .ab-body {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Phone: one column throughout. */
+@media (max-width: 768px) {
+    .ab-intro {
+        display: block;
+        padding-top: 24px;
+        padding-bottom: 64px;
+    }
+
+    .ab-lead {
+        margin-bottom: 24px;
+    }
+
+    .ab-ball {
+        width: 60px;
+        height: 60px;
+    }
+
+    .ab-photo {
+        max-width: 320px;
+    }
+
+    .ab-side {
+        margin-bottom: 40px;
+    }
+
+    .ab-facts {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .ab-section {
+        display: block;
+        padding-bottom: 56px;
+    }
+
+    .ab-section::before {
+        display: block;
+        margin-bottom: 48px;
+    }
+
+    .ab .exp-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        row-gap: 4px;
+    }
+
+    .ab .exp-date { grid-column: 1; grid-row: 1; }
+    .ab .exp-toggle { grid-column: 2; grid-row: 1; }
+    .ab .exp-co { grid-column: 1 / -1; grid-row: 2; }
+    .ab .exp-role { grid-column: 1 / -1; grid-row: 3; font-size: 16px; color: var(--ab-soft); }
+    .ab .exp-details { grid-column: 1 / -1; grid-row: 4; }
+
+    .ab-do-row {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 6px;
+    }
+}

@@ -14,28 +14,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Bahruz</title>
-    <link rel="icon" type="image/x-icon" href="images/Faicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/Faicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/Faicon.png">
-    <link rel="icon" type="image/svg+xml" href="images/Faicon.svg">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="images/Faicon.png">
-    <link rel="shortcut icon" href="images/Faicon.ico">
-    <link rel="alternate icon" href="images/Faicon.ico">
+    <link rel="icon" href="images/favicon.ico?v=2" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png?v=2">
+    <link rel="apple-touch-icon" href="images/icon-180.png?v=2">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="about.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400&display=swap"
-        rel="stylesheet">
+    <!-- Theme: light unless the visitor picked dark before (stored per
+         browser); set before paint so the page never flashes. -->
+    <meta name="color-scheme" content="light dark">
+    <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+    <link rel="stylesheet" href="styles.css?v=fast9">
+    <link rel="stylesheet" href="about.css?v=fast1">
+    <link rel="stylesheet" href="about-page.css?v=fast1">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="About - Bahruz">
@@ -60,23 +49,25 @@
     </script>
 </head>
 
-<body>
+<body class="about-v2">
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <a href="index.html" class="logo">Bahruz</a>
+                <a href="index.html" class="logo logo--name" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
                 
                 <!-- Desktop Navigation -->
-                <nav class="nav desktop-nav">
-                    <a href="about.html" class="nav-link active">About</a>
-                    <a href="index.html#projects" class="nav-link">Projects</a>
-                    <button onclick="openModal()" class="nav-button">Get in Touch</button>
+                <nav class="nav desktop-nav home-nav" aria-label="Primary">
+                    <a href="index.html#projects" class="home-nav-link">Works</a>
+                    <a href="resume.pdf" class="home-nav-link" data-resume target="_blank" rel="noopener">Resume</a>
+                    <a href="about.html" class="home-nav-link" aria-current="page">About</a>
+                    <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
                 </nav>
 
                 <!-- Mobile Navigation -->
                 <div class="mobile-nav">
-                    <button onclick="openModal()" class="nav-button mobile-button">Get in Touch</button>
+                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
                     <button class="hamburger" onclick="toggleMobileMenu()">
                         <span></span>
                         <span></span>
@@ -86,24 +77,25 @@
 
                 <!-- Mobile Menu Overlay -->
                 <div class="mobile-menu-overlay" id="mobileMenuOverlay">
-                    <button class="mobile-close-btn" onclick="toggleMobileMenu()">
-                        <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
-                    </button>
-                    <nav class="mobile-menu">
-                        <a href="index.html" class="mobile-nav-link">Home</a>
-                        <a href="about.html" class="mobile-nav-link">About</a>
-                        <a href="index.html#projects" class="mobile-nav-link">Projects</a>
+                    <div class="mobile-menu-top">
+                        <a href="index.html" class="logo logo--name mobile-menu-logo" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
+                        <button class="mobile-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                    </div>
+                    <nav class="mobile-menu" aria-label="Menu">
+                        <a href="index.html#projects" class="mobile-nav-link">Works</a>
+                        <div class="mobile-nav-row">
+                            <a href="resume.pdf" class="mobile-nav-link" data-resume target="_blank" rel="noopener">Resume</a>
+                            <a href="resume.pdf" download="Bahruz Akhundov - Resume.pdf" class="mobile-nav-download" aria-label="Download resume"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5V20.5M4.5 13L12 20.5L19.5 13" stroke="currentColor" stroke-width="2.6" stroke-linecap="butt" stroke-linejoin="miter"/></svg></a>
+                        </div>
+                        <a href="about.html" class="mobile-nav-link" aria-current="page">About</a>
                     </nav>
-                    <div class="mobile-social-links">
-                        <a href="mailto:akhundovb@gmail.com" class="mobile-social-link">
-                            <img src="images/email-icon-new.svg" alt="Email" width="24" height="24">
-                        </a>
-                        <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
-                            <img src="images/linkedin-icon-new.svg" alt="LinkedIn" width="24" height="24">
-                        </a>
-                        <a href="https://t.me/akhundesign" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
-                            <img src="images/telegram-icon-new.svg" alt="Telegram" width="24" height="24">
-                        </a>
+                    <div class="mobile-menu-bottom">
+                        <div class="mobile-social-links">
+                            <a href="mailto:akhundovb@gmail.com" class="mobile-social-link" aria-label="Email"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                            <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                            <a href="https://t.me/akhundesign" class="mobile-social-link" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                        </div>
+                        <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
                     </div>
                 </div>
             </div>
@@ -122,133 +114,112 @@
     </section>
 
     <!-- About Page Layout -->
-    <section class="about-page">
-        <div class="container">
-            <div class="about-grid">
-                <!-- Left Column - Fixed Sidebar -->
-                <div class="about-sidebar">
-                    <div class="about-photo">
-                        <div class="skeleton-loader" id="skeletonLoader"></div>
-                        <img src="images/profile-photo.png" alt="Bahruz" class="profile-image" id="profileImage" style="display: none;" onload="hideSkeleton()">
-                    </div>
-                    <div class="about-contact">
-                        <h3 class="contact-title">Say hello, let's talk</h3>
-                        <div class="contact-links">
-                            <a href="mailto:akhundovb@gmail.com" class="contact-link">Email</a>
-                            <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-link" target="_blank" rel="noopener noreferrer">Linkedin</a>
-                            <a href="https://t.me/akhundesign" class="contact-link" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <main class="ab">
+        <!-- Portrait and contacts on the left; the lead line, bio and a few
+             facts on the right. -->
+        <section class="container ab-intro">
+            <div class="ab-side">
+                <figure class="ab-photo">
+                    <img src="images/profile-photo.jpg?v=3" alt="Portrait of Bahruz Akhundov" width="800" height="800">
+                    <div class="ab-contact">
+                        <p class="ab-hello">Say hello, let's talk<span class="about-wave" aria-hidden="true">👋</span></p>
+                        <div class="ab-links">
+                            <a href="mailto:akhundovb@gmail.com" class="ab-link">Email</a>
+                            <a href="https://www.linkedin.com/in/bahruzakh/" class="ab-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <a href="https://t.me/akhundesign" class="ab-link" target="_blank" rel="noopener noreferrer">Telegram</a>
                         </div>
                     </div>
-                </div>
-
-                <!-- Right Column - Scrollable Content -->
-                <div class="about-main-content">
-                    <div class="about-intro">
-                        <h1 class="about-title">I'm Bahruz, a Product Designer focused on crafting intuitive and thoughtful digital experiences. I've worked across web and mobile, designing fintech products, scalable design systems, and smooth user flows. I'm passionate about simplicity, clarity, and building products that feel effortless and engaging to use.</h1>
-                    </div>
-
-                    <div class="about-sections">
-                        <section class="about-section">
-                            <h2 class="section-title">Experience</h2>
-                            <div class="experience-item">
-                                <div class="experience-header">
-                                    <h3 class="experience-title">Product Designer · Karta · Redwood City, United States</h3>
-                                    <span class="experience-date">Feb 2026 - Now</span>
-                                </div>
-                                <ul class="experience-description">
-                                    <li>Developed and scaled a comprehensive design system, creating reusable components and documentation that improved product consistency and accelerated cross-team collaboration.</li>
-                                    <li>Designed and optimized payment flows and transaction experiences, increasing usability, reducing friction during checkout, and improving overall conversion rates.</li>
-                                </ul>
-                            </div>
-                            <div class="experience-item">
-                                <div class="experience-header">
-                                    <h3 class="experience-title">Product Designer · FinHarbor · Belgrad, Serbia</h3>
-                                    <span class="experience-date">Jun 2025 - Feb 2026</span>
-                                </div>
-                                <ul class="experience-description">
-                                    <li>Designed and improved a mobile cryptocurrency application, focusing on user experience, usability, and visual consistency, resulting in a +25% increase in user engagement and +18% improvement in retention.</li>
-                                    <li>Built and maintained a scalable design system, reducing design inconsistencies by 40% and speeding up design-to-development handoff by 30%.</li>
-                                </ul>
-                            </div>
-                            <div class="experience-item">
-                                <div class="experience-header">
-                                    <h3 class="experience-title">Product Designer · Guavapay · London, UK</h3>
-                                    <span class="experience-date">Nov 2022 - Jun 2025</span>
-                                </div>
-                                <ul class="experience-description">
-                                    <li>Money transfer app: Designed an intuitive mobile experience that reduced transfer time by 30% and increased successful transactions by 18%.</li>
-                                    <li>POS terminal app: Created a seamless in-store payment flow, reducing checkout friction and improving transaction speed by 20%.</li>
-                                    <li>Business management web app: Developed a dashboard with clear data visualization, helping users complete daily tasks 25% faster.</li>
-                                    <li>Customizable checkout process: Designed an embeddable checkout system that increased completion rate by 12%, allowing merchants to personalize UI elements without engineering support.</li>
-                                    <li>UI Kit & Design Systems: Built and maintained a scalable design system that significantly reduced design-to-development time and improved UI consistency across products.</li>
-                                </ul>
-                            </div>
-                            <div class="experience-item">
-                                <div class="experience-header">
-                                    <h3 class="experience-title">Graphic Designer · Kapital Bank · Baku, Azerbaijan</h3>
-                                    <span class="experience-date">Oct 2021 - Nov 2022</span>
-                                </div>
-                                <ul class="experience-description">
-                                    <li>Designed Social Media Posts: Produced engaging graphics tailored for social media channels.</li>
-                                    <li>Developed Internal Communication Materials: Designed layouts and visuals for internal newsletters, websites, and presentations.</li>
-                                    <li>Produced Banners & Posters: Crafted impactful banners and posters for campaigns and events.</li>
-                                    <li>Handled Print Design: Executed print-ready designs for brochures, flyers, and other collateral.</li>
-                                </ul>
-                            </div>
-                        </section>
-
-                        <section class="about-section">
-                            <h2 class="section-title">Education</h2>
-                            <div class="education-item">
-                                <div class="education-header">
-                                    <h3 class="education-title">Cross-platform app design · Yandex Practicum</h3>
-                                    <span class="education-date">2024</span>
-                                </div>
-                                <ul class="education-description">
-                                    <li>Comprehensive training in mobile and web application design principles.</li>
-                                    <li>Learned advanced prototyping techniques and user research methods.</li>
-                                    <li>Completed real-world projects with industry mentors and peer feedback.</li>
-                                </ul>
-                            </div>
-                            <div class="education-item">
-                                <div class="education-header">
-                                    <h3 class="education-title">Design Visualization · Code Academy</h3>
-                                    <span class="education-date">2020–2021</span>
-                                </div>
-                                <ul class="education-description">
-                                    <li>Mastered visual design fundamentals including typography, color theory, and composition.</li>
-                                    <li>Developed skills in digital illustration and graphic design software.</li>
-                                    <li>Created portfolio projects showcasing design thinking and visual communication.</li>
-                                </ul>
-                            </div>
-                        </section>
-
-                    </div>
-                </div>
+                </figure>
             </div>
-        </div>
-    </section>
+            <div class="ab-bio">
+                <h1 class="ab-lead">I'm Bahruz, a product designer crafting intuitive and thoughtful digital experiences.</h1>
+                <p>I've worked across web and mobile, designing fintech products, scalable design systems, and smooth user flows.</p>
+                <p>I'm passionate about simplicity, clarity, and building products that feel effortless and engaging to use.</p>
+                <dl class="ab-facts">
+                    <div><dt>Currently</dt><dd>Product Designer at Karta</dd></div>
+                    <div><dt>Focus</dt><dd>Fintech, payments &amp; design systems</dd></div>
+                    <div><dt>In design</dt><dd>Since 2021</dd></div>
+                </dl>
+            </div>
+        </section>
 
+        <!-- Index sections: a label on the left, the content on the right. -->
+        <section class="container ab-section" aria-labelledby="ab-exp">
+            <h2 class="ab-label" id="ab-exp">Experience</h2>
+            <div class="ab-body">
+                <ol class="exp">
+                        <li class="exp-row" tabindex="0" aria-expanded="false">
+                            <span class="exp-date">2026 — Now</span>
+                            <span class="exp-co"><span class="exp-name">Karta</span><span class="exp-city">Redwood City, US</span></span>
+                            <span class="exp-role">Product Designer</span>
+                            <span class="exp-toggle" aria-hidden="true"><span class="exp-plus">+</span></span>
+                            <ul class="exp-details"><li>Developed and scaled a comprehensive design system, creating reusable components and documentation that improved product consistency and accelerated cross-team collaboration.</li><li>Designed and optimized payment flows and transaction experiences, increasing usability, reducing friction during checkout, and improving overall conversion rates.</li></ul>
+                        </li>
+                        <li class="exp-row" tabindex="0" aria-expanded="false">
+                            <span class="exp-date">2025 — 2026</span>
+                            <span class="exp-co"><span class="exp-name">FinHarbor</span><span class="exp-city">Belgrade, Serbia</span></span>
+                            <span class="exp-role">Product Designer</span>
+                            <span class="exp-toggle" aria-hidden="true"><span class="exp-plus">+</span></span>
+                            <ul class="exp-details"><li>Designed and improved a mobile cryptocurrency application, focusing on user experience, usability, and visual consistency, resulting in a +25% increase in user engagement and +18% improvement in retention.</li><li>Built and maintained a scalable design system, reducing design inconsistencies by 40% and speeding up design-to-development handoff by 30%.</li></ul>
+                        </li>
+                        <li class="exp-row" tabindex="0" aria-expanded="false">
+                            <span class="exp-date">2022 — 2025</span>
+                            <span class="exp-co"><span class="exp-name">Guavapay</span><span class="exp-city">London, UK</span></span>
+                            <span class="exp-role">Product Designer</span>
+                            <span class="exp-toggle" aria-hidden="true"><span class="exp-plus">+</span></span>
+                            <ul class="exp-details"><li>Money transfer app: designed an intuitive mobile experience that reduced transfer time by 30% and increased successful transactions by 18%.</li><li>POS terminal app: created a seamless in-store payment flow, reducing checkout friction and improving transaction speed by 20%.</li><li>Business management web app: developed a dashboard with clear data visualization, helping users complete daily tasks 25% faster.</li><li>Customizable checkout: designed an embeddable checkout system that increased completion rate by 12%, letting merchants personalize UI elements without engineering support.</li><li>UI kit and design systems: built and maintained a scalable design system that significantly reduced design-to-development time and improved UI consistency across products.</li></ul>
+                        </li>
+                        <li class="exp-row" tabindex="0" aria-expanded="false">
+                            <span class="exp-date">2021 — 2022</span>
+                            <span class="exp-co"><span class="exp-name">Kapital Bank</span><span class="exp-city">Baku, Azerbaijan</span></span>
+                            <span class="exp-role">Graphic Designer</span>
+                            <span class="exp-toggle" aria-hidden="true"><span class="exp-plus">+</span></span>
+                            <ul class="exp-details"><li>Produced engaging graphics tailored for social media channels.</li><li>Designed layouts and visuals for internal newsletters, websites, and presentations.</li><li>Crafted banners and posters for campaigns and events.</li><li>Executed print-ready designs for brochures, flyers, and other collateral.</li></ul>
+                        </li>
+                </ol>
+                <p class="ab-hint">Hover a row for details</p>
+            </div>
+        </section>
+
+        <section class="container ab-section" aria-labelledby="ab-do">
+            <h2 class="ab-label" id="ab-do">What I do</h2>
+            <div class="ab-body">
+                <ul class="ab-do">
+                        <li class="ab-do-row"><span class="ab-do-name">Product design</span><span class="ab-do-note">End-to-end flows for web and mobile, from first sketch to shipped screens.</span></li>
+                        <li class="ab-do-row"><span class="ab-do-name">Design systems</span><span class="ab-do-note">Components, tokens and documentation that keep teams fast and consistent.</span></li>
+                        <li class="ab-do-row"><span class="ab-do-name">Fintech & payments</span><span class="ab-do-note">Checkout, money transfers, POS terminals and merchant dashboards.</span></li>
+                        <li class="ab-do-row"><span class="ab-do-name">Prototyping</span><span class="ab-do-note">Clickable flows to test ideas early and hand off with confidence.</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="container ab-section" aria-labelledby="ab-hobbies">
+            <h2 class="ab-label" id="ab-hobbies">Hobbies</h2>
+            <div class="ab-body">
+                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-ball-trigger">football</button>, travelling, films and photography.</p>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <h3 class="footer-title">Let's work together</h3>
             <div class="footer-social">
-                <a href="mailto:akhundovb@gmail.com" class="social-icon" data-tooltip="Email" aria-label="Email">
-                    <img src="images/social-icon-1.svg" alt="Email" width="24" height="24">
+                <a href="mailto:akhundovb@gmail.com" class="social-icon social-icon--email" data-tooltip="Email" aria-label="Email">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
-                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon" data-tooltip="LinkedIn" aria-label="LinkedIn" target="_blank"
+                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon social-icon--linkedin" data-tooltip="LinkedIn" aria-label="LinkedIn" target="_blank"
                     rel="noopener noreferrer">
-                    <img src="images/social-icon-2.svg" alt="LinkedIn" width="24" height="24">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
-                <a href="https://t.me/akhundesign" class="social-icon" data-tooltip="Telegram" aria-label="Telegram" target="_blank"
+                <a href="https://t.me/akhundesign" class="social-icon social-icon--telegram" data-tooltip="Telegram" aria-label="Telegram" target="_blank"
                     rel="noopener noreferrer">
-                    <img src="images/social-icon-3.svg" alt="Telegram" width="24" height="24">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
-                <a href="https://medium.com/@akhundov.design" class="social-icon medium-link" data-tooltip="Medium" aria-label="Medium" target="_blank"
+                <a href="https://medium.com/@akhundov.design" class="social-icon medium-link social-icon--medium" data-tooltip="Medium" aria-label="Medium" target="_blank"
                     rel="noopener noreferrer">
-                    <img src="images/social-icon-4.svg" alt="Medium" width="24" height="24">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7.25" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><ellipse cx="16.25" cy="12" rx="2" ry="5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M21.25 7V17" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
             </div>
         </div>
@@ -259,57 +230,38 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Let's connect!</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
             </div>
             <div class="modal-body">
                 <div class="contact-buttons">
-                    <a href="mailto:akhundovb@gmail.com" class="contact-button email">
-                        <span>Email</span>
-                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
+                    <div class="contact-button contact-button--copy email">
+                        <a href="mailto:akhundovb@gmail.com" class="contact-main">
+                            <svg class="contact-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <span class="contact-label">Email</span>
+                        </a>
+                        <button type="button" class="contact-copy" data-copy="akhundovb@gmail.com" aria-label="Copy email address">
+                            <svg class="contact-copy-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.75" y="8.75" width="12.5" height="12.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M15.25 5.5V2.75H2.75V15.25H5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <svg class="contact-copy-done" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5L9.5 18L20 6.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <span class="contact-copy-tip" role="status" aria-live="polite"></span>
+                        </button>
+                        <a href="mailto:akhundovb@gmail.com" class="contact-fill" tabindex="-1" aria-hidden="true"><svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                    </div>
+                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank" rel="noopener noreferrer">
+                        <svg class="contact-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                        <span class="contact-label">Telegram</span>
+                        <svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                     </a>
-                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank"
-                        rel="noopener noreferrer">
-                        <span>Telegram</span>
-                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank"
-                        rel="noopener noreferrer">
-                        <span>LinkedIn</span>
-                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
+                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank" rel="noopener noreferrer">
+                        <svg class="contact-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                        <span class="contact-label">LinkedIn</span>
+                        <svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=20261012p"></script>
     <script>
         // Mobile Menu Functionality
         function toggleMobileMenu() {
@@ -401,6 +353,256 @@
                 image.style.display = 'block';
             }
         }
+
+        // Experience details: on a mouse, a dark card with what I did there
+        // follows the pointer over a row; by keyboard it sits under the
+        // focused row; on touch a tap opens the details inside the row.
+        (function () {
+            const rows = document.querySelectorAll('.exp-row');
+            if (!rows.length) return;
+            const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+            const card = document.createElement('div');
+            card.className = 'xp-card';
+            card.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(card);
+            let current = null;
+
+            let raf = null;
+            // Opens beside the row's [ + ] (or to its left if there's no
+            // room), centred on the row; the text lights up letter by letter.
+            function show(row) {
+                if (current === row) return;
+                if (current) current.classList.remove('is-active');
+                current = row;
+                row.classList.add('is-active');
+                card.innerHTML = '<ul>' + row.querySelector('.exp-details').innerHTML + '</ul>';
+                const chars = [];
+                (function walk(node) {
+                    Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+                        if (n.nodeType === 3) {
+                            const frag = document.createDocumentFragment();
+                            n.textContent.split('').forEach(function (ch) {
+                                const sp = document.createElement('span');
+                                sp.className = 'ch'; sp.textContent = ch;
+                                frag.appendChild(sp); chars.push(sp);
+                            });
+                            n.replaceWith(frag);
+                        } else walk(n);
+                    });
+                })(card);
+                const t = row.querySelector('.exp-toggle').getBoundingClientRect();
+                const rr = row.getBoundingClientRect();
+                const w = card.offsetWidth, h = card.offsetHeight;
+                let x = t.right + 20;
+                if (x + w > window.innerWidth - 20) x = t.left - 20 - w;
+                x = Math.max(20, Math.min(x, window.innerWidth - w - 20));
+                let y = rr.top + rr.height / 2 - h / 2;
+                if (x < rr.right && x + w > rr.left) y = (window.innerHeight - 20 - rr.bottom - 20 >= h) ? rr.bottom + 20 : rr.top - 20 - h;
+                y = Math.max(20, Math.min(y, window.innerHeight - h - 20));
+                card.style.left = Math.round(x) + 'px';
+                card.style.top = Math.round(y) + 'px';
+                card.classList.add('is-on');
+                if (raf) cancelAnimationFrame(raf);
+                let shown = 0; const t0 = performance.now();
+                (function tick(now) {
+                    const want = Math.ceil(Math.min((now - t0) / 320, 1) * chars.length);
+                    for (; shown < want; shown++) chars[shown].classList.add('is-lit');
+                    raf = shown < chars.length ? requestAnimationFrame(tick) : null;
+                })(t0);
+            }
+            function hide() {
+                if (current) current.classList.remove('is-active');
+                current = null;
+                if (raf) cancelAnimationFrame(raf);
+                card.classList.remove('is-on');
+                card.style.setProperty('--px', '0px'); card.style.setProperty('--py', '0px');
+            }
+            // A slight drift with the pointer while it moves over the row.
+            function place(x, y) {
+                if (!current) return;
+                const r = current.getBoundingClientRect();
+                card.style.setProperty('--px', (((x - r.left) / r.width - 0.5) * 14).toFixed(1) + 'px');
+                card.style.setProperty('--py', (((y - r.top) / r.height - 0.5) * 10).toFixed(1) + 'px');
+            }
+            rows.forEach(function (row) {
+                row.addEventListener('pointermove', function (e) {
+                    if (e.pointerType !== 'mouse' || !fine.matches) return;
+                    show(row);
+                    place(e.clientX, e.clientY);
+                });
+                row.addEventListener('pointerleave', function (e) {
+                    if (e.pointerType === 'mouse') hide();
+                });
+                row.addEventListener('focus', function () {
+                    if (!fine.matches) return;
+                    show(row);
+                });
+                row.addEventListener('blur', hide);
+                // Touch: the row itself opens and closes.
+                row.addEventListener('click', function () {
+                    if (fine.matches) return;
+                    const open = row.classList.toggle('is-open');
+                    row.setAttribute('aria-expanded', open ? 'true' : 'false');
+                });
+            });
+            window.addEventListener('scroll', hide, { passive: true });
+        })();
+
+        // Hobbies easter egg: "football" drops a ball (with the Manchester
+        // United crest) onto the bottom of the screen. Click or tap it to
+        // kick it back up; it counts the kicks and rolls away when left alone.
+        (function () {
+            const trigger = document.querySelector('.ab-ball-trigger');
+            if (!trigger) return;
+            const G = 2600, BOUNCE = 0.58, KICK = 1250;
+            let ball, squash, spin, shadow, count;
+            let R = 36, x = 0, y = 0, vx = 0, vy = 0, angle = 0, squish = 0;
+            let kicks = 0, best = 0, restSince = 0, last = 0, raf = null, goneTimer = null;
+            try { best = +localStorage.getItem('abBallBest') || 0; } catch (e) {}
+
+            // Synth thuds, no audio files; silent until the visitor has interacted.
+            let ac = null;
+            function audio() {
+                if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return null;
+                try {
+                    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+                    if (ac.state === 'suspended') ac.resume();
+                } catch (e) { return null; }
+                return ac;
+            }
+            function thud(power, kick) {
+                const a = audio(); if (!a || power < 0.04) return;
+                const t = a.currentTime, out = a.createGain();
+                out.gain.value = Math.min(power, 1) * (kick ? 0.32 : 0.2);
+                out.connect(a.destination);
+                const o = a.createOscillator(), og = a.createGain();
+                o.type = 'sine';
+                o.frequency.setValueAtTime(kick ? 190 : 140, t);
+                o.frequency.exponentialRampToValueAtTime(48, t + 0.14);
+                og.gain.setValueAtTime(1, t);
+                og.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+                o.connect(og).connect(out); o.start(t); o.stop(t + 0.22);
+                // The leather slap on top of the thump.
+                const n = a.createBufferSource(), buf = a.createBuffer(1, a.sampleRate * 0.05, a.sampleRate);
+                const d = buf.getChannelData(0);
+                for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3);
+                n.buffer = buf;
+                const f = a.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = kick ? 1600 : 900; f.Q.value = 0.8;
+                const ng = a.createGain(); ng.gain.value = kick ? 0.9 : 0.5;
+                n.connect(f).connect(ng).connect(out); n.start(t);
+            }
+
+            function build() {
+                ball = document.createElement('button');
+                ball.type = 'button';
+                ball.className = 'ab-ball';
+                ball.setAttribute('aria-label', 'Football. Click to kick it up');
+                ball.innerHTML = '<div class="ab-ball-squash"><div class="ab-ball-spin">' +
+                    '<img src="images/football.svg" alt="" draggable="false">' +
+                    '<img class="ab-ball-crest" src="images/logos/manutd.svg" alt="" draggable="false" onerror="this.remove()">' +
+                    '</div></div>';
+                squash = ball.firstChild; spin = squash.firstChild;
+                shadow = document.createElement('div'); shadow.className = 'ab-ball-shadow';
+                count = document.createElement('div'); count.className = 'ab-ball-count'; count.setAttribute('aria-live', 'polite');
+                document.body.append(shadow, ball, count);
+                ball.addEventListener('pointerdown', function (e) {
+                    e.preventDefault();
+                    kick((x - e.clientX) / R);
+                });
+                ball.addEventListener('keydown', function (e) {
+                    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); kick((Math.random() - 0.5) * 0.6); }
+                });
+            }
+
+            function kick(side) {
+                kicks++;
+                if (kicks > best) { best = kicks; try { localStorage.setItem('abBallBest', best); } catch (e) {} }
+                count.textContent = kicks + (best > 1 ? ' · Best ' + best : '');
+                count.classList.add('is-on');
+                vy = -(KICK + Math.random() * 180);
+                vx = vx * 0.3 + Math.max(-1, Math.min(1, side)) * 520 + (Math.random() - 0.5) * 80;
+                restSince = 0;
+                thud(1, true);
+                start();
+            }
+
+            function drop() {
+                if (!ball) build();
+                clearTimeout(goneTimer);
+                ball.classList.remove('is-gone'); shadow.style.opacity = '';
+                R = ball.offsetWidth / 2;
+                const t = trigger.getBoundingClientRect();
+                x = Math.max(R, Math.min(window.innerWidth - R, t.left + t.width / 2));
+                y = -R; vy = 0; vx = (Math.random() - 0.5) * 240;
+                kicks = 0; restSince = 0;
+                count.classList.remove('is-on');
+                start();
+            }
+
+            function remove() {
+                if (!ball) return;
+                cancelAnimationFrame(raf); raf = null;
+                ball.classList.add('is-gone'); shadow.style.opacity = '0'; count.classList.remove('is-on');
+                const b = ball, s = shadow, c = count;
+                ball = null;
+                goneTimer = setTimeout(function () { b.remove(); s.remove(); c.remove(); }, 450);
+            }
+
+            function start() {
+                if (raf) return;
+                last = performance.now();
+                raf = requestAnimationFrame(step);
+            }
+
+            function step(now) {
+                const dt = Math.min((now - last) / 1000, 1 / 30);
+                last = now;
+                const W = window.innerWidth, floor = window.innerHeight - R;
+                vy += G * dt;
+                x += vx * dt; y += vy * dt;
+                if (y > floor) {
+                    y = floor;
+                    if (vy > 220) {
+                        thud(vy / 1800, false);
+                        squish = Math.min(vy / 1800, 1);
+                        vy = -vy * BOUNCE;
+                    } else vy = 0;
+                    // Once it hits the ground the count starts over.
+                    if (kicks) { kicks = 0; count.classList.remove('is-on'); }
+                }
+                if (y >= floor) vx *= Math.pow(0.35, dt);
+                if (x < R) { x = R; vx = Math.abs(vx) * 0.7; thud(Math.abs(vx) / 1800, false); }
+                if (x > W - R) { x = W - R; vx = -Math.abs(vx) * 0.7; thud(Math.abs(vx) / 1800, false); }
+                angle += (vx * dt / R) * 57.2958;
+                squish *= Math.pow(0.0005, dt);
+
+                const sq = squish * 0.16;
+                ball.style.transform = 'translate(' + (x - R).toFixed(1) + 'px,' + (y - R).toFixed(1) + 'px)';
+                squash.style.transform = 'scale(' + (1 + sq).toFixed(3) + ',' + (1 - sq).toFixed(3) + ')';
+                spin.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
+                const lift = Math.min(Math.max((floor - y) / 600, 0), 1);
+                shadow.style.transform = 'translate(' + x.toFixed(1) + 'px,' + (window.innerHeight - 8) + 'px) scale(' + (1 - lift * 0.6).toFixed(3) + ')';
+                if (shadow.style.opacity !== '0') shadow.style.opacity = (1 - lift * 0.75).toFixed(2);
+                count.style.transform = 'translate(' + (x - count.offsetWidth / 2).toFixed(1) + 'px,' + (y - R - 28).toFixed(1) + 'px)';
+
+                // Resting on the ground: leave it for a moment, then roll it off.
+                if (y >= floor && vy === 0 && Math.abs(vx) < 8) {
+                    if (!restSince) restSince = now;
+                    if (now - restSince > 5000) { remove(); return; }
+                } else restSince = 0;
+                raf = requestAnimationFrame(step);
+            }
+
+            trigger.addEventListener('click', drop);
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') remove(); });
+        })();
+
+        // The image can finish loading before this script defines
+        // hideSkeleton, so its onload misses; catch that case here.
+        (function () {
+            const image = document.getElementById('profileImage');
+            if (image && image.complete && image.naturalWidth) hideSkeleton();
+        })();
 
         // Fallback: hide skeleton after 3 seconds if image doesn't load
         setTimeout(() => {

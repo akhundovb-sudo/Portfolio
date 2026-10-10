@@ -1,0 +1,2146 @@
+/* About Page Specific Styles */
+
+/* About Page Layout */
+.about-page {
+    min-height: calc(100vh - 80px);
+    padding: 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    min-height: calc(100vh - 200px);
+    align-items: start;
+}
+
+/* Left Sidebar */
+.about-sidebar {
+    position: sticky;
+    top: 100px;
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.about-photo {
+    position: relative;
+}
+
+.profile-image {
+    width: 250px;
+    height: 250px;
+    border-radius: 16px;
+    object-fit: cover;
+    display: block;
+}
+
+.skeleton-loader {
+    width: 250px;
+    height: 250px;
+    border-radius: 16px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.about-contact {
+    text-align: left;
+}
+
+.contact-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #000;
+    margin: 0 0 8px 0;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+
+.contact-link {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    color: #000;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.contact-link:hover {
+    color: #666;
+}
+
+/* Right Content */
+.about-main-content {
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.about-intro {
+    margin-bottom: 80px;
+}
+
+.about-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #000;
+    margin: 0;
+}
+
+.about-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.about-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.section-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #000;
+    margin: 0;
+}
+
+/* Experience Items */
+.experience-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 !important;
+    padding: 0;
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.experience-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+    margin: 0;
+    flex: 1;
+}
+
+.experience-date {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+    white-space: nowrap;
+}
+
+.experience-description {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #666;
+    margin-top: 8px;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.experience-description li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+}
+
+.experience-description li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #999;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.experience-description li:last-child {
+    margin-bottom: 0;
+}
+
+/* Education Items */
+.education-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 !important;
+    padding: 0;
+}
+
+.education-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.education-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+    margin: 0;
+    flex: 1;
+}
+
+.education-date {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+    white-space: nowrap;
+}
+
+.education-description {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #666;
+    margin-top: 8px;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.education-description li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+}
+
+.education-description li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #999;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.education-description li:last-child {
+    margin-bottom: 0;
+}
+
+/* Skills List */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.skill-item {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+    padding: 8px 16px;
+    background: #f5f5f5;
+    border-radius: 20px;
+}
+
+/* Responsive Design for About Page */
+@media (max-width: 1200px) {
+    .about-grid {
+        grid-template-columns: 1fr 1.5fr;
+        gap: 60px;
+    }
+    
+    .about-title {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .about-sidebar {
+        position: static;
+        text-align: center;
+        padding: 20px 0;
+    }
+    
+    .about-main-content {
+        padding: 20px 0;
+        gap: 40px;
+    }
+    
+    .about-title {
+        font-size: 24px;
+    }
+    
+    .section-title {
+        font-size: 20px;
+    }
+    
+    .experience-header,
+    .education-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .experience-date,
+    .education-date {
+        white-space: normal;
+    }
+}
+
+@media (max-width: 500px) {
+    .about-title {
+        font-size: 20px;
+    }
+    
+    .section-title {
+        font-size: 18px;
+    }
+    
+    .contact-title {
+        font-size: 20px;
+    }
+    
+    .profile-image {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    padding: 4px 0;
+    margin-bottom: 24px;
+}
+image.png
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #757575;
+}
+
+.breadcrumb-link {
+    color: #757575;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-link:hover {
+    color: #0F0F0F;
+}
+
+.breadcrumb-separator {
+    color: #757575;
+}
+
+.breadcrumb-current {
+    color: #0F0F0F;
+    font-weight: 600;
+}
+/* Remove background for project pages */
+.project-page .about-hero {
+    background-color: transparent;
+}
+
+.about-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.about-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.2727272727272727;
+    color: #1E1E1E;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+/* Project Page Title */
+.project-page .about-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 28px;
+    color: #1E1E1E;
+}
+
+/* Consistent spacing between headings and body text across all pages */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 12px;
+}
+
+.about-description,
+.ui-detail-description {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.about-description {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.399999976158142;
+    color: #757575;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.about-description p {
+    margin-bottom: 4px;
+}
+
+.about-description p:last-child {
+    margin-bottom: 0;
+}
+
+.about-image {
+    flex: 0 0 420px;
+    height: 232px;
+    background-color: #F7F7F7;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 28px;
+}
+
+/* Experience and Education Sections */
+.experience-section,
+.education-section {
+    padding: 52px 0;
+    background-color: #FFFFFF;
+}
+
+.section-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.2727272727272727em;
+    color: #1E1E1E;
+    text-align: left;
+    margin: 0;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: #FFFFFF;
+    border-radius: 28px;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 32px;
+    padding: 24px;
+    background-color: #F7F7F7;
+}
+
+.timeline-item:first-child {
+    border-radius: 28px 28px 0 0;
+}
+
+.timeline-item:last-child {
+    border-radius: 0 0 28px 28px;
+}
+
+.timeline-item:not(:first-child):not(:last-child) {
+    border-radius: 0;
+}
+
+.timeline-date {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5555555555555556em;
+    color: #0F0F0F;
+    text-align: left;
+    width: 368px;
+    flex-shrink: 0;
+}
+
+.timeline-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.timeline-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.timeline-company {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5555555555555556em;
+    color: #0F0F0F;
+    text-align: left;
+}
+
+.timeline-role {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5555555555555556em;
+    color: rgba(15, 15, 15, 0.6);
+    text-align: left;
+}
+
+.timeline-location {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(15, 15, 15, 0.5);
+}
+
+.timeline-description {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5em;
+    letter-spacing: 3.125%;
+    color: #0F0F0F;
+    text-align: left;
+    margin-top: 8px;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.timeline-description li {
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 4px;
+}
+
+.timeline-description li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #0F0F0F;
+    font-weight: 600;
+}
+
+.timeline-description li:last-child {
+    margin-bottom: 0;
+}
+
+/* Active navigation link */
+.nav-link.active {
+    color: rgba(15, 15, 15, 0.6);
+    font-weight: 600;
+}
+
+/* Design Process Section */
+.design-process-section {
+    padding: 52px 0;
+}
+
+.process-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.process-card {
+    background-color: #F7F7F7;
+    border-radius: 28px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+    max-width: 564px;
+}
+
+.process-card-highlight {
+    background-color: #F7F7F7;
+}
+
+.process-number {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #000000;
+}
+
+.process-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.process-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #000000;
+    margin: 0;
+}
+
+.process-description {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #757575;
+    margin: 0;
+}
+
+/* Competitive Analysis Section */
+.competitive-section {
+    padding: 52px 0;
+}
+
+.competitive-table {
+    margin-top: 24px;
+}
+
+.table-img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+/* User Interviews Section */
+.interviews-section {
+    padding: 52px 0;
+    background-color: #F7F7F7;
+}
+
+.interviews-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.interview-card {
+    background-color: #FFFFFF;
+    border-radius: 28px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+}
+
+.interview-card-large {
+    grid-column: 1 / -1;
+    max-width: 570px;
+}
+
+.interview-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.interview-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.interview-title {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #000000;
+    margin: 0;
+}
+
+.interview-description {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #757575;
+    margin: 0;
+}
+
+/* Design System & Components Sections */
+.system-section {
+    padding: 52px 0;
+}
+
+.system-content,
+.components-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.system-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.system-image,
+.components-image {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #F7F7F7;
+    padding: 24px;
+    border-radius: 28px;
+}
+
+.system-img,
+.components-img {
+    width: 100%;
+
+}
+
+/* Charts single illustration - show full image without rounding */
+.charts-illustration {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.charts-illustration img {
+    width: 100%;
+    display: block;
+    border-radius: 0;
+}
+
+/* Remove background from system-image in project pages */
+.project-page .system-image {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* Design System section specific layout */
+.project-page .system-section:first-of-type .system-content {
+    flex-direction: column;
+    gap: 32px;
+}
+
+.project-page .system-section:first-of-type .system-text {
+    max-width: 100%;
+    text-align: left;
+}
+
+.project-page .system-section:first-of-type .system-image {
+    width: 100%;
+    display: block;
+}
+
+/* Design System list styling */
+.design-system-list {
+    margin: 16px 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.design-system-list li {
+    color: #757575;
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.399999976158142;
+}
+
+.design-system-list li:last-child {
+    margin-bottom: 0;
+}
+
+.design-system-list li strong {
+    color: #1E1E1E;
+    font-weight: 600;
+}
+
+/* Remove background from ui-images-row in project pages */
+.project-page .ui-images-row {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    gap: 12px;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    min-height: auto;
+}
+
+/* Add background to Sale Screen section */
+.project-page .sale-section .ui-images-row {
+    background: #ECECEC;
+    padding: 24px;
+    border-radius: 28px;
+    min-height: 340px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* Adjust image sizing within ui-images-row for project pages */
+.project-page .ui-images-row img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+    /* max-height: 600px; */
+}
+
+/* Ensure proper alignment and spacing for Reports section */
+.project-page .system-content {
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.project-page .system-text {
+    flex: 1;
+    max-width: none;
+}
+
+.project-page .system-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Reverse layout for More section - text on left, image on right */
+.project-page .more-section .system-content {
+    flex-direction: row;
+}
+
+/* Remove background from process cards in project pages (except ULTA) */
+.project-page .process-card {
+    background: none;
+    padding: 0;
+    border: none;
+    gap: 8px;
+}
+
+/* Restore background for ULTA design process cards */
+.project-page .design-process-section .process-card {
+    background-color: #F7F7F7;
+    border-radius: 28px;
+    padding: 24px;
+    gap: 44px;
+}
+
+/* Charts grid inside system-image */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 12px;
+}
+
+/* Large overview spans both columns on top */
+.charts-grid .charts-top {
+    grid-column: 1 / span 2;
+}
+
+/* Middle row: filters left, calendar right */
+.charts-grid .charts-filters {
+    grid-column: 1;
+}
+
+.charts-grid .charts-calendar {
+    grid-column: 2;
+}
+
+/* Bottom row: small charts strip spans both columns */
+.charts-grid .charts-bottom {
+    grid-column: 1 / span 2;
+}
+
+.pos-research .system-text {
+    max-width: none !important;
+}
+
+.reports {
+    flex-direction: row;
+}
+
+.reports img {
+    width: 49.5%;
+}
+
+@media (max-width: 1024px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .process-card {
+        max-width: 100%;
+    }
+
+    .charts-grid .charts-top,
+    .charts-grid .charts-filters,
+    .charts-grid .charts-calendar,
+    .charts-grid .charts-bottom {
+        grid-column: auto;
+    }
+
+    /* Responsive adjustments for project pages */
+    .project-page .system-content {
+        flex-direction: column;
+    }
+
+    .project-page .system-text {
+        max-width: 100%;
+    }
+
+    .project-page .ui-images-row {
+        min-height: auto;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .project-page .ui-images-row img {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: contain;
+    }
+}
+
+/* UI Design Sections */
+.ui-design-section,
+.ui-detail-section {
+    padding: 52px 0;
+}
+
+.login-section {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.login-section .ui-detail-content {
+    gap: 12px;
+}
+
+.login-section .ui-detail-img {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Add extra inner spacing for the Login/Signup frame */
+.login-section .components-image {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+}
+
+.ui-design-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ui-design-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5.45px;
+}
+
+.ui-description {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #757575;
+    max-width: 388.79px;
+}
+
+.ui-design-images {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ui-showcase-img {
+    width: 100%;
+}
+
+.ui-detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ui-detail-content-large {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 725px;
+}
+
+/* Two-column grid for detail sections (text left, image right) */
+.ui-two-col {
+    display: grid;
+    grid-template-columns: 1fr 570px;
+    gap: 24px;
+    align-items: start;
+}
+
+/* New section content layout */
+.ui-section-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.ui-text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ui-image-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ui-image-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F7F7F7;
+    padding: 24px;
+    border-radius: 28px;
+    width: 100%;
+    max-width: 570px;
+    min-height: 608px;
+}
+
+.ui-detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ui-detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ui-detail-text {
+    display: flex;
+    gap: 44px;
+}
+
+.ui-detail-description {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #757575;
+    margin: 0;
+    flex: 1;
+}
+
+.ui-showcase-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    max-width: none;
+    /* min-height: 400px; */
+    /* max-height: 600px; */
+}
+
+.ui-images-row {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    max-height: 800px;
+}
+
+.ui-detail-img,
+.ui-main-img {
+    width: auto;
+    height: 560px;
+    max-width: 100%;
+    border-radius: 28px;
+    object-fit: contain;
+}
+
+/* Restaurant screen image keeps natural aspect */
+.ui-restaurant-img {
+    width: 100%;
+    height: auto;
+    border-radius: 28px;
+    object-fit: contain;
+    max-height: 600px;
+    min-height: 400px;
+}
+
+/* Restaurant 2x2 grid */
+.ui-restaurant-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.ui-restaurant-card {
+    background: #F7F7F7;
+    border-radius: 28px;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ui-restaurant-card.dark {
+    background: #0E0E0E;
+}
+
+
+/* System Architecture Styles */
+.system-architecture-item {
+    margin-bottom: 24px;
+}
+
+.system-architecture-item:last-child {
+    margin-bottom: 0;
+}
+
+.architecture-subtitle {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #1E1E1E;
+    margin-bottom: 12px;
+}
+
+.project-page .system-text {
+    max-width: 83%;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+
+    .about-image {
+        flex: none;
+        width: 100%;
+    }
+
+    .interview-card-large {
+        max-width: none;
+    }
+
+    .timeline-item {
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .timeline-date {
+        min-width: auto;
+    }
+
+
+    .interviews-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .interview-card-large {
+        grid-column: 1;
+    }
+
+    .ui-detail-text {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .ui-two-col {
+        grid-template-columns: 1fr;
+    }
+
+    .ui-images-row {
+        flex-direction: column;
+        gap: 24px;
+        min-height: auto;
+    }
+
+    .ui-detail-content-large {
+        min-height: auto;
+    }
+
+    .ui-restaurant-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .design-system-list {
+        margin: 2px 0;
+    }
+
+    .design-system-list li {
+        margin: 4px 0;
+    }
+
+    .project-page .system-text {
+        max-width: none;
+    }
+
+    .process-card {
+        max-width: 100%;
+    }
+
+
+}
+
+@media (max-width: 768px) {
+    .reports {
+        width: 100%;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .reports img {
+        width: 100%;
+    }
+
+    .project-page .more-section .system-content {
+        flex-direction: column;
+    }
+
+    .about-hero {
+        padding: 15px 0;
+    }
+
+    .about-content {
+        gap: 24px;
+    }
+
+    /* .about-image {
+        width: 280px;
+        height: 155px;
+    } */
+
+    .section-title {
+        font-size: 20px;
+    }
+
+    .timeline-date,
+    .timeline-company,
+    .timeline-role,
+    .timeline-location,
+    .timeline-description {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .system-section,
+    .customizable-section {
+        padding: 36px 0;
+    }
+
+    .about-hero {
+        padding: 10px 0;
+    }
+
+    /* .about-image {
+        width: 200px;
+        height: 111px;
+    } */
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .timeline-date,
+    .timeline-company,
+    .timeline-role,
+    .timeline-location,
+    .timeline-description {
+        font-size: 16px;
+    }
+
+    .ui-images-row .ui-showcase-img {
+        min-height: none !important;
+    }
+}
+
+
+/* About page in the home style: PP Neue Montreal Regular throughout, tight
+   tracking, ink and muted grey only; section heads match "Works", dates,
+   crumbs and contact links match the uppercase header nav. Scoped to
+   body.about, since project pages share this file. */
+body.about {
+    --ab-ink: #0F0F0F;
+    --ab-muted: rgba(15, 15, 15, 0.5);
+    --ab-body: rgba(15, 15, 15, 0.62);
+    --ab-rule: rgba(15, 15, 15, 0.14);
+}
+
+/* Breadcrumbs on every page (About and the cases): the header nav's
+   uppercase, tracked style, muted, with the current page in ink. */
+body .breadcrumb-nav {
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(15, 15, 15, 0.5);
+}
+
+body .breadcrumb-link,
+body .breadcrumb-separator {
+    color: rgba(15, 15, 15, 0.5);
+}
+
+body .breadcrumb-link:hover {
+    color: var(--hover-accent, rgb(255, 72, 16));
+}
+
+body .breadcrumb-current {
+    color: #0F0F0F;
+    font-weight: 400;
+}
+
+body.about .contact-title {
+    margin: 0 0 12px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ab-ink);
+}
+
+/* Email / LinkedIn / Telegram run edge to edge under the photo. */
+body.about .contact-links {
+    justify-content: space-between;
+    gap: 0;
+    width: var(--photo-size, 250px);
+}
+
+/* Bio in the site face, a step up from body text, in soft ink. */
+body.about .about-title {
+    max-width: 34em;
+    margin: 0;
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: rgba(15, 15, 15, 0.75);
+}
+
+/* The bio's cap height starts level with the top of the photo: the
+   sidebar's top padding, minus the half-leading and the space above the
+   capitals (2px in DM Mono at 15px). */
+body.about .about-main-content {
+    padding-top: calc(22px - (1.4em - 1em) / 2);
+    font-size: 20px;
+}
+
+body.about .section-title {
+    margin: 0 0 24px;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--ab-ink);
+}
+
+body.about .about-section {
+    gap: 0;
+}
+
+/* Entries split by the site's dashed rule (none above the first). */
+body.about .experience-item,
+body.about .education-item {
+    gap: 12px;
+    padding: 24px 0 32px;
+}
+
+body.about .experience-item:first-of-type,
+body.about .education-item:first-of-type {
+    padding-top: 0;
+}
+
+body.about .experience-item + .experience-item,
+body.about .education-item + .education-item {
+    background-image: linear-gradient(90deg, rgba(15, 15, 15, 0.22) 6px, transparent 6px);
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+    background-position: 0 0;
+}
+
+body.about .experience-header,
+body.about .education-header {
+    align-items: baseline;
+}
+
+body.about .experience-title,
+body.about .education-title {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--ab-ink);
+}
+
+body.about .experience-date,
+body.about .education-date {
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ab-muted);
+}
+
+body.about .experience-description,
+body.about .education-description {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    color: var(--ab-body);
+}
+
+body.about .experience-description li,
+body.about .education-description li {
+    padding-left: 18px;
+    margin-bottom: 6px;
+}
+
+/* A small square bullet, drawn rather than typed, in the muted grey. */
+body.about .experience-description li::before,
+body.about .education-description li::before {
+    content: "";
+    top: 0.62em;
+    width: 4px;
+    height: 4px;
+    background: var(--ab-muted);
+}
+
+@media (max-width: 768px) {
+    body.about .about-contact {
+        text-align: left;
+    }
+
+    body.about .contact-title {
+        font-size: 20px;
+    }
+
+    body.about .experience-title,
+    body.about .education-title {
+        font-size: 18px;
+    }
+
+    body.about .experience-header,
+    body.about .education-header {
+        gap: 4px;
+    }
+}
+
+
+/* Money eyes: pointing at a contact link puts a banknote over each eye in
+   the portrait (the .about-heart classes predate the swap from hearts). Positions are the pupils in profile-photo.png (1024px). */
+body.about .about-photo {
+    width: var(--photo-size);
+    /* Holds the square while the skeleton (absolute) is showing. */
+    height: var(--photo-size);
+}
+
+.about-heart {
+    position: absolute;
+    top: 39.5%;
+    z-index: 2;
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+    font-size: calc(var(--photo-size) * 0.15);
+    line-height: 1;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+    transition:
+        opacity 160ms ease,
+        transform 160ms ease;
+}
+
+.about-heart--left {
+    left: 43.5%;
+}
+
+.about-heart--right {
+    left: 58.9%;
+}
+
+body.about .about-sidebar:has(.contact-link:hover) .about-heart,
+body.about .about-sidebar:has(.contact-link:focus-visible) .about-heart {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    /* Pops in a touch past full size, then beats while the link is held. */
+    transition:
+        opacity 120ms ease,
+        transform 320ms cubic-bezier(0.3, 1.8, 0.5, 1);
+    animation: about-heart-beat 900ms ease-in-out 320ms infinite;
+}
+
+.about-heart--right {
+    animation-delay: 380ms !important;
+}
+
+@keyframes about-heart-beat {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    30% {
+        transform: translate(-50%, -50%) scale(1.18);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(0.96);
+    }
+}
+
+@media (max-width: 500px) {
+    body.about .about-photo {
+        --photo-size: 150px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-heart,
+    body.about .about-sidebar:has(.contact-link:hover) .about-heart,
+    body.about .about-sidebar:has(.contact-link:focus-visible) .about-heart {
+        animation: none;
+        transform: translate(-50%, -50%);
+        transition: opacity 160ms ease;
+    }
+}
+
+
+/* Waving hand after "Say hello, let's talk", shown with the heart eyes.
+   Absolutely placed past the text, so nothing reflows. */
+body.about .contact-title {
+    position: relative;
+    display: inline-block;
+}
+
+.about-wave {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-left: 8px;
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+    font-size: 0.9em;
+    line-height: 1;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-50%) scale(0.3);
+    transform-origin: 70% 80%;
+    transition:
+        opacity 160ms ease,
+        transform 160ms ease;
+}
+
+body.about .about-sidebar:has(.contact-link:hover) .about-wave,
+body.about .about-sidebar:has(.contact-link:focus-visible) .about-wave {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+    transition:
+        opacity 120ms ease,
+        transform 320ms cubic-bezier(0.3, 1.8, 0.5, 1);
+    animation: about-wave 1200ms ease-in-out 280ms infinite;
+}
+
+/* The classic wave: a few quick swings from the wrist, then a rest. */
+@keyframes about-wave {
+    0%, 60%, 100% {
+        transform: translateY(-50%) rotate(0deg);
+    }
+    10% {
+        transform: translateY(-50%) rotate(16deg);
+    }
+    20% {
+        transform: translateY(-50%) rotate(-8deg);
+    }
+    30% {
+        transform: translateY(-50%) rotate(16deg);
+    }
+    40% {
+        transform: translateY(-50%) rotate(-4deg);
+    }
+    50% {
+        transform: translateY(-50%) rotate(10deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-wave,
+    body.about .about-sidebar:has(.contact-link:hover) .about-wave,
+    body.about .about-sidebar:has(.contact-link:focus-visible) .about-wave {
+        animation: none;
+        transform: translateY(-50%);
+        transition: opacity 160ms ease;
+    }
+}
+
+/* Experience as a timeline table: dates in mono on the left, a dashed rule,
+   then company with a short note, then role with the city. */
+body.about .xp-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body.about .xp-row {
+    display: grid;
+    grid-template-columns: 128px minmax(0, 1fr) minmax(0, 200px);
+    column-gap: 24px;
+}
+
+body.about .xp-date {
+    padding: 4px 0 28px;
+    font-family: 'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--ab-muted);
+    white-space: nowrap;
+}
+
+/* The dashed rule runs down the left of the middle column, row to row. */
+body.about .xp-main {
+    padding: 4px 0 28px 24px;
+    background: linear-gradient(var(--ab-rule) 6px, transparent 6px) 0 0 / 1px 10px repeat-y;
+}
+
+body.about .xp-role,
+body.about .xp-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Company logo before the name: every mark in the same 32px rounded frame,
+   on its own ground colour, with air around it. */
+body.about .xp-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+body.about .xp-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--logo-bg, #FFFFFF);
+    box-shadow: inset 0 0 0 1px rgba(15, 15, 15, 0.08);
+}
+
+body.about .xp-logo img {
+    display: block;
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+/* Placeholder until the real mark is in: a thin ring with the initial. */
+body.about .xp-logo-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--ab-rule);
+    border-radius: 50%;
+    font-size: 14px;
+    line-height: 1;
+    color: var(--ab-muted);
+}
+
+body.about .xp-role {
+    padding: 4px 0 28px;
+}
+
+body.about .xp-name {
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.01em;
+    color: var(--ab-ink);
+}
+
+body.about .xp-note {
+    font-size: 15px;
+    line-height: 21px;
+    color: var(--ab-muted);
+}
+
+@media (max-width: 768px) {
+    body.about .xp-row {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 8px;
+        padding-bottom: 28px;
+    }
+
+    body.about .xp-date,
+    body.about .xp-main,
+    body.about .xp-role {
+        padding: 0;
+        background: none;
+    }
+
+    /* Role and city line up with the company text, right of the logo
+       (28px logo + 14px gap), as one quieter line. */
+    body.about .xp-role {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0 6px;
+        padding-left: 42px;
+    }
+
+    body.about .xp-role .xp-name,
+    body.about .xp-role .xp-note {
+        font-size: 15px;
+        line-height: 21px;
+    }
+
+    body.about .xp-role .xp-note::before {
+        content: '· ';
+    }
+}
+
+/* Layout: photo and contacts beside the bio on top, then Experience across
+   the full width of the content. Nothing sticks while scrolling. */
+body.about .about-grid {
+    min-height: 0;
+}
+
+body.about .about-sidebar {
+    position: static;
+}
+
+body.about .about-intro {
+    margin-bottom: 0;
+}
+
+body.about .about-sections {
+    margin-top: 96px;
+}
+
+@media (min-width: 769px) {
+    body.about .xp-row {
+        grid-template-columns: 180px minmax(0, 1fr) minmax(0, 320px);
+        column-gap: 32px;
+    }
+
+    body.about .xp-main {
+        padding-left: 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    body.about .about-sections {
+        margin-top: 56px;
+    }
+}
+
+
+/* The photo size lives on the sidebar, so the links below can match it.
+   300px leaves room for the three links to spread with real gaps. */
+body.about .about-sidebar {
+    --photo-size: 300px;
+}
+
+body.about .profile-image,
+body.about .skeleton-loader {
+    width: var(--photo-size);
+    height: var(--photo-size);
+}
+
+@media (max-width: 500px) {
+    body.about .about-sidebar {
+        --photo-size: 150px;
+    }
+
+    /* Three words don't fit 150px: back to a plain spaced row. */
+    body.about .contact-links {
+        width: auto;
+        justify-content: flex-start;
+        gap: 24px;
+    }
+}
+
+/* Rows run the full content width: role and city sit on the right edge. */
+@media (min-width: 769px) {
+    body.about .xp-row {
+        grid-template-columns: 180px minmax(0, 1fr) auto;
+    }
+
+    body.about .xp-role {
+        align-items: flex-end;
+        text-align: right;
+    }
+}
+
+/* Experience details. The list lives in each row (read by screen readers,
+   opened in place on touch); on a mouse it shows as a dark card that
+   follows the pointer. */
+body.about .xp-row {
+    cursor: default;
+    outline: none;
+}
+
+body.about .xp-details {
+    display: none;
+    grid-column: 1 / -1;
+    margin: 0 0 24px;
+    padding: 0 0 0 18px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ab-body);
+}
+
+body.about .xp-details li + li {
+    margin-top: 6px;
+}
+
+body.about .xp-row.is-open .xp-details {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    body.about .xp-details {
+        margin: 4px 0 0 42px;
+    }
+
+    body.about .xp-row {
+        cursor: pointer;
+    }
+}
+
+/* Hover marks the row in the site accent. */
+@media (hover: hover) and (pointer: fine) {
+    body.about .xp-row .xp-text .xp-name {
+        transition: color 200ms ease;
+    }
+
+    body.about .xp-row:hover .xp-text .xp-name,
+    body.about .xp-row:focus-visible .xp-text .xp-name {
+        color: var(--hover-accent, rgb(255, 72, 16));
+    }
+}
+
+.xp-card {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1200;
+    width: min(420px, calc(100vw - 32px));
+    padding: 20px 24px;
+    border-radius: 14px;
+    background: #0F0F0F;
+    color: rgba(255, 255, 255, 0.86);
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    box-shadow: 0 20px 40px -16px rgba(15, 15, 15, 0.45);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 160ms ease, visibility 0s linear 160ms;
+}
+
+.xp-card.is-on {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 160ms ease;
+}
+
+.xp-card ul {
+    margin: 0;
+    padding: 0 0 0 16px;
+}
+
+.xp-card li + li {
+    margin-top: 8px;
+}
+
+.xp-card li::marker {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+html[data-theme="dark"] .xp-card {
+    background: #EDEDEC;
+    color: rgba(15, 15, 15, 0.86);
+}
+
+html[data-theme="dark"] .xp-card li::marker {
+    color: rgba(15, 15, 15, 0.4);
+}
+
+/* Company name alone now: centred on its 32px logo. */
+body.about .xp-text {
+    padding-top: 5px;
+}
+
+/* Experience as a bracketed index (after alexandrminh.com): a small
+   [EXPERIENCE] label, then full-width rows on hairlines — role, company
+   with its logo, dates, and a [ + ] that turns to [ × ] while the
+   details show. All mono, uppercase. */
+body.about .exp-label {
+    margin: 0 0 20px;
+    font-family: 'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ab-ink);
+}
+
+body.about .exp-label::before { content: '['; }
+body.about .exp-label::after { content: ']'; }
+
+body.about .exp {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body.about .exp-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto 64px;
+    align-items: center;
+    column-gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--ab-rule);
+    font-family: 'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ab-ink);
+    cursor: default;
+    outline: none;
+}
+
+body.about .exp-co {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+body.about .exp-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: var(--logo-bg, #FFFFFF);
+    box-shadow: inset 0 0 0 1px rgba(15, 15, 15, 0.08);
+}
+
+body.about .exp-logo img {
+    display: block;
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+body.about .exp-date {
+    white-space: nowrap;
+}
+
+body.about .exp-toggle {
+    justify-self: end;
+    white-space: pre;
+    color: var(--ab-ink);
+}
+
+body.about .exp-toggle::before { content: '[ + ]'; }
+
+body.about .exp-row.is-active .exp-toggle::before,
+body.about .exp-row.is-open .exp-toggle::before {
+    content: '[ × ]';
+}
+
+body.about .exp-row.is-active .exp-role,
+body.about .exp-row.is-active .exp-name,
+body.about .exp-row:focus-visible .exp-role {
+    color: var(--hover-accent, rgb(255, 72, 16));
+}
+
+body.about .exp-role,
+body.about .exp-name {
+    transition: color 200ms ease;
+}
+
+body.about .exp-details {
+    display: none;
+    grid-column: 1 / -1;
+    margin: 16px 0 4px;
+    padding: 0 0 0 18px;
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ab-body);
+}
+
+body.about .exp-details li + li {
+    margin-top: 6px;
+}
+
+body.about .exp-row.is-open .exp-details {
+    display: block;
+}
+
+/* Phones: role, then company, then dates, with the toggle top right. */
+@media (max-width: 768px) {
+    body.about .exp-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        row-gap: 10px;
+        align-items: start;
+        cursor: pointer;
+    }
+
+    body.about .exp-role { grid-column: 1; grid-row: 1; }
+    body.about .exp-toggle { grid-column: 2; grid-row: 1; }
+    body.about .exp-co { grid-column: 1 / -1; grid-row: 2; }
+    body.about .exp-date { grid-column: 1 / -1; grid-row: 3; color: var(--ab-muted); }
+    body.about .exp-details { grid-row: 4; margin-top: 6px; }
+}
+
+/* Experience in the site's own type: the heading set like "Say hello,
+   let's talk" a step larger; rows in PP Neue Montreal, uppercase and
+   tracked like the nav; no logos. */
+body.about .exp-title {
+    margin: 0 0 20px;
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: var(--ab-ink);
+}
+
+body.about .exp-row {
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1em;
+}
+
+/* Same columns in every row: the dates get a fixed width so the company
+   column starts at one line. */
+@media (min-width: 769px) {
+    body.about .exp-row {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 200px 64px;
+    }
+}
+
+/* Hover animation after the reference: the [ + ] turns to ×, the card
+   comes out of a blur beside it and drifts a little with the pointer, and
+   its text lights up letter by letter. */
+body.about .exp-toggle::before { content: '[ '; }
+body.about .exp-toggle::after { content: ' ]'; }
+body.about .exp-row.is-active .exp-toggle::before,
+body.about .exp-row.is-open .exp-toggle::before { content: '[ '; }
+body.about .exp-plus {
+    display: inline-block;
+    transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.about .exp-row.is-active .exp-plus,
+body.about .exp-row.is-open .exp-plus { transform: rotate(45deg); }
+
+.xp-card {
+    filter: blur(10px);
+    transform: translate3d(var(--px, 0px), calc(var(--py, 0px) + 6px), 0);
+    transition: opacity 120ms linear, filter 120ms linear, transform 120ms ease, visibility 0s linear 120ms;
+}
+.xp-card.is-on {
+    filter: blur(0);
+    transform: translate3d(var(--px, 0px), var(--py, 0px), 0);
+    transition: opacity 200ms linear, filter 200ms linear, transform 450ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
+.xp-card .ch { opacity: 0; filter: blur(4px); transition: opacity 160ms linear, filter 160ms linear; }
+.xp-card .ch.is-lit { opacity: 1; filter: blur(0); }
+@media (prefers-reduced-motion: reduce) {
+    .xp-card, .xp-card.is-on { filter: none; transform: none; transition: opacity 120ms linear; }
+    .xp-card .ch { opacity: 1; filter: none; }
+}

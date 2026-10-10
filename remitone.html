@@ -14,28 +14,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remiton - Bahruz</title>
-    <link rel="icon" type="image/x-icon" href="images/Faicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/Faicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/Faicon.png">
-    <link rel="icon" type="image/svg+xml" href="images/Faicon.svg">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="images/Faicon.png">
-    <link rel="shortcut icon" href="images/Faicon.ico">
-    <link rel="alternate icon" href="images/Faicon.ico">
+    <link rel="icon" href="images/favicon.ico?v=2" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png?v=2">
+    <link rel="apple-touch-icon" href="images/icon-180.png?v=2">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="about.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400&display=swap"
-        rel="stylesheet">
+    <!-- Theme: light unless the visitor picked dark before (stored per
+         browser); set before paint so the page never flashes. -->
+    <meta name="color-scheme" content="light dark">
+    <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+    <link rel="stylesheet" href="styles.css?v=fast9">
+    <link rel="stylesheet" href="about.css?v=fast1">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Remiton - Bahruz">
@@ -65,18 +53,20 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <a href="index.html" class="logo">Bahruz</a>
+                <a href="index.html" class="logo logo--name" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
                 
                 <!-- Desktop Navigation -->
-                <nav class="nav desktop-nav">
-                    <a href="about.html" class="nav-link">About</a>
-                    <a href="index.html#projects" class="nav-link">Projects</a>
-                    <button onclick="openModal()" class="nav-button">Get in Touch</button>
+                <nav class="nav desktop-nav home-nav" aria-label="Primary">
+                    <a href="index.html#projects" class="home-nav-link">Works</a>
+                    <a href="resume.pdf" class="home-nav-link" data-resume target="_blank" rel="noopener">Resume</a>
+                    <a href="about.html" class="home-nav-link">About</a>
+                    <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
                 </nav>
 
                 <!-- Mobile Navigation -->
                 <div class="mobile-nav">
-                    <button onclick="openModal()" class="nav-button mobile-button">Get in Touch</button>
+                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
                     <button class="hamburger" onclick="toggleMobileMenu()">
                         <span></span>
                         <span></span>
@@ -86,24 +76,25 @@
 
                 <!-- Mobile Menu Overlay -->
                 <div class="mobile-menu-overlay" id="mobileMenuOverlay">
-                    <button class="mobile-close-btn" onclick="toggleMobileMenu()">
-                        <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
-                    </button>
-                    <nav class="mobile-menu">
-                        <a href="index.html" class="mobile-nav-link">Home</a>
+                    <div class="mobile-menu-top">
+                        <a href="index.html" class="logo logo--name mobile-menu-logo" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
+                        <button class="mobile-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                    </div>
+                    <nav class="mobile-menu" aria-label="Menu">
+                        <a href="index.html#projects" class="mobile-nav-link">Works</a>
+                        <div class="mobile-nav-row">
+                            <a href="resume.pdf" class="mobile-nav-link" data-resume target="_blank" rel="noopener">Resume</a>
+                            <a href="resume.pdf" download="Bahruz Akhundov - Resume.pdf" class="mobile-nav-download" aria-label="Download resume"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5V20.5M4.5 13L12 20.5L19.5 13" stroke="currentColor" stroke-width="2.6" stroke-linecap="butt" stroke-linejoin="miter"/></svg></a>
+                        </div>
                         <a href="about.html" class="mobile-nav-link">About</a>
-                        <a href="index.html#projects" class="mobile-nav-link">Projects</a>
                     </nav>
-                    <div class="mobile-social-links">
-                        <a href="mailto:akhundovb@gmail.com" class="mobile-social-link">
-                            <img src="images/email-icon-new.svg" alt="Email" width="24" height="24">
-                        </a>
-                        <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
-                            <img src="images/linkedin-icon-new.svg" alt="LinkedIn" width="24" height="24">
-                        </a>
-                        <a href="https://t.me/akhundesign" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
-                            <img src="images/telegram-icon-new.svg" alt="Telegram" width="24" height="24">
-                        </a>
+                    <div class="mobile-menu-bottom">
+                        <div class="mobile-social-links">
+                            <a href="mailto:akhundovb@gmail.com" class="mobile-social-link" aria-label="Email"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                            <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                            <a href="https://t.me/akhundesign" class="mobile-social-link" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                        </div>
+                        <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
                     </div>
                 </div>
             </div>
@@ -121,144 +112,239 @@
         </div>
     </section>
 
-    <!-- Project Hero Section -->
-    <section class="about-hero">
+    <!-- Case content: rebuilt on one shared flow for all cases. -->
+    <section class="case-content">
         <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2 class="about-title">About the Product</h2>
-                    <p class="about-description">
-                        Remiton is a fast and intuitive mobile application designed for quick and secure international
-                        money transfers. The app allows users to send funds to friends, family, or business partners in
-                        just a few taps. The focus of the product is simplicity, speed, and user trust — providing a
-                        seamless experience for both new and experienced users.<br><br>
-                        As the sole product designer on the project, I was responsible for the entire design process —
-                        from initial research and wireframes to the final UI and prototype. I created the design system
-                        from scratch, ensuring visual consistency, scalability, and accessibility across all screens.
-                        Every interaction was carefully designed to minimize friction while maintaining the highest
-                        security standards for financial transactions.
-                    </p>
+            <header class="case-hero" data-toc="Intro">
+                <h1 class="case-title">Remiton</h1>
+                <p class="case-lede">A mobile app for fast and secure international money transfers: send money to family, friends or business partners in a few taps. As the sole product designer, I took it from research and wireframes to the final UI, prototype and design system.</p>
+                <ul class="case-facts" aria-label="Project details">
+                    <li class="case-fact"><span class="case-fact-label">Role</span><span class="case-fact-value">Design from scratch</span></li>
+                    <li class="case-fact"><span class="case-fact-label">Period</span><span class="case-fact-value">2022 – 2023</span></li>
+                </ul>
+                <!-- Cover: four app screens in phone frames (images/remiton/01–04.jpg: onboarding at 402 x 822, set under the status bar). -->
+                <div class="case-cover case-cover--phones">
+                    <div class="case-phone case-phone--dark"><div class="case-phone-screen" style="--screen: #35079E"><span class="case-phone-status" aria-hidden="true"></span><img src="images/remiton/01.jpg?v=5" alt="Transfer money to 140+ countries in 90+ currencies" width="1206" height="2465" decoding="async"></div></div>
+                    <div class="case-phone"><div class="case-phone-screen" style="--screen: #E7EDFB"><span class="case-phone-status" aria-hidden="true"></span><img src="images/remiton/02.jpg?v=5" alt="Get notified when your target rate is reached" width="1206" height="2465" decoding="async"></div></div>
+                    <div class="case-phone"><div class="case-phone-screen" style="--screen: #E7EDFB"><span class="case-phone-status" aria-hidden="true"></span><img src="images/remiton/03.jpg?v=4" alt="Save time, effort and money" width="1206" height="2465" decoding="async"></div></div>
+                    <div class="case-phone"><div class="case-phone-screen" style="--screen: #E7EDFB"><span class="case-phone-status" aria-hidden="true"></span><img src="images/remiton/04.jpg?v=4" alt="Exchange at your preferred rate" width="1206" height="2472" decoding="async"></div></div>
                 </div>
-                <div class="about-image">
-                    <img src="images/remiton-hero.png" alt="Remiton hero" class="profile-img">
+            </header>
+
+            <!-- Brief: the challenge, the solution and the outcome side by side. -->
+            <section class="case-brief" data-toc="Overview" aria-label="Challenge, solution and outcome">
+                <div class="case-brief-col">
+                    <h2 class="case-brief-title">Challenge</h2>
+                    <p class="case-brief-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                 </div>
-            </div>
-        </div>
-    </section>
+                <div class="case-brief-col">
+                    <h2 class="case-brief-title">Solution</h2>
+                    <p class="case-brief-text">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div class="case-brief-col">
+                    <h2 class="case-brief-title">Outcome</h2>
+                    <p class="case-brief-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+                </div>
+            </section>
 
-    <!-- Signin/Signup Section -->
-    <section class="ui-detail-section customizable-section">
-        <div class="container">
-            <h3 class="about-title">Signin/Signup</h3>
-            <p class="ui-description">
-                To ensure a fast and smooth onboarding experience, we minimized the number of steps in the registration
-                process. Users can sign up quickly using just their phone number — no lengthy forms or unnecessary
-                fields.
-            </p>
-            <div class="ui-images-row">
-                <img src="images/remitone-signin-signup-updated.png" alt="Signin/Signup process"
-                    class="ui-showcase-img">
-            </div>
-        </div>
-    </section>
+            <!-- Login: a short note, then the screens in phones (to come). -->
+            <section class="case-section" data-toc="Login" aria-labelledby="case-login">
+                <h2 class="case-section-title" id="case-login">Login</h2>
+                <p class="case-section-text">Signing in should never be a dead end. Support is one tap away right on the login screen, and “Forgot password” brings access back without leaving the flow, so a problem with the account doesn't turn into a lost user.</p>
+                <!-- Login as a looping clip: a finger types a four-digit passcode
+                     (the key lights up, a dot fills), then the loading spinner
+                     shows, and it starts over. Built on the empty passcode screen;
+                     positions are in % of the 157 x 340 Figma frame. -->
+                <div class="case-cover case-cover--phones case-cover--loop">
+                    <div class="case-phone case-phone--solo">
+                        <div class="case-phone-screen" style="--screen: #EDEEF7">
+                            <div class="case-pass" data-passcode="1918">
+                                <img src="images/remiton/login.jpg?v=3" alt="Remiton login with a passcode" width="629" height="1360" decoding="async">
+                                <span class="case-pass-key" aria-hidden="true"><span class="case-pass-key-digit"></span></span>
+                                <span class="case-pass-dot" aria-hidden="true" style="--x: 43.60%"></span>
+                                <span class="case-pass-dot" aria-hidden="true" style="--x: 47.87%"></span>
+                                <span class="case-pass-dot" aria-hidden="true" style="--x: 52.13%"></span>
+                                <span class="case-pass-dot" aria-hidden="true" style="--x: 56.40%"></span>
+                                <span class="case-pass-spin" aria-hidden="true"><svg viewBox="0 0 20.0985 20.0985" fill="none"><defs><linearGradient id="casePassSpin" x1="10.0493" y1="2.5123" x2="3.618" y2="13.6456" gradientUnits="userSpaceOnUse"><stop stop-color="#9B72FB"><animate attributeName="stop-color" values="#9B72FB;#A5B3FF;#B5F085;#9B72FB" dur="2.4s" repeatCount="indefinite"/></stop><stop offset="0.4567" stop-color="#A5B3FF"><animate attributeName="stop-color" values="#A5B3FF;#B5F085;#9B72FB;#A5B3FF" dur="2.4s" repeatCount="indefinite"/></stop><stop offset="1" stop-color="#B5F085"><animate attributeName="stop-color" values="#B5F085;#9B72FB;#A5B3FF;#B5F085" dur="2.4s" repeatCount="indefinite"/></stop></linearGradient></defs><path d="M10.0493 2.51232C11.5399 2.51232 12.9971 2.95435 14.2366 3.78252C15.476 4.61069 16.442 5.7878 17.0125 7.165C17.5829 8.54219 17.7322 10.0576 17.4414 11.5196C17.1506 12.9817 16.4327 14.3246 15.3787 15.3787C14.3246 16.4327 12.9817 17.1506 11.5196 17.4414C10.0576 17.7322 8.54219 17.5829 7.165 17.0125C5.7878 16.442 4.61069 15.476 3.78252 14.2366C2.95435 12.9971 2.51231 11.5399 2.51232 10.0493L4.17044 10.0493C4.17044 11.212 4.51523 12.3486 5.1612 13.3154C5.80718 14.2821 6.72532 15.0356 7.79953 15.4806C8.87375 15.9255 10.0558 16.042 11.1962 15.8151C12.3365 15.5883 13.384 15.0284 14.2062 14.2062C15.0284 13.384 15.5883 12.3365 15.8151 11.1962C16.042 10.0558 15.9255 8.87375 15.4806 7.79953C15.0356 6.72532 14.2821 5.80718 13.3154 5.1612C12.3486 4.51523 11.212 4.17044 10.0493 4.17044L10.0493 2.51232Z" fill="url(#casePassSpin)"/></svg></span>
+                                <span class="case-pass-tap" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Login Section -->
-    <section class="ui-detail-section customizable-section">
-        <div class="container">
-            <h3 class="about-title">Login</h3>
-            <p class="ui-description">
-                During the login process, we made sure to support users in case of any issues. If a user experiences
-                problems accessing their account, they can easily contact support directly from the login screen.
-                Additionally, a "Forgot password" option is available to help users quickly recover access without
-                leaving the flow. These features were designed to reduce frustration and improve the overall user
-                experience.
-            </p>
-            <div class="ui-images-row">
-                <img src="images/remitone-login-updated.png" alt="Login process" class="ui-showcase-img">
-            </div>
-        </div>
-    </section>
+            <!-- Home: two looping clips side by side (script.js [data-flow]): the
+                 history sheet pulls up and back; an amount is typed and the
+                 receiver's currency is changed through search. -->
+            <section class="case-section" data-toc="Home" aria-labelledby="case-home">
+                <h2 class="case-section-title" id="case-home">Home</h2>
+                <p class="case-section-text">The home screen puts a quick transfer up top: the amount converts as it's typed, and the receiver's currency is a search away. Under it, the history sheet pulls up to show every transfer, grouped by day.</p>
+                <!-- Two cards side by side, one clip each. Sizes inside use cqw of
+                     the pair, so the phones match the single-card ones. -->
+                <div class="case-cover-pair">
+                    <div class="case-cover case-cover--phones case-cover--loop case-cover--half">
+                        <div class="case-phone case-phone--solo">
+                            <div class="case-phone-screen" style="--screen: #EDEEF7">
+                                <div class="case-pass" data-flow="sheet">
+                                    <img src="images/remiton/home.jpg?v=1" alt="Remiton home: the transfer widget and the transaction history" width="628" height="1360" decoding="async">
+                                    <img class="case-flow-layer case-flow-sheet" src="images/remiton/home-history.jpg?v=1" alt="" aria-hidden="true" decoding="async">
+                                    <img class="case-flow-layer case-flow-nav" src="images/remiton/home.jpg?v=1" alt="" aria-hidden="true" decoding="async">
+                                    <span class="case-pass-tap" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-cover case-cover--phones case-cover--loop case-cover--half">
+                        <div class="case-phone case-phone--solo">
+                            <div class="case-phone-screen" style="--screen: #EDEEF7">
+                                <div class="case-pass" data-flow="send">
+                                    <img src="images/remiton/home.jpg?v=1&amp;clip=send" alt="Remiton: entering an amount and changing the receiver's currency" width="628" height="1360" decoding="async">
+                                    <span class="case-flow-focus" data-part="focus" style="--x: 7; --y: 47.75; --w: 82.5; --h: 22.25"></span>
+                                    <span class="case-flow-patch" style="--x: 11.4; --y: 58.4; --w: 77; --h: 10.4"></span>
+                                    <span class="case-flow-text" data-part="send" style="--x: 11.73; --b: 65.5"></span>
+                                    <span class="case-flow-patch" style="--x: 11.4; --y: 85.9; --w: 77; --h: 10.6"></span>
+                                    <span class="case-flow-text" data-part="recv" style="--x: 11.73; --b: 92.75"></span>
+                                    <span class="case-flow-pill">
+                                        <span class="case-flow-patch" style="--x: 99.4; --y: 80.4; --w: 29; --h: 12"></span>
+                                        <img class="case-flow-layer case-flow-flag" src="images/remiton/flag-az.svg" alt="" aria-hidden="true" style="--x: 100; --y: 81.25; --w: 10.05">
+                                        <span class="case-flow-text" style="--x: 113.43; --b: 89">AZN</span>
+                                    </span>
+                                    <span class="case-flow-dim"></span>
+                                    <span class="case-flow-modal">
+                                        <img class="case-flow-layer" src="images/remiton/home-modal.jpg?v=1" alt="" aria-hidden="true" decoding="async">
+                                        <span class="case-flow-patch case-flow-patch--field" style="--x: 19.8; --y: 127.5; --w: 117; --h: 14"></span>
+                                        <span class="case-flow-patch case-flow-patch--field" data-part="clear" style="--x: 136.6; --y: 127.5; --w: 13.2; --h: 14"></span>
+                                        <span class="case-flow-text case-flow-text--hint" data-part="hint" style="--x: 20.1; --b: 137">Search</span>
+                                        <span class="case-flow-text" data-part="search" style="--x: 20.1; --b: 137"></span>
+                                        <span class="case-flow-list" data-part="list">
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-az.svg" alt=""><span><b>AZN</b>Azerbaijan Manat</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-br.svg" alt=""><span><b>BRL</b>Brazilian Real</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-ca.svg" alt=""><span><b>CAD</b>Canadian Dollar</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-eu.png" alt=""><span><b>EUR</b>Euro</span><img class="case-flow-layer case-flow-check" src="images/remiton/check.svg" alt=""></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-gb.svg" alt=""><span><b>GBP</b>British Pounds</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-jp.svg" alt=""><span><b>JPY</b>Japanese Yen</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-pl.svg" alt=""><span><b>PLN</b>Polish Zloty</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-se.svg" alt=""><span><b>SEK</b>Swedish Krona</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-ch.svg" alt=""><span><b>CHF</b>Swiss Franc</span></span>
+                                        </span>
+                                        <span class="case-flow-patch" data-part="check" style="--x: 131.5; --y: 148; --w: 19; --h: 19"></span>
+                                    </span>
+                                    <span class="case-pass-tap" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Main Section -->
-    <section class="ui-detail-section customizable-section">
-        <div class="container">
-            <h3 class="about-title">Main</h3>
-            <p class="ui-description">
-                On the home screen, we designed a quick transfer widget that allows users to send money instantly to
-                their most frequent recipients. Just below, users can view their recent transactions, making it easy to
-                track past activity. Each transaction includes a "Repeat" option, enabling users to quickly resend money
-                without having to re-enter details — streamlining the overall experience and saving time.
-            </p>
-            <div class="ui-images-row">
-                <img src="images/remitone-main-updated.png" alt="Main screen with quick transfer widget"
-                    class="ui-showcase-img">
-            </div>
-        </div>
-    </section>
+            <!-- Send money: a looping clip of the three steps (script.js
+                 [data-flow="sendmoney"]): pick the country, switch the payout
+                 from bank to cash, continue; the empty recipient form fills in
+                 with one tap, continue; the card and summary screen. -->
+            <section class="case-section" data-toc="Send money" aria-labelledby="case-send">
+                <h2 class="case-section-title" id="case-send">Send money</h2>
+                <p class="case-section-text">Sending takes three short steps: where and how the money goes, who gets it, and how to pay. Saved recipients fill the form in one tap, and the last step shows the whole transfer before anything is sent.</p>
+                <div class="case-cover case-cover--phones case-cover--loop">
+                    <div class="case-phone case-phone--solo">
+                        <div class="case-phone-screen" style="--screen: #F2F4F7">
+                            <div class="case-pass" data-flow="sendmoney">
+                                <img src="images/remiton/send-1.jpg?v=1" alt="Remiton: sending money in three steps" width="628" height="1360" decoding="async">
+                                <span class="case-flow-screen is-in" data-part="s1">
+                                    <img class="case-flow-layer" src="images/remiton/send-1.jpg?v=1" alt="" aria-hidden="true">
+                                    <span class="case-flow-country" data-part="country">
+                                        <span class="case-flow-patch case-flow-patch--input" style="--x: 14; --y: 79.3; --w: 117; --h: 19"></span>
+                                        <span class="case-flow-text case-flow-text--label" style="--x: 18.5; --b: 85.25">Recipient country</span>
+                                        <img class="case-flow-layer case-flow-flag" src="images/remiton/flag-es.svg" alt="" style="--x: 18.6; --y: 88.4; --w: 7.6">
+                                        <span class="case-flow-text" style="--x: 28.6; --b: 95.25">Spain</span>
+                                    </span>
+                                    <span class="case-flow-types">
+                                            <span class="case-flow-type is-sel" data-type="bank"><span class="case-flow-type-icon"><img class="case-flow-layer" src="images/remiton/ic-bank.svg" alt=""></span><span class="case-flow-type-label">Bank account</span><span class="case-flow-radio"><img class="case-flow-layer" src="images/remiton/radio-off.svg" alt=""><img class="case-flow-layer" src="images/remiton/radio-on.svg" alt=""></span></span>
+                                            <span class="case-flow-type" data-type="cash"><span class="case-flow-type-icon"><img class="case-flow-layer" src="images/remiton/ic-cash.svg" alt=""></span><span class="case-flow-type-label">Cash</span><span class="case-flow-radio"><img class="case-flow-layer" src="images/remiton/radio-off.svg" alt=""><img class="case-flow-layer" src="images/remiton/radio-on.svg" alt=""></span></span>
+                                            <span class="case-flow-type" data-type="card"><span class="case-flow-type-icon"><img class="case-flow-layer" src="images/remiton/ic-card.svg" alt=""></span><span class="case-flow-type-label">Card</span><span class="case-flow-radio"><img class="case-flow-layer" src="images/remiton/radio-off.svg" alt=""><img class="case-flow-layer" src="images/remiton/radio-on.svg" alt=""></span></span>
+                                            <span class="case-flow-type" data-type="wallet"><span class="case-flow-type-icon"><img class="case-flow-layer" src="images/remiton/ic-wallet.svg" alt=""></span><span class="case-flow-type-label">Wallet</span><span class="case-flow-radio"><img class="case-flow-layer" src="images/remiton/radio-off.svg" alt=""><img class="case-flow-layer" src="images/remiton/radio-on.svg" alt=""></span></span>
+                                    </span>
+                                    <!-- Country picker (not in the design file): built in the style
+                                         of the currency sheet. -->
+                                    <span class="case-flow-dim" data-part="cdim"></span>
+                                    <span class="case-flow-modal" data-part="picker">
+                                        <span class="case-flow-sheetbg"></span>
+                                        <span class="case-flow-patch case-flow-grabber" style="--x: 71; --y: 24.3; --w: 15.1; --h: 2.1"></span>
+                                        <span class="case-flow-text case-flow-text--title" style="--x: 6.7; --b: 39.45">Recipient country</span>
+                                        <span class="case-flow-patch case-flow-search" style="--x: 6.7; --y: 49.8; --w: 143.6; --h: 15.07"></span>
+                                        <span class="case-flow-icon" style="--x: 10.05; --y: 52.3; --w: 10.05"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="#3C3C43" stroke-opacity="0.6" stroke-width="2.2"/><path d="M15.5 15.5L20.5 20.5" stroke="#3C3C43" stroke-opacity="0.6" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                                        <span class="case-flow-text case-flow-text--hint" data-part="chint" style="--x: 20.1; --b: 59.87">Search</span>
+                                        <span class="case-flow-list" data-part="clist" style="top: calc(68.2 / 340 * 100%)">
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-az.svg" alt=""><span><b>Azerbaijan</b>AZN</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-br.svg" alt=""><span><b>Brazil</b>BRL</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-ca.svg" alt=""><span><b>Canada</b>CAD</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-jp.svg" alt=""><span><b>Japan</b>JPY</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-pl.svg" alt=""><span><b>Poland</b>PLN</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-es.svg" alt=""><span><b>Spain</b>EUR</span><img class="case-flow-layer case-flow-check" src="images/remiton/check.svg" alt=""></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-se.svg" alt=""><span><b>Sweden</b>SEK</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-ch.svg" alt=""><span><b>Switzerland</b>CHF</span></span>
+                                            <span class="case-flow-row"><img class="case-flow-layer" src="images/remiton/flag-gb.svg" alt=""><span><b>United Kingdom</b>GBP</span></span>
+                                        </span>
+                                    </span>
+                                </span>
+                                <span class="case-flow-screen" data-part="s2">
+                                    <img class="case-flow-layer" src="images/remiton/send-2.jpg?v=1" alt="" aria-hidden="true">
+                                    <span class="case-flow-patch case-flow-patch--input" style="--x: 33.2; --y: 158.6; --w: 14; --h: 11"></span>
+                                    <span class="case-flow-text" style="--x: 33.4; --b: 166.75">+34</span>
+                                    <span class="case-flow-empty" data-part="empty">
+                                        <span class="case-flow-patch case-flow-patch--input" style="--x: 14; --y: 79.3; --w: 129.1; --h: 19"></span>
+                                        <span class="case-flow-text case-flow-text--hint" style="--x: 18.5; --b: 91.3">First name</span>
+                                        <span class="case-flow-patch case-flow-patch--input" style="--x: 14; --y: 104.4; --w: 129.1; --h: 19"></span>
+                                        <span class="case-flow-text case-flow-text--hint" style="--x: 18.5; --b: 116.45">Last name</span>
+                                        <span class="case-flow-patch case-flow-patch--input" style="--x: 71.5; --y: 154.6; --w: 72.2; --h: 19"></span>
+                                        <span class="case-flow-text case-flow-text--hint" style="--x: 76; --b: 166.75">Phone number</span>
+                                    </span>
+                                </span>
+                                <span class="case-flow-screen" data-part="s3">
+                                    <img class="case-flow-layer" src="images/remiton/send-3.jpg?v=1" alt="" aria-hidden="true">
+                                    <span class="case-flow-empty" data-part="cardempty">
+                                        <span class="case-flow-patch case-flow-patch--input" style="--x: 14; --y: 79.3; --w: 110; --h: 19"></span>
+                                        <span class="case-flow-text case-flow-text--hint" style="--x: 18.5; --b: 91.3">Card number</span>
+                                        <span class="case-flow-patch case-flow-patch--input" style="--x: 14; --y: 104.4; --w: 61.5; --h: 19"></span>
+                                        <span class="case-flow-text case-flow-text--hint" style="--x: 18.5; --b: 116.45">MM/YY</span>
+                                        <span class="case-flow-patch case-flow-patch--input" style="--x: 81.6; --y: 104.4; --w: 42.4; --h: 19"></span>
+                                        <span class="case-flow-text case-flow-text--hint" style="--x: 86.2; --b: 116.45">CVV</span>
+                                    </span>
+                                    <span class="case-flow-empty" data-part="visa">
+                                        <span class="case-flow-patch case-flow-patch--input" style="--x: 123.8; --y: 81.5; --w: 18.5; --h: 14.5"></span>
+                                    </span>
+                                    <span class="case-flow-summary">
+                                        <span class="case-flow-sum-row"><span>Remittance type</span><i></i><b>Cash</b></span>
+                                        <span class="case-flow-sum-row"><span>Recipient</span><i></i><b>Juan Mata</b></span>
+                                        <span class="case-flow-sum-row"><span>Fee</span><i></i><b>0.00 GBP</b></span>
+                                        <span class="case-flow-sum-row"><span>Receiver gets</span><i></i><b>118,03 EUR</b></span>
+                                        <span class="case-flow-sum-row case-flow-sum-row--total"><span>You send</span><i></i><b>100.00 GBP</b></span>
+                                    </span>
+                                </span>
+                                <span class="case-pass-tap" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Send Money Section -->
-    <section class="ui-detail-section customizable-section">
-        <div class="container">
-            <h3 class="about-title">Send money</h3>
-            <p class="ui-description">
-                The money transfer flow is divided into clear, step-by-step screens to guide the user through the
-                process with confidence. At each step, we provide detailed information — including the exact amount
-                being sent, the conversion rate, and a transparent breakdown of all fees. This level of clarity helps
-                build trust and ensures users know exactly what they're paying and what the recipient will receive.
-            </p>
-            <div class="ui-images-row">
-                <img src="images/remitone-send-money-updated.png" alt="Send money flow with transparent fees"
-                    class="ui-showcase-img">
-            </div>
-        </div>
-    </section>
-
-    <!-- Notifications Section -->
-    <section class="ui-detail-section customizable-section">
-        <div class="container">
-            <h3 class="about-title">Notifications</h3>
-            <p class="ui-description">
-                Users receive timely notifications about transaction updates, security alerts, and important account
-                information. The notification system is designed to keep users informed without being overwhelming, with
-                clear categorization and the ability to customize notification preferences based on individual needs.
-            </p>
-            <div class="ui-images-row">
-                <img src="images/remitone-notifications-updated.png" alt="Notification system with clear categorization"
-                    class="ui-showcase-img">
-            </div>
-        </div>
-    </section>
-
-    <!-- More Menu Section -->
-    <section class="ui-detail-section customizable-section">
-        <div class="container">
-            <h3 class="about-title">More Menu</h3>
-            <p class="ui-description">
-                The More menu provides easy access to additional features including account settings, transaction
-                history, help resources, and support options. Each feature is organized logically with clear icons and
-                descriptions to help users quickly find what they need and manage their account effectively.
-            </p>
-            <div class="ui-images-row">
-                <img src="images/remitone-more-menu-updated.png" alt="More menu with organized features"
-                    class="ui-showcase-img">
-            </div>
-        </div>
-    </section>
-
-    <!-- Support Chat Section -->
-    <section class="ui-detail-section customizable-section">
-        <div class="container">
-            <h3 class="about-title">Support Chat</h3>
-            <p class="ui-description">
-                The integrated support chat allows users to get help directly within the app without interrupting their
-                flow. Users can report issues, ask questions about transactions, or get assistance with account-related
-                matters. The chat interface includes quick responses and the ability to share transaction details
-                securely when needed.
-            </p>
-            <div class="ui-images-row">
-                <img src="images/remitone-support-chat-updated.png" alt="Integrated support chat interface"
-                    class="ui-showcase-img">
-            </div>
+            <!-- More screens: a row of phones that scrolls sideways inside
+                 the card (drag, trackpad or swipe; script.js .case-scroll). -->
+            <section class="case-section" data-toc="More screens" aria-labelledby="case-more">
+                <h2 class="case-section-title" id="case-more">More screens</h2>
+                <p class="case-section-text">Notifications, the profile with limits, help articles and a support chat that ends with a quick rating.</p>
+                <div class="case-cover case-cover--phones case-cover--scroll">
+                    <div class="case-scroll" tabindex="0" aria-label="More screens, scroll sideways">
+                        <div class="case-phone"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/extra-2.jpg?v=1" alt="Remiton: Notifications" width="628" height="1360" loading="lazy" decoding="async"></div></div>
+                        <div class="case-phone"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/extra-3.jpg?v=1" alt="Remiton: App update sheet" width="628" height="1360" loading="lazy" decoding="async"></div></div>
+                        <div class="case-phone"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/extra-4.jpg?v=1" alt="Remiton: Profile and limits" width="628" height="1360" loading="lazy" decoding="async"></div></div>
+                        <div class="case-phone"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/extra-5.jpg?v=1" alt="Remiton: Profile, scrolled" width="628" height="1360" loading="lazy" decoding="async"></div></div>
+                        <div class="case-phone"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/extra-6.jpg?v=1" alt="Remiton: How to use" width="628" height="1360" loading="lazy" decoding="async"></div></div>
+                        <div class="case-phone"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/extra-7.jpg?v=1" alt="Remiton: Support chat, typing" width="628" height="1360" loading="lazy" decoding="async"></div></div>
+                        <div class="case-phone"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/extra-8.jpg?v=1" alt="Remiton: Support chat, a file sent" width="628" height="1360" loading="lazy" decoding="async"></div></div>
+                        <div class="case-phone"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/extra-9.jpg?v=1" alt="Remiton: Support chat, rating" width="628" height="1360" loading="lazy" decoding="async"></div></div>
+                    </div>
+                </div>
+            </section>
         </div>
     </section>
 
@@ -267,20 +353,20 @@
         <div class="footer-content">
             <h3 class="footer-title">Let's work together</h3>
             <div class="footer-social">
-                <a href="mailto:akhundovb@gmail.com" class="social-icon" data-tooltip="Email" aria-label="Email">
-                    <img src="images/social-icon-1.svg" alt="Email" width="24" height="24">
+                <a href="mailto:akhundovb@gmail.com" class="social-icon social-icon--email" data-tooltip="Email" aria-label="Email">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
-                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon" data-tooltip="LinkedIn" aria-label="LinkedIn" target="_blank"
+                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon social-icon--linkedin" data-tooltip="LinkedIn" aria-label="LinkedIn" target="_blank"
                     rel="noopener noreferrer">
-                    <img src="images/social-icon-2.svg" alt="LinkedIn" width="24" height="24">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
-                <a href="https://t.me/akhundesign" class="social-icon" data-tooltip="Telegram" aria-label="Telegram" target="_blank"
+                <a href="https://t.me/akhundesign" class="social-icon social-icon--telegram" data-tooltip="Telegram" aria-label="Telegram" target="_blank"
                     rel="noopener noreferrer">
-                    <img src="images/social-icon-3.svg" alt="Telegram" width="24" height="24">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
-                <a href="https://medium.com/@akhundov.design" class="social-icon medium-link" data-tooltip="Medium" aria-label="Medium" target="_blank"
+                <a href="https://medium.com/@akhundov.design" class="social-icon medium-link social-icon--medium" data-tooltip="Medium" aria-label="Medium" target="_blank"
                     rel="noopener noreferrer">
-                    <img src="images/social-icon-4.svg" alt="Medium" width="24" height="24">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7.25" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><ellipse cx="16.25" cy="12" rx="2" ry="5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M21.25 7V17" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
             </div>
         </div>
@@ -291,50 +377,31 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Let's connect!</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
             </div>
             <div class="modal-body">
                 <div class="contact-buttons">
-                    <a href="mailto:akhundovb@gmail.com" class="contact-button email">
-                        <span>Email</span>
-                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
+                    <div class="contact-button contact-button--copy email">
+                        <a href="mailto:akhundovb@gmail.com" class="contact-main">
+                            <svg class="contact-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <span class="contact-label">Email</span>
+                        </a>
+                        <button type="button" class="contact-copy" data-copy="akhundovb@gmail.com" aria-label="Copy email address">
+                            <svg class="contact-copy-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.75" y="8.75" width="12.5" height="12.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M15.25 5.5V2.75H2.75V15.25H5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <svg class="contact-copy-done" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5L9.5 18L20 6.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <span class="contact-copy-tip" role="status" aria-live="polite"></span>
+                        </button>
+                        <a href="mailto:akhundovb@gmail.com" class="contact-fill" tabindex="-1" aria-hidden="true"><svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                    </div>
+                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank" rel="noopener noreferrer">
+                        <svg class="contact-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                        <span class="contact-label">Telegram</span>
+                        <svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                     </a>
-                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank"
-                        rel="noopener noreferrer">
-                        <span>Telegram</span>
-                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank"
-                        rel="noopener noreferrer">
-                        <span>LinkedIn</span>
-                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
+                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank" rel="noopener noreferrer">
+                        <svg class="contact-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                        <span class="contact-label">LinkedIn</span>
+                        <svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                     </a>
                 </div>
             </div>
@@ -347,26 +414,19 @@
             <img class="photo-viewer-img" id="photoViewerImg" alt="Full size image">
             <!-- Mobile Zoom Button -->
             <button class="mobile-zoom-button modal-icon" id="mobileZoomButton" onclick="toggleMobileZoom(); event.stopPropagation();">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.5 7V14M7 10.5H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10.5" cy="10.5" r="7.75" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M16.25 16.25L21 21M10.5 7.5V13.5M7.5 10.5H13.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
             </button>
             
-            <button class="photo-viewer-close modal-icon" onclick="closePhotoViewer(); event.stopPropagation();">
-                <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
+            <button class="photo-viewer-close modal-icon" onclick="closePhotoViewer(); event.stopPropagation();" aria-label="Close">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
             </button>
             
             <!-- Navigation Arrows -->
-            <button class="photo-nav-btn photo-nav-prev" onclick="previousPhoto()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="15,18 9,12 15,6"></polyline>
-                </svg>
+            <button class="photo-nav-btn photo-nav-prev" onclick="previousPhoto()" aria-label="Previous">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
             </button>
-            <button class="photo-nav-btn photo-nav-next" onclick="nextPhoto()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9,18 15,12 9,6"></polyline>
-                </svg>
+            <button class="photo-nav-btn photo-nav-next" onclick="nextPhoto()" aria-label="Next">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
             </button>
             
             <!-- Simple Zoom Slider -->
@@ -378,7 +438,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=20261012p"></script>
     <script>
         // Mobile Menu Functionality
         function toggleMobileMenu() {
@@ -523,7 +583,7 @@
         }
 
         function populateAvailablePhotos() {
-            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img');
+            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img, .project-page .case-phone-screen img:not(.case-flow-layer)');
             availablePhotos = Array.from(clickableImages).map(img => ({
                 src: img.src,
                 alt: img.alt || 'Project image'
@@ -675,6 +735,8 @@
                 
                     // Add click event listener
                     img.addEventListener('click', function(e) {
+                        // On phones the case screens open in the full-screen viewer instead.
+                        if (window.innerWidth <= 768 && this.closest('.case-cover--phones')) return;
                         e.preventDefault();
                         e.stopPropagation();
                         console.log('Image clicked:', this.src);

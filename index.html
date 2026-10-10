@@ -13,28 +13,34 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // The hero name stays hidden until PP Neue Montreal is ready (see the
+        // name motion script at the end of the body), so it never reflows.
+        document.documentElement.classList.add('hh-wait');
+        // Opening intro: once per browser session, skipped for reduced motion.
+        (function () {
+            try {
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                if (sessionStorage.getItem('introSeen')) return;
+                sessionStorage.setItem('introSeen', '1');
+                document.documentElement.classList.add('intro-active');
+                // The intro always starts from the top; a restored scroll
+                // position would otherwise land mid animation.
+                if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            } catch (e) {}
+        })();
+    </script>
     <title>Bahruz - Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="images/Faicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/Faicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/Faicon.png">
-    <link rel="icon" type="image/svg+xml" href="images/Faicon.svg">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="images/Faicon.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="images/Faicon.png">
-    <link rel="shortcut icon" href="images/Faicon.ico">
-    <link rel="alternate icon" href="images/Faicon.ico">
+    <link rel="icon" href="images/favicon.ico?v=2" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png?v=2">
+    <link rel="apple-touch-icon" href="images/icon-180.png?v=2">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400&display=swap"
-        rel="stylesheet">
+    <link rel="preload" href="fonts/pp-neue-montreal/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Theme: light unless the visitor picked dark before (stored per
+         browser); set before paint so the page never flashes. -->
+    <meta name="color-scheme" content="light dark">
+    <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+    <link rel="stylesheet" href="styles.css?v=fast9">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -59,23 +65,25 @@
     </script>
 </head>
 
-<body>
+<body class="home">
     <!-- Header -->
-    <header class="header">
+    <header class="header header--home">
         <div class="container">
             <div class="header-content">
-                <a href="index.html" class="logo">Bahruz</a>
+                <a href="index.html" class="logo logo--name" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
                 
                 <!-- Desktop Navigation -->
-                <nav class="nav desktop-nav">
-                    <a href="about.html" class="nav-link">About</a>
-                    <a href="#projects" class="nav-link">Projects</a>
-                    <button onclick="openModal()" class="nav-button">Get in Touch</button>
+                <nav class="nav desktop-nav home-nav" aria-label="Primary">
+                    <a href="#projects" class="home-nav-link">Works</a>
+                    <a href="resume.pdf" class="home-nav-link" data-resume target="_blank" rel="noopener">Resume</a>
+                    <a href="about.html" class="home-nav-link">About</a>
+                    <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
                 </nav>
 
                 <!-- Mobile Navigation -->
                 <div class="mobile-nav">
-                    <button onclick="openModal()" class="nav-button mobile-button">Get in Touch</button>
+                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
                     <button class="hamburger" onclick="toggleMobileMenu()">
                         <span></span>
                         <span></span>
@@ -85,24 +93,25 @@
 
                 <!-- Mobile Menu Overlay -->
                 <div class="mobile-menu-overlay" id="mobileMenuOverlay">
-                    <button class="mobile-close-btn" onclick="toggleMobileMenu()">
-                        <img src="images/close-button-figma.svg" alt="Close" width="40" height="40">
-                    </button>
-                    <nav class="mobile-menu">
-                        <a href="index.html" class="mobile-nav-link">Home</a>
+                    <div class="mobile-menu-top">
+                        <a href="index.html" class="logo logo--name mobile-menu-logo" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
+                        <button class="mobile-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                    </div>
+                    <nav class="mobile-menu" aria-label="Menu">
+                        <a href="#projects" class="mobile-nav-link">Works</a>
+                        <div class="mobile-nav-row">
+                            <a href="resume.pdf" class="mobile-nav-link" data-resume target="_blank" rel="noopener">Resume</a>
+                            <a href="resume.pdf" download="Bahruz Akhundov - Resume.pdf" class="mobile-nav-download" aria-label="Download resume"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5V20.5M4.5 13L12 20.5L19.5 13" stroke="currentColor" stroke-width="2.6" stroke-linecap="butt" stroke-linejoin="miter"/></svg></a>
+                        </div>
                         <a href="about.html" class="mobile-nav-link">About</a>
-                        <a href="#projects" class="mobile-nav-link">Projects</a>
                     </nav>
-                    <div class="mobile-social-links">
-                        <a href="mailto:akhundovb@gmail.com" class="mobile-social-link">
-                            <img src="images/email-icon-new.svg" alt="Email" width="24" height="24">
-                        </a>
-                        <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
-                            <img src="images/linkedin-icon-new.svg" alt="LinkedIn" width="24" height="24">
-                        </a>
-                        <a href="https://t.me/akhundesign" class="mobile-social-link" target="_blank" rel="noopener noreferrer">
-                            <img src="images/telegram-icon-new.svg" alt="Telegram" width="24" height="24">
-                        </a>
+                    <div class="mobile-menu-bottom">
+                        <div class="mobile-social-links">
+                            <a href="mailto:akhundovb@gmail.com" class="mobile-social-link" aria-label="Email"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                            <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                            <a href="https://t.me/akhundesign" class="mobile-social-link" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                        </div>
+                        <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
                     </div>
                 </div>
             </div>
@@ -110,21 +119,40 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h2 class="hero-title">Hi, I'm Bahruz<br>I design digital products</h2>
-                <p class="hero-description">
-                    I create digital interfaces that are not only functional, but effortless to use.
-                    I believe great design lives in the details and is always built around people.
-                </p>
-                <div class="social-links">
-                    <a href="mailto:akhundovb@gmail.com" class="social-link">Email</a>
-                    <a href="https://www.linkedin.com/in/bahruzakh/" class="social-link" target="_blank"
-                        rel="noopener noreferrer">Linkedin</a>
-                    <a href="https://t.me/akhundesign" class="social-link" target="_blank"
-                        rel="noopener noreferrer">Telegram</a>
+    <section class="home-hero" id="top">
+        <!-- Pressure grid: drawn around the cursor by the script below. -->
+        <canvas class="home-hero-field" aria-hidden="true"></canvas>
+        <div class="container home-hero-container">
+            <div class="hero-content home-hero-grid">
+                <!-- Holds the name's place in the grid while the name itself is
+                     fixed to the viewport (see the name motion script). -->
+                <div class="home-hero-name-spacer" aria-hidden="true"></div>
+                <h1 class="home-hero-name">
+                    <span class="home-hero-name-line">Bahruz</span>
+                    <span class="home-hero-name-line">Akhundov<span class="home-hero-photo" aria-hidden="true"><img src="images/profile-photo-hover.jpg" alt="" width="400" height="400" decoding="async"></span></span>
+                </h1>
+
+                <div class="home-hero-intro">
+                    <p class="home-hero-role">Product Designer</p>
+                    <p class="home-hero-lede">I design clear, intuitive <span class="home-hero-keep">digital products,</span> <br class="home-hero-break">from complex workflows to <span class="home-hero-keep">everyday interactions.</span></p>
                 </div>
+
+
+                <!-- Scroll cue, after lee-jun.com: its Lottie "Arrow bounce" redrawn
+                     as an SVG line (2.25px, like every icon on this page). The two
+                     keyframes follow the Lottie outlines (65 frames at 60fps, played
+                     at 1.3x = 833ms; down on frame 27). -->
+                <a href="#projects" class="home-hero-scroll">
+                    <span class="home-hero-scroll-label">you can just scroll</span>
+                    <svg class="home-hero-scroll-arrow" width="20" height="62" viewBox="0 0 20 62" aria-hidden="true">
+                        <path fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linejoin="miter" d="M9.99 3.7L9.99 22.6M1 12.85L9.99 21.95L18.98 12.85">
+                            <animate attributeName="d" dur="0.8333s" repeatCount="indefinite"
+                                calcMode="spline" keyTimes="0; 0.4154; 1"
+                                keySplines="0.32 0 0.67 0; 0 0.96 0.96 1"
+                                values="M9.99 3.7L9.99 22.6M1 12.85L9.99 21.95L18.98 12.85; M10.45 28.7L10.45 60.6M5.45 45.85L10.45 59.9L15.45 45.85; M9.99 3.7L9.99 22.6M1 12.85L9.99 21.95L18.98 12.85"/>
+                        </path>
+                    </svg>
+                </a>
             </div>
         </div>
     </section>
@@ -132,74 +160,96 @@
     <!-- Projects Section -->
     <section class="projects" id="projects">
         <div class="container">
+            <h2 class="projects-heading">Works</h2>
             <div class="projects-grid">
                 <!-- Row 1 -->
                 <a href="ulta.html" class="project-card">
-                    <div class="project-image">
-                        <img src="images/ulta-project.png" alt="ULTA Restaurant booking app" class="project-img">
+                    <div class="project-head">
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">ULTA</span></span></h3>
+                        <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-info">
-                        <h3 class="project-title">ULTA</h3>
-                        <p class="project-description">Restaurant booking app</p>
-                        <span class="project-year">2025</span>
-                    </div>
+                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
                 </a>
 
                 <a href="pos-terminal.html" class="project-card">
-                    <div class="project-image">
-                        <img src="images/myguava-pos.png" alt="MyGuava POS Terminal app" class="project-img">
+                    <div class="project-head">
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava POS</span></span></h3>
+                        <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-info">
-                        <h3 class="project-title">MyGuava POS</h3>
-                        <p class="project-description">POS terminal</p>
-                        <span class="project-year">2024 - 2025</span>
-                    </div>
+                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
                 </a>
 
                 <a href="myguava-payment.html" class="project-card">
-                    <div class="project-image">
-                        <img src="images/myguava-payment.png" alt="MyGuava Payment page" class="project-img">
+                    <div class="project-head">
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Payment</span></span></h3>
+                        <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-info">
-                        <h3 class="project-title">MyGuava Payment</h3>
-                        <p class="project-description">Checkout page</p>
-                        <span class="project-year">2024 - 2025</span>
-                    </div>
+                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
                 </a>
 
                 <!-- Row 2 -->
                 <a href="myguava-design-system.html" class="project-card">
-                    <div class="project-image">
-                        <img src="images/design-system.png" alt="Design system" class="project-img">
+                    <div class="project-head">
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Design System</span></span></h3>
+                        <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-info">
-                        <h3 class="project-title">MyGuava Design System</h3>
-                        <p class="project-description">Customizable design system</p>
-                        <span class="project-year">2024 - 2025</span>
-                    </div>
+                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
                 </a>
 
                 <a href="myguava-business.html" class="project-card">
-                    <div class="project-image">
-                        <img src="images/myguava-business.png" alt="MyGuava Business dashboard" class="project-img">
+                    <div class="project-head">
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Business</span></span></h3>
+                        <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-info">
-                        <h3 class="project-title">MyGuava Business</h3>
-                        <p class="project-description">Business dashboard</p>
-                        <span class="project-year">2023 - 2025</span>
-                    </div>
+                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
                 </a>
 
-                <a href="remitone.html" class="project-card">
-                    <div class="project-image">
-                        <img src="images/remiton.png" alt="Remiton mobile app" class="project-img">
+                <a href="remitone.html" class="project-card project-card--remiton">
+                    <div class="project-head">
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">Remiton</span></span></h3>
+                        <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-info">
-                        <h3 class="project-title">Remiton</h3>
-                        <p class="project-description">Money transfer app</p>
-                        <span class="project-year">2023</span>
+                    <!-- Phones: the home screen in front; on hover the onboarding and
+                         the passcode login slide out from behind it. -->
+                    <div class="project-image project-image--phones" aria-hidden="true">
+                        <div class="project-phones">
+                            <div class="case-phone case-phone--back case-phone--left"><div class="case-phone-screen" style="--screen: #35079E"><span class="case-phone-status"></span><img src="images/remiton/01.jpg?v=5" alt="" loading="lazy" decoding="async"></div></div>
+                            <div class="case-phone case-phone--back case-phone--right"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/login.jpg?v=3" alt="" loading="lazy" decoding="async"></div></div>
+                            <div class="case-phone case-phone--front"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/home.jpg?v=1" alt="" loading="lazy" decoding="async"></div></div>
+                        </div>
                     </div>
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo desk: my own travel shots as loose prints, after chloemaillot.fr.
+         All graded to one warm film tone (images/desk/).
+         Drag a print and it comes to the top. Laid out at 1152 x 520 and
+         scaled down as a whole on smaller screens. -->
+    <section class="home-desk" aria-label="Photo desk">
+        <div class="container">
+            <div class="desk">
+                <div class="desk-stage">
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:23.66%;top:269px;width:139px;--rot:-3.3deg;z-index:1"><img src="images/desk/11.jpg?v=3" alt="Turquoise shophouse and a police scooter" width="751" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:12.64%;top:88px;width:139px;--rot:-8.0deg;z-index:2"><img src="images/desk/06.jpg" alt="Flag over the Ho Chi Minh Mausoleum, Hanoi" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:35.02%;top:142px;width:169px;--rot:10.5deg;z-index:3"><img src="images/desk/17.jpg" alt="Storm clouds over a lit hillside" width="1000" height="776" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:47.32%;top:20px;width:173px;--rot:3.9deg;z-index:4"><img src="images/desk/18.jpg" alt="Wooden stairs on a mossy cliff" width="1000" height="750" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:61.17%;top:151px;width:123px;--rot:9.9deg;z-index:5"><img src="images/desk/10.jpg" alt="Morning market street with scooters" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:62.17%;top:310px;width:136px;--rot:-6.8deg;z-index:6"><img src="images/desk/01.jpg" alt="Petronas Towers at night, Kuala Lumpur" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:49.57%;top:151px;width:134px;--rot:-3.9deg;z-index:7"><img src="images/desk/16.jpg" alt="Ceiling of a mosque dome" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:13.74%;top:329px;width:115px;--rot:4.1deg;z-index:8"><img src="images/desk/15.jpg" alt="Hotel Kazakhstan, Almaty" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:49.93%;top:339px;width:141px;--rot:-5.4deg;z-index:9"><img src="images/desk/04.jpg" alt="Monkey with a coconut on pink stairs" width="828" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:4.11%;top:261px;width:114px;--rot:-7.5deg;z-index:10"><img src="images/desk/07.jpg" alt="Neon bar sign at night" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:73.00%;top:153px;width:107px;--rot:6.5deg;z-index:11"><img src="images/desk/12.jpg" alt="Bayterek tower at dusk, Astana" width="554" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:36.89%;top:284px;width:148px;--rot:9.6deg;z-index:12"><img src="images/desk/14.jpg" alt="Charyn canyon with three umbrellas" width="800" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:81.40%;top:319px;width:149px;--rot:-3.5deg;z-index:13"><img src="images/desk/13.jpg" alt="Kolsai lake in the mountains" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:26.03%;top:28px;width:109px;--rot:-4.5deg;z-index:14"><img src="images/desk/08.jpg" alt="Mural of a girl peeking over a window" width="648" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:77.23%;top:7px;width:115px;--rot:7.7deg;z-index:15"><img src="images/desk/02.jpg" alt="Rainbow stairs at Batu Caves" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:82.01%;top:153px;width:123px;--rot:9.2deg;z-index:16"><img src="images/desk/09.jpg" alt="Surfboards under palms on the beach" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:0.99%;top:94px;width:122px;--rot:9.9deg;z-index:17"><img src="images/desk/03.jpg" alt="Painted meter boxes on a yellow wall" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                    <div class="desk-item desk-item--card" role="button" tabindex="0" aria-label="Open photo" style="left:86.66%;top:7px;width:136px;--rot:3.7deg;z-index:18"><img src="images/desk/05.jpg" alt="Taxi driver on a Kuala Lumpur street" width="750" height="1000" loading="lazy" decoding="async" draggable="false"><span class="desk-grain" aria-hidden="true"></span><span class="desk-glare" aria-hidden="true"></span></div>
+                </div>
             </div>
         </div>
     </section>
@@ -209,85 +259,102 @@
         <div class="footer-content">
             <h3 class="footer-title">Let's work together</h3>
             <div class="footer-social">
-                <a href="mailto:akhundovb@gmail.com" class="social-icon" data-tooltip="Email" aria-label="Email">
-                    <img src="images/social-icon-1.svg" alt="Email" width="24" height="24">
+                <a href="mailto:akhundovb@gmail.com" class="social-icon social-icon--email" data-tooltip="Email" aria-label="Email">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
-                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon" data-tooltip="LinkedIn" aria-label="LinkedIn" target="_blank"
+                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon social-icon--linkedin" data-tooltip="LinkedIn" aria-label="LinkedIn" target="_blank"
                     rel="noopener noreferrer">
-                    <img src="images/social-icon-2.svg" alt="LinkedIn" width="24" height="24">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
-                <a href="https://t.me/akhundesign" class="social-icon" data-tooltip="Telegram" aria-label="Telegram" target="_blank"
+                <a href="https://t.me/akhundesign" class="social-icon social-icon--telegram" data-tooltip="Telegram" aria-label="Telegram" target="_blank"
                     rel="noopener noreferrer">
-                    <img src="images/social-icon-3.svg" alt="Telegram" width="24" height="24">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
-                <a href="https://medium.com/@akhundov.design" class="social-icon medium-link" data-tooltip="Medium" aria-label="Medium" target="_blank"
+                <a href="https://medium.com/@akhundov.design" class="social-icon medium-link social-icon--medium" data-tooltip="Medium" aria-label="Medium" target="_blank"
                     rel="noopener noreferrer">
-                    <img src="images/social-icon-4.svg" alt="Medium" width="24" height="24">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7.25" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><ellipse cx="16.25" cy="12" rx="2" ry="5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M21.25 7V17" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                 </a>
             </div>
         </div>
     </footer>
 
 
+    <!-- Easter egg: playing the whole tune on the page calls in an old Nokia.
+         Answer opens the contact dialog; Snake starts a game on its screen. -->
+    <div class="nokia-egg" role="group" aria-label="Incoming call from Bahruz" aria-hidden="true">
+        <svg class="nokia-egg-phone" width="88" height="194" viewBox="0 0 100 220" aria-hidden="true">
+            <rect x="5" y="5" width="90" height="210" rx="30" fill="#2F3E55"/>
+            <rect x="9" y="9" width="82" height="202" rx="27" fill="none" stroke="#3E5170" stroke-width="2"/>
+            <rect x="40" y="13" width="20" height="2.5" rx="1.25" fill="#1D2532"/>
+            <text x="50" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8" font-weight="700" letter-spacing="1.2" fill="#D5DAE2">NOKIA</text>
+            <rect x="18" y="34" width="64" height="54" rx="6" fill="#1D2532"/>
+            <rect x="23" y="39" width="54" height="42" rx="2" fill="#A9BB8C"/>
+            <g class="nokia-egg-call" fill="#26301C"><rect x="26" y="49" width="2" height="2"/><rect x="26" y="46" width="2" height="2"/><rect x="26" y="43" width="2" height="2"/><rect x="72" y="43" width="2" height="2"/><rect x="72" y="46" width="2" height="2"/><rect x="72" y="49" width="2" height="2"/><text x="50" y="60" text-anchor="middle" font-family="'Courier New', monospace" font-weight="700" font-size="8">Bahruz</text><text class="nokia-egg-blink" x="50" y="71" text-anchor="middle" font-family="'Courier New', monospace" font-weight="700" font-size="6">calling...</text></g>
+            <g class="nokia-egg-over" fill="#26301C"><text x="50" y="53" text-anchor="middle" font-family="'Courier New', monospace" font-weight="700" font-size="7">Game over</text><text class="nokia-egg-score" x="50" y="64" text-anchor="middle" font-family="'Courier New', monospace" font-weight="700" font-size="6">Score 0</text><text x="50" y="76" text-anchor="middle" font-family="'Courier New', monospace" font-weight="700" font-size="6">Again</text></g>
+            <g class="nokia-egg-key" data-key="navi"><path d="M21 96.5 Q50 91 79 96.5 L77 108 Q50 114.5 23 108 Z" fill="#5B7FB0"/><path d="M39 101.5 Q50 99.8 61 101.5" fill="none" stroke="#B4C8E6" stroke-width="1.6" stroke-linecap="round"/></g>
+            <g class="nokia-egg-key" data-key="c" transform="translate(31 121) rotate(9)"><rect x="-11" y="-4.5" width="22" height="9" rx="4.5" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">C</text></g>
+            <g class="nokia-egg-key" data-key="scroll" transform="translate(69 121) rotate(-9)"><rect x="-11" y="-4.5" width="22" height="9" rx="4.5" fill="#C9CED6"/><path d="M-6.5 1.5 L-4 -1.5 L-1.5 1.5 M1.5 -1.5 L4 1.5 L6.5 -1.5" fill="none" stroke="#2F3E55" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></g>
+            <g class="nokia-egg-key" data-key="1" transform="translate(28 137) rotate(8)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">1</text></g>
+            <g class="nokia-egg-key" data-key="2" transform="translate(50 139) rotate(0)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">2</text></g>
+            <g class="nokia-egg-key" data-key="3" transform="translate(72 137) rotate(-8)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">3</text></g>
+            <g class="nokia-egg-key" data-key="4" transform="translate(28 152) rotate(8)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">4</text></g>
+            <g class="nokia-egg-key" data-key="5" transform="translate(50 154) rotate(0)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">5</text></g>
+            <g class="nokia-egg-key" data-key="6" transform="translate(72 152) rotate(-8)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">6</text></g>
+            <g class="nokia-egg-key" data-key="7" transform="translate(28 167) rotate(8)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">7</text></g>
+            <g class="nokia-egg-key" data-key="8" transform="translate(50 169) rotate(0)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">8</text></g>
+            <g class="nokia-egg-key" data-key="9" transform="translate(72 167) rotate(-8)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">9</text></g>
+            <g class="nokia-egg-key" data-key="*" transform="translate(28 182) rotate(8)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">*</text></g>
+            <g class="nokia-egg-key" data-key="0" transform="translate(50 184) rotate(0)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">0</text></g>
+            <g class="nokia-egg-key" data-key="#" transform="translate(72 182) rotate(-8)"><rect x="-9.5" y="-4.75" width="19" height="9.5" rx="4.75" fill="#C9CED6"/><text y="2.3" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" fill="#2F3E55">#</text></g>
+            <rect x="47" y="200" width="6" height="2" rx="1" fill="#1D2532"/>
+        </svg>
+        <canvas class="nokia-egg-screen" width="36" height="28" aria-hidden="true"></canvas>
+    </div>
+    <div class="nokia-egg-ui" aria-hidden="true">
+        <div class="nokia-egg-actions">
+            <button type="button" class="home-cta nokia-egg-answer" tabindex="-1">Answer</button>
+            <button type="button" class="nokia-egg-snake" tabindex="-1">Play Snake 🐍</button>
+        </div>
+        <p class="nokia-egg-hint">Arrows or 2 4 6 8 to steer<br>Esc to quit</p>
+    </div>
+
     <!-- Contact Modal -->
     <div id="contactModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Let's connect!</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
             </div>
             <div class="modal-body">
                 <div class="contact-buttons">
-                    <a href="mailto:akhundovb@gmail.com" class="contact-button email">
-                        <img src="images/social-icon-1.svg" alt="Email" width="24" height="24">
-                        <span>Email</span>
-                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
+                    <div class="contact-button contact-button--copy email">
+                        <a href="mailto:akhundovb@gmail.com" class="contact-main">
+                            <svg class="contact-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <span class="contact-label">Email</span>
+                        </a>
+                        <button type="button" class="contact-copy" data-copy="akhundovb@gmail.com" aria-label="Copy email address">
+                            <svg class="contact-copy-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.75" y="8.75" width="12.5" height="12.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M15.25 5.5V2.75H2.75V15.25H5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <svg class="contact-copy-done" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5L9.5 18L20 6.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <span class="contact-copy-tip" role="status" aria-live="polite"></span>
+                        </button>
+                        <a href="mailto:akhundovb@gmail.com" class="contact-fill" tabindex="-1" aria-hidden="true"><svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                    </div>
+                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank" rel="noopener noreferrer">
+                        <svg class="contact-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                        <span class="contact-label">Telegram</span>
+                        <svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                     </a>
-                    <a href="https://t.me/akhundesign" class="contact-button telegram" target="_blank"
-                        rel="noopener noreferrer">
-                        <img src="images/social-icon-3.svg" alt="Telegram" width="24" height="24">
-                        <span>Telegram</span>
-                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank"
-                        rel="noopener noreferrer">
-                        <img src="images/social-icon-2.svg" alt="LinkedIn" width="24" height="24">
-                        <span>LinkedIn</span>
-                        <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18 13V19C18 19.5523 17.5523 20 17 20H5C4.44772 20 4 19.5523 4 19V7C4 6.44772 4.44772 6 5 6H11"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 3H21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
+                    <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-button linkedin" target="_blank" rel="noopener noreferrer">
+                        <svg class="contact-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                        <span class="contact-label">LinkedIn</span>
+                        <svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=20261012p"></script>
     <script>
 
         // Mobile Menu Functionality
@@ -378,6 +445,751 @@
                 }
             });
         });
+    </script>
+    <script>
+        // Home name motion. One element (.home-hero-name) does everything:
+        //   intro   white screen, the name fills the width, then settles into
+        //           the hero (FLIP: transform only, the layout never changes)
+        //   scroll  the name shrinks into the header logo slot and stays
+        //           there; scrolling back up reverses it
+        (function () {
+            var root = document.documentElement;
+            var hero = document.querySelector('.home-hero');
+            var name = document.querySelector('.home-hero-name');
+            var header = document.querySelector('.header--home');
+            if (!hero || !name) {
+                root.classList.remove('hh-wait', 'intro-active');
+                return;
+            }
+
+            var reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            var BEARING = 0.074; // matches the name's margin-left in em
+            var CAP = 0.095;     // PP Neue Montreal cap line offset in em (line-height 0.9)
+            var home = null;
+            var introRunning = false;
+            var lastTransform = null;
+            var spacer = document.querySelector('.home-hero-name-spacer');
+
+            function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
+            function lerp(a, b, t) { return a + (b - a) * t; }
+
+            // Untransformed box of the name, in document coordinates.
+            function measure() {
+                var fixed = !reduceQuery.matches;
+                root.classList.toggle('hh-fixed', fixed);
+                var fs = parseFloat(getComputedStyle(name).fontSize);
+                var prev = name.style.transform;
+                name.style.transform = 'none';
+                if (fixed) {
+                    // Size and place the fixed name exactly where it would sit
+                    // in the grid cell; the spacer takes over the cell's height.
+                    var cell = spacer.getBoundingClientRect();
+                    name.style.left = cell.left + 'px';
+                    name.style.top = (cell.top + window.scrollY) + 'px';
+                    name.style.width = (cell.width + BEARING * fs) + 'px';
+                    spacer.style.height = name.offsetHeight + 'px';
+                } else {
+                    name.style.left = name.style.top = name.style.width = '';
+                }
+                var r = name.getBoundingClientRect();
+                if (fixed) r = { left: r.left, top: parseFloat(name.style.top) - window.scrollY, height: r.height };
+                name.style.transform = prev;
+                // The hover photo is absolutely placed after the name; keep its
+                // box out of the text measurement.
+                var photo = name.querySelector('.home-hero-photo');
+                if (photo) photo.style.display = 'none';
+                var range = document.createRange();
+                range.selectNodeContents(name);
+                // One entry per visual line (both words share a line on desktop).
+                var lines = {};
+                Array.prototype.forEach.call(range.getClientRects(), function (rect) {
+                    var key = Math.round(rect.top);
+                    var line = lines[key] || (lines[key] = { left: Infinity, right: -Infinity });
+                    line.left = Math.min(line.left, rect.left);
+                    line.right = Math.max(line.right, rect.right);
+                });
+                var widest = 0;
+                Object.keys(lines).forEach(function (key) {
+                    widest = Math.max(widest, lines[key].right - lines[key].left);
+                });
+                if (photo) {
+                    photo.style.display = '';
+                    // 1.2x the name size, as on winston.studio, but never past
+                    // the content column.
+                    var limitRight = hero.querySelector('.home-hero-container').getBoundingClientRect().right - 16;
+                    var size = Math.min(1.2 * fs, limitRight - photo.getBoundingClientRect().left);
+                    name.style.setProperty('--hh-photo', Math.max(0, size) + 'px');
+                }
+                var follower = hero.querySelector('.home-hero-intro');
+                home = {
+                    followerTop: follower.getBoundingClientRect().top + window.scrollY,
+                    // Past this point the header may hide on scroll down: the
+                    // "you can just scroll" cue has gone under the header.
+                    cueBottom: hero.querySelector('.home-hero-scroll').getBoundingClientRect().bottom + window.scrollY,
+                    left: r.left + window.scrollX,
+                    top: r.top + window.scrollY,
+                    height: r.height,
+                    inkWidth: widest - BEARING * fs,
+                    fs: fs
+                };
+            }
+
+            function transform(x, y, s) {
+                return 'translate(' + x.toFixed(2) + 'px, ' + y.toFixed(2) + 'px) scale(' + s.toFixed(4) + ')';
+            }
+
+            // Scroll state ---------------------------------------------------
+            // Header (with the docked name) hides on scroll down once the
+            // scroll cue is behind it, and comes back on any scroll up. A few
+            // pixels of tolerance keep small wheel jitters from flipping it.
+            var lastY = window.scrollY;
+            function updateHeaderVisibility(y) {
+                var headerHeight = header ? header.offsetHeight : 72;
+                var delta = y - lastY;
+                if (y <= home.cueBottom - headerHeight) {
+                    root.classList.remove('hh-header-hidden');
+                    lastY = y;
+                } else if (Math.abs(delta) > 4) {
+                    root.classList.toggle('hh-header-hidden', delta > 0);
+                    lastY = y;
+                }
+            }
+
+            function update() {
+                if (!home || introRunning) return;
+                var y = window.scrollY;
+                updateHeaderVisibility(y);
+
+                if (reduceQuery.matches) {
+                    name.style.transform = lastTransform = '';
+                    return;
+                }
+
+                var desktop = window.innerWidth >= 1024;
+                var s = (desktop ? 24 : 20) / home.fs;
+                var headerHeight = header ? header.offsetHeight : 72;
+                var logoTop = (headerHeight - home.height * s) / 2;
+                // Dock before the text below can slide under the shrinking
+                // name: both move linearly with scroll, so checking the end
+                // point is enough.
+                // Independent of innerHeight, so a mobile address bar showing
+                // or hiding cannot shift the progress mid scroll.
+                var clearance = home.followerTop - (logoTop + home.height * s) - 24;
+                var distance = clamp(clearance, 120, 420);
+                var p = clamp(y / distance, 0, 1);
+
+                var scale = lerp(1, s, p);
+                // Keep the ink edge on the container line while scaling.
+                var x = BEARING * home.fs * (1 - scale);
+                var top = lerp(home.top, logoTop, p);
+                // The name is fixed at home.top, so this offset depends on
+                // progress only; once docked it stops changing entirely.
+                var next = p === 0 ? '' : transform(x, top - home.top, scale);
+                if (next !== lastTransform) {
+                    name.style.transform = next;
+                    lastTransform = next;
+                }
+                root.classList.toggle('hh-docked', p > 0);
+            }
+
+            function remeasure() {
+                if (introRunning) return;
+                name.style.transform = lastTransform = '';
+                measure();
+                update();
+            }
+
+            // Intro -----------------------------------------------------------
+            function runIntro() {
+                introRunning = true;
+                measure();
+
+                var container = hero.querySelector('.home-hero-container');
+                var cs = getComputedStyle(container);
+                var contentWidth = container.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+                var stacked = window.innerWidth < 1024;
+                var S = contentWidth / home.inkWidth;
+                if (stacked) S = Math.min(S, (window.innerHeight * 0.6) / home.height);
+
+                var x = BEARING * home.fs * (1 - S);
+                // Desktop: pinned to the top edge like the hero itself.
+                // Stacked (two lines): centred on the white screen.
+                var y = stacked
+                    ? (window.innerHeight - home.height * S) / 2 - home.top
+                    : CAP * home.fs * (1 - S);
+                var start = transform(x, y, S);
+                var rise = transform(x, y + 0.06 * home.fs * S, S);
+
+                root.classList.remove('hh-wait');
+                var anim = name.animate([
+                    { opacity: 0, transform: rise, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+                    { opacity: 1, transform: start, offset: 0.32 },
+                    { opacity: 1, transform: start, offset: 0.44, easing: 'cubic-bezier(0.7, 0, 0.2, 1)' },
+                    { opacity: 1, transform: 'none' }
+                ], { duration: 2300, fill: 'forwards' });
+
+                // The rest of the hero comes in over the last part of the move.
+                setTimeout(function () { root.classList.add('intro-reveal'); }, 1850);
+
+                anim.onfinish = function () {
+                    name.style.opacity = '';
+                    anim.cancel();
+                    introRunning = false;
+                    update();
+                    setTimeout(function () {
+                        root.classList.remove('intro-active', 'intro-reveal');
+                        remeasure(); // the hero text has dropped its entry offset
+                    }, 900);
+                };
+            }
+
+            function start() {
+                if (start.done) return;
+                start.done = true;
+
+                if (!reduceQuery.matches) root.classList.add('hh-motion');
+
+                var wantsIntro = root.classList.contains('intro-active');
+                if (wantsIntro && window.scrollY > 0) {
+                    // Reloaded mid page: no intro, just restore the docked state.
+                    root.classList.remove('intro-active');
+                    wantsIntro = false;
+                }
+
+                if (wantsIntro) {
+                    runIntro();
+                } else {
+                    root.classList.remove('hh-wait');
+                    measure();
+                    update();
+                }
+
+                // Browsers fire scroll at most once per frame, right before
+                // animation frames; updating here (not in a later rAF) keeps the
+                // name on the same frame as the scroll position it reflects.
+                window.addEventListener('scroll', update, { passive: true });
+                window.addEventListener('resize', remeasure);
+                // Also catch layout changes that arrive without a resize event.
+                if ('ResizeObserver' in window) new ResizeObserver(remeasure).observe(hero);
+                if (reduceQuery.addEventListener) {
+                    reduceQuery.addEventListener('change', function () {
+                        root.classList.toggle('hh-motion', !reduceQuery.matches);
+                        remeasure();
+                    });
+                }
+            }
+
+            // The scroll cue arrow is SMIL, which CSS cannot pause: hold it on
+            // its resting frame when reduced motion is requested.
+            var scrollArrow = document.querySelector('.home-hero-scroll-arrow');
+            function syncScrollArrow() {
+                if (!scrollArrow || !scrollArrow.pauseAnimations) return;
+                if (reduceQuery.matches || root.classList.contains('hh-cue-quiet')) {
+                    scrollArrow.pauseAnimations();
+                    scrollArrow.setCurrentTime(0);
+                } else {
+                    scrollArrow.unpauseAnimations();
+                }
+            }
+            syncScrollArrow();
+            if (reduceQuery.addEventListener) reduceQuery.addEventListener('change', syncScrollArrow);
+
+            // Once the Works heading is on screen (or scrolled past), the
+            // scroll cue has done its job: it quiets down to small, black and
+            // still. Above that point it is the orange, bouncing cue again.
+            var worksHeading = document.querySelector('.projects-heading');
+            if (worksHeading && 'IntersectionObserver' in window) {
+                new IntersectionObserver(function (entries) {
+                    var quiet = entries[0].boundingClientRect.top < window.innerHeight;
+                    if (quiet !== root.classList.contains('hh-cue-quiet')) {
+                        root.classList.toggle('hh-cue-quiet', quiet);
+                        syncScrollArrow();
+                    }
+                }, { threshold: [0, 1] }).observe(worksHeading);
+            }
+
+            // iOS Safari only shows :active (the pressed CTA) once the page
+            // listens for touches.
+            document.addEventListener('touchstart', function () {}, { passive: true });
+
+            // Measure only with the real face loaded, so nothing jumps later.
+            if (document.fonts && document.fonts.load) {
+                document.fonts.load('400 1em "PP Neue Montreal"').then(start, start);
+            }
+            setTimeout(start, 1500); // never keep the page blank on a slow font
+        })();
+    </script>
+    <script>
+        // Hero pressure grid. A fine grid sits under the hero; around the mouse
+        // it surfaces and dips toward the cursor, as if the cursor presses the
+        // surface (deeper while the button is held). Mouse only, off during the
+        // intro, no dip with reduced motion. Only the area around the cursor is
+        // drawn, and only while something is still moving.
+        (function () {
+            var hero = document.querySelector('.home-hero');
+            var canvas = document.querySelector('.home-hero-field');
+            if (!hero || !canvas || !canvas.getContext) return;
+            var ctx = canvas.getContext('2d');
+            var root = document.documentElement;
+            var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+            var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+            var STEP = 32;      // grid pitch, px
+            var REACH = 220;    // radius the structure shows within, px
+            var DEPTH = 16;     // dip at rest, px
+            var PRESS = 18;     // extra dip while pressed, px
+
+            var dpr = 1, width = 0, height = 0;
+            var target = { x: 0, y: 0 }, pos = { x: 0, y: 0 };
+            var shown = 0, shownTarget = 0, pressed = 0, pressedTarget = 0;
+            var running = false, entered = false;
+
+            function resize() {
+                var r = hero.getBoundingClientRect();
+                dpr = Math.min(2, window.devicePixelRatio || 1);
+                width = r.width;
+                height = r.height;
+                canvas.width = Math.round(width * dpr);
+                canvas.height = Math.round(height * dpr);
+                draw();
+            }
+
+            // Grid point pulled toward the cursor like a dent: no pull at the
+            // very centre (so lines never pinch to a point), most around the
+            // dent's slope, none far out. Capped so points never cross over.
+            var SLOPE = REACH * 0.45;
+            function displace(x, y, depth) {
+                var dx = pos.x - x, dy = pos.y - y;
+                var d = Math.sqrt(dx * dx + dy * dy) || 1;
+                var k = d / SLOPE;
+                var pull = Math.min(d * 0.6, depth * 1.6487 * k * Math.exp(-k * k));
+                return [x + dx / d * pull, y + dy / d * pull, d];
+            }
+
+            // Grid ink follows the theme.
+            function ink() {
+                return root.getAttribute('data-theme') === 'dark' ? '237, 237, 236' : '15, 15, 15';
+            }
+
+            function alphaAt(d) {
+                return shown * 0.14 * Math.exp(-Math.pow(d / (REACH * 0.62), 2));
+            }
+
+            function draw() {
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (shown < 0.005) return;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                ctx.lineWidth = 1;
+
+                var depth = reduceMotion.matches ? 0 : (DEPTH + PRESS * pressed) * shown;
+                var x0 = Math.max(0, Math.floor((pos.x - REACH) / STEP) * STEP);
+                var x1 = Math.min(width, Math.ceil((pos.x + REACH) / STEP) * STEP);
+                var y0 = Math.max(0, Math.floor((pos.y - REACH) / STEP) * STEP);
+                var y1 = Math.min(height, Math.ceil((pos.y + REACH) / STEP) * STEP);
+                var sub = STEP / 4; // sampling along a line, so the dip reads as a curve
+
+                // Horizontal and vertical lines, one short segment at a time so
+                // each can fade with its distance from the cursor.
+                for (var pass = 0; pass < 2; pass++) {
+                    for (var a = (pass ? x0 : y0); a <= (pass ? x1 : y1); a += STEP) {
+                        var prev = null;
+                        for (var b = (pass ? y0 : x0); b <= (pass ? y1 : x1); b += sub) {
+                            var p = pass ? displace(a, b, depth) : displace(b, a, depth);
+                            if (prev) {
+                                var al = alphaAt((p[2] + prev[2]) / 2);
+                                if (al > 0.004) {
+                                    ctx.strokeStyle = 'rgba(' + ink() + ', ' + al.toFixed(3) + ')';
+                                    ctx.beginPath();
+                                    ctx.moveTo(prev[0], prev[1]);
+                                    ctx.lineTo(p[0], p[1]);
+                                    ctx.stroke();
+                                }
+                            }
+                            prev = p;
+                        }
+                    }
+                }
+
+                // Nodes at the intersections: the "structure" surfacing.
+                for (var gx = x0; gx <= x1; gx += STEP) {
+                    for (var gy = y0; gy <= y1; gy += STEP) {
+                        var q = displace(gx, gy, depth);
+                        var na = alphaAt(q[2]) * 2.2;
+                        if (na > 0.01) {
+                            ctx.fillStyle = 'rgba(' + ink() + ', ' + Math.min(0.32, na).toFixed(3) + ')';
+                            ctx.fillRect(q[0] - 1, q[1] - 1, 2, 2);
+                        }
+                    }
+                }
+            }
+
+            function tick() {
+                var ease = reduceMotion.matches ? 1 : 0.18;
+                pos.x += (target.x - pos.x) * ease;
+                pos.y += (target.y - pos.y) * ease;
+                shown += (shownTarget - shown) * (reduceMotion.matches ? 1 : 0.1);
+                pressed += (pressedTarget - pressed) * 0.2;
+                draw();
+                var settled = Math.abs(target.x - pos.x) < 0.2 && Math.abs(target.y - pos.y) < 0.2 &&
+                    Math.abs(shownTarget - shown) < 0.004 && Math.abs(pressedTarget - pressed) < 0.004;
+                if (settled) {
+                    shown = shownTarget; pressed = pressedTarget;
+                    draw();
+                    running = false;
+                } else {
+                    requestAnimationFrame(tick);
+                }
+            }
+
+            function kick() {
+                if (!running) {
+                    running = true;
+                    requestAnimationFrame(tick);
+                }
+            }
+
+            function usable(e) {
+                return e.pointerType === 'mouse' && finePointer.matches &&
+                    !root.classList.contains('intro-active');
+            }
+
+            hero.addEventListener('pointermove', function (e) {
+                if (!usable(e)) return;
+                var r = hero.getBoundingClientRect();
+                target.x = e.clientX - r.left;
+                target.y = e.clientY - r.top;
+                if (!entered) {
+                    entered = true;
+                    pos.x = target.x;
+                    pos.y = target.y;
+                }
+                shownTarget = 1;
+                kick();
+            });
+            hero.addEventListener('pointerleave', function () {
+                entered = false;
+                shownTarget = 0;
+                pressedTarget = 0;
+                kick();
+            });
+            // Click sounds: retro mobile-phone beeps (Web Audio, no files).
+            // Each press plays the next note of the famous Nokia Tune phrase
+            // (from Tarrega's "Gran Vals", 1902), so clicking along spells the
+            // ringtone; after the last note it starts over. Monophonic
+            // square-wave beeps with a faint FM edge, shaped like a tiny phone
+            // speaker. Lengths follow the tune's rhythm: eighths short,
+            // quarters longer, the closing note longest.
+            //   freq  Hz                      dur  length in s
+            var NOTES = [
+                { freq: 1318.51, dur: 0.10 },  // E6
+                { freq: 1174.66, dur: 0.10 },  // D6
+                { freq: 739.99,  dur: 0.16 },  // F#5
+                { freq: 830.61,  dur: 0.16 },  // G#5
+                { freq: 1108.73, dur: 0.10 },  // C#6
+                { freq: 987.77,  dur: 0.10 },  // B5
+                { freq: 587.33,  dur: 0.16 },  // D5
+                { freq: 659.25,  dur: 0.16 },  // E5
+                { freq: 987.77,  dur: 0.10 },  // B5
+                { freq: 880.00,  dur: 0.10 },  // A5
+                { freq: 554.37,  dur: 0.16 },  // C#5
+                { freq: 659.25,  dur: 0.16 },  // E5
+                { freq: 880.00,  dur: 0.30 }   // A5
+            ];
+            var note = 0;
+            var audio = null, speaker = null, current = null;
+
+            // A tiny phone speaker: no lows, no airy highs, a bump around 2.5k.
+            function makeSpeaker(ctx) {
+                var low = ctx.createBiquadFilter();
+                low.type = 'highpass';
+                low.frequency.value = 600;
+                var high = ctx.createBiquadFilter();
+                high.type = 'lowpass';
+                high.frequency.value = 5000;
+                var bump = ctx.createBiquadFilter();
+                bump.type = 'peaking';
+                bump.frequency.value = 2500;
+                bump.Q.value = 1;
+                bump.gain.value = 3;
+                var out = ctx.createGain();
+                out.gain.value = 0.9;
+                low.connect(high).connect(bump).connect(out).connect(ctx.destination);
+                return low;
+            }
+
+            function beep(n) {
+                var AC = window.AudioContext || window.webkitAudioContext;
+                if (!AC) return;
+                if (!audio) {
+                    audio = new AC();
+                    speaker = makeSpeaker(audio);
+                }
+                if (audio.state === 'suspended') audio.resume();
+                var t = audio.currentTime;
+
+                // Monophonic: a new note cuts the previous one, like the phones.
+                if (current) {
+                    current.amp.gain.cancelScheduledValues(t);
+                    current.amp.gain.setTargetAtTime(0.0001, t, 0.004);
+                    current.osc.stop(t + 0.03);
+                    current.mod.stop(t + 0.03);
+                }
+
+                // Square-wave body; starts a semitone sharp and drops into the
+                // note in 8ms for a tactile click.
+                var osc = audio.createOscillator();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(n.freq * 1.059, t);
+                osc.frequency.exponentialRampToValueAtTime(n.freq, t + 0.008);
+
+                // Faint FM at 2x for the early-digital edge, gone within 40ms.
+                var mod = audio.createOscillator();
+                var modDepth = audio.createGain();
+                mod.type = 'sine';
+                mod.frequency.value = n.freq * 2;
+                modDepth.gain.setValueAtTime(n.freq * 0.08, t);
+                modDepth.gain.exponentialRampToValueAtTime(1, t + 0.04);
+                mod.connect(modDepth).connect(osc.frequency);
+
+                // Dry gate: instant on, short hold, quick release. Kept quiet,
+                // square waves are loud.
+                var amp = audio.createGain();
+                amp.gain.setValueAtTime(0.0001, t);
+                amp.gain.exponentialRampToValueAtTime(0.028, t + 0.002);
+                amp.gain.setValueAtTime(0.028, t + n.dur * 0.7);
+                amp.gain.exponentialRampToValueAtTime(0.0001, t + n.dur);
+                osc.connect(amp).connect(speaker);
+
+                osc.start(t);
+                mod.start(t);
+                osc.stop(t + n.dur + 0.02);
+                mod.stop(t + n.dur + 0.02);
+                current = { osc: osc, mod: mod, amp: amp };
+                osc.onended = function () {
+                    if (current && current.osc === osc) current = null;
+                };
+            }
+
+            // One note per press, the next one in the phrase each time.
+            function sound(kind) {
+                if (kind !== 'press') return;
+                beep(NOTES[note]);
+                note = (note + 1) % NOTES.length;
+                // The phrase just finished on its last note.
+                if (note === 0) showEgg();
+            }
+
+            // Easter egg: play the whole tune and an old Nokia rings in from
+            // the bottom right corner. Answer opens the contact dialog; Snake
+            // starts the game on its screen. Ignored, it slips away after 10s.
+            var RING_FOR = 10000;
+            var egg = document.querySelector('.nokia-egg');
+            var eggTimer = null;
+
+            var eggUi = document.querySelector('.nokia-egg-ui');
+
+            function eggState(state) {
+                [egg, eggUi].forEach(function (el) {
+                    el.classList.toggle('is-ringing', state === 'ringing');
+                    el.classList.toggle('is-playing', state === 'playing' || state === 'over');
+                    el.classList.toggle('is-over', state === 'over');
+                    if (state) el.removeAttribute('aria-hidden');
+                    else el.setAttribute('aria-hidden', 'true');
+                });
+                // The scroll cue shares the corner; it steps aside meanwhile.
+                document.documentElement.classList.toggle('nokia-active', !!state);
+                Array.prototype.forEach.call(eggUi.querySelectorAll('.nokia-egg-actions button'), function (b) {
+                    b.tabIndex = state === 'ringing' ? 0 : -1;
+                });
+            }
+
+            function answer() {
+                hideEgg();
+                if (typeof openModal === 'function') openModal();
+            }
+
+            function showEgg() {
+                if (!egg || egg.classList.contains('is-playing')) return;
+                eggState('ringing');
+                clearTimeout(eggTimer);
+                eggTimer = setTimeout(hideEgg, RING_FOR);
+            }
+
+            function hideEgg() {
+                clearTimeout(eggTimer);
+                stopSnake();
+                eggState(null);
+            }
+
+            // Snake, as on the 3310: an 18 x 14 field drawn in 2px LCD pixels,
+            // walls wrap, each bite speeds it up a little.
+            var screen = egg && egg.querySelector('.nokia-egg-screen');
+            var lcd = screen && screen.getContext('2d');
+            var COLS = 18, ROWS = 14, CELL = 2;
+            var snake, dir, nextDir, food, score, loop = null, speed;
+
+            function placeFood() {
+                do {
+                    food = { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
+                } while (snake.some(function (c) { return c.x === food.x && c.y === food.y; }));
+            }
+
+            function drawSnake() {
+                lcd.clearRect(0, 0, screen.width, screen.height);
+                lcd.fillStyle = '#26301C';
+                snake.forEach(function (c) {
+                    lcd.fillRect(c.x * CELL, c.y * CELL, CELL, CELL);
+                });
+                // Food as a single checker pixel pair, like the original.
+                lcd.fillRect(food.x * CELL, food.y * CELL, 1, 1);
+                lcd.fillRect(food.x * CELL + 1, food.y * CELL + 1, 1, 1);
+            }
+
+            function startSnake() {
+                clearTimeout(eggTimer);
+                snake = [{ x: 6, y: 7 }, { x: 5, y: 7 }, { x: 4, y: 7 }, { x: 3, y: 7 }];
+                dir = { x: 1, y: 0 };
+                nextDir = dir;
+                score = 0;
+                speed = 160;
+                placeFood();
+                eggState('playing');
+                drawSnake();
+                clearInterval(loop);
+                loop = setInterval(stepSnake, speed);
+            }
+
+            function stopSnake() {
+                clearInterval(loop);
+                loop = null;
+            }
+
+            function stepSnake() {
+                dir = nextDir;
+                var head = {
+                    x: (snake[0].x + dir.x + COLS) % COLS,
+                    y: (snake[0].y + dir.y + ROWS) % ROWS
+                };
+                var eats = head.x === food.x && head.y === food.y;
+                // The tail moves out of the way unless the snake grows.
+                var body = eats ? snake : snake.slice(0, -1);
+                if (body.some(function (c) { return c.x === head.x && c.y === head.y; })) {
+                    return snakeOver();
+                }
+                snake.unshift(head);
+                if (eats) {
+                    score++;
+                    beep({ freq: 1760, dur: 0.05 });
+                    placeFood();
+                    speed = Math.max(70, 160 - score * 6);
+                    clearInterval(loop);
+                    loop = setInterval(stepSnake, speed);
+                } else {
+                    snake.pop();
+                }
+                drawSnake();
+            }
+
+            function snakeOver() {
+                stopSnake();
+                egg.querySelector('.nokia-egg-score').textContent = 'Score ' + score;
+                eggState('over');
+                [{ freq: 659.25, dur: 0.12 }, { freq: 523.25, dur: 0.12 }, { freq: 392.0, dur: 0.24 }]
+                    .forEach(function (n, i) {
+                        setTimeout(function () { beep(n); }, i * 140);
+                    });
+            }
+
+            function turn(x, y) {
+                if (egg.classList.contains('is-over')) return startSnake();
+                // No turning straight back into itself.
+                if (x === -dir.x && y === -dir.y) return;
+                nextDir = { x: x, y: y };
+            }
+
+            var KEYS = {
+                ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0],
+                KeyW: [0, -1], KeyS: [0, 1], KeyA: [-1, 0], KeyD: [1, 0],
+                '2': [0, -1], '8': [0, 1], '4': [-1, 0], '6': [1, 0]
+            };
+
+            if (egg && lcd && eggUi) {
+                egg.addEventListener('click', function (e) {
+                    var k = e.target.closest('[data-key]');
+                    var key = k && k.getAttribute('data-key');
+                    // Picking up the phone itself answers too.
+                    if (egg.classList.contains('is-ringing')) return answer();
+                    if (!egg.classList.contains('is-playing')) return;
+                    // On the phone itself: 2 4 6 8 steer, C quits, Navi restarts.
+                    if (key === 'c') return hideEgg();
+                    if (key === 'navi' || key === '5') {
+                        if (egg.classList.contains('is-over')) startSnake();
+                        return;
+                    }
+                    if (key && KEYS[key]) turn(KEYS[key][0], KEYS[key][1]);
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (!egg.classList.contains('is-playing')) return;
+                    if (e.key === 'Escape') return hideEgg();
+                    // e.code for WASD, so it works in any keyboard layout.
+                    var k = KEYS[e.key] || KEYS[e.code];
+                    if (!k) return;
+                    // Arrows steer the snake, not the page.
+                    e.preventDefault();
+                    turn(k[0], k[1]);
+                });
+
+                eggUi.querySelector('.nokia-egg-answer').addEventListener('click', answer);
+                eggUi.querySelector('.nokia-egg-snake').addEventListener('click', startSnake);
+
+                // Held off while the pointer is on it, so it can be answered.
+                [egg, eggUi].forEach(function (el) {
+                    el.addEventListener('pointerenter', function () {
+                        if (egg.classList.contains('is-ringing')) clearTimeout(eggTimer);
+                    });
+                    el.addEventListener('pointerleave', function () {
+                        if (egg.classList.contains('is-ringing')) eggTimer = setTimeout(hideEgg, 3000);
+                    });
+                });
+            }
+
+            // Anywhere in the hero plays the next note (the name and text
+            // included), except things that do something on their own: links,
+            // buttons and the open dialogs. The rest of the page is silent.
+            function playable(e) {
+                return !e.target.closest('a, button, input, textarea, select, .modal, .resume-sheet, .mobile-menu-overlay, .nokia-egg, .nokia-egg-ui, .desk-item, .desk-lightbox');
+            }
+
+            var pressing = false;
+            document.addEventListener('pointerdown', function (e) {
+                if (!usable(e) || !playable(e)) return;
+                // The fixed name sits outside the hero box once it moves.
+                if (!e.target.closest('.home-hero, .home-hero-name')) return;
+                pressing = true;
+                sound('press');
+            });
+            hero.addEventListener('pointerdown', function (e) {
+                if (!usable(e)) return;
+                pressedTarget = 1;
+                kick();
+            });
+            window.addEventListener('pointerup', function () {
+                if (pressing) {
+                    pressing = false;
+                    sound('release');
+                }
+                if (pressedTarget) {
+                    pressedTarget = 0;
+                    kick();
+                }
+            });
+
+            resize();
+            if ('ResizeObserver' in window) new ResizeObserver(resize).observe(hero);
+            else window.addEventListener('resize', resize);
+        })();
     </script>
 </body>
 
