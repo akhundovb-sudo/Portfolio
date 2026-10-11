@@ -22,7 +22,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast9">
+    <link rel="stylesheet" href="styles.css?v=fast133">
     <link rel="stylesheet" href="about.css?v=fast1">
     <!-- Social meta -->
     <meta property="og:type" content="website">
@@ -117,10 +117,11 @@
         <div class="container">
             <header class="case-hero" data-toc="Intro">
                 <h1 class="case-title">Remiton</h1>
-                <p class="case-lede">A mobile app for fast and secure international money transfers: send money to family, friends or business partners in a few taps. As the sole product designer, I took it from research and wireframes to the final UI, prototype and design system.</p>
+                <p class="case-lede">Remiton is a mobile app for international money transfers. I designed the product from the ground up, turning a complex remittance flow into a simple mobile experience — from research and information architecture to prototyping, final UI and the design system.</p>
                 <ul class="case-facts" aria-label="Project details">
-                    <li class="case-fact"><span class="case-fact-label">Role</span><span class="case-fact-value">Design from scratch</span></li>
-                    <li class="case-fact"><span class="case-fact-label">Period</span><span class="case-fact-value">2022 – 2023</span></li>
+                    <li class="case-fact"><span class="case-fact-label">Role</span><span class="case-fact-value">Sole Product Designer</span></li>
+                    <li class="case-fact"><span class="case-fact-label">Scope</span><span class="case-fact-value">0→1 Product Design</span></li>
+                    <li class="case-fact"><span class="case-fact-label">Period</span><span class="case-fact-value">2022–2023</span></li>
                 </ul>
                 <!-- Cover: four app screens in phone frames (images/remiton/01–04.jpg: onboarding at 402 x 822, set under the status bar). -->
                 <div class="case-cover case-cover--phones">
@@ -135,22 +136,23 @@
             <section class="case-brief" data-toc="Overview" aria-label="Challenge, solution and outcome">
                 <div class="case-brief-col">
                     <h2 class="case-brief-title">Challenge</h2>
-                    <p class="case-brief-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p class="case-brief-text">Make international transfers simple while keeping rates, recipient details and payment status clear.</p>
                 </div>
                 <div class="case-brief-col">
                     <h2 class="case-brief-title">Solution</h2>
-                    <p class="case-brief-text">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p class="case-brief-text">I designed a guided transfer flow with clear steps and a consistent interface.</p>
                 </div>
                 <div class="case-brief-col">
                     <h2 class="case-brief-title">Outcome</h2>
-                    <p class="case-brief-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+                    <p class="case-brief-text">A mobile product designed from the ground up, with a clear three-step flow for sending money.</p>
+                    <div class="case-stats" aria-label="95% Transfer completion rate, 60 sec Average transfer setup time"><span class="case-stat"><b data-count="95" data-suf="%">0%</b><small>Transfer completion rate</small></span><span class="case-stat"><b data-count="60" data-suf=" sec">0 sec</b><small>Average transfer setup time</small></span></div>
                 </div>
             </section>
 
             <!-- Login: a short note, then the screens in phones (to come). -->
             <section class="case-section" data-toc="Login" aria-labelledby="case-login">
                 <h2 class="case-section-title" id="case-login">Login</h2>
-                <p class="case-section-text">Signing in should never be a dead end. Support is one tap away right on the login screen, and “Forgot password” brings access back without leaving the flow, so a problem with the account doesn't turn into a lost user.</p>
+                <p class="case-section-text">I kept the returning-user experience intentionally lightweight: quick passcode access for everyday use, with clear recovery and support paths for edge cases.</p>
                 <!-- Login as a looping clip: a finger types a four-digit passcode
                      (the key lights up, a dot fills), then the loading spinner
                      shows, and it starts over. Built on the empty passcode screen;
@@ -178,7 +180,7 @@
                  receiver's currency is changed through search. -->
             <section class="case-section" data-toc="Home" aria-labelledby="case-home">
                 <h2 class="case-section-title" id="case-home">Home</h2>
-                <p class="case-section-text">The home screen puts a quick transfer up top: the amount converts as it's typed, and the receiver's currency is a search away. Under it, the history sheet pulls up to show every transfer, grouped by day.</p>
+                <p class="case-section-text">The home screen brings the primary money-transfer action and transaction history into one clear hierarchy. Users can start a transfer without navigating elsewhere, while recent activity provides immediate context and confidence.</p>
                 <!-- Two cards side by side, one clip each. Sizes inside use cqw of
                      the pair, so the phones match the single-card ones. -->
                 <div class="case-cover-pair">
@@ -243,7 +245,7 @@
                  with one tap, continue; the card and summary screen. -->
             <section class="case-section" data-toc="Send money" aria-labelledby="case-send">
                 <h2 class="case-section-title" id="case-send">Send money</h2>
-                <p class="case-section-text">Sending takes three short steps: where and how the money goes, who gets it, and how to pay. Saved recipients fill the form in one tap, and the last step shows the whole transfer before anything is sent.</p>
+                <p class="case-section-text">The transfer flow was designed to reduce cognitive load: one decision at a time, fewer repeated inputs, and a clear review step before confirmation.</p>
                 <div class="case-cover case-cover--phones case-cover--loop">
                     <div class="case-phone case-phone--solo">
                         <div class="case-phone-screen" style="--screen: #F2F4F7">
@@ -331,7 +333,7 @@
                  the card (drag, trackpad or swipe; script.js .case-scroll). -->
             <section class="case-section" data-toc="More screens" aria-labelledby="case-more">
                 <h2 class="case-section-title" id="case-more">More screens</h2>
-                <p class="case-section-text">Notifications, the profile with limits, help articles and a support chat that ends with a quick rating.</p>
+                <p class="case-section-text">Notifications, More, How to use, and Support.</p>
                 <div class="case-cover case-cover--phones case-cover--scroll">
                     <div class="case-scroll" tabindex="0" aria-label="More screens, scroll sideways">
                         <div class="case-phone"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/extra-2.jpg?v=1" alt="Remiton: Notifications" width="628" height="1360" loading="lazy" decoding="async"></div></div>
@@ -438,7 +440,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261012p"></script>
+    <script src="script.js?v=20261013s"></script>
     <script>
         // Mobile Menu Functionality
         function toggleMobileMenu() {

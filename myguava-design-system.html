@@ -22,7 +22,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast9">
+    <link rel="stylesheet" href="styles.css?v=fast133">
     <link rel="stylesheet" href="about.css?v=fast1">
     <!-- Social meta -->
     <meta property="og:type" content="website">
@@ -116,28 +116,235 @@
     <section class="case-content">
         <div class="container">
             <header class="case-hero" data-toc="Intro">
-                <h1 class="case-title">Title</h1>
-                <p class="case-lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <h1 class="case-title">MyGuava Design System</h1>
+                <p class="case-lede">I designed a shared system of tokens and reusable components for consistent, customizable MyGuava interfaces.</p>
                 <ul class="case-facts" aria-label="Project details">
-                    <li class="case-fact"><span class="case-fact-label">Role</span><span class="case-fact-value">Design, development, product</span></li>
-                    <li class="case-fact"><span class="case-fact-label">Period</span><span class="case-fact-value">January – June 2026</span></li>
+                    <li class="case-fact"><span class="case-fact-label">Role</span><span class="case-fact-value">Lead Product Designer</span></li>
+                    <li class="case-fact"><span class="case-fact-label">Period</span><span class="case-fact-value">January–June 2026</span></li>
                 </ul>
-                <div class="case-cover case-cover--placeholder" role="img" aria-label="Image placeholder"><span>Image</span></div>
+                <!-- Cover: the colour palette, drawn in code (7 scales x 10 steps),
+                     without labels. -->
+                <div class="case-cover case-cover--phones case-cover--palette">
+                    <div class="ds-palette" role="img" aria-label="MyGuava colour palette: lime, navy, grey, red, green, blue and yellow scales">
+                        <span class="ds-swatch" style="--c: #F7FECB"></span>
+                        <span class="ds-swatch" style="--c: #EDFD98"></span>
+                        <span class="ds-swatch" style="--c: #DFFB64"></span>
+                        <span class="ds-swatch" style="--c: #D0F83E"></span>
+                        <span class="ds-swatch" style="--c: #C4F627"></span>
+                        <span class="ds-swatch" style="--c: #BAF400"></span>
+                        <span class="ds-swatch" style="--c: #9AD100"></span>
+                        <span class="ds-swatch" style="--c: #7DAF00"></span>
+                        <span class="ds-swatch" style="--c: #618D00"></span>
+                        <span class="ds-swatch is-dark" style="--c: #4D7500"></span>
+                        <span class="ds-swatch" style="--c: #E1E5EA"></span>
+                        <span class="ds-swatch" style="--c: #A5ACB9"></span>
+                        <span class="ds-swatch" style="--c: #828C9E"></span>
+                        <span class="ds-swatch is-dark" style="--c: #606B83"></span>
+                        <span class="ds-swatch is-dark" style="--c: #3D4B68"></span>
+                        <span class="ds-swatch is-dark" style="--c: #1A2B4D"></span>
+                        <span class="ds-swatch is-dark" style="--c: #162441"></span>
+                        <span class="ds-swatch is-dark" style="--c: #121E36"></span>
+                        <span class="ds-swatch is-dark" style="--c: #0E172A"></span>
+                        <span class="ds-swatch is-dark" style="--c: #0A111E"></span>
+                        <span class="ds-swatch" style="--c: #FFFFFF"></span>
+                        <span class="ds-swatch" style="--c: #FAFAFB"></span>
+                        <span class="ds-swatch" style="--c: #EFEFF0"></span>
+                        <span class="ds-swatch" style="--c: #E3E3E5"></span>
+                        <span class="ds-swatch" style="--c: #D3D3D5"></span>
+                        <span class="ds-swatch" style="--c: #B1B2B4"></span>
+                        <span class="ds-swatch" style="--c: #8D8E91"></span>
+                        <span class="ds-swatch is-dark" style="--c: #464749"></span>
+                        <span class="ds-swatch is-dark" style="--c: #28292A"></span>
+                        <span class="ds-swatch is-dark" style="--c: #1B1C1D"></span>
+                        <span class="ds-swatch" style="--c: #FFF7F1"></span>
+                        <span class="ds-swatch" style="--c: #FFE6D5"></span>
+                        <span class="ds-swatch" style="--c: #FFC6AB"></span>
+                        <span class="ds-swatch" style="--c: #FFA081"></span>
+                        <span class="ds-swatch" style="--c: #FF7B61"></span>
+                        <span class="ds-swatch is-dark" style="--c: #FF3F2D"></span>
+                        <span class="ds-swatch is-dark" style="--c: #DB2120"></span>
+                        <span class="ds-swatch is-dark" style="--c: #B71623"></span>
+                        <span class="ds-swatch is-dark" style="--c: #930E23"></span>
+                        <span class="ds-swatch is-dark" style="--c: #7A0824"></span>
+                        <span class="ds-swatch" style="--c: #FBFFF4"></span>
+                        <span class="ds-swatch" style="--c: #F0FEDC"></span>
+                        <span class="ds-swatch" style="--c: #DDFDB9"></span>
+                        <span class="ds-swatch" style="--c: #C3FA95"></span>
+                        <span class="ds-swatch" style="--c: #AAF57A"></span>
+                        <span class="ds-swatch" style="--c: #84EF4F"></span>
+                        <span class="ds-swatch" style="--c: #61CD39"></span>
+                        <span class="ds-swatch" style="--c: #42AC27"></span>
+                        <span class="ds-swatch is-dark" style="--c: #288A19"></span>
+                        <span class="ds-swatch is-dark" style="--c: #16720F"></span>
+                        <span class="ds-swatch" style="--c: #F3FEFF"></span>
+                        <span class="ds-swatch" style="--c: #CFF9FE"></span>
+                        <span class="ds-swatch" style="--c: #9FEDFE"></span>
+                        <span class="ds-swatch" style="--c: #6FDAFD"></span>
+                        <span class="ds-swatch" style="--c: #4BC5FB"></span>
+                        <span class="ds-swatch" style="--c: #11A4F9"></span>
+                        <span class="ds-swatch is-dark" style="--c: #0C7FD6"></span>
+                        <span class="ds-swatch is-dark" style="--c: #085FB3"></span>
+                        <span class="ds-swatch is-dark" style="--c: #054390"></span>
+                        <span class="ds-swatch is-dark" style="--c: #033077"></span>
+                        <span class="ds-swatch" style="--c: #FFFCE8"></span>
+                        <span class="ds-swatch" style="--c: #FFF9D0"></span>
+                        <span class="ds-swatch" style="--c: #FFF2A1"></span>
+                        <span class="ds-swatch" style="--c: #FFE872"></span>
+                        <span class="ds-swatch" style="--c: #FFDF4E"></span>
+                        <span class="ds-swatch" style="--c: #FFD014"></span>
+                        <span class="ds-swatch" style="--c: #DBAE0E"></span>
+                        <span class="ds-swatch" style="--c: #B78D0A"></span>
+                        <span class="ds-swatch is-dark" style="--c: #936E06"></span>
+                        <span class="ds-swatch is-dark" style="--c: #7A5803"></span>
+                    </div>
+                </div>
             </header>
 
             <!-- Brief: the challenge, the solution and the outcome side by side. -->
             <section class="case-brief" data-toc="Overview" aria-label="Challenge, solution and outcome">
                 <div class="case-brief-col">
                     <h2 class="case-brief-title">Challenge</h2>
-                    <p class="case-brief-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p class="case-brief-text">Keep interfaces consistent across products while allowing merchants to express their brand.</p>
                 </div>
                 <div class="case-brief-col">
                     <h2 class="case-brief-title">Solution</h2>
-                    <p class="case-brief-text">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p class="case-brief-text">I built a shared foundation of design tokens, reusable components and flexible themes.</p>
                 </div>
                 <div class="case-brief-col">
                     <h2 class="case-brief-title">Outcome</h2>
-                    <p class="case-brief-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+                    <p class="case-brief-text">A flexible design system with ready-made themes and full control over page styling.</p>
+                    <div class="case-stats" aria-label="30+ Ready-made themes, 100% Customizable page styling"><span class="case-stat"><b data-count="30" data-suf="+">0+</b><small>Ready-made themes</small></span><span class="case-stat"><b data-count="100" data-suf="%">0%</b><small>Customizable page styling</small></span></div>
+                </div>
+            </section>
+
+            <!-- Design system goals: the button in five colours and four corner
+                 radii, drawn in code; the large button steps through radius and
+                 colour (script.js [data-ds-buttons]). -->
+            <section class="case-section" data-toc="Goals" aria-labelledby="case-goals">
+                <h2 class="case-section-title" id="case-goals">Goals</h2>
+                <p class="case-section-text">Unify desktop and mobile interfaces, support brand customization and simplify future updates.</p>
+                <div class="case-cover case-cover--phones case-cover--buttons" data-ds-buttons>
+                    <div class="ds-btn-grid" aria-hidden="true">
+                        <span class="ds-btn is-light" style="--bg: #BAF400; --r: var(--r0)" data-c="0" data-r="0">Button</span>
+                        <span class="ds-btn is-light" style="--bg: #BAF400; --r: var(--r1)" data-c="0" data-r="1">Button</span>
+                        <span class="ds-btn is-light" style="--bg: #BAF400; --r: var(--r2)" data-c="0" data-r="2">Button</span>
+                        <span class="ds-btn is-light" style="--bg: #BAF400; --r: var(--r3)" data-c="0" data-r="3">Button</span>
+                        <span class="ds-btn is-light" style="--bg: #6BE3D7; --r: var(--r0)" data-c="1" data-r="0">Button</span>
+                        <span class="ds-btn is-light" style="--bg: #6BE3D7; --r: var(--r1)" data-c="1" data-r="1">Button</span>
+                        <span class="ds-btn is-light" style="--bg: #6BE3D7; --r: var(--r2)" data-c="1" data-r="2">Button</span>
+                        <span class="ds-btn is-light" style="--bg: #6BE3D7; --r: var(--r3)" data-c="1" data-r="3">Button</span>
+                        <span class="ds-btn" style="--bg: #1B74BD; --r: var(--r0)" data-c="2" data-r="0">Button</span>
+                        <span class="ds-btn" style="--bg: #1B74BD; --r: var(--r1)" data-c="2" data-r="1">Button</span>
+                        <span class="ds-btn" style="--bg: #1B74BD; --r: var(--r2)" data-c="2" data-r="2">Button</span>
+                        <span class="ds-btn" style="--bg: #1B74BD; --r: var(--r3)" data-c="2" data-r="3">Button</span>
+                        <span class="ds-btn" style="--bg: #5B44EB; --r: var(--r0)" data-c="3" data-r="0">Button</span>
+                        <span class="ds-btn" style="--bg: #5B44EB; --r: var(--r1)" data-c="3" data-r="1">Button</span>
+                        <span class="ds-btn" style="--bg: #5B44EB; --r: var(--r2)" data-c="3" data-r="2">Button</span>
+                        <span class="ds-btn" style="--bg: #5B44EB; --r: var(--r3)" data-c="3" data-r="3">Button</span>
+                        <span class="ds-btn" style="--bg: #0D0D0D; --r: var(--r0)" data-c="4" data-r="0">Button</span>
+                        <span class="ds-btn" style="--bg: #0D0D0D; --r: var(--r1)" data-c="4" data-r="1">Button</span>
+                        <span class="ds-btn" style="--bg: #0D0D0D; --r: var(--r2)" data-c="4" data-r="2">Button</span>
+                        <span class="ds-btn" style="--bg: #0D0D0D; --r: var(--r3)" data-c="4" data-r="3">Button</span>
+                    </div>
+                    <div class="ds-btn-demo" aria-hidden="true">
+                        <span class="ds-btn ds-btn--big is-light" data-part="big" style="--bg: #BAF400; --r: var(--r0)">Button</span>
+                        <span class="ds-btn-meta"><span data-part="radius">Radius None</span><span data-part="swatch"><i style="background: #BAF400"></i>#BAF400</span></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System architecture: colour tokens from global to component and
+                 the radius tokens on the button, in code. -->
+            <section class="case-section" data-toc="Architecture" aria-labelledby="case-arch">
+                <h2 class="case-section-title" id="case-arch">Architecture</h2>
+                <p class="case-section-text">Shared tokens define colors, typography, spacing and corner radii, keeping visual changes consistent across components.</p>
+
+                <h3 class="case-sub">Color tokens</h3>
+                <div class="case-cover case-cover--phones case-cover--tokens">
+                    <div class="ds-chain">
+                        <div class="ds-token"><span class="ds-token-label">Global Token</span><span class="ds-token-chip"><i></i><code>brand/600</code></span></div>
+                        <span class="ds-link ds-link--dot" aria-hidden="true"></span>
+                        <div class="ds-token"><span class="ds-token-label">Alias Token</span><span class="ds-token-chip"><i></i><code>background/brand</code></span></div>
+                        <span class="ds-link ds-link--dot" aria-hidden="true"></span>
+                        <div class="ds-token"><span class="ds-token-label">Component Token</span><span class="ds-token-chip"><i></i><code>button/primary/background/rest</code></span></div>
+                        <span class="ds-link" aria-hidden="true"></span>
+                        <span class="ds-btn is-light ds-chain-btn" style="--bg: #BAF400; --r: 0.5cqw">Button</span>
+                    </div>
+                </div>
+
+                <h3 class="case-sub">Radius tokens</h3>
+                <div class="case-cover case-cover--phones case-cover--radius">
+                    <div class="ds-rts">
+                        <div class="ds-rt"><span class="ds-btn is-light ds-rt-btn" style="--bg: #BAF400; --r: 0cqw">Button</span><span class="ds-rt-name">radius-none</span><code>radius/none</code></div>
+                        <div class="ds-rt"><span class="ds-btn is-light ds-rt-btn" style="--bg: #BAF400; --r: 0.32cqw">Button</span><span class="ds-rt-name">radius-small</span><code>radius/s</code></div>
+                        <div class="ds-rt"><span class="ds-rt-default">Default</span><span class="ds-btn is-light ds-rt-btn" style="--bg: #BAF400; --r: 0.84cqw">Button</span><span class="ds-rt-name">radius-medium</span><code>radius/m</code></div>
+                        <div class="ds-rt"><span class="ds-btn is-light ds-rt-btn" style="--bg: #BAF400; --r: 1.26cqw">Button</span><span class="ds-rt-name">radius-large</span><code>radius/l</code></div>
+                        <div class="ds-rt"><span class="ds-btn is-light ds-rt-btn" style="--bg: #BAF400; --r: 999px">Button</span><span class="ds-rt-name">radius-full</span><code>radius/full</code></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Components: a small Storybook. Pick a component on the left, set
+                 it up in Controls on the right; the canvas shows it live and it
+                 can be used (script.js [data-storybook]). -->
+            <section class="case-section" data-toc="Components" aria-labelledby="case-components">
+                <h2 class="case-section-title" id="case-components">Components</h2>
+                <div class="sb" data-storybook>
+                    <nav class="sb-side" aria-label="Components">
+                        <span class="sb-side-title">CPG Payment Library</span>
+                        <button type="button" class="sb-item" data-comp="alert">Alert</button>
+                        <button type="button" class="sb-item" data-comp="badge">Badge</button>
+                        <button type="button" class="sb-item is-on" data-comp="button">Button</button>
+                        <button type="button" class="sb-item" data-comp="checkbox">Checkbox</button>
+                        <button type="button" class="sb-item" data-comp="input">Input</button>
+                        <button type="button" class="sb-item" data-comp="radio">Radio</button>
+                        <button type="button" class="sb-item" data-comp="search">Search</button>
+                        <button type="button" class="sb-item" data-comp="segmented">Segmented control</button>
+                        <button type="button" class="sb-item" data-comp="switch">Switch</button>
+                        <button type="button" class="sb-item" data-comp="tabs">Tabs</button>
+                        <button type="button" class="sb-item" data-comp="tooltip">Tooltip</button>
+                    </nav>
+                    <div class="sb-main">
+                        <div class="sb-canvas" aria-live="polite"></div>
+                        <div class="sb-controls" aria-label="Controls"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Developer handoff: usage rules and the states table, in code. -->
+            <section class="case-section" data-toc="Handoff" aria-labelledby="case-handoff">
+                <h2 class="case-section-title" id="case-handoff">Handoff</h2>
+                <p class="case-section-text">Component states, variants and usage guidelines give designers and developers a shared reference.</p>
+                <div class="ds-handoff">
+                    <div class="ds-rules">
+                        <div class="ds-rule">
+                            <h4><i class="ds-rule-icon ds-rule-icon--ok" aria-hidden="true"></i>Best Practice</h4>
+                            <ul>
+                                <li>Use only one <b>primary button</b> per section or screen.</li>
+                                <li>Don’t <b>disable a button</b> without providing context.</li>
+                                <li>Avoid using too many variants together.</li>
+                                <li>Keep labels short and actionable (“Save”, “Continue”).</li>
+                            </ul>
+                        </div>
+                        <div class="ds-rule">
+                            <h4><i class="ds-rule-icon ds-rule-icon--no" aria-hidden="true"></i>Don’ts</h4>
+                            <ul>
+                                <li>Don’t use <b>primary</b> and <b>destructive buttons</b> side by side.</li>
+                                <li>Don’t use buttons for navigation (use links for that).</li>
+                                <li>Avoid placing multiple <b>loading buttons</b> on one screen.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ds-states">
+                        <h4>States</h4>
+                        <div class="ds-states-row ds-states-row--head"><span>State</span><span>Description</span></div>
+                        <div class="ds-states-row"><span>Rest</span><span>Idle, ready to be clicked</span></div>
+                        <div class="ds-states-row"><span>Hover</span><span>Highlighted on mouse over</span></div>
+                        <div class="ds-states-row"><span>Pressed</span><span>Button is being activated</span></div>
+                        <div class="ds-states-row"><span>Focus</span><span>Visible focus ring for keyboard</span></div>
+                        <div class="ds-states-row"><span>Disabled</span><span>Action not available</span></div>
+                        <div class="ds-states-row"><span>Loading</span><span>Spinner replaces label</span></div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -233,7 +440,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261012p"></script>
+    <script src="script.js?v=20261013s"></script>
     <script>
         // Mobile Menu Functionality
         function toggleMobileMenu() {

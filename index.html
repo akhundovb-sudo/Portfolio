@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast9">
+    <link rel="stylesheet" href="styles.css?v=fast133">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -134,7 +134,7 @@
 
                 <div class="home-hero-intro">
                     <p class="home-hero-role">Product Designer</p>
-                    <p class="home-hero-lede">I design clear, intuitive <span class="home-hero-keep">digital products,</span> <br class="home-hero-break">from complex workflows to <span class="home-hero-keep">everyday interactions.</span></p>
+                    <p class="home-hero-lede">I design digital products that make complex systems feel simple and intuitive.</p>
                 </div>
 
 
@@ -163,12 +163,38 @@
             <h2 class="projects-heading">Works</h2>
             <div class="projects-grid">
                 <!-- Row 1 -->
-                <a href="ulta.html" class="project-card">
+                <!-- Habbi: in progress, not linked yet. -->
+                <div class="project-card project-card--wip" aria-label="Habbi, in progress">
                     <div class="project-head">
-                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">ULTA</span></span></h3>
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">Habbi</span></span></h3>
+                        <span class="project-wip">In progress</span>
+                    </div>
+                    <!-- The Habits home in a phone; the cursor over the card is an hourglass.
+                         On hover the mascot peeks out from behind the phone's left edge
+                         and waves (script.js [data-mascot]), frame by frame from one sprite. -->
+                    <div class="project-image project-image--phones project-image--habbi" aria-hidden="true">
+                        <div class="project-phones" data-mascot>
+                            <span class="project-mascot"></span>
+                            <span class="project-mascot"></span>
+                            <div class="case-phone case-phone--front"><div class="case-phone-screen case-phone-screen--full"><img src="images/habbi-home.jpg?v=2" alt="" loading="lazy" decoding="async"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="finharbor.html" class="project-card">
+                    <div class="project-head">
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">Finharbor</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
+                    <!-- The mobile home in front; on hover the Send form and the receive
+                         address slide out from behind it, like the Remiton phones. -->
+                    <div class="project-image project-image--phones project-image--fh" aria-hidden="true">
+                        <div class="project-phones">
+                            <div class="case-phone case-phone--back case-phone--left"><div class="case-phone-screen case-phone-screen--full"><img src="images/finharbor/flow/send-4.jpg?v=4" alt="" loading="lazy" decoding="async"></div></div>
+                            <div class="case-phone case-phone--back case-phone--right"><div class="case-phone-screen case-phone-screen--full"><img src="images/finharbor/flow/receive-5.jpg?v=1" alt="" loading="lazy" decoding="async"></div></div>
+                            <div class="case-phone case-phone--front"><div class="case-phone-screen case-phone-screen--full"><img src="images/finharbor/m-card.jpg?v=10" alt="" loading="lazy" decoding="async"></div></div>
+                        </div>
+                    </div>
                 </a>
 
                 <a href="pos-terminal.html" class="project-card">
@@ -176,7 +202,15 @@
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava POS</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
+                    <!-- Terminals: the sale screen in front; on hover tap to pay and the
+                         transactions fan out from behind it, like the Remiton phones. -->
+                    <div class="project-image project-image--phones project-image--terms" aria-hidden="true">
+                        <div class="project-phones">
+                            <img class="project-term project-term--back project-term--left" src="images/pos-sale-4.png?v=1" alt="" loading="lazy" decoding="async">
+                            <img class="project-term project-term--back project-term--right" src="images/pos-transactions.png?v=1" alt="" loading="lazy" decoding="async">
+                            <img class="project-term project-term--front" src="images/pos-terminal.png?v=1" alt="" loading="lazy" decoding="async">
+                        </div>
+                    </div>
                 </a>
 
                 <a href="myguava-payment.html" class="project-card">
@@ -184,16 +218,30 @@
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Payment</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
+                    <!-- Browsers: the checkout in front; on hover the Nike and MyGuava
+                         themes slide out from behind it on the right. -->
+                    <div class="project-image project-image--phones project-image--browsers" aria-hidden="true">
+                        <div class="project-phones">
+                            <div class="case-browser case-browser--back case-browser--far"><div class="case-browser-bar"><i></i><i></i><i></i><span>pay.myguava.com</span></div><img class="case-browser-shot" src="images/payment-theme-guava.jpg?v=2" alt="" loading="lazy" decoding="async"></div>
+                            <div class="case-browser case-browser--back case-browser--right"><div class="case-browser-bar"><i></i><i></i><i></i><span>pay.myguava.com</span></div><img class="case-browser-shot" src="images/payment-theme-nike.jpg?v=3" alt="" loading="lazy" decoding="async"></div>
+                            <div class="case-browser case-browser--front"><div class="case-browser-bar"><i></i><i></i><i></i><span>pay.myguava.com</span></div><img class="case-browser-shot" src="images/payment-desktop.jpg?v=5" alt="" loading="lazy" decoding="async"></div>
+                        </div>
+                    </div>
                 </a>
 
                 <!-- Row 2 -->
                 <a href="myguava-design-system.html" class="project-card">
                     <div class="project-head">
-                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Design System</span></span></h3>
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">Customizable Design System</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
+                    <!-- The primary button alone; on hover it grows a little and drifts
+                         through the set's colours. -->
+                    <div class="project-image project-image--phones project-image--dsbtns" aria-hidden="true">
+                        <div class="project-phones">
+                            <span class="project-dsbtn project-dsbtn--front" style="--bg: #BAF400; --fg: #0D0D0D; --r: 0.2">Button</span>
+                        </div>
+                    </div>
                 </a>
 
                 <a href="myguava-business.html" class="project-card">
@@ -201,7 +249,18 @@
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Business</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <div class="project-image project-image--placeholder" aria-hidden="true"><span>Image</span></div>
+                    <!-- The overview in a browser in front; on hover four chart cards
+                         slide out from behind it, two each side, each to the side
+                         its graphic sits on (donut and gauge left, bars and line right). -->
+                    <div class="project-image project-image--phones project-image--browsers project-image--charts" aria-hidden="true">
+                        <div class="project-phones">
+                            <img class="project-chart project-chart--lt" src="images/business-card-donut.jpg?v=1" alt="" loading="lazy" decoding="async">
+                            <img class="project-chart project-chart--lb" src="images/business-card-gauge.jpg?v=1" alt="" loading="lazy" decoding="async">
+                            <img class="project-chart project-chart--rt" src="images/business-card-bars.jpg?v=1" alt="" loading="lazy" decoding="async">
+                            <img class="project-chart project-chart--rb" src="images/business-card-line.jpg?v=1" alt="" loading="lazy" decoding="async">
+                            <div class="case-browser case-browser--front"><div class="case-browser-bar"><i></i><i></i><i></i><span>business.myguava.com</span></div><img class="case-browser-shot" src="images/business-overview.jpg?v=2" alt="" loading="lazy" decoding="async"></div>
+                        </div>
+                    </div>
                 </a>
 
                 <a href="remitone.html" class="project-card project-card--remiton">
@@ -213,7 +272,7 @@
                          the passcode login slide out from behind it. -->
                     <div class="project-image project-image--phones" aria-hidden="true">
                         <div class="project-phones">
-                            <div class="case-phone case-phone--back case-phone--left"><div class="case-phone-screen" style="--screen: #35079E"><span class="case-phone-status"></span><img src="images/remiton/01.jpg?v=5" alt="" loading="lazy" decoding="async"></div></div>
+                            <div class="case-phone case-phone--back case-phone--left case-phone--dark"><div class="case-phone-screen" style="--screen: #35079E"><span class="case-phone-status"></span><img src="images/remiton/01.jpg?v=5" alt="" loading="lazy" decoding="async"></div></div>
                             <div class="case-phone case-phone--back case-phone--right"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/login.jpg?v=3" alt="" loading="lazy" decoding="async"></div></div>
                             <div class="case-phone case-phone--front"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/home.jpg?v=1" alt="" loading="lazy" decoding="async"></div></div>
                         </div>
@@ -354,7 +413,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261012p"></script>
+    <script src="script.js?v=20261013s"></script>
     <script>
 
         // Mobile Menu Functionality

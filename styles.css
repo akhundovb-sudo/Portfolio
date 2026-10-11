@@ -1383,7 +1383,7 @@ body {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
 }
 
@@ -3108,7 +3108,7 @@ html.nokia-active .home-hero-scroll {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 0 0 48px;
+    margin: 0 0 40px;
     padding: 0;
     list-style: none;
 }
@@ -3182,7 +3182,7 @@ html.nokia-active .home-hero-scroll {
     }
 
     .case-facts {
-        margin-bottom: 32px;
+        margin-bottom: 28px;
     }
 
     .case-fact {
@@ -4376,9 +4376,9 @@ html[data-theme="dark"] .case-section-text {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.7cqw;
-    height: 3.3cqw;
-    padding: 0 1.5cqw;
+    gap: 0.8cqw;
+    height: 4.4cqw;
+    padding: 0 2.1cqw;
     background: #ECECEC;
     border-bottom: 0.1cqw solid rgba(15, 15, 15, 0.1);
 }
@@ -4399,7 +4399,7 @@ html[data-theme="dark"] .case-section-text {
     left: 50%;
     top: 50%;
     min-width: 22cqw;
-    padding: 0.45cqw 2cqw;
+    padding: 0.6cqw 2.4cqw;
     border-radius: 0.8cqw;
     background: #FFFFFF;
     font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif;
@@ -4581,11 +4581,14 @@ html[data-theme="dark"] .case-browser {
     width: 100%;
     height: 100%;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 600ms ease;
 }
 
+/* Only the style on show takes the click, so the viewer opens that one. */
 .case-theme-shot.is-on {
     opacity: 1;
+    pointer-events: auto;
 }
 
 .case-theme-panel {
@@ -4688,7 +4691,7 @@ html[data-theme="dark"] .case-browser {
 
 @media (max-width: 768px) {
     .case-cover--themes .case-theme-panel {
-        width: 70%;
+        width: 46%;
     }
 }
 
@@ -4706,6 +4709,12 @@ html[data-theme="dark"] .case-browser {
 
 .case-section-text + .case-sub {
     margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .case-sub {
+        margin-top: 40px;
+    }
 }
 
 html[data-theme="dark"] .case-sub {
@@ -4735,7 +4744,9 @@ html[data-theme="dark"] .case-sub {
 }
 
 /* .case-cover img sets width: auto, so the size needs the extra weight. */
-.case-cover .case-stage-layer {
+.case-cover .case-stage-layer,
+.case-stage.case-pass--viewer .case-stage-layer,
+.case-stage.case-pass--slide .case-stage-layer {
     position: absolute;
     left: calc(var(--x) * 1%);
     top: calc(var(--y) * 1%);
@@ -4756,7 +4767,7 @@ html[data-theme="dark"] .case-sub {
     background: #F5F5F5;
     opacity: 0;
     transform-origin: right center;
-    transition: transform var(--t, 1100ms) linear;
+    transition: transform var(--t, 1100ms) linear, opacity 450ms ease;
     pointer-events: none;
 }
 
@@ -4825,6 +4836,12 @@ html[data-theme="dark"] .case-sub {
 .case-stage-layer[data-part="form"] {
     opacity: 0;
     z-index: 3;
+    clip-path: inset(0 0 52% 0);
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1), opacity 450ms ease, clip-path 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-stage-layer[data-part="lower"].is-gone {
+    transition: opacity 600ms ease 120ms;
 }
 
 .case-stage-layer[data-part="form"].is-up {
@@ -4833,6 +4850,7 @@ html[data-theme="dark"] .case-sub {
 
 .case-stage-layer[data-part="form"].is-up.is-on {
     opacity: 1;
+    clip-path: inset(0 0 0 0);
     transform: translateY(-10.881%);
 }
 
@@ -4866,17 +4884,38 @@ html[data-theme="dark"] .case-sub {
 }
 
 /* Case brief: challenge, solution and outcome in three columns. */
+/* Case brief: challenge, solution and outcome as rows (title, text) split
+   by the site's dashed rules. */
 .case-brief {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 48px;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
     margin-top: 96px;
     font-family: 'PP Neue Montreal', sans-serif;
 }
 
+.case-brief-col {
+    display: grid;
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+    gap: 24px;
+    align-items: baseline;
+    padding: 28px 0;
+    background-image: linear-gradient(90deg, rgba(15, 15, 15, 0.22) 6px, transparent 6px);
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+    background-position: 0 0;
+}
+
+.case-brief-col:last-child {
+    background-image:
+        linear-gradient(90deg, rgba(15, 15, 15, 0.22) 6px, transparent 6px),
+        linear-gradient(90deg, rgba(15, 15, 15, 0.22) 6px, transparent 6px);
+    background-size: 10px 1px, 10px 1px;
+    background-repeat: repeat-x, repeat-x;
+    background-position: 0 0, 0 100%;
+}
+
 .case-brief-title {
-    margin: 0 0 16px;
+    margin: 0;
     font-size: 24px;
     font-weight: 400;
     line-height: 1.2;
@@ -4885,6 +4924,7 @@ html[data-theme="dark"] .case-sub {
 }
 
 .case-brief-text {
+    max-width: 640px;
     margin: 0;
     font-size: 17px;
     line-height: 1.55;
@@ -4892,16 +4932,14 @@ html[data-theme="dark"] .case-sub {
     color: rgba(15, 15, 15, 0.6);
 }
 
+html[data-theme="dark"] .case-brief-col {
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.22) 6px, transparent 6px);
+}
 
-
-
-
-@media (max-width: 1023px) {
-    .case-brief {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 40px;
-        max-width: 640px;
-    }
+html[data-theme="dark"] .case-brief-col:last-child {
+    background-image:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.22) 6px, transparent 6px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.22) 6px, transparent 6px);
 }
 
 @media (max-width: 768px) {
@@ -4909,15 +4947,19 @@ html[data-theme="dark"] .case-sub {
         margin-top: 64px;
     }
 
-    .case-brief-title {
-        margin-bottom: 12px;
-        font-size: 22px;
+    .case-brief-col {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+        padding: 22px 0;
     }
 
     .case-brief-text {
         font-size: 16px;
     }
 
+    .case-brief-title {
+        font-size: 22px;
+    }
 }
 
 /* Photo desk (index.html, script.js): loose prints on a tray, each slightly
@@ -5248,10 +5290,10 @@ html[data-theme="dark"] .theme-icon-sun {
     margin-left: -8px;
 }
 
-/* Keep the toggle close to Get in touch: about 20px between the icon and
-   the button (the nav gap is 32px, the toggle's own padding 9px). */
+/* About 32px between the toggle's icon and Get in touch (the nav gap is
+   32px, the toggle's own padding 9px). */
 .home-nav .theme-toggle + .home-cta {
-    margin-left: -21px;
+    margin-left: -9px;
 }
 
 .mobile-menu-bottom .theme-toggle {
@@ -5612,3 +5654,3289 @@ html[data-theme="dark"] .desk-lightbox-card img {
 html[data-theme="dark"] body.about .exp-logo {
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
+
+/* Pay by card: placeholders in the empty fields, and the "Card deleted" toast. */
+.case-stage[data-flow="paycard"] {
+    container-type: inline-size;
+}
+
+.case-stage-ph {
+    position: absolute;
+    left: calc(var(--x) * 1%);
+    top: calc(var(--y) * 1%);
+    height: calc(var(--h) * 1%);
+    display: flex;
+    align-items: center;
+    z-index: 5;
+    font: 400 1.19cqw/1 Inter, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: #9B9B9B;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 120ms ease;
+    pointer-events: none;
+}
+
+.case-stage-ph.is-on {
+    opacity: 1;
+    transition: opacity 450ms ease 200ms;
+}
+
+.case-stage-ph.is-on.is-typed {
+    opacity: 0;
+    transition: opacity 120ms ease;
+}
+
+.case-stage-toast {
+    position: absolute;
+    left: 30%;
+    bottom: 7%;
+    z-index: 7;
+    display: flex;
+    align-items: center;
+    gap: 2cqw;
+    padding: 0.9cqw 1.3cqw 0.9cqw 1.6cqw;
+    border-radius: 99px;
+    background: #1B1B1B;
+    color: #fff;
+    font: 500 1.1cqw/1 Inter, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    white-space: nowrap;
+    box-shadow: 0 1cqw 2.4cqw -0.8cqw rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translate(-50%, 40%);
+    transition: opacity 240ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+.case-stage-toast b {
+    font-weight: 600;
+    color: #BAF401;
+}
+
+.case-stage-toast.is-on {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* Personal info: the modal and its states, crossfading in place. */
+.case-stage-layer.case-stage-pmodal,
+.case-stage-layer.case-stage-pstate {
+    border-radius: 2.86% / 1.6%;
+}
+
+.case-stage-layer.case-stage-pstate {
+    z-index: 4;
+    opacity: 0;
+    transition: opacity 220ms ease;
+}
+
+.case-stage-layer.case-stage-pstate.is-on {
+    opacity: 1;
+}
+
+/* Desktop photo viewer: leave room for the arrows beside the image, and
+   keep the arrows visible over white screenshots. */
+@media (min-width: 769px) {
+    .photo-viewer-img {
+        max-width: calc(100% - 200px);
+        max-height: calc(100% - 120px);
+    }
+}
+
+.photo-nav-btn {
+    background: rgba(28, 28, 28, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.photo-nav-btn:hover {
+    background: rgba(28, 28, 28, 0.9);
+}
+
+/* Browser clips in the full-screen viewers: a live copy of the stage in
+   place of the still. */
+.case-stage.case-pass--viewer,
+.case-stage.case-pass--slide {
+    overflow: hidden;
+    border-radius: 12px;
+    background: #fff;
+    container-type: inline-size;
+}
+
+.case-stage.case-pass--viewer > .case-browser-shot,
+.case-stage.case-pass--slide > .case-browser-shot {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+}
+
+.case-stage.case-pass--viewer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    width: min(calc(100% - 200px), calc((100vh - 120px) * var(--ar, 1.4072)));
+    transform: translate(-50%, -50%);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.case-stage.case-pass--slide {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Works card with browsers (MyGuava Payment): the checkout in front; on
+   hover two customised themes fan out from behind it. */
+.project-image--browsers .case-browser {
+    position: absolute;
+    left: 50%;
+    top: 44px;
+    width: 44cqw;
+    transform-origin: 50% 50%;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.1);
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1), filter 650ms ease;
+}
+
+.project-image--browsers .case-browser--front {
+    z-index: 2;
+    transform: translateX(-50%);
+}
+
+.project-image--browsers .case-browser--back {
+    z-index: 1;
+    transform: translateX(-50%) translateY(4%) scale(0.92);
+    filter: brightness(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card:hover .project-image--browsers .case-browser--front {
+        transform: translateX(-78%) translateY(6%);
+    }
+
+    .project-card:hover .project-image--browsers .case-browser--left {
+        transform: translateX(-72%) translateY(-8%) rotate(-5deg) scale(0.9);
+        filter: none;
+    }
+
+    .project-card:hover .project-image--browsers .case-browser--far {
+        transform: translateX(-20%) translateY(-12%) rotate(8deg) scale(0.86);
+        filter: none;
+    }
+
+    .project-card:hover .project-image--browsers .case-browser--right {
+        transform: translateX(-46%) translateY(-6%) rotate(4deg) scale(0.92);
+        filter: none;
+    }
+}
+
+.project-image--browsers .case-browser--far {
+    z-index: 0;
+}
+
+/* The theme clip in the full-screen viewers (its styles crossfade). */
+.case-theme-stage.case-pass--viewer,
+.case-theme-stage.case-pass--slide {
+    overflow: hidden;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.case-theme-stage.case-pass--viewer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    width: min(calc(100% - 200px), calc((100vh - 120px) * 1.406));
+    transform: translate(-50%, -50%);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.case-theme-stage.case-pass--slide {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.case-theme-stage.case-pass--viewer .case-theme-shot,
+.case-theme-stage.case-pass--slide .case-theme-shot {
+    max-width: none;
+    max-height: none;
+    pointer-events: none;
+}
+
+/* MyGuava Business, Charts. A taller page in the browser, so a narrower
+   window keeps air round it. */
+.case-cover--tall .case-browser {
+    width: 46cqw;
+}
+
+/* Pop-overs on the page (date picker, data filter): drop in under their
+   button; the filter's second state crossfades over the first. */
+.case-stage-layer.case-stage-pop {
+    z-index: 5;
+    border-radius: 2.4% / 2.9%;
+    box-shadow: 0 0.6cqw 1.8cqw -0.6cqw rgba(15, 15, 15, 0.28), 0 0 0 0.08cqw rgba(15, 15, 15, 0.08);
+    opacity: 0;
+    transform: translateY(-2%) scale(0.98);
+    transform-origin: 50% 0;
+    transition: opacity 200ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-stage-layer.case-stage-pop.is-on {
+    opacity: 1;
+    transform: none;
+}
+
+.case-stage-layer.case-stage-pop--state {
+    z-index: 6;
+    transform: none;
+    box-shadow: none;
+    transition: opacity 240ms ease;
+}
+
+/* The charts draw again: white covers over the plots wipe right, shrink
+   up off the bars, or sweep round the donut and the gauge. */
+@property --sweep {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.case-chart-cover {
+    position: absolute;
+    left: calc(var(--x) * 1%);
+    top: calc(var(--y) * 1%);
+    width: calc(var(--w) * 1%);
+    height: calc(var(--h) * 1%);
+    z-index: 3;
+    background: #FFFFFF;
+    opacity: 0;
+    transform-origin: right center;
+    pointer-events: none;
+}
+
+.case-chart-cover.is-on {
+    opacity: 1;
+}
+
+.case-chart-cover.is-go {
+    transform: scaleX(0);
+    transition: transform 1300ms cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+.case-chart-cover--bars {
+    transform-origin: 50% 0;
+}
+
+.case-chart-cover--bars.is-go {
+    transform: scaleY(0);
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The empty ring is a plain grey track, a little wider than the coloured
+   ring so none of its colour shows at the edges. */
+.case-chart-cover--ring {
+    background: radial-gradient(ellipse 50% 50% at 50% 50%, #FFFFFF 73.5%, #EDEEF1 74%, #EDEEF1 96.5%, #FFFFFF 97%);
+    -webkit-mask-image: conic-gradient(transparent var(--sweep), #000 0), radial-gradient(ellipse 50% 50% at 50% 50%, transparent 72%, #000 72.5%);
+    mask-image: conic-gradient(transparent var(--sweep), #000 0), radial-gradient(ellipse 50% 50% at 50% 50%, transparent 72%, #000 72.5%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+}
+
+.case-chart-cover--gauge {
+    background: radial-gradient(ellipse 50% 100% at 50% 100%, #FFFFFF 78.5%, #EDEEF1 79%, #EDEEF1 98.5%, #FFFFFF 99%);
+    -webkit-mask-image: conic-gradient(from 270deg at 50% 100%, transparent var(--sweep), #000 0), radial-gradient(ellipse 50% 100% at 50% 100%, transparent 77%, #000 77.5%);
+    mask-image: conic-gradient(from 270deg at 50% 100%, transparent var(--sweep), #000 0), radial-gradient(ellipse 50% 100% at 50% 100%, transparent 77%, #000 77.5%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+}
+
+.case-chart-cover--ring.is-go,
+.case-chart-cover--gauge.is-go {
+    transform: none;
+    transition: --sweep 1200ms cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+.case-chart-cover--ring.is-go {
+    --sweep: 360deg;
+}
+
+.case-chart-cover--gauge.is-go {
+    --sweep: 180deg;
+}
+
+/* Chart cards on hover: the cards on the cover's grey, the pointer and
+   each card's hover state crossfading in place. */
+.case-cover--charts .case-stage--cards {
+    width: 88%;
+    cursor: zoom-in;
+}
+
+.case-cover .case-stage--cards > .case-browser-shot,
+.case-stage.case-pass--viewer > .case-browser-shot,
+.case-stage.case-pass--slide > .case-browser-shot {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+}
+
+.case-stage--cards.case-pass--viewer,
+.case-stage--cards.case-pass--slide {
+    background: #F7F7F7;
+}
+
+.case-stage-layer.case-chart-hover {
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 240ms ease;
+}
+
+.case-stage-layer.case-chart-hover.is-on {
+    opacity: 1;
+}
+
+.case-chart-pointer {
+    position: absolute;
+    left: var(--cx, 50%);
+    top: var(--cy, 50%);
+    z-index: 4;
+    width: 2.2%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgba(15, 15, 15, 0.22);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9);
+    transform: translate(-50%, -50%);
+    transition: left 700ms cubic-bezier(0.22, 1, 0.36, 1), top 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+/* The date button's label while Today is picked (one day). */
+.case-stage-layer.case-date-label {
+    z-index: 4;
+    opacity: 0;
+    transition: opacity 200ms ease;
+}
+
+.case-stage-layer.case-date-label.is-on {
+    opacity: 1;
+}
+
+/* Loading skeletons over figures: the tile's grey with a plain bar, no colour. */
+.case-skel {
+    position: absolute;
+    left: calc(var(--x) * 1%);
+    top: calc(var(--y) * 1%);
+    width: calc(var(--w) * 1%);
+    height: calc(var(--h) * 1%);
+    z-index: 3;
+    background: var(--bg, #F7F7F7);
+    opacity: 0;
+    transition: opacity 420ms ease;
+    pointer-events: none;
+}
+
+.case-skel::after {
+    content: '';
+    position: absolute;
+    left: 4%;
+    top: 22%;
+    width: var(--sw, 55%);
+    height: 56%;
+    border-radius: 999px;
+    background: #E9EAED;
+}
+
+.case-skel.is-on {
+    opacity: 1;
+    transition: none;
+}
+
+/* Applications: the side panel slides in from the right over a deeper dim. */
+.case-stage-dim--deep {
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.case-stage-layer.case-side-panel {
+    z-index: 3;
+    transform: translateX(102%);
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-stage-layer.case-side-panel.is-on {
+    transform: none;
+}
+
+/* Figures counting up over their skeletons (the overview cover). Sized in
+   cqw of the page in the browser. */
+.case-stage[data-flow="dashboard"] {
+    container-type: inline-size;
+}
+
+.case-skel::after {
+    transition: opacity 220ms ease;
+}
+
+.case-skel.is-counting::after {
+    opacity: 0;
+}
+
+.case-count {
+    position: absolute;
+    left: calc(var(--x) * 1%);
+    top: calc(var(--y) * 1%);
+    z-index: 4;
+    font: 600 1.14cqw/1 Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    color: #141A28;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(-52%);
+    transition: opacity 420ms ease;
+    pointer-events: none;
+}
+
+.case-count--center {
+    font-size: 1.17cqw;
+    font-weight: 700;
+    transform: translate(-50%, -52%);
+}
+
+.case-count.is-on {
+    opacity: 1;
+    transition: opacity 160ms ease;
+}
+
+/* A clip paused in a full-screen viewer: everything holds, a pause mark
+   sits in the middle. Click or Space resumes. */
+.case-pass--viewer,
+.case-pass--slide {
+    cursor: pointer;
+}
+
+.is-frozen,
+.is-frozen * {
+    animation-play-state: paused !important;
+}
+
+.case-pass--viewer.is-frozen::after,
+.case-pass--slide.is-frozen::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 30;
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    border-radius: 50%;
+    background: rgba(15, 15, 15, 0.6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14M16 5v14' stroke='white' stroke-width='3' stroke-linecap='square'/%3E%3C/svg%3E") center / 26px no-repeat;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+}
+
+/* The date button growing from one day to the range: the page's grey under
+   it, the full button revealed from its right edge leftwards (clip in the
+   button's own corners) while the one-day label fades. */
+.case-stage[data-flow="metrics"] {
+    container-type: inline-size;
+}
+
+.case-date-bg {
+    position: absolute;
+    left: calc(var(--x) * 1%);
+    top: calc(var(--y) * 1%);
+    width: calc(var(--w) * 1%);
+    aspect-ratio: 320 / 52;
+    z-index: 4;
+    background: #F5F5F6;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.case-date-bg.is-on {
+    opacity: 1;
+}
+
+.case-stage-layer.case-date-range {
+    z-index: 4;
+    opacity: 0;
+    clip-path: inset(13.5% 2.19% 13.5% 38.125% round 0.5cqw);
+    transition: clip-path 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-stage-layer.case-date-range.is-on {
+    opacity: 1;
+}
+
+.case-stage-layer.case-date-range.is-wide {
+    clip-path: inset(13.5% 2.19% 13.5% 2.5% round 0.5cqw);
+}
+
+.case-stage-layer.case-date-label {
+    z-index: 5;
+    transition: opacity 260ms ease;
+}
+
+/* The chart cards under Metric Details: the same air as between a pair
+   of covers. */
+.case-cover.case-cover--charts {
+    margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+    .case-cover.case-cover--charts {
+        margin-top: 12px;
+    }
+}
+
+/* Works card (MyGuava Business): the window stays in the middle and four
+   chart cards slide out from behind it, each to the side its graphic sits
+   on, so the part that shows is the chart (like the Remiton phones). */
+.project-chart {
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    border-radius: 2.2% / 4.4%;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.08);
+    transform: translateX(-50%) translateY(4%) scale(0.92);
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-chart--lt { top: 66px; width: 27cqw; }
+.project-chart--lb { top: 196px; width: 21cqw; }
+.project-chart--rt { top: 62px; width: 26cqw; }
+.project-chart--rb { top: 192px; width: 34cqw; }
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card:hover .project-image--browsers.project-image--charts .case-browser--front {
+        transform: translateX(-50%) translateY(-3%);
+    }
+
+    .project-card:hover .project-chart--lt {
+        transform: translateX(-118%) translateY(4%) rotate(-6deg) scale(0.92);
+    }
+
+    .project-card:hover .project-chart--lb {
+        transform: translateX(-148%) translateY(4%) rotate(4deg) scale(0.92);
+    }
+
+    .project-card:hover .project-chart--rt {
+        transform: translateX(22%) translateY(4%) rotate(6deg) scale(0.92);
+    }
+
+    .project-card:hover .project-chart--rb {
+        transform: translateX(-6%) translateY(4%) rotate(-4deg) scale(0.92);
+    }
+}
+
+/* POS cover: the terminal in its own frame, standing in the middle of the
+   card; turns to the pointer and lifts a touch like the phones. */
+.case-cover .case-terminal {
+    width: auto;
+    height: 84%;
+    max-width: none;
+    max-height: none;
+    filter: drop-shadow(0 0.5cqw 1.2cqw rgba(15, 15, 15, 0.12));
+    cursor: zoom-in;
+    transform:
+        translate3d(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 0.8cqw), 0)
+        rotateY(calc(var(--px, 0) * 8deg))
+        rotateX(calc(var(--py, 0) * -6deg));
+    scale: 1;
+    transition: scale 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .case-cover .case-terminal:hover {
+        scale: 1.035;
+    }
+}
+
+@media (max-width: 768px) {
+    .case-cover--device.case-cover--terminal {
+        padding: 8cqw 0;
+    }
+
+    .case-cover .case-terminal {
+        height: auto;
+        width: 46%;
+    }
+}
+
+/* POS sale clip: the terminal with its screens stacked, the amount drawn
+   in code over the keypad screen (cqw of the device). */
+.case-term-clip {
+    position: relative;
+    aspect-ratio: 586 / 1200;
+    container-type: inline-size;
+}
+
+.case-cover .case-terminal.case-term-clip {
+    filter: none;
+}
+
+.case-term-clip > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    filter: drop-shadow(0 0.5cqw 1.2cqw rgba(15, 15, 15, 0.12));
+}
+
+.case-term-patch {
+    position: absolute;
+    left: 7%;
+    top: 21.5%;
+    width: 86%;
+    height: 9.5%;
+    z-index: 2;
+    background: #E8ECFF;
+    pointer-events: none;
+}
+
+.case-term-amount {
+    position: absolute;
+    left: 50%;
+    top: 25.8%;
+    z-index: 3;
+    font: 700 12.4cqw/1 -apple-system, 'SF Pro Display', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    color: #2E2E2E;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.case-term-clip > img.case-term-layer {
+    z-index: 4;
+    filter: none;
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.case-term-clip > img.case-term-layer.is-on {
+    opacity: 1;
+}
+
+.case-term-clip .case-pass-tap {
+    z-index: 6;
+    width: 13%;
+}
+
+/* In the full-screen viewers the terminal keeps its own frame. */
+.case-term-clip.case-pass--viewer,
+.case-term-clip.case-pass--slide {
+    overflow: visible;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.case-term-clip.case-pass--viewer {
+    width: auto;
+    height: min(86vh, 900px);
+}
+
+.case-term-clip.case-pass--slide {
+    width: min(100%, calc((100dvh - 144px) * 0.4883));
+}
+
+/* POS sale clip, part two: the pressed key lights, the next screens move
+   in over the keypad screen inside the device's screen (summary from the
+   right, tap to pay from the top), and the tap-to-pay card floats with
+   contactless waves while the progress dot steps along. */
+.case-term-key {
+    position: absolute;
+    left: calc(var(--x, 0) * 1%);
+    top: calc(var(--y, 0) * 1%);
+    width: calc(var(--w, 0) * 1%);
+    height: calc(var(--h, 0) * 1%);
+    z-index: 2;
+    background: #EEF0F7;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.case-term-key.is-on {
+    animation: case-term-key 420ms ease-out;
+}
+
+@keyframes case-term-key {
+    0% { opacity: 0; }
+    25% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.case-term-res {
+    color: #B9BED3;
+}
+
+.case-term-screen {
+    position: absolute;
+    left: 5.461%;
+    top: 9.667%;
+    width: 89.08%;
+    height: 87.83%;
+    z-index: 4;
+    overflow: hidden;
+    border-radius: 3.4% / 1.7%;
+    pointer-events: none;
+}
+
+.case-term-clip .case-term-scr {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+}
+
+.case-term-clip .case-term-scr > img:first-child {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.case-term-clip .case-term-scr--push {
+    transform: translateX(100%);
+    transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-term-clip .case-term-scr--drop {
+    z-index: 2;
+    transform: translateY(-100%);
+    transition: transform 640ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-term-clip .case-term-scr.is-on {
+    transform: none;
+}
+
+.case-term-clip .case-term-card {
+    position: absolute;
+    left: 27.2%;
+    top: 34.44%;
+    width: 46.55%;
+    max-width: none;
+    animation: case-term-float 3.2s ease-in-out infinite;
+}
+
+@keyframes case-term-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-4%) rotate(-2deg); }
+}
+
+.case-term-dot {
+    position: absolute;
+    left: calc(42.53% + var(--i, 0) * 5.173%);
+    top: 7.5%;
+    width: 2.9%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #C4F627;
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0;
+    transition: transform 360ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 200ms ease;
+}
+
+.case-term-dot.is-on {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+}
+
+/* A ripple from each dot as it fills. */
+.case-term-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(196, 246, 39, 0.9);
+    opacity: 0;
+}
+
+.case-term-dot.is-on::after {
+    animation: case-term-ripple 900ms ease-out;
+}
+
+@keyframes case-term-ripple {
+    0% { opacity: 0.9; transform: scale(1); }
+    100% { opacity: 0; transform: scale(3.2); }
+}
+
+/* The faint arcs behind the progress dots, rippling out from the top:
+   evenly spaced rings of one thin line, growing at a steady pace (the size
+   animates, not a scale, so the line keeps its weight). */
+.case-term-waves {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 0;
+    height: 0;
+}
+
+.case-term-waves i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20cqw;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 0.6cqw solid rgba(255, 255, 255, 0.07);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: case-term-arc 6s linear infinite;
+}
+
+.case-term-waves i:nth-child(2) { animation-delay: -1.5s; }
+.case-term-waves i:nth-child(3) { animation-delay: -3s; }
+.case-term-waves i:nth-child(4) { animation-delay: -4.5s; }
+
+@keyframes case-term-arc {
+    0% { width: 20cqw; opacity: 0; }
+    12% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { width: 200cqw; opacity: 0; }
+}
+
+/* POS reports clip: the report body scrolls under a fixed status bar and
+   tab bar, inside the device's screen. */
+.case-term-screen--solid {
+    background: #FFFFFF;
+}
+
+.case-term-clip .case-term-body,
+.case-term-clip .case-term-status,
+.case-term-clip .case-term-nav {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+}
+
+.case-term-clip .case-term-body {
+    top: 0;
+    transition: transform 1800ms cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+.case-term-clip .case-term-body.is-down {
+    transform: translateY(-13.93%);
+}
+
+.case-term-clip .case-term-status {
+    top: 0;
+    z-index: 2;
+}
+
+.case-term-clip .case-term-nav {
+    bottom: 0;
+    z-index: 2;
+}
+
+/* POS transactions clip: the dim and the actions sheet inside the screen. */
+.case-term-dim {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.32);
+    opacity: 0;
+    transition: opacity 320ms ease;
+}
+
+.case-term-dim.is-on {
+    opacity: 1;
+}
+
+.case-term-clip .case-term-sheet {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 3;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    border-radius: 4.8% 4.8% 0 0 / 9% 9% 0 0;
+    transform: translateY(100%);
+    transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-term-clip .case-term-sheet.is-on {
+    transform: none;
+}
+
+.case-term-clip .case-term-scr:not(.case-term-scr--push):not(.case-term-scr--drop) {
+    z-index: 0;
+}
+
+/* Works card (MyGuava POS): three terminals like the Remiton phones, the
+   sale screen in front, the other two fanning out on hover. */
+.project-term {
+    position: absolute;
+    left: 50%;
+    top: 34px;
+    width: 22cqw;
+    height: auto;
+    max-width: none;
+    filter: drop-shadow(0 0.4cqw 1.2cqw rgba(15, 15, 15, 0.14));
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-term--front {
+    z-index: 2;
+    transform: translateX(-50%);
+}
+
+.project-term--back {
+    z-index: 1;
+    transform: translateX(-50%) translateY(4%) scale(0.92);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card:hover .project-term--front {
+        transform: translateX(-50%) translateY(-3%);
+    }
+
+    .project-card:hover .project-term--left {
+        transform: translateX(-122%) translateY(6%) rotate(-8deg) scale(0.9);
+    }
+
+    .project-card:hover .project-term--right {
+        transform: translateX(22%) translateY(6%) rotate(8deg) scale(0.9);
+    }
+}
+
+/* Design System cover: the palette filling the whole card, swatches edge
+   to edge, without labels; a swatch lifts gently on hover. */
+.case-cover--palette {
+    padding: 0;
+    overflow: hidden;
+}
+
+.ds-palette {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    align-self: stretch;
+    width: 100%;
+    height: 100%;
+}
+
+.ds-swatch {
+    position: relative;
+    background: var(--c);
+    /* covers the hairline seams between fractional-width cells */
+    box-shadow: 0 0 0 0.5px var(--c);
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease, border-radius 320ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .ds-swatch:hover {
+        z-index: 1;
+        transform: scale(1.06);
+        border-radius: 0.4cqw;
+        box-shadow: 0 0.4cqw 1.2cqw -0.4cqw rgba(15, 15, 15, 0.3);
+    }
+}
+
+/* Design System goals: the button set (5 colours x 4 radii) and a large
+   button that steps through radius and colour, pressing as it changes. */
+.case-cover--buttons {
+    /* none, medium, large, full as shares of the button's height (the
+       radius tokens: radius/m 20%, radius/l 30%, full a half). */
+    --r0: 0;
+    --r1: 0.2;
+    --r2: 0.3;
+    --r3: 0.5;
+    --bh: 3.1cqw;
+    gap: 8cqw;
+    font-family: Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+}
+
+.ds-btn-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 9.2cqw);
+    gap: 1.5cqw 1.6cqw;
+}
+
+.ds-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.1cqw;
+    border-radius: var(--r);
+    background: var(--bg);
+    color: #FFFFFF;
+    font-size: 1.05cqw;
+    font-weight: 600;
+    transition: border-radius 520ms cubic-bezier(0.22, 1, 0.36, 1), background-color 420ms ease, color 420ms ease, transform 160ms ease, box-shadow 240ms ease, opacity 240ms ease;
+}
+
+.ds-btn.is-light {
+    color: #0D0D0D;
+}
+
+/* The pair the large button shows is picked out in the set. */
+.case-cover--buttons.is-live .ds-btn-grid .ds-btn {
+    opacity: 0.45;
+}
+
+.case-cover--buttons.is-live .ds-btn-grid .ds-btn.is-pick {
+    opacity: 1;
+    box-shadow: 0 0 0 0.25cqw #F7F7F7, 0 0 0 0.4cqw rgba(15, 15, 15, 0.55);
+}
+
+.ds-btn-demo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2cqw;
+}
+
+.case-cover--buttons .ds-btn {
+    height: var(--bh);
+    border-radius: calc(var(--r) * var(--bh));
+}
+
+.case-cover--buttons .ds-btn--big {
+    --bh: 7.2cqw;
+}
+
+.ds-btn--big {
+    width: 24cqw;
+    height: 7.2cqw;
+    font-size: 2cqw;
+}
+
+.ds-btn--big.is-press {
+    transform: scale(0.95);
+}
+
+.ds-btn-meta {
+    display: flex;
+    gap: 1.2cqw;
+    font-size: 1.1cqw;
+    color: rgba(15, 15, 15, 0.55);
+}
+
+.ds-btn-meta > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6cqw;
+    padding: 0.6cqw 1.4cqw;
+    line-height: 1.2;
+    border-radius: 99px;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.06);
+}
+
+.ds-btn-meta > span:has(i) {
+    padding-left: 0.9cqw;
+}
+
+.ds-btn-meta i {
+    width: 1cqw;
+    height: 1cqw;
+    border-radius: 50%;
+    transition: background-color 420ms ease;
+}
+
+@media (max-width: 768px) {
+    .case-cover--buttons {
+        flex-direction: column-reverse;
+        gap: 6cqw;
+        padding: 8cqw 0;
+        aspect-ratio: auto;
+    }
+
+    .ds-btn-grid {
+        grid-template-columns: repeat(4, 19cqw);
+        gap: 2.6cqw;
+    }
+
+    .case-cover--buttons { --bh: 6.4cqw; }
+
+    .ds-btn {
+        font-size: 2.2cqw;
+    }
+
+    .case-cover--buttons .ds-btn--big {
+        --bh: 13cqw;
+        width: 50cqw;
+        font-size: 4cqw;
+    }
+
+    .ds-btn-meta {
+        font-size: 2.6cqw;
+    }
+
+    .ds-btn-meta > span {
+        gap: 1.2cqw;
+        padding: 1.4cqw 3cqw;
+    }
+
+    .ds-btn-meta > span:has(i) {
+        padding-left: 2cqw;
+    }
+
+    .ds-btn-meta i {
+        width: 2.4cqw;
+        height: 2.4cqw;
+    }
+}
+
+/* System architecture (design system case). Colour tokens: global, alias
+   and component tokens linked to the button. */
+.case-cover--tokens {
+    font-family: Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+}
+
+.ds-chain {
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+}
+
+.ds-token {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9cqw;
+}
+
+.ds-token-label {
+    font-size: 1.05cqw;
+    font-weight: 500;
+    color: #0D0D0D;
+}
+
+.ds-token-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8cqw;
+    height: 3.6cqw;
+    padding: 0 1.1cqw;
+    border-radius: 0.5cqw;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.05);
+}
+
+.ds-token-chip i {
+    width: 1.8cqw;
+    height: 1.8cqw;
+    border-radius: 0.3cqw;
+    background: #BAF400;
+}
+
+.ds-token-chip code,
+.ds-radius code {
+    font: 400 1.1cqw/1 ui-monospace, 'SF Mono', Menlo, monospace;
+    color: #2A2A2A;
+}
+
+.ds-link {
+    align-self: flex-end;
+    width: 3.2cqw;
+    height: 1.8cqw; /* half the chip: its top edge sits on the chips' middle */
+    border-top: 1px solid rgba(15, 15, 15, 0.45);
+}
+
+.ds-link--dot {
+    border-top-style: dotted;
+}
+
+.ds-chain-btn {
+    width: 6.4cqw;
+    height: 3.6cqw;
+    font-size: 1.15cqw;
+}
+
+/* Radius tokens: a row per token, the button wearing it. */
+.ds-radius {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    container-type: inline-size;
+}
+
+.ds-radius-row {
+    overflow: hidden;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.05);
+}
+
+.ds-radius-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: #F7F7F7;
+    font-size: 12px;
+    color: #0D0D0D;
+}
+
+.ds-radius-head span + span {
+    color: rgba(15, 15, 15, 0.45);
+}
+
+.ds-radius-body {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 12px 20px;
+}
+
+.ds-radius-body code {
+    font-size: 13px;
+    color: rgba(15, 15, 15, 0.7);
+}
+
+.ds-radius-body .ds-chip-code {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #EFEFF0;
+    color: #2A2A2A;
+}
+
+.ds-radius-btn {
+    justify-self: end;
+    width: 92px;
+    height: 34px;
+    font-size: 14px;
+}
+
+/* Typography: the scale as a table. */
+.ds-type {
+    overflow: hidden;
+    border-radius: 16px;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.05);
+    font-family: Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    container-type: inline-size;
+}
+
+.ds-type-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    min-height: 76px;
+    border-top: 1px solid rgba(15, 15, 15, 0.05);
+    font-size: 13px;
+    color: rgba(15, 15, 15, 0.7);
+    text-align: center;
+}
+
+.ds-type-row > span + span {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid rgba(15, 15, 15, 0.05);
+}
+
+.ds-type-row--head {
+    min-height: 54px;
+    border-top: 0;
+    background: #F7F7F7;
+    color: #0D0D0D;
+}
+
+.ds-type-name {
+    font-size: var(--fs);
+    font-weight: var(--fw);
+    color: #0D0D0D;
+}
+
+@media (max-width: 768px) {
+    .ds-radius-body { grid-template-columns: 1fr auto; gap: 10px; }
+    .ds-radius-body > code:first-child { display: none; }
+}
+
+/* Design system Storybook: list, canvas, controls on the case's grey card.
+   It follows the section title straight away, so it takes the same gap a
+   cover gets under the section text. */
+.case-section-title + .sb {
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .case-section-title + .sb {
+        margin-top: 28px;
+    }
+}
+
+.sb {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    min-height: 460px;
+    overflow: hidden;
+    border-radius: 28px;
+    background: #F7F7F7;
+    font-family: Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    color: #0D0D0D;
+}
+
+.sb button,
+.sb input,
+.sb select {
+    font: inherit;
+}
+
+.sb-side {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 20px 12px;
+    border-right: 1px solid rgba(15, 15, 15, 0.06);
+}
+
+.sb-side-title {
+    margin: 0 8px 10px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(15, 15, 15, 0.45);
+}
+
+.sb-item {
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    font-size: 14px;
+    text-align: left;
+    color: rgba(15, 15, 15, 0.75);
+    cursor: pointer;
+}
+
+.sb-item:hover {
+    background: rgba(15, 15, 15, 0.04);
+}
+
+.sb-item.is-on {
+    background: #FFFFFF;
+    color: #0D0D0D;
+    font-weight: 600;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.06);
+}
+
+.sb-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* White canvas, so grey inputs read; a faint dot grid. */
+.sb-canvas {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 40px 24px;
+    background-color: #FFFFFF;
+    background-image: radial-gradient(rgba(15, 15, 15, 0.07) 1px, transparent 1px);
+    background-size: 16px 16px;
+}
+
+.sb-stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.sb-restore {
+    padding: 8px 14px;
+    border: 1px dashed rgba(15, 15, 15, 0.3);
+    border-radius: 8px;
+    background: #FFFFFF;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* Controls: under the canvas, compact, several to a line. */
+.sb-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 10px 22px;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(15, 15, 15, 0.06);
+}
+
+.sb-row {
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+}
+
+.sb-row > label {
+    font-size: 13px;
+    color: rgba(15, 15, 15, 0.6);
+}
+
+.sb-select {
+    position: relative;
+}
+
+.sb-select::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid #0D0D0D;
+    border-bottom: 1.5px solid #0D0D0D;
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+}
+
+.sb-select select,
+.sb-text {
+    width: 100%;
+    height: 32px;
+    padding: 0 28px 0 12px;
+    border: 1px solid rgba(15, 15, 15, 0.14);
+    border-radius: 8px;
+    background: #FFFFFF;
+    font-size: 14px;
+    color: #0D0D0D;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.sb-text {
+    padding-right: 12px;
+    cursor: text;
+}
+
+.sb-select select:focus-visible,
+.sb-text:focus-visible,
+.sb-toggle:focus-visible,
+.sb-item:focus-visible {
+    outline: 2px solid #11A4F9;
+    outline-offset: 1px;
+}
+
+.sb-toggle {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 99px;
+    background: #E3E3E5;
+    cursor: pointer;
+    transition: background-color 200ms ease;
+}
+
+.sb-toggle i {
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(15, 15, 15, 0.25);
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sb-toggle.is-on {
+    background: #0D0D0D;
+}
+
+.sb-toggle.is-on i {
+    transform: translateX(18px);
+}
+
+/* Components on the canvas. */
+.sb-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter 160ms ease, transform 120ms ease, box-shadow 160ms ease, background-color 200ms ease, border-radius 300ms ease;
+}
+
+.sb-btn svg { width: 1.15em; height: 1.15em; }
+.sb-btn--small { height: 36px; padding: 0 14px; font-size: 14px; }
+.sb-btn--medium { height: 46px; padding: 0 18px; font-size: 15px; }
+.sb-btn--large { height: 56px; padding: 0 24px; font-size: 17px; }
+.sb-btn--primary { background: #BAF400; color: #0D0D0D; }
+.sb-btn--secondary { background: #EFEFF0; color: #0D0D0D; }
+.sb-btn--outline { background: #FFFFFF; border-color: #0D0D0D; color: #0D0D0D; }
+.sb-btn--destructive { background: #DB2120; color: #FFFFFF; }
+.sb-r--none { border-radius: 0; }
+.sb-r--full { border-radius: 999px; }
+/* The radius tokens as shares of the button's height: s 8%, m 20%, l 30%. */
+.sb-btn--large.sb-r--small { border-radius: 4px; }
+.sb-btn--large.sb-r--medium { border-radius: 11px; }
+.sb-btn--large.sb-r--large { border-radius: 17px; }
+.sb-btn--medium.sb-r--small { border-radius: 4px; }
+.sb-btn--medium.sb-r--medium { border-radius: 9px; }
+.sb-btn--medium.sb-r--large { border-radius: 14px; }
+.sb-btn--small.sb-r--small { border-radius: 3px; }
+.sb-btn--small.sb-r--medium { border-radius: 7px; }
+.sb-btn--small.sb-r--large { border-radius: 11px; }
+.sb-btn:hover, .sb-btn.is-hover { filter: brightness(0.94); }
+.sb-btn:active, .sb-btn.is-pressed { filter: brightness(0.86); transform: scale(0.97); }
+.sb-btn.is-focus { box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #11A4F9; }
+.sb-btn:disabled { cursor: not-allowed; filter: none; transform: none; }
+/* Disabled, whatever the style: the design's #E3E3E5 with #B1B2B4 text. */
+.sb-btn:disabled,
+.sb-btn--primary:disabled,
+.sb-btn--secondary:disabled,
+.sb-btn--outline:disabled,
+.sb-btn--destructive:disabled { background: #E3E3E5; border-color: transparent; color: #B1B2B4; }
+.sb-btn.is-loading { min-width: 96px; cursor: progress; }
+
+.sb-spin {
+    width: 18px;
+    height: 18px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: sb-spin 700ms linear infinite;
+}
+
+@keyframes sb-spin {
+    to { transform: rotate(360deg); }
+}
+
+.sb-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 320px;
+    padding: 12px 14px;
+    border: 1px solid;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.sb-alert svg { width: 18px; height: 18px; flex: none; }
+/* Alert colours from the Figma set (palette tokens). */
+.sb-alert--info { background: #F3FEFF; border-color: #CFF9FE; color: #0C7FD6; }
+.sb-alert--success { background: #F0FEDC; border-color: #DDFDB9; color: #42AC27; }
+.sb-alert--warning { background: #FFFCE8; border-color: #FFF2A1; color: #B78D0A; }
+.sb-alert--danger { background: #FFF7F1; border-color: #FFE6D5; color: #DB2120; }
+
+.sb-alert-x {
+    display: flex;
+    margin-left: auto;
+    padding: 2px;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.sb-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 280px;
+}
+
+.sb-label {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.sb-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: #F5F5F5;
+    transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.sb-input input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: none;
+    font-size: 14px;
+    color: #0D0D0D;
+    outline: none;
+}
+
+.sb-input input::placeholder { color: rgba(15, 15, 15, 0.42); }
+.sb-input svg { width: 18px; height: 18px; flex: none; color: #0D0D0D; }
+.sb-field:hover .sb-input, .sb-field.is-hover .sb-input { background: #EDEDEE; }
+.sb-input:focus-within, .sb-field.is-focus .sb-input { background: #FFFFFF; border-color: #0D0D0D; }
+.sb-field.is-error .sb-input { background: #FFF7F1; border-color: #DB2120; }
+.sb-field.is-error .sb-input svg { color: #DB2120; }
+.sb-field.is-disabled { opacity: 0.5; }
+
+.sb-help {
+    font-size: 12px;
+    color: #DB2120;
+}
+
+.sb-mc { display: inline-flex; flex: none; }
+.sb-mc i { width: 12px; height: 12px; border-radius: 50%; background: #EB001B; }
+.sb-mc i + i { margin-left: -5px; background: #F79E1B; opacity: 0.9; }
+
+.sb-app {
+    display: grid;
+    grid-template-columns: repeat(2, 6px);
+    gap: 2px;
+    flex: none;
+    padding: 3px;
+    border-radius: 4px;
+    background: #11A4F9;
+}
+
+.sb-app i { width: 6px; height: 6px; border-radius: 1.5px; background: #FFFFFF; }
+
+.sb-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px 6px 6px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    font-size: 14px;
+    color: #0D0D0D;
+    cursor: pointer;
+}
+
+.sb-radio i {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid #0D0D0D;
+    border-radius: 50%;
+    background: #FFFFFF;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.sb-radio i::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: #BAF400;
+    transform: scale(0);
+    transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sb-radio.is-checked i { border-color: #7DAF00; }
+.sb-radio.is-checked i::after { transform: scale(1); }
+.sb-radio:hover i, .sb-radio.is-hover i { box-shadow: 0 0 0 5px rgba(15, 15, 15, 0.06); }
+.sb-radio.is-focus i { box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #11A4F9; }
+.sb-radio:disabled { opacity: 0.45; cursor: not-allowed; }
+.sb-radio:disabled i { border-color: #8D8E91; }
+.sb-radio:disabled i::after { background: #8D8E91; }
+
+@media (max-width: 900px) {
+    .sb {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .sb-side {
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-right: 0;
+        border-bottom: 1px solid rgba(15, 15, 15, 0.06);
+    }
+
+    .sb-side-title { width: 100%; }
+    .sb-canvas { min-height: 220px; }
+}
+
+/* Developer handoff: rules and the states table on the grey card. */
+.ds-handoff {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 12px;
+    padding: 40px;
+    border-radius: 28px;
+    background: #F7F7F7;
+    font-family: Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    color: #0D0D0D;
+}
+
+.ds-rules {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ds-rule,
+.ds-states {
+    padding: 22px 24px;
+    border-radius: 14px;
+    background: #FFFFFF;
+}
+
+.ds-handoff h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ds-rule ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(15, 15, 15, 0.6);
+}
+
+.ds-rule b {
+    color: rgba(15, 15, 15, 0.75);
+}
+
+.ds-rule-icon {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+.ds-rule-icon--ok { background: #42AC27; }
+.ds-rule-icon--no { background: #DB2120; }
+
+.ds-rule-icon--ok::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 4px;
+    width: 6px;
+    height: 10px;
+    border-right: 2px solid #FFFFFF;
+    border-bottom: 2px solid #FFFFFF;
+    transform: rotate(45deg);
+}
+
+.ds-rule-icon--no::after {
+    content: '!';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.ds-states-row {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    border-top: 1px solid rgba(15, 15, 15, 0.06);
+    font-size: 14px;
+}
+
+.ds-states-row > span {
+    padding: 10px 0;
+}
+
+.ds-states-row > span + span {
+    padding-left: 16px;
+    border-left: 1px solid rgba(15, 15, 15, 0.06);
+}
+
+.ds-states-row > span:first-child {
+    color: rgba(15, 15, 15, 0.6);
+}
+
+.ds-states-row--head {
+    border-top: 0;
+    font-size: 12px;
+    color: rgba(15, 15, 15, 0.55);
+}
+
+@media (max-width: 900px) {
+    .ds-handoff {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+}
+
+/* More Storybook components. */
+.sb-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 99px;
+    font-weight: 500;
+}
+
+.sb-badge--small { height: 24px; padding: 0 10px; font-size: 13px; }
+.sb-badge--medium { height: 32px; padding: 0 14px; font-size: 14px; }
+.sb-badge i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.sb-badge--neutral { background: #EFEFF0; color: #464749; }
+.sb-badge--success { background: #F0FEDC; color: #288A19; }
+.sb-badge--warning { background: #FFF2E0; color: #B4600A; }
+.sb-badge--danger { background: #FFF0EC; color: #DB2120; }
+.sb-badge--info { background: #F3FEFF; color: #085FB3; }
+
+.sb-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    font-size: 14px;
+    color: #0D0D0D;
+    cursor: pointer;
+}
+
+.sb-check i {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid #0D0D0D;
+    border-radius: 5px;
+    background: #FFFFFF;
+    color: #0D0D0D;
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.sb-check i svg { width: 14px; height: 14px; opacity: 0; transform: scale(0.6); transition: opacity 160ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+.sb-check.is-checked i { background: #BAF400; border-color: #7DAF00; }
+.sb-check.is-checked i svg { opacity: 1; transform: none; }
+.sb-check.is-hover i { background: #EFEFF0; }
+.sb-check.is-checked.is-hover i { background: #9AD100; border-color: #7DAF00; }
+.sb-check.is-focus i { box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #11A4F9; }
+.sb-check:disabled { opacity: 0.45; cursor: not-allowed; }
+/* Disabled in the radio's greys: grey frame, grey fill, white tick. */
+.sb-check:disabled i { border-color: #8D8E91; }
+.sb-check:disabled.is-checked i { background: #8D8E91; border-color: #8D8E91; color: #FFFFFF; }
+
+.sb-seg {
+    display: inline-flex;
+    padding: 3px;
+    border-radius: 10px;
+    background: #EFEFF0;
+}
+
+.sb-seg-item {
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: rgba(15, 15, 15, 0.55);
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+
+.sb-seg--small .sb-seg-item { height: 32px; padding: 0 16px; font-size: 14px; }
+.sb-seg--medium .sb-seg-item { height: 40px; padding: 0 26px; font-size: 15px; }
+.sb-seg-item.is-on { background: #FFFFFF; color: #0D0D0D; box-shadow: 0 1px 2px rgba(15, 15, 15, 0.12); }
+
+.sb-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 40px;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 10px;
+    background: none;
+    font-size: 14px;
+    color: #0D0D0D;
+    cursor: pointer;
+}
+
+.sb-switch i {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    border-radius: 99px;
+    background: #E3E3E5;
+    transition: background-color 200ms ease;
+}
+
+.sb-switch i::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(15, 15, 15, 0.25);
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sb-switch.is-on i { background: #BAF400; }
+.sb-switch.is-on i::after { transform: translateX(18px); }
+.sb-switch:disabled { opacity: 0.45; cursor: not-allowed; }
+/* Disabled in the radio's greys too. */
+.sb-switch:disabled i { background: #D3D3D5; }
+.sb-switch:disabled.is-on i { background: #8D8E91; }
+
+.sb-tabs {
+    display: inline-flex;
+    gap: 4px;
+}
+
+.sb-tab {
+    height: 34px;
+    padding: 0 16px;
+    border: 0;
+    background: none;
+    font-size: 14px;
+    color: rgba(15, 15, 15, 0.6);
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+
+.sb-tabs--pill .sb-tab { border-radius: 99px; }
+.sb-tabs--pill .sb-tab.is-on { background: #F5F5F5; color: #0D0D0D; font-weight: 600; }
+.sb-tabs--underline { gap: 18px; border-bottom: 1px solid rgba(15, 15, 15, 0.08); }
+.sb-tabs--underline .sb-tab { padding: 0 2px; }
+.sb-tabs--underline .sb-tab.is-on { color: #0D0D0D; font-weight: 600; box-shadow: inset 0 -2px 0 #0D0D0D; }
+
+/* Radius tokens, compact: the five buttons in a row, each with its token. */
+.ds-rts {
+    display: grid;
+    grid-template-columns: repeat(5, 13cqw);
+    gap: 3cqw;
+    font-family: Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+}
+
+.ds-rt {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1cqw;
+    text-align: center;
+}
+
+.ds-rt-btn {
+    width: 100%;
+    height: 4.2cqw;
+    margin-bottom: 0.6cqw;
+    font-size: 1.3cqw;
+}
+
+.ds-rt-name {
+    font-size: 1.15cqw;
+    font-weight: 500;
+    color: #0D0D0D;
+}
+
+.ds-rt-name em {
+    display: block;
+    margin-top: 0.3cqw;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.95cqw;
+    color: rgba(15, 15, 15, 0.45);
+}
+
+.ds-rt code {
+    padding: 0.35cqw 0.7cqw;
+    border-radius: 0.4cqw;
+    background: #EFEFF0;
+    font: 400 1.05cqw/1 ui-monospace, 'SF Mono', Menlo, monospace;
+    color: #2A2A2A;
+}
+
+/* Storybook search: a black clear cross instead of the browser's blue one. */
+.sb-input input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 6l12 12M18 6L6 18' stroke='%230D0D0D' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") center / 14px no-repeat;
+    cursor: pointer;
+}
+
+/* Screen sequences in the browser (bank transfer, crypto): each next
+   screenshot crossfades in over the last. */
+.case-stage-layer.case-stage-seq {
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 320ms ease;
+}
+
+.case-stage-layer.case-stage-seq.is-on {
+    opacity: 1;
+}
+
+/* The default radius is marked above its button, so the rows stay level. */
+.ds-rt-default {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 1cqw);
+    transform: translateX(-50%);
+    font: 500 0.95cqw/1 Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    color: rgba(15, 15, 15, 0.45);
+    white-space: nowrap;
+}
+
+/* Controls' text fields at the same size as the selects. */
+.sb .sb-text,
+.sb .sb-select select {
+    font-size: 14px;
+}
+
+/* Works card (Customizable Design System): the primary button in front;
+   on hover the set's other colours fan out from behind it, each with its
+   own radius token (--r, a fraction of the height). */
+.project-dsbtn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28cqw;
+    height: 8.4cqw;
+    border-radius: calc(var(--r) * 8.4cqw);
+    background: var(--bg);
+    color: var(--fg);
+    font: 600 2.4cqw/1 Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    transform: translate(-50%, -50%);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), background-color 400ms ease, color 400ms ease;
+}
+
+.project-dsbtn--front {
+    z-index: 2;
+    box-shadow: 0 0.6cqw 1.6cqw -0.8cqw rgba(15, 15, 15, 0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    /* The primary grows a little and drifts through the set's colours,
+       over and over while the pointer is on the card. */
+    .project-card:hover .project-dsbtn--front {
+        transform: translate(-50%, -50%) scale(1.1);
+        animation: ds-front-hue 1.7s ease-in-out infinite alternate;
+    }
+}
+
+
+/* Works cards still in progress: not links, a quiet label in place of the
+   arrow, and no hover. */
+.project-card--wip {
+    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><text x='16' y='26' font-size='26' text-anchor='middle'>%E2%8F%B3</text></svg>") 16 16, wait;
+}
+
+.project-wip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 26px;
+    padding: 0 10px;
+    border-radius: 99px;
+    background: rgba(15, 15, 15, 0.06);
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(15, 15, 15, 0.55);
+    white-space: nowrap;
+}
+
+.project-wip::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(255, 72, 16);
+    animation: project-wip 1.6s ease-in-out infinite;
+}
+
+@keyframes project-wip {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+html[data-theme="dark"] .project-wip {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card--wip:hover .project-title,
+    .project-card--wip:hover .project-label-text {
+        color: inherit;
+    }
+
+    .project-card--wip:hover .project-label-text::after {
+        opacity: 0;
+    }
+}
+
+/* Where the logo stacks on two lines, the works go one to a row. */
+@media (max-width: 1023px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Purchase authentication (MyGuava Payment): the ID Check screen drawn in
+   code inside a phone (the case's usual phone size, so the frame keeps
+   its proportions). Sizes are Figma pixels of the 313 px screen (--u),
+   shifted 22 px down to clear the status bar. */
+.otp {
+    --u: calc(100cqw / 313);
+    position: absolute;
+    inset: 0;
+    container-type: inline-size;
+    font-family: Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    color: #0D0D0D;
+    text-align: center;
+}
+
+.otp > * {
+    position: absolute;
+    left: calc(13 * var(--u));
+    right: calc(13 * var(--u));
+}
+
+.otp .otp-header {
+    top: calc(70 * var(--u));
+    bottom: auto;
+    left: 5%;
+    right: auto;
+    width: 90%;
+    max-width: none;
+    height: auto;
+}
+
+.otp-title {
+    top: calc(122 * var(--u));
+    font-size: calc(16.5 * var(--u));
+    font-weight: 600;
+}
+
+.otp-amount,
+.otp-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: calc(8 * var(--u));
+    background: #FFFFFF;
+}
+
+.otp-amount {
+    top: calc(160 * var(--u));
+    height: calc(120 * var(--u));
+    justify-content: center;
+    gap: calc(5 * var(--u));
+}
+
+.otp-merchant { font-size: calc(13.5 * var(--u)); font-weight: 500; }
+.otp-sum { font-size: calc(27 * var(--u)); font-weight: 700; letter-spacing: -0.01em; }
+.otp-card { font-size: calc(13.5 * var(--u)); color: rgba(15, 15, 15, 0.5); }
+
+.otp-code {
+    top: calc(286 * var(--u));
+    height: calc(186 * var(--u));
+    padding-top: calc(20 * var(--u));
+    gap: calc(14 * var(--u));
+}
+
+.otp-hint {
+    font-size: calc(13.5 * var(--u));
+    line-height: 1.35;
+    color: rgba(15, 15, 15, 0.55);
+}
+
+.otp-boxes {
+    display: flex;
+    gap: calc(11 * var(--u));
+}
+
+.otp-box {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: calc(34 * var(--u));
+    height: calc(50 * var(--u));
+    border: 1px solid #E3E3E5;
+    border-radius: calc(17 * var(--u));
+    font-size: calc(15 * var(--u));
+    font-weight: 600;
+    transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+}
+
+/* The focused box: lime ring and a blinking caret while it is empty. */
+.otp-box.is-focus {
+    border: 1.5px solid #BAF400;
+}
+
+.otp-box.is-focus:empty::after {
+    content: '';
+    width: 1.5px;
+    height: calc(18 * var(--u));
+    background: #9AD100;
+    animation: otp-caret 1s steps(1) infinite;
+}
+
+@keyframes otp-caret {
+    50% { opacity: 0; }
+}
+
+.otp-box.is-error {
+    border: 1.5px solid #DB2120;
+    color: #DB2120;
+    animation: otp-shake 360ms ease;
+}
+
+@keyframes otp-shake {
+    0%, 100% { transform: none; }
+    25% { transform: translateX(calc(-3 * var(--u))); }
+    75% { transform: translateX(calc(3 * var(--u))); }
+}
+
+.otp-note {
+    max-width: calc(250 * var(--u));
+    font-size: calc(13.5 * var(--u));
+    line-height: 1.35;
+    color: rgba(15, 15, 15, 0.55);
+}
+
+.otp-note.is-error { color: #DB2120; }
+
+.otp-note.is-link {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(6 * var(--u));
+    color: #085FB3;
+    font-weight: 600;
+}
+
+/* The resend arrows. */
+.otp-note.is-link i {
+    width: calc(14 * var(--u));
+    height: calc(14 * var(--u));
+    border: calc(2 * var(--u)) solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+}
+
+.otp-submit {
+    top: calc(536 * var(--u));
+    display: grid;
+    place-items: center;
+    height: calc(46 * var(--u));
+    border-radius: 999px;
+    background: #EFEFF0;
+    font-size: calc(13.5 * var(--u));
+    font-weight: 600;
+    color: #B1B2B4;
+    transition: background-color 260ms ease, color 260ms ease;
+}
+
+.otp-submit.is-on {
+    background: #BAF400;
+    color: #0D0D0D;
+}
+
+.otp-submit.is-busy span { display: none; }
+
+.otp-submit.is-busy::after {
+    content: '';
+    width: calc(18 * var(--u));
+    height: calc(18 * var(--u));
+    border: calc(2 * var(--u)) solid #0D0D0D;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: sb-spin 700ms linear infinite;
+}
+
+.otp-cancel {
+    top: calc(616 * var(--u));
+    font-size: calc(13.5 * var(--u));
+    font-weight: 600;
+    color: #DB2120;
+}
+
+.otp .case-pass-tap {
+    left: var(--kx, 50%);
+    right: auto;
+    width: 12%;
+}
+
+
+/* Storybook, aligned with the Figma component sets. */
+
+/* Input and Search: rest, hover, active (lime), filled, focus (blue),
+   error (red with helper text, and a shake), disabled (greys). */
+.sb-input:focus-within,
+.sb-field.is-active .sb-input {
+    background: #F5F5F5;
+    border-color: #BAF400;
+}
+
+.sb-field.is-focus .sb-input {
+    background: #FFFFFF;
+    border-color: #11A4F9;
+    box-shadow: 0 0 0 1px #11A4F9;
+}
+
+.sb-field.is-error .sb-input {
+    background: #FFFFFF;
+    border-color: #DB2120;
+    animation: sb-shake 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes sb-shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+}
+
+.sb-help {
+    font-size: 11px;
+}
+
+.sb-field.is-disabled {
+    opacity: 1;
+}
+
+.sb-field.is-disabled .sb-input {
+    background: #E3E3E5;
+}
+
+.sb-field.is-disabled .sb-input input,
+.sb-field.is-disabled .sb-input input::placeholder,
+.sb-field.is-disabled .sb-input svg {
+    color: #B1B2B4;
+}
+
+.sb-field.is-disabled .sb-app {
+    background: #B1B2B4;
+}
+
+.sb-field.is-disabled .sb-label {
+    color: #8D8E91;
+}
+
+.sb-clear {
+    display: flex;
+    flex: none;
+}
+
+.sb-clear svg {
+    width: 14px;
+    height: 14px;
+}
+
+.sb-field--search input::-webkit-search-cancel-button {
+    display: none;
+}
+
+/* Radio: lime when selected, a light fill on hover, greys when disabled,
+   a blue ring for focus. */
+.sb-radio:disabled { opacity: 1; }
+.sb-radio:hover i, .sb-radio.is-hover i { box-shadow: none; background: #EFEFF0; }
+.sb-radio.is-checked i { border-color: #9AD100; }
+.sb-radio.is-checked i::after { background: #9AD100; }
+.sb-radio.is-checked:hover i, .sb-radio.is-checked.is-hover i { background: #FFFFFF; border-color: #7DAF00; }
+.sb-radio.is-checked:hover i::after, .sb-radio.is-checked.is-hover i::after { background: #7DAF00; }
+.sb-radio:disabled i { background: #E3E3E5; border-color: #B1B2B4; }
+.sb-radio:disabled i::after { background: #B1B2B4; }
+.sb-radio:disabled span { color: #B1B2B4; }
+
+/* Switch: green when on, darker on hover, pale when disabled, blue ring
+   for focus (32 x 20 in Figma, drawn a quarter larger). */
+.sb-switch i { width: 40px; height: 25px; background: #EFEFF0; }
+.sb-switch i::after { top: 2.5px; left: 2.5px; width: 20px; height: 20px; }
+.sb-switch.is-on i::after { transform: translateX(15px); }
+.sb-switch:hover i, .sb-switch.is-hover i { background: #E3E3E5; }
+.sb-switch.is-on i { background: #84EF4F; }
+.sb-switch.is-on:hover i, .sb-switch.is-on.is-hover i { background: #61CD39; }
+.sb-switch.is-focus i { box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #11A4F9; }
+.sb-switch:disabled { opacity: 1; }
+.sb-switch:disabled i { background: #F5F5F5; }
+.sb-switch:disabled i::after { box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.05); }
+.sb-switch:disabled.is-on i { background: #DDFDB9; }
+.sb-switch:disabled span { color: #B1B2B4; }
+
+/* Tooltip: dark or light, the arrow at the top or bottom edge, left,
+   centre or right; title and text, or text only. */
+.sb-tip-wrap {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.sb-tip-wrap.sb-tip--down { flex-direction: column-reverse; }
+.sb-tip-wrap.sb-tip--left { align-items: flex-start; }
+.sb-tip-wrap.sb-tip--right { align-items: flex-end; }
+
+.sb-tip-anchor {
+    display: flex;
+    color: #0D0D0D;
+}
+
+.sb-tip-anchor svg { width: 20px; height: 20px; }
+
+.sb-tip {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 72px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.35;
+    text-align: center;
+}
+
+.sb-tip b { font-weight: 600; }
+.sb-tip--dark { background: #2A2A2B; color: #FFFFFF; }
+.sb-tip--light { background: #F7F7F7; color: #0D0D0D; box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.04); }
+
+.sb-tip::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: inherit;
+    border-radius: 2px;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+/* Top: the arrow on the bubble's top edge, the bubble under the anchor. */
+.sb-tip--top .sb-tip::before { top: -4px; }
+.sb-tip--down .sb-tip::before { bottom: -4px; }
+.sb-tip--left .sb-tip::before { left: 16px; }
+.sb-tip--right .sb-tip::before { left: auto; right: 6px; }
+
+/* Storybook hovers: everything that can be pointed at answers it. */
+@media (hover: hover) and (pointer: fine) {
+    .sb-tab:not(.is-on):hover { color: #0D0D0D; }
+    .sb-tabs--pill .sb-tab:not(.is-on):hover { background: rgba(15, 15, 15, 0.04); }
+    .sb-tabs--underline .sb-tab:not(.is-on):hover { box-shadow: inset 0 -2px 0 rgba(15, 15, 15, 0.2); }
+    .sb-seg-item:not(.is-on):hover { color: #0D0D0D; }
+    .sb-select select:hover,
+    .sb-text:hover { border-color: rgba(15, 15, 15, 0.32); }
+    .sb-toggle:hover { background: #D3D3D5; }
+    .sb-toggle.is-on:hover { background: #28292A; }
+    .sb-alert-x:hover { opacity: 0.7; }
+    .sb-clear:hover { opacity: 0.6; }
+    .sb-restore:hover { border-color: rgba(15, 15, 15, 0.5); }
+    .sb-check:not(:disabled):hover i { box-shadow: none; background: #EFEFF0; }
+    .sb-check.is-checked:not(:disabled):hover i { background: #9AD100; border-color: #7DAF00; }
+    .sb-tip-anchor:hover { color: rgba(15, 15, 15, 0.6); }
+}
+
+.sb-tab,
+.sb-seg-item,
+.sb-select select,
+.sb-text,
+.sb-alert-x,
+.sb-clear {
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.sb-clear { cursor: pointer; }
+
+/* Outcome figures: large numbers that count up when the brief comes into
+   view, each with a short label and an accent rule that draws under it. */
+.case-stats {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px 48px;
+    margin-top: 20px;
+}
+
+.case-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.case-stat b {
+    position: relative;
+    align-self: flex-start;
+    padding-bottom: 10px;
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #0F0F0F;
+    font-variant-numeric: tabular-nums;
+}
+
+.case-stat b::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: rgb(255, 72, 16);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1) 200ms;
+}
+
+.case-stats.is-in .case-stat b::after {
+    transform: scaleX(1);
+}
+
+.case-stats.is-in .case-stat:nth-child(2) b::after { transition-delay: 350ms; }
+.case-stats.is-in .case-stat:nth-child(3) b::after { transition-delay: 500ms; }
+
+.case-stat b em {
+    display: inline-block;
+    font-style: normal;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 400ms ease 500ms, transform 600ms cubic-bezier(0.22, 1, 0.36, 1) 500ms;
+}
+
+.case-stats.is-in .case-stat b em {
+    opacity: 1;
+    transform: none;
+}
+
+.case-stat small {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(15, 15, 15, 0.5);
+}
+
+html[data-theme="dark"] .case-stat b { color: #F2F2F0; }
+html[data-theme="dark"] .case-stat small { color: rgba(255, 255, 255, 0.5); }
+
+@media (max-width: 768px) {
+    .case-stats {
+        grid-column: 1;
+        gap: 24px 32px;
+        margin-top: 8px;
+    }
+
+    .case-stat b {
+        font-size: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .case-stat b::after { transform: scaleX(1); transition: none; }
+    .case-stat b em { opacity: 1; transform: none; transition: none; }
+}
+
+/* The live "Order expiration time" countdown over the checkout screenshot's
+   15:00 (the page's own pixels, 1600 wide: x 1440-1496, y 544-566). */
+.case-stage[data-flow] {
+    container-type: inline-size;
+}
+
+.case-timer {
+    position: absolute;
+    left: 90%;
+    top: 47.8%;
+    width: 3.5%;
+    height: 1.94%;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: #FFFFFF;
+    font: 500 1.06cqw/1 Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+    color: #11A4F9;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.case-timer.is-on {
+    opacity: 1;
+}
+
+/* Under a dim the patch and the digits take the dimmed shades. */
+.case-timer.is-dim {
+    background: #B6B6B6;
+    color: #0C75B2;
+}
+
+/* The note under the outcome figures (illustrative figures, pending). */
+.case-stats-note {
+    grid-column: 2;
+    margin: 16px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(15, 15, 15, 0.45);
+}
+
+html[data-theme="dark"] .case-stats-note { color: rgba(255, 255, 255, 0.45); }
+
+@media (max-width: 768px) {
+    .case-stats-note { grid-column: 1; }
+}
+
+/* A long screen scrolling in a phone (Finharbor, script.js "fhscroll"):
+   the page slides under the status bar and the tab bar, which stay put.
+   Sizes in cqw of the screen (375 pt wide, status bar 62 pt). */
+.case-pass.case-pass--scroll {
+    overflow: hidden;
+    background: #FFFFFF;
+}
+
+.case-pass--scroll > img:first-child {
+    inset: auto;
+    top: 16.53cqw;
+    left: 0;
+    height: auto;
+    max-height: none;
+    transform: translateY(calc(var(--sy, 0) * -1cqw));
+    transition: transform 900ms cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.case-pass--scroll.is-instant > img:first-child {
+    transition: none;
+}
+
+.case-pass > .case-scroll-status,
+.case-pass > .case-scroll-tabbar {
+    position: absolute;
+    inset: auto 0;
+    left: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: none;
+}
+
+.case-pass > .case-scroll-status {
+    top: 0;
+}
+
+.case-pass > .case-scroll-tabbar {
+    bottom: 0;
+}
+
+.case-pass.case-pass--scroll.case-pass--viewer,
+.case-pass.case-pass--scroll.case-pass--slide {
+    background: #FFFFFF;
+}
+
+/* Works card (Finharbor): phones like the Remiton card; the back ones
+   come out from behind the home on hover. */
+
+/* Scripted screen runs in a phone (Finharbor Buy and Send, script.js
+   "seq"). Screens are 375 pt wide: 1 pt = 0.2667cqw of the screen, the
+   display is 216.5cqw tall. */
+.case-pass--seq {
+    overflow: hidden;
+    background: #FFFFFF;
+}
+
+.case-pass--seq > img,
+.case-seq-shot,
+.case-seq-sheet {
+    transition: transform 520ms cubic-bezier(0.32, 0.72, 0, 1), filter 520ms ease, opacity 320ms ease;
+}
+
+.case-seq-shot,
+.case-seq-sheet {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.case-seq-shot > img,
+.case-seq-sheet > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+}
+
+/* A screen that pushes in from the right, or a state that fades in. */
+.case-seq-shot {
+    opacity: 0;
+}
+
+.case-seq-shot.is-in {
+    opacity: 1;
+}
+
+.case-seq-shot--push {
+    opacity: 1;
+    transform: translateX(100%);
+}
+
+.case-seq-shot--push.is-in {
+    transform: none;
+}
+
+.case-pass--seq .is-back {
+    transform: translateX(-28%);
+    filter: brightness(0.92);
+}
+
+/* A tall screen scrolls up by --sy (cqw). */
+.case-seq-shot > img {
+    transform: translateY(calc(var(--sy, 0) * -1cqw));
+    transition: transform 900ms cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+/* The status bar and the nav bar stay put while a tall screen scrolls. */
+.case-seq-shot > img.case-seq-head {
+    z-index: 1;
+    transform: none;
+}
+
+/* A bottom sheet: the dim fades in, the panel (the screenshot below --st)
+   rises from the bottom; is-cut swaps the dim without a fade. */
+.case-seq-dim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.424);
+    opacity: 0;
+    transition: opacity 320ms ease;
+}
+
+.case-seq-sheet.is-dim .case-seq-dim {
+    opacity: 1;
+}
+
+.case-seq-sheet.is-cut .case-seq-dim {
+    transition: none;
+}
+
+.case-seq-sheet > img {
+    clip-path: inset(var(--st) 0 0 0 round 4.3cqw 4.3cqw 0 0);
+    transform: translateY(100%);
+    transition: transform 480ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.case-seq-sheet.is-up > img {
+    transform: none;
+}
+
+/* Code digits typed into the 2FA boxes. */
+.case-seq-dot {
+    position: absolute;
+    left: calc(var(--x) * 1%);
+    top: calc(var(--y) * 1%);
+    font: 600 5.6cqw/1 'Nunito Sans', Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    color: #1F1F22;
+    opacity: 0;
+    transform: translate(-50%, -40%);
+    transition: opacity 160ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+.case-seq-dot.is-on {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+.case-pass--seq.is-instant *,
+.case-pass--seq.is-instant > img {
+    transition: none !important;
+}
+
+/* Three cards in a row, one clip each (same sizes as the pair). */
+.case-cover-trio {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    container-type: inline-size;
+}
+
+.case-cover-trio .case-cover.case-cover--half {
+    height: 58cqw;
+}
+
+.case-cover-trio .case-cover--half .case-phone--solo {
+    width: 23cqw;
+}
+
+/* Cards with a step label leave room for it above the phone. */
+.case-cover.case-cover--half:has(> .case-cover-label) {
+    padding-top: 36px;
+    height: calc(56.25cqw + 36px);
+}
+
+.case-cover-trio .case-cover.case-cover--half:has(> .case-cover-label) {
+    height: calc(58cqw + 36px);
+}
+
+/* A step label in the corner of a clip card. */
+.case-cover--half {
+    position: relative;
+}
+
+.case-cover-label {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    right: 22px;
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(15, 15, 15, 0.5);
+}
+
+html[data-theme="dark"] .case-cover-label {
+    color: rgba(237, 237, 236, 0.5);
+}
+
+.case-section-title + .case-cover-pair,
+.case-section-title + .case-cover-trio {
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .case-cover-trio {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .case-cover-trio .case-cover.case-cover--half,
+    .case-cover.case-cover--half:has(> .case-cover-label),
+    .case-cover-trio .case-cover.case-cover--half:has(> .case-cover-label) {
+        height: calc(84cqw + 36px);
+    }
+
+    .case-cover-trio .case-cover--half .case-phone--solo {
+        width: 34cqw;
+    }
+
+    .case-section-title + .case-cover-pair,
+    .case-section-title + .case-cover-trio {
+        margin-top: 28px;
+    }
+}
+
+/* Face ID as on an iPhone with the Dynamic Island: the island (same
+   place and size as the phone's own) grows down into a black square with
+   the white glyph, scans (is-scan), ticks (is-ok), then shrinks back into
+   the island and goes. Sizes in cqw of the screen. */
+.case-seq-faceid {
+    position: absolute;
+    left: 50%;
+    top: 2.8cqw;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32cqw;
+    height: 9.3cqw;
+    border-radius: 4.65cqw;
+    background: #050505;
+    color: #FFFFFF;
+    opacity: 0;
+    transform: translateX(-50%);
+    transition:
+        width 420ms cubic-bezier(0.32, 0.72, 0, 1),
+        height 420ms cubic-bezier(0.32, 0.72, 0, 1),
+        border-radius 420ms cubic-bezier(0.32, 0.72, 0, 1),
+        opacity 120ms ease 400ms;
+    pointer-events: none;
+}
+
+.case-seq-faceid.is-on {
+    width: 40cqw;
+    height: 40cqw;
+    border-radius: 11cqw;
+    opacity: 1;
+    transition:
+        width 520ms cubic-bezier(0.34, 1.25, 0.64, 1),
+        height 520ms cubic-bezier(0.34, 1.25, 0.64, 1),
+        border-radius 520ms cubic-bezier(0.34, 1.25, 0.64, 1),
+        opacity 0ms;
+}
+
+.case-seq-faceid .fid {
+    width: 18cqw;
+    height: 18cqw;
+    overflow: visible;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 160ms ease, transform 300ms cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.case-seq-faceid.is-on .fid {
+    opacity: 1;
+    transform: none;
+    transition-delay: 220ms;
+}
+
+.case-seq-faceid b {
+    display: none;
+}
+
+.fid-face {
+    transform-origin: 32px 32px;
+    transition: opacity 220ms ease, transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.case-seq-faceid.is-on:not(.is-scan) .fid-face {
+    animation: fid-look 1.1s ease-in-out infinite;
+}
+
+.fid-ring {
+    opacity: 0;
+    stroke-dasharray: 46 118;
+    transform-origin: 32px 32px;
+    transition: opacity 200ms ease, stroke-dasharray 300ms ease;
+}
+
+.fid-check {
+    stroke-dasharray: 34;
+    stroke-dashoffset: 34;
+    transition: stroke-dashoffset 300ms 120ms ease-out;
+}
+
+.case-seq-faceid.is-scan .fid-face {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.case-seq-faceid.is-scan .fid-ring {
+    opacity: 1;
+    animation: fid-spin 700ms linear infinite;
+}
+
+.case-seq-faceid.is-ok .fid-ring {
+    stroke-dasharray: 164 0;
+    animation: none;
+}
+
+.case-seq-faceid.is-ok .fid-check {
+    stroke-dashoffset: 0;
+}
+
+@keyframes fid-look {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(0.94); }
+}
+
+@keyframes fid-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* A single clip card with a label (Finharbor Receive): room for the
+   label above the phone; it follows the section title directly. */
+.case-cover.case-cover--loop:not(.case-cover--half):has(> .case-cover-label) {
+    position: relative;
+    padding-top: 36px;
+}
+
+.case-section-title + .case-cover {
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .case-section-title + .case-cover {
+        margin-top: 28px;
+    }
+}
+
+/* Receive: the address loads in place. A dotted QR placeholder shimmers,
+   then a green scan line sweeps down and uncovers the code (is-ok), while
+   the skeleton of the address and the button fades out. Boxes in % of the
+   screen (--x / --y / --w / --h). */
+.case-seq-qr,
+.case-seq-scan,
+.case-seq-skel {
+    position: absolute;
+    left: calc(var(--x) * 1%);
+    top: calc(var(--y) * 1%);
+    width: calc(var(--w) * 1%);
+    height: calc(var(--h) * 1%);
+    pointer-events: none;
+}
+
+.case-seq-qr {
+    border-radius: 1.6cqw;
+    background:
+        radial-gradient(circle, #DADADD 38%, transparent 42%) 50% 50% / 2.7cqw 2.7cqw,
+        #FFFFFF;
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+    transition: opacity 160ms ease, clip-path 1000ms cubic-bezier(0.65, 0, 0.35, 1);
+    overflow: hidden;
+}
+
+.case-seq-qr::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0) 70%) no-repeat;
+    background-size: 220% 100%;
+    animation: seq-shimmer 1100ms linear infinite;
+}
+
+.case-seq-qr.is-on {
+    opacity: 1;
+}
+
+.case-seq-qr.is-ok {
+    clip-path: inset(100% 0 0 0);
+}
+
+.case-seq-scan::before {
+    content: '';
+    position: absolute;
+    left: -4%;
+    right: -4%;
+    top: 0;
+    height: 0.8cqw;
+    border-radius: 99px;
+    background: #12B778;
+    box-shadow: 0 0 2.4cqw 0.8cqw rgba(18, 183, 120, 0.45);
+    opacity: 0;
+}
+
+.case-seq-scan.is-ok::before {
+    animation: seq-scan 1000ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.case-seq-skel {
+    display: flex;
+    flex-direction: column;
+    gap: 2.2cqw;
+    padding-top: 1.2cqw;
+    background: #FFFFFF;
+    opacity: 0;
+    transition: opacity 360ms ease;
+}
+
+.case-seq-skel.is-on {
+    opacity: 1;
+}
+
+.case-seq-skel.is-ok {
+    opacity: 0;
+}
+
+.case-seq-skel i,
+.case-seq-skel b {
+    display: block;
+    width: var(--l, 92%);
+    height: 3.2cqw;
+    border-radius: 99px;
+    background: linear-gradient(110deg, #EFEFF1 30%, #F8F8F9 50%, #EFEFF1 70%) no-repeat;
+    background-size: 220% 100%;
+    animation: seq-shimmer 1100ms linear infinite;
+}
+
+.case-seq-skel b {
+    width: 69%;
+    height: 8.4cqw;
+    margin-top: auto;
+    margin-bottom: 0.6cqw;
+}
+
+@keyframes seq-shimmer {
+    from { background-position: 120% 0; }
+    to { background-position: -120% 0; }
+}
+
+@keyframes seq-scan {
+    0% { top: 0; opacity: 1; }
+    90% { top: 100%; opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* Pending to Completed (Finharbor Buy and Send details): a pill drawn over
+   the screen's own. At is-ok the orange tint turns green, the spinner
+   shrinks away and a tick draws itself, "Pending" slides up as "Completed"
+   rises in, and the pill pulses once with a green ring. Boxes in % of the
+   screen (--x / --y / --w / --h). */
+.case-seq-status {
+    position: absolute;
+    left: calc(var(--x) * 1% - 0.3cqw);
+    top: calc(var(--y) * 1% - 0.3cqw);
+    width: calc(var(--w) * 1% + 0.6cqw);
+    height: calc(var(--h) * 1% + 0.6cqw);
+    border-radius: 99px;
+    overflow: hidden;
+    background: #FFF3EA;
+    color: #E8923A;
+    font: 700 4.1cqw/1 'Nunito Sans', Inter, -apple-system, 'SF Pro Text', system-ui, sans-serif;
+    transition: background-color 500ms ease, color 500ms ease;
+    pointer-events: none;
+}
+
+.case-seq-status b {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    font-weight: 700;
+    text-align: center;
+    transform: translateY(-50%);
+    transition: transform 520ms cubic-bezier(0.34, 1.3, 0.64, 1), opacity 320ms ease;
+}
+
+.case-seq-status .st-b {
+    opacity: 0;
+    transform: translateY(160%);
+}
+
+.case-seq-status svg {
+    position: absolute;
+    left: 5cqw;
+    top: 50%;
+    width: 5.2cqw;
+    height: 5.2cqw;
+    margin-top: -2.6cqw;
+    transition: transform 360ms cubic-bezier(0.34, 1.5, 0.64, 1), opacity 240ms ease;
+}
+
+.case-seq-status .st-spin {
+    animation: seq-spin 900ms linear infinite;
+}
+
+.case-seq-status .st-check {
+    opacity: 0;
+    transform: scale(0.4);
+    stroke-dasharray: 22;
+    stroke-dashoffset: 22;
+    transition: transform 360ms 120ms cubic-bezier(0.34, 1.5, 0.64, 1), opacity 120ms 100ms ease, stroke-dashoffset 420ms 160ms ease-out;
+}
+
+.case-seq-status.is-ok {
+    background: #EEFAEE;
+    color: #5DB264;
+    animation: seq-pulse 640ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.case-seq-status.is-ok .st-a {
+    opacity: 0;
+    transform: translateY(-160%);
+}
+
+.case-seq-status.is-ok .st-b {
+    opacity: 1;
+    transform: translateY(-50%);
+    transition-delay: 90ms;
+}
+
+.case-seq-status.is-ok .st-spin {
+    opacity: 0;
+    transform: scale(0.3);
+    animation: none;
+}
+
+.case-seq-status.is-ok .st-check {
+    opacity: 1;
+    transform: none;
+    stroke-dashoffset: 0;
+}
+
+@keyframes seq-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes seq-pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(93, 178, 100, 0.45); }
+    45% { transform: scale(1.035); box-shadow: 0 0 0 1.6cqw rgba(93, 178, 100, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 1.6cqw rgba(93, 178, 100, 0); }
+}
+
+/* No smudgy drop shadows on the mockups and the works cards: the devices,
+   windows and buttons sit on the card flat, kept readable by a thin edge. */
+.case-phone,
+.project-image--phones .case-phone {
+    box-shadow:
+        inset 0 0 0 0.06cqw rgba(255, 255, 255, 0.35),
+        inset 0 0 0.3cqw rgba(0, 0, 0, 0.6);
+}
+
+.case-browser {
+    box-shadow: 0 0 0 0.12cqw rgba(15, 15, 15, 0.14);
+}
+
+html[data-theme="dark"] .case-browser {
+    box-shadow: 0 0 0 0.12cqw rgba(255, 255, 255, 0.12);
+}
+
+.case-theme-panel {
+    box-shadow: 0 0 0 0.12cqw rgba(15, 15, 15, 0.08);
+}
+
+.case-stage-layer.case-stage-modal,
+.case-stage-layer.case-stage-pop,
+.case-stage-toast {
+    box-shadow: none;
+}
+
+.case-cover .case-terminal,
+.case-term-clip > img,
+.project-term {
+    filter: none;
+}
+
+.project-dsbtn--front {
+    box-shadow: none;
+}
+
+@keyframes ds-front-hue {
+    0% { background-color: #BAF400; color: #0D0D0D; }
+    33% { background-color: #6BE3D7; color: #0D0D0D; }
+    49.9% { color: #0D0D0D; }
+    50% { color: #FFFFFF; }
+    66% { background-color: #1B74BD; color: #FFFFFF; }
+    100% { background-color: #5B44EB; color: #FFFFFF; }
+}
+
+/* Works card (Habbi): the mascot peeks out from behind the phone. Every
+   frame is cut at the same wall line, 77% of its width, which sits 1cqw
+   behind the phone's left edge (39cqw of the stage), so no gap shows. Two
+   layers crossfade neighbouring frames (script.js), opacity set inline. */
+.project-image--habbi .project-mascot {
+    position: absolute;
+    left: calc(40cqw - 30cqw * 0.77);
+    top: 13cqw;
+    z-index: 1;
+    width: 30cqw;
+    height: 30cqw;
+    background: url("images/habbi/mascot-sprite.webp?v=3") no-repeat 0 0 / 2000% 100%;
+    background-position-x: calc(var(--f, 0) / 19 * 100%);
+    opacity: 0;
+    pointer-events: none;
+}
+

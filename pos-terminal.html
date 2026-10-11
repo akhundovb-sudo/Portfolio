@@ -22,7 +22,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast9">
+    <link rel="stylesheet" href="styles.css?v=fast133">
     <link rel="stylesheet" href="about.css?v=fast1">
     <!-- Social meta -->
     <meta property="og:type" content="website">
@@ -116,28 +116,109 @@
     <section class="case-content">
         <div class="container">
             <header class="case-hero" data-toc="Intro">
-                <h1 class="case-title">Title</h1>
-                <p class="case-lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <h1 class="case-title">MyGuava POS Terminal</h1>
+                <p class="case-lede">I designed a POS terminal interface for taking payments, viewing reports and managing transactions.</p>
                 <ul class="case-facts" aria-label="Project details">
-                    <li class="case-fact"><span class="case-fact-label">Role</span><span class="case-fact-value">Design, development, product</span></li>
-                    <li class="case-fact"><span class="case-fact-label">Period</span><span class="case-fact-value">January – June 2026</span></li>
+                    <li class="case-fact"><span class="case-fact-label">Role</span><span class="case-fact-value">Lead Product Designer</span></li>
+                    <li class="case-fact"><span class="case-fact-label">Period</span><span class="case-fact-value">2024–2025</span></li>
                 </ul>
-                <div class="case-cover case-cover--placeholder" role="img" aria-label="Image placeholder"><span>Image</span></div>
+                <!-- Cover: the POS terminal (already in its device frame). -->
+                <div class="case-cover case-cover--phones case-cover--device case-cover--terminal">
+                    <img class="case-terminal" src="images/pos-terminal.png?v=1" alt="MyGuava POS terminal: the sale keypad with the amount and Continue" width="586" height="1200" decoding="async">
+                </div>
             </header>
 
             <!-- Brief: the challenge, the solution and the outcome side by side. -->
             <section class="case-brief" data-toc="Overview" aria-label="Challenge, solution and outcome">
                 <div class="case-brief-col">
                     <h2 class="case-brief-title">Challenge</h2>
-                    <p class="case-brief-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p class="case-brief-text">Keep everyday payments simple while making reports, refunds and settings easy to access.</p>
                 </div>
                 <div class="case-brief-col">
                     <h2 class="case-brief-title">Solution</h2>
-                    <p class="case-brief-text">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p class="case-brief-text">I organized the interface into four sections: Sale, Reports, Transactions and More.</p>
                 </div>
                 <div class="case-brief-col">
                     <h2 class="case-brief-title">Outcome</h2>
-                    <p class="case-brief-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+                    <p class="case-brief-text">One consistent interface for payments and daily terminal operations.</p>
+                    <div class="case-stats" aria-label="4 Core sections, 3 Payment methods"><span class="case-stat"><b data-count="4">0</b><small>Core sections</small></span><span class="case-stat"><b data-count="3">0</b><small>Payment methods</small></span></div>
+                </div>
+            </section>
+
+            <!-- Sale screen: a looping clip on the terminal (script.js
+                 [data-flow="posale"]): the amount starts at £0.00, is keyed in on
+                 the calculator, then Continue opens the summary and Proceed
+                 Payment the tap-to-pay screen. -->
+            <section class="case-section" data-toc="Sale screen" aria-labelledby="case-sale">
+                <h2 class="case-section-title" id="case-sale">Sale Screen</h2>
+                <p class="case-section-text">Enter an amount using large buttons and a built-in calculator. Continue to payment with card, QR or cash, with card selected by default.</p>
+                <div class="case-cover case-cover--phones case-cover--device case-cover--terminal">
+                    <div class="case-terminal case-stage case-term-clip" data-flow="posale" style="--ar: 0.4883">
+                        <img class="case-browser-shot" src="images/pos-sale-1.png?v=1" alt="Sale screen: the amount keyed in on the calculator, then the summary and tap to pay" width="586" height="1200" loading="lazy" decoding="async">
+                        <span class="case-term-patch" aria-hidden="true"></span>
+                        <span class="case-term-amount" data-part="amount" aria-hidden="true">£0.00</span>
+                        <span class="case-term-key" data-part="key" aria-hidden="true"></span>
+                        <div class="case-term-screen" aria-hidden="true">
+                            <img class="case-flow-layer case-term-scr case-term-scr--push" data-part="s3" src="images/pos-screen-3.jpg?v=1" alt="" decoding="async">
+                            <div class="case-term-scr case-term-scr--drop case-term-pay" data-part="s4">
+                                <img class="case-flow-layer" src="images/pos-screen-4.jpg?v=2" alt="" decoding="async">
+                                <span class="case-term-waves"><i></i><i></i><i></i><i></i></span>
+                                <img class="case-flow-layer case-term-card" src="images/pos-pay-card.png?v=1" alt="" decoding="async">
+                                <span class="case-term-dot" data-part="d0" style="--i: 0"></span>
+                                <span class="case-term-dot" data-part="d1" style="--i: 1"></span>
+                                <span class="case-term-dot" data-part="d2" style="--i: 2"></span>
+                                <span class="case-term-dot" data-part="d3" style="--i: 3"></span>
+                            </div>
+                        </div>
+                        <span class="case-pass-tap" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports: the report screen (joined from two crops) scrolls
+                 between the fixed status bar and tab bar (script.js
+                 [data-flow="posreports"]). -->
+            <section class="case-section" data-toc="Reports" aria-labelledby="case-reports">
+                <h2 class="case-section-title" id="case-reports">Reports</h2>
+                <p class="case-section-text">View sales, tips, cancellations and refunds. Filter by date or payment method, then print or export a report.</p>
+                <div class="case-cover case-cover--phones case-cover--device case-cover--terminal">
+                    <div class="case-terminal case-stage case-term-clip" data-flow="posreports" style="--ar: 0.4883">
+                        <img class="case-browser-shot" src="images/pos-sale-1.png?v=1&amp;clip=reports" alt="Reports: total sales by day and the sales, tips, cancel, void and refund amounts" width="586" height="1200" loading="lazy" decoding="async">
+                        <div class="case-term-screen case-term-screen--solid" aria-hidden="true">
+                            <img class="case-flow-layer case-term-body" data-part="body" src="images/pos-reports-body.jpg?v=1" alt="" decoding="async">
+                            <img class="case-flow-layer case-term-status" src="images/pos-reports-status.jpg?v=2" alt="" decoding="async">
+                            <img class="case-flow-layer case-term-nav" src="images/pos-reports-nav.jpg?v=1" alt="" decoding="async">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transactions: a looping clip (script.js [data-flow="postx"]): a
+                 transaction opens its details from the right, the menu raises a
+                 sheet with Refund and Send receipt over a dim. -->
+            <section class="case-section" data-toc="Transactions" aria-labelledby="case-transactions">
+                <h2 class="case-section-title" id="case-transactions">Transactions</h2>
+                <p class="case-section-text">Find transactions using search and filters. View details, share receipts, issue full or partial refunds, or repeat a payment.</p>
+                <div class="case-cover case-cover--phones case-cover--device case-cover--terminal">
+                    <div class="case-terminal case-stage case-term-clip" data-flow="postx" style="--ar: 0.4883">
+                        <img class="case-browser-shot" src="images/pos-sale-1.png?v=1&amp;clip=tx" alt="Transactions: the list with search and filters, a transaction's details and its actions" width="586" height="1200" loading="lazy" decoding="async">
+                        <div class="case-term-screen case-term-screen--solid" aria-hidden="true">
+                            <img class="case-flow-layer case-term-scr" src="images/pos-tx-list.jpg?v=1" alt="" decoding="async">
+                            <img class="case-flow-layer case-term-scr case-term-scr--push" data-part="details" src="images/pos-tx-details.jpg?v=1" alt="" decoding="async">
+                            <span class="case-term-dim" data-part="dim"></span>
+                            <img class="case-flow-layer case-term-sheet" data-part="sheet" src="images/pos-tx-sheet.jpg?v=1" alt="" decoding="async">
+                        </div>
+                        <span class="case-pass-tap" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- More: the rarely used functions, a still. -->
+            <section class="case-section" data-toc="More" aria-labelledby="case-more">
+                <h2 class="case-section-title" id="case-more">More</h2>
+                <p class="case-section-text">Access payment completion, pre-authorization, end-of-day reporting and terminal settings in a dedicated section.</p>
+                <div class="case-cover case-cover--phones case-cover--device case-cover--terminal">
+                    <img class="case-terminal" src="images/pos-more.png?v=1" alt="More: completion, pre-authorization, end of day, refund, security, software, language and log out" width="586" height="1200" loading="lazy" decoding="async">
                 </div>
             </section>
         </div>
@@ -233,7 +314,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261012p"></script>
+    <script src="script.js?v=20261013s"></script>
     <script>
         // Mobile Menu Functionality
         function toggleMobileMenu() {
@@ -419,7 +500,7 @@
         }
 
         function populateAvailablePhotos() {
-            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img, .project-page .case-phone-screen img:not(.case-flow-layer)');
+            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img, .project-page img.case-terminal, .project-page .case-term-clip > .case-browser-shot, .project-page .case-phone-screen img:not(.case-flow-layer)');
             availablePhotos = Array.from(clickableImages).map(img => ({
                 src: img.src,
                 alt: img.alt || 'Project image'
@@ -876,10 +957,12 @@
         // Add click handlers to all images (excluding icons)
         function addImageClickHandlers() {
             // Target specific image classes that should be clickable
-            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img, .project-page .case-phone-screen img:not(.case-flow-layer)');
+            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img, .project-page img.case-terminal, .project-page .case-term-clip > .case-browser-shot, .project-page .case-phone-screen img:not(.case-flow-layer)');
             
             clickableImages.forEach((img) => {
                 img.addEventListener('click', function() {
+                    // On phones the case screens open in the full-screen viewer instead.
+                    if (window.innerWidth <= 768 && this.closest('.case-cover--phones')) return;
                     openPhotoViewer(this.src);
                 });
             });
@@ -930,10 +1013,12 @@
         // Add click handlers to all images (excluding icons)
         function addImageClickHandlers() {
             // Target specific image classes that should be clickable
-            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img, .project-page .case-phone-screen img:not(.case-flow-layer)');
+            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img, .project-page img.case-terminal, .project-page .case-term-clip > .case-browser-shot, .project-page .case-phone-screen img:not(.case-flow-layer)');
             
             clickableImages.forEach((img) => {
                 img.addEventListener('click', function() {
+                    // On phones the case screens open in the full-screen viewer instead.
+                    if (window.innerWidth <= 768 && this.closest('.case-cover--phones')) return;
                     openPhotoViewer(this.src);
                 });
             });
