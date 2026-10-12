@@ -680,156 +680,201 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
     filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.12));
 }
 
-/* Mexican standoff: guns round the edges aimed at each other, a big count
-   in the middle, confetti on a canvas over it all. */
-.ab-standoff {
+/* Cinema: a screen in the dark behind a velvet curtain. The curtain
+   halves gather to the sides when it opens; the screen flickers a little
+   and has grain, like a projected print. */
+.ab-cinema {
     position: fixed;
-    inset: 0;
-    z-index: 1200;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 300ms ease;
-    --ab-gun: #0F0F0F;
-    --ab-gun-shine: rgba(255, 255, 255, 0.18);
-}
-
-html[data-theme="dark"] .ab-standoff {
-    --ab-gun: #EDEDEC;
-    --ab-gun-shine: rgba(0, 0, 0, 0.2);
-}
-
-.ab-standoff.is-on {
-    opacity: 1;
-}
-
-.ab-standoff-confetti {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-}
-
-.ab-standoff-mid {
-    position: absolute;
     left: 50%;
     top: 50%;
+    z-index: 1200;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 18px;
+    width: min(760px, calc(100vw - 32px));
+    opacity: 0;
     transform: translate(-50%, -50%);
+    transition: opacity 500ms ease;
 }
 
-.ab-standoff-close {
+.ab-cinema.is-on {
+    opacity: 1;
+}
+
+.ab-cinema-close {
+    align-self: flex-end;
     display: grid;
     place-items: center;
     width: 36px;
     height: 36px;
     padding: 0;
-    border: 1px solid rgba(15, 15, 15, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 50%;
-    background: #FFFFFF;
-    color: #0F0F0F;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(15, 15, 15, 0.12);
-}
-
-html[data-theme="dark"] .ab-standoff-close {
-    border-color: rgba(255, 255, 255, 0.12);
-    background: #222221;
+    background: rgba(255, 255, 255, 0.08);
     color: #EDEDEC;
+    cursor: pointer;
 }
 
-.ab-standoff-count {
-    min-height: 1em;
-    font: 400 clamp(96px, 14vw, 180px)/1 'PP Neue Montreal', sans-serif;
-    letter-spacing: -0.04em;
-    color: var(--ab-ink);
+.ab-cinema-stage {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 6px;
+    background: #0B0A09;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.ab-standoff-count:not(:empty) {
-    animation: ab-standoff-beat 750ms ease-out;
+/* The screen, lit by the projector: brightest in the middle. */
+.ab-cinema-screen {
+    position: absolute;
+    inset: 22px 18px 10px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 45%, #FBF8F1 0%, #EAE4D6 62%, #BDB5A3 100%);
+    box-shadow: 0 0 80px rgba(255, 244, 214, 0.25);
+    animation: ab-cinema-flicker 180ms steps(2) infinite;
 }
 
-@keyframes ab-standoff-beat {
-    0% { transform: scale(1.25); opacity: 0; }
-    20% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(0.96); opacity: 1; }
+@keyframes ab-cinema-flicker {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(0.97); }
 }
 
-.ab-standoff-hint {
+.ab-cinema-grain {
+    position: absolute;
+    inset: -20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.22'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    animation: ab-cinema-grain 300ms steps(3) infinite;
+}
+
+@keyframes ab-cinema-grain {
+    0% { transform: translate(0, 0); }
+    33% { transform: translate(-8px, 6px); }
+    66% { transform: translate(6px, -4px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* The splice between films: a white flash. */
+.ab-cinema.is-cut .ab-cinema-reel {
+    animation: ab-cinema-cut 420ms ease-out;
+}
+
+@keyframes ab-cinema-cut {
+    0% { opacity: 0; filter: brightness(2.2) blur(2px); }
+    100% { opacity: 1; filter: none; }
+}
+
+.ab-cinema-reel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 0 8%;
+    text-align: center;
+    color: #1A1714;
+}
+
+.ab-cinema-no {
+    font: 500 11px/1 'PP Neue Montreal', sans-serif;
+    letter-spacing: 0.2em;
+    color: rgba(26, 23, 20, 0.5);
+}
+
+.ab-cinema-title {
+    font: 400 clamp(26px, 4.4vw, 48px)/1.05 'PP Neue Montreal', sans-serif;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+}
+
+.ab-cinema-year {
+    font: 400 16px/1 'PP Neue Montreal', sans-serif;
+    color: rgba(26, 23, 20, 0.55);
+}
+
+.ab-cinema-why {
+    margin-top: 6px;
+    font: 400 clamp(15px, 1.6vw, 18px)/1.35 'PP Neue Montreal', sans-serif;
+    font-style: italic;
+    color: rgba(26, 23, 20, 0.8);
+}
+
+.ab-cinema-end {
+    font: 400 clamp(36px, 6vw, 64px)/1 Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    letter-spacing: -0.01em;
+}
+
+/* Velvet: vertical folds in deep reds, shaded at the inner edge. */
+.ab-cinema-curtain {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 51%;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.35)),
+        repeating-linear-gradient(90deg, #5C0A0E 0, #8E131A 14px, #B01D24 22px, #8E131A 30px, #5C0A0E 44px);
+    box-shadow: inset 0 -30px 40px rgba(0, 0, 0, 0.45);
+    transition: transform 1400ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.ab-cinema-curtain--l {
+    left: 0;
+    transform-origin: 0 50%;
+}
+
+.ab-cinema-curtain--r {
+    right: 0;
+    transform-origin: 100% 50%;
+}
+
+/* Open: each half gathers to its side. */
+.ab-cinema.is-open .ab-cinema-curtain {
+    transform: scaleX(0.1);
+}
+
+.ab-cinema-valance {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 3;
+    height: 22px;
+    background:
+        radial-gradient(circle at 50% 0, #8E131A 14px, transparent 15px) 0 6px / 30px 20px repeat-x,
+        linear-gradient(#6E0E13, #8E131A);
+    background-size: 30px 22px, 100% 10px;
+    background-repeat: repeat-x, no-repeat;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.35);
+}
+
+.ab-cinema-hint {
+    min-height: 11px;
     font: 500 11px/1 'PP Neue Montreal', sans-serif;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     white-space: nowrap;
-    color: var(--ab-soft);
-}
-
-/* A gun: drawn pointing right; the script turns it to its target. */
-.ab-gun {
-    position: absolute;
-    color: var(--ab-gun);
-    transform-origin: 50% 50%;
-    pointer-events: none;
-}
-
-.ab-gun svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    animation: ab-gun-shake 160ms steps(2) infinite;
-}
-
-.ab-standoff.is-tense .ab-gun svg {
-    animation-duration: 70ms;
-}
-
-@keyframes ab-gun-shake {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    50% { transform: translate(0.6px, -0.8px) rotate(0.6deg); }
-    100% { transform: translate(-0.6px, 0.6px) rotate(-0.4deg); }
-}
-
-/* Firing: kicks back and up, with a flash at the muzzle. */
-.ab-gun.is-fired svg {
-    animation: ab-gun-kick 320ms cubic-bezier(0.2, 1, 0.3, 1);
-}
-
-@keyframes ab-gun-kick {
-    0% { transform: translateX(0) rotate(0); }
-    25% { transform: translateX(-10%) rotate(-12deg); }
-    100% { transform: translateX(0) rotate(0); }
-}
-
-.ab-gun-flash {
-    position: absolute;
-    right: -14%;
-    top: 4%;
-    width: 30%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(circle, #FFF6D5 0%, #FFC94A 35%, rgba(255, 72, 16, 0.6) 60%, rgba(255, 72, 16, 0) 72%);
-    opacity: 0;
-    transform: scale(0.3);
-}
-
-.ab-gun.is-fired .ab-gun-flash {
-    animation: ab-gun-flash 260ms ease-out;
-}
-
-@keyframes ab-gun-flash {
-    0% { opacity: 1; transform: scale(0.4); }
-    100% { opacity: 0; transform: scale(1.4); }
+    color: rgba(237, 237, 236, 0.6);
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ab-gun svg,
-    .ab-standoff.is-tense .ab-gun svg {
+    .ab-cinema-screen,
+    .ab-cinema-grain {
         animation: none;
     }
 }
 
-/* Frosted veil behind the standoff. */
+/* Frosted veil behind the eggs that take the screen; dark for the cinema. */
 .ab-veil {
     position: fixed;
     inset: 0;
@@ -847,6 +892,12 @@ html[data-theme="dark"] .ab-standoff-close {
 
 html[data-theme="dark"] .ab-veil {
     background: rgba(17, 17, 16, 0.72);
+}
+
+.ab-veil--dark,
+html[data-theme="dark"] .ab-veil--dark {
+    background: rgba(8, 8, 7, 0.9);
+    transition-duration: 700ms;
 }
 
 /* Viewfinder: corner brackets, a centre cross and the exposure, in ink

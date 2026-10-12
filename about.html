@@ -24,7 +24,7 @@
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
     <link rel="stylesheet" href="styles.css?v=fast141">
     <link rel="stylesheet" href="about.css?v=fast1">
-    <link rel="stylesheet" href="about-page.css?v=fast9">
+    <link rel="stylesheet" href="about-page.css?v=fast10">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="About - Bahruz">
@@ -198,7 +198,7 @@
         <section class="container ab-section" aria-labelledby="ab-hobbies">
             <h2 class="ab-label" id="ab-hobbies">Hobbies</h2>
             <div class="ab-body">
-                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-standoff-trigger">films</button> and <button type="button" class="ab-hobby-trigger ab-photo-trigger">photography</button>.</p>
+                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-cinema-trigger">films</button> and <button type="button" class="ab-hobby-trigger ab-photo-trigger">photography</button>.</p>
             </div>
         </section>
     </main>
@@ -697,27 +697,22 @@
             document.addEventListener('keydown', function (e) { if (e.key === 'Escape') land(); });
         })();
 
-        // Hobbies easter egg: "films" stages the Mexican standoff from
-        // Reservoir Dogs: four pistols round the edges of the screen, each
-        // aimed at the next, shaking. A click counts down 3, 2, 1 and they
-        // all fire at once, confetti instead of bullets. Click again for
-        // another round; the cross, Esc or the word again end it.
+        // Hobbies easter egg: "films" turns the page into a cinema: the
+        // lights go down, a velvet curtain parts and the screen shows my
+        // favourite films one at a time, a click for each, with the
+        // projector clicking between reels. After the last one, "The End"
+        // and the curtain closes. The cross, Esc or the word again leave.
         (function () {
-            const trigger = document.querySelector('.ab-standoff-trigger');
+            const trigger = document.querySelector('.ab-cinema-trigger');
             if (!trigger) return;
-            // Where the guns stand (fractions of the screen) and who each aims at.
-            const SPOTS = [[0.08, 0.5], [0.36, 0.12], [0.92, 0.44], [0.66, 0.88]];
-            const AIM = [2, 3, 0, 1];
-            const COLOURS = ['#FF4810', '#FFC94A', '#0F0F0F', '#3FB5A6', '#FFFFFF'];
-            const GUN = '<svg viewBox="0 0 120 70" aria-hidden="true">' +
-                '<rect x="10" y="10" width="96" height="18" rx="3" fill="currentColor"/>' +
-                '<rect x="100" y="13" width="16" height="11" rx="2" fill="currentColor"/>' +
-                '<rect x="10" y="26" width="58" height="10" rx="2" fill="currentColor"/>' +
-                '<path d="M14 34 L42 34 L36 68 L8 66 Z" fill="currentColor"/>' +
-                '<path d="M42 36 Q49 54 60 36" fill="none" stroke="currentColor" stroke-width="4"/>' +
-                '<path d="M20 16 H96" stroke="var(--ab-gun-shine)" stroke-width="2" stroke-linecap="round"/>' +
-                '</svg><i class="ab-gun-flash"></i>';
-            let stage = null, veil = null, canvas = null, ctx = null, guns = [], state = 'ready', ac = null, raf = 0, bits = [], timers = [];
+            const FILMS = [
+                ['Pulp Fiction', '1994', 'Dialogue I keep wanting to quote.'],
+                ['Fear and Loathing in Las Vegas', '1998', 'Pure chaos, shot like a fever dream.'],
+                ['25th Hour', '2002', 'The score and the dialogue, both stay with you.'],
+                ['The Godfather Part II', '1974', 'The sequel that outgrew the original.'],
+                ['The Matrix', '1999', 'Changed how I look at every screen.']
+            ];
+            let hall = null, veil = null, at = -1, ac = null, hum = null, busy = false;
 
             function sound() {
                 if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return null;
@@ -727,164 +722,123 @@
                 } catch (e) { return null; }
                 return ac;
             }
-            function tick(high) {
+            // The projector: a low motor hum while the film runs, and a
+            // clack of the gate between reels.
+            function motor(on) {
                 const a = sound(); if (!a) return;
-                const t = a.currentTime, o = a.createOscillator(), g = a.createGain();
-                o.type = 'square'; o.frequency.value = high ? 1320 : 880;
-                g.gain.setValueAtTime(0.08, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
-                o.connect(g).connect(a.destination); o.start(t); o.stop(t + 0.13);
+                if (on && !hum) {
+                    hum = a.createGain(); hum.gain.value = 0; hum.connect(a.destination);
+                    hum.gain.setTargetAtTime(0.025, a.currentTime, 0.5);
+                    const o = a.createOscillator(); o.type = 'sawtooth'; o.frequency.value = 48;
+                    const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 220;
+                    const lfo = a.createOscillator(), lg = a.createGain();
+                    lfo.frequency.value = 24; lg.gain.value = 0.012;
+                    lfo.connect(lg).connect(hum.gain);
+                    o.connect(f).connect(hum); o.start(); lfo.start();
+                    hum.parts = [o, lfo];
+                } else if (!on && hum) {
+                    const h = hum; hum = null;
+                    h.gain.setTargetAtTime(0, a.currentTime, 0.2);
+                    setTimeout(function () { h.parts.forEach(function (o) { o.stop(); }); }, 900);
+                }
             }
-            // A pop: a burst of noise over a low thump, a few ms apart per gun.
-            function bang(at) {
+            function clack() {
                 const a = sound(); if (!a) return;
-                const t = a.currentTime + at, len = 0.35;
-                const buf = a.createBuffer(1, a.sampleRate * len, a.sampleRate), d = buf.getChannelData(0);
-                for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 6);
-                const n = a.createBufferSource(); n.buffer = buf;
-                const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 2400;
-                const g = a.createGain(); g.gain.value = 0.35;
-                n.connect(f).connect(g).connect(a.destination); n.start(t);
-                const o = a.createOscillator(), og = a.createGain();
-                o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.2);
-                og.gain.setValueAtTime(0.5, t); og.gain.exponentialRampToValueAtTime(0.0001, t + 0.25);
-                o.connect(og).connect(a.destination); o.start(t); o.stop(t + 0.26);
-            }
-
-            // Place every gun and turn it to its target; a gun aiming left is
-            // flipped so it stays the right way up.
-            function layout() {
-                const W = window.innerWidth, H = window.innerHeight;
-                const size = W <= 768 ? 84 : 128;
-                guns.forEach(function (g, i) {
-                    const p = SPOTS[i], q = SPOTS[AIM[i]];
-                    // Kept fully on screen, however narrow it is.
-                    const m = size * 0.6;
-                    const at = function (f, L) { return Math.max(m, Math.min(L - m, f * L)); };
-                    g.x = at(p[0], W); g.y = at(p[1], H);
-                    g.a = Math.atan2(at(q[1], H) - g.y, at(q[0], W) - g.x);
-                    const deg = g.a * 180 / Math.PI, flip = Math.abs(deg) > 90 ? -1 : 1;
-                    g.el.style.width = size + 'px';
-                    g.el.style.left = (g.x - size / 2) + 'px';
-                    g.el.style.top = (g.y - size * 70 / 240) + 'px';
-                    g.el.style.transform = 'rotate(' + deg + 'deg) scaleY(' + flip + ')';
-                    // The muzzle, in screen pixels.
-                    const r = size * 0.47;
-                    g.mx = g.x + Math.cos(g.a) * r; g.my = g.y + Math.sin(g.a) * r;
+                [0, 0.06].forEach(function (dt) {
+                    const len = 0.03, buf = a.createBuffer(1, a.sampleRate * len, a.sampleRate), d = buf.getChannelData(0);
+                    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 4);
+                    const n = a.createBufferSource(); n.buffer = buf;
+                    const f = a.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1600; f.Q.value = 1.4;
+                    const g = a.createGain(); g.gain.value = 0.3;
+                    n.connect(f).connect(g).connect(a.destination); n.start(a.currentTime + dt);
                 });
-                canvas.width = W * devicePixelRatio; canvas.height = H * devicePixelRatio;
-                canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
             }
 
-            function fire() {
-                guns.forEach(function (g, i) {
-                    g.el.classList.remove('is-fired'); void g.el.offsetWidth; g.el.classList.add('is-fired');
-                    bang(i * 0.035);
-                    for (let k = 0; k < 46; k++) {
-                        // Fast enough to reach the gun it was aimed at.
-                        const reach = Math.hypot(guns[AIM[i]].x - g.x, guns[AIM[i]].y - g.y);
-                        const spread = (Math.random() - 0.5) * 0.5, speed = reach * (0.045 + Math.random() * 0.03);
-                        bits.push({
-                            x: g.mx, y: g.my,
-                            vx: Math.cos(g.a + spread) * speed, vy: Math.sin(g.a + spread) * speed,
-                            r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.4,
-                            w: 6 + Math.random() * 6, h: 3 + Math.random() * 4,
-                            c: COLOURS[(Math.random() * COLOURS.length) | 0], life: 1
-                        });
-                    }
-                });
-                if (!raf) raf = requestAnimationFrame(draw);
+            function frame(i) {
+                const reel = hall.querySelector('.ab-cinema-reel');
+                if (i >= FILMS.length) {
+                    reel.innerHTML = '<span class="ab-cinema-end">The End</span>';
+                } else {
+                    const f = FILMS[i];
+                    reel.innerHTML =
+                        '<span class="ab-cinema-no">' + (i + 1) + ' / ' + FILMS.length + '</span>' +
+                        '<span class="ab-cinema-title">' + f[0] + '</span>' +
+                        '<span class="ab-cinema-year">' + f[1] + '</span>' +
+                        '<span class="ab-cinema-why">' + f[2] + '</span>';
+                }
+                // A splice: a quick white flicker as the next reel comes in.
+                hall.classList.remove('is-cut'); void hall.offsetWidth; hall.classList.add('is-cut');
             }
 
-            function draw() {
-                const dpr = devicePixelRatio;
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                bits = bits.filter(function (b) { return b.life > 0 && b.y < window.innerHeight + 40; });
-                bits.forEach(function (b) {
-                    b.vx *= 0.96; b.vy = b.vy * 0.96 + 0.18;
-                    b.x += b.vx; b.y += b.vy; b.r += b.vr; b.life -= 0.006;
-                    ctx.save();
-                    ctx.globalAlpha = Math.min(1, b.life * 2);
-                    ctx.translate(b.x, b.y); ctx.rotate(b.r);
-                    ctx.fillStyle = b.c;
-                    ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h * Math.abs(Math.cos(b.r * 2)) + 1);
-                    ctx.restore();
-                });
-                raf = bits.length ? requestAnimationFrame(draw) : 0;
+            function hint(t) { const h = hall && hall.querySelector('.ab-cinema-hint'); if (h) h.textContent = t; }
+
+            function next() {
+                if (!hall || busy) return;
+                if (at >= FILMS.length) { leave(); return; }
+                at++;
+                clack();
+                frame(at);
+                if (at === FILMS.length) {
+                    // The End: the curtain closes over it, then the lights come up.
+                    busy = true;
+                    motor(false);
+                    hint('');
+                    setTimeout(function () { hall && hall.classList.remove('is-open'); }, 1400);
+                    setTimeout(function () { busy = false; leave(); }, 3200);
+                } else {
+                    const verb = matchMedia('(hover: none)').matches ? 'Tap' : 'Click';
+                    hint(verb + (at === FILMS.length - 1 ? ' for the ending' : ' for the next film'));
+                }
             }
 
-            function say(big, small) {
-                stage.querySelector('.ab-standoff-count').textContent = big;
-                stage.querySelector('.ab-standoff-hint').textContent = small;
-            }
-
-            function round() {
-                if (!stage || state !== 'ready') return;
-                state = 'counting';
-                stage.classList.add('is-tense');
-                [3, 2, 1].forEach(function (n, i) {
-                    timers.push(setTimeout(function () { say(n, ''); tick(false); }, i * 750));
-                });
-                timers.push(setTimeout(function () {
-                    say('', '');
-                    stage.classList.remove('is-tense');
-                    fire();
-                    state = 'fired';
-                }, 3 * 750));
-                timers.push(setTimeout(function () {
-                    state = 'ready';
-                    say('', matchMedia('(hover: none)').matches ? 'Tap for another round' : 'Click for another round');
-                }, 3 * 750 + 2200));
-            }
-
-            function show() {
-                if (stage) { hide(); return; }
+            function come() {
+                if (hall) { leave(); return; }
+                at = -1; busy = false;
                 veil = document.createElement('div');
-                veil.className = 'ab-veil';
-                stage = document.createElement('div');
-                stage.className = 'ab-standoff';
-                stage.innerHTML =
-                    '<canvas class="ab-standoff-confetti" aria-hidden="true"></canvas>' +
-                    '<div class="ab-standoff-mid"><button type="button" class="ab-standoff-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
-                    '<span class="ab-standoff-count" aria-live="polite"></span>' +
-                    '<span class="ab-standoff-hint">' + (matchMedia('(hover: none)').matches ? 'Tap to count down' : 'Click to count down') + '</span></div>';
-                canvas = stage.querySelector('canvas'); ctx = canvas.getContext('2d');
-                guns = SPOTS.map(function () {
-                    const el = document.createElement('span');
-                    el.className = 'ab-gun';
-                    el.innerHTML = GUN;
-                    stage.appendChild(el);
-                    return { el: el };
-                });
-                state = 'ready';
-                document.body.append(veil, stage);
-                layout();
-                stage.querySelector('.ab-standoff-close').addEventListener('click', function (e) { e.stopPropagation(); hide(); });
-                stage.addEventListener('click', round);
-                window.addEventListener('resize', layout);
+                veil.className = 'ab-veil ab-veil--dark';
+                veil.addEventListener('click', leave);
+                hall = document.createElement('div');
+                hall.className = 'ab-cinema';
+                hall.innerHTML =
+                    '<button type="button" class="ab-cinema-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
+                    '<button type="button" class="ab-cinema-stage" aria-label="Next film">' +
+                        '<span class="ab-cinema-screen"><span class="ab-cinema-reel" aria-live="polite"></span><i class="ab-cinema-grain" aria-hidden="true"></i></span>' +
+                        '<i class="ab-cinema-curtain ab-cinema-curtain--l" aria-hidden="true"></i>' +
+                        '<i class="ab-cinema-curtain ab-cinema-curtain--r" aria-hidden="true"></i>' +
+                        '<i class="ab-cinema-valance" aria-hidden="true"></i>' +
+                    '</button>' +
+                    '<span class="ab-cinema-hint"></span>';
+                document.body.append(veil, hall);
+                hall.querySelector('.ab-cinema-close').addEventListener('click', leave);
+                hall.querySelector('.ab-cinema-stage').addEventListener('click', next);
                 requestAnimationFrame(function () { requestAnimationFrame(function () {
                     veil && veil.classList.add('is-on');
-                    stage && stage.classList.add('is-on');
+                    hall && hall.classList.add('is-on');
                 }); });
+                // Lights down, then the curtain parts on the first film.
+                setTimeout(function () {
+                    if (!hall) return;
+                    next();
+                    hall.classList.add('is-open');
+                    motor(true);
+                }, 700);
             }
 
-            function hide() {
-                if (!stage) return;
-                timers.forEach(clearTimeout); timers = [];
-                cancelAnimationFrame(raf); raf = 0; bits = [];
-                window.removeEventListener('resize', layout);
-                const s = stage, v = veil; stage = veil = null;
-                s.classList.remove('is-on');
+            function leave() {
+                if (!hall) return;
+                motor(false);
+                const h = hall, v = veil; hall = veil = null;
+                h.classList.remove('is-on');
                 v.classList.remove('is-on');
-                setTimeout(function () { s.remove(); v.remove(); }, 400);
+                setTimeout(function () { h.remove(); v.remove(); }, 500);
             }
 
             trigger.addEventListener('click', function () {
-                document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'standoff' }));
-                show();
+                document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'cinema' }));
+                come();
             });
-            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'standoff') hide(); });
-            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'cinema') leave(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') leave(); });
         })();
 
         // Hobbies easter egg: "photography" turns the pointer into a
