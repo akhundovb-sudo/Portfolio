@@ -763,7 +763,16 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
 }
 
 /* The splice between films: a white flash. */
-.ab-cinema.is-cut /* A reel: the still fills the screen, darkened at the bottom where the
+.ab-cinema.is-cut .ab-cinema-reel {
+    animation: ab-cinema-cut 420ms ease-out;
+}
+
+@keyframes ab-cinema-cut {
+    0% { opacity: 0; filter: brightness(2.2) blur(2px); }
+    100% { opacity: 1; filter: none; }
+}
+
+/* A reel: the still fills the screen, darkened at the bottom where the
    title, year and why sit; number top left, owner bottom right. */
 .ab-cinema-reel {
     position: absolute;
@@ -787,7 +796,7 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
 .ab-cinema-reel.is-end {
     align-items: center;
     justify-content: center;
-    color: #1A1714;
+    color: #0F0F0F;
 }
 
 .ab-cinema-reel.is-end::before {
@@ -862,9 +871,12 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
 }
 
 .ab-cinema-end {
+    position: relative;
+    z-index: 2;
     font: 400 clamp(36px, 6vw, 64px)/1 Georgia, 'Times New Roman', serif;
     font-style: italic;
     letter-spacing: -0.01em;
+    color: #0F0F0F;
 }
 
 /* Velvet: vertical folds in deep reds, shaded at the inner edge. */
