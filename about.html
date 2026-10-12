@@ -24,7 +24,7 @@
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
     <link rel="stylesheet" href="styles.css?v=fast140">
     <link rel="stylesheet" href="about.css?v=fast1">
-    <link rel="stylesheet" href="about-page.css?v=fast2">
+    <link rel="stylesheet" href="about-page.css?v=fast3">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="About - Bahruz">
@@ -198,7 +198,7 @@
         <section class="container ab-section" aria-labelledby="ab-hobbies">
             <h2 class="ab-label" id="ab-hobbies">Hobbies</h2>
             <div class="ab-body">
-                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-dance-trigger">films</button> and photography.</p>
+                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-dance-trigger">films</button> and <button type="button" class="ab-hobby-trigger ab-film-trigger">photography</button>.</p>
             </div>
         </section>
     </main>
@@ -801,6 +801,75 @@
 
             trigger.addEventListener('click', start);
             document.addEventListener('keydown', function (e) { if (e.key === 'Escape') stop(); });
+        })();
+
+        // Hobbies easter egg: "photography" pulls a strip of 35mm film out
+        // of the word, frames of my own travel shots (images/desk/), and it
+        // runs off the side of the screen with more room, ticking like a
+        // projector. Pointing at it holds it still.
+        (function () {
+            const trigger = document.querySelector('.ab-film-trigger');
+            if (!trigger) return;
+            const SHOTS = ['11', '06', '17', '18', '10', '01', '16', '15', '04', '07', '12', '14', '13', '08', '02', '09', '03', '05'];
+            const SPEED = 820; // px per second
+            let ac = null, tick = null, roll = null;
+
+            function clatter(seconds) {
+                if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
+                try {
+                    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+                    if (ac.state === 'suspended') ac.resume();
+                } catch (e) { return; }
+                const out = ac.createGain(); out.gain.value = 0.06; out.connect(ac.destination);
+                const len = 0.012, buf = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = buf.getChannelData(0);
+                for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 4);
+                const t0 = ac.currentTime + 0.02, n = Math.floor(seconds * 18);
+                for (let i = 0; i < n; i++) {
+                    const s = ac.createBufferSource(); s.buffer = buf;
+                    const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 2400 + (i % 2) * 900; f.Q.value = 2;
+                    const g = ac.createGain();
+                    // Fades in and out with the strip.
+                    g.gain.value = Math.min(1, i / 6, (n - i) / 10);
+                    s.connect(f).connect(g).connect(out); s.start(t0 + i / 18);
+                }
+                tick = out;
+            }
+
+            function run() {
+                if (roll) return;
+                const W = window.innerWidth, r = trigger.getBoundingClientRect();
+                const left = r.left + r.width / 2 > W / 2; // run towards the side with more room
+                const wrap = document.createElement('div');
+                wrap.className = 'ab-film' + (left ? ' ab-film--left' : '');
+                wrap.setAttribute('aria-hidden', 'true');
+                const strip = document.createElement('div');
+                strip.className = 'ab-film-strip';
+                strip.innerHTML = SHOTS.map(function (n, i) {
+                    return '<span class="ab-film-frame"><img src="images/desk/' + n + '.jpg" alt="" loading="eager" decoding="async"><i>' + (i + 1) + '</i></span>';
+                }).join('');
+                wrap.appendChild(strip);
+                // The window the film runs through: just under the word, from
+                // it to the edge, so the line stays readable.
+                const top = r.bottom - 2;
+                wrap.style.top = top + 'px';
+                if (left) { wrap.style.left = '0px'; wrap.style.width = (r.left + r.width) + 'px'; }
+                else { wrap.style.left = r.left + 'px'; wrap.style.width = (W - r.left) + 'px'; }
+                document.body.appendChild(wrap);
+
+                const sw = strip.offsetWidth, ww = wrap.offsetWidth;
+                // Starts tucked inside the word, ends past the far edge.
+                const from = left ? ww : -sw, to = left ? -sw : ww;
+                const dur = Math.abs(to - from) / SPEED * 1000;
+                roll = strip.animate(
+                    [{ transform: 'translateX(' + from + 'px)' }, { transform: 'translateX(' + to + 'px)' }],
+                    { duration: dur, easing: 'cubic-bezier(0.3, 0, 0.7, 1)', fill: 'forwards' }
+                );
+                clatter(dur / 1000);
+                strip.addEventListener('mouseenter', function () { roll && roll.pause(); if (tick) tick.gain.value = 0; });
+                strip.addEventListener('mouseleave', function () { roll && roll.play(); if (tick) tick.gain.value = 0.06; });
+                roll.onfinish = function () { wrap.remove(); roll = null; tick = null; };
+            }
+            trigger.addEventListener('click', run);
         })();
 
         // The image can finish loading before this script defines
