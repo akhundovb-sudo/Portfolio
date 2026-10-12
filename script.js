@@ -2298,3 +2298,81 @@ window.caseClock = function (pad) {
     card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && fine.matches) go(1); });
     card.addEventListener('pointerleave', function () { if (p >= 0) go(-1); });
 })();
+
+// Remiton card (home): a globe in Remiton's purple turns, wire meridians
+// sweeping round, ringed by two orbits in its lime. Each time the card comes into
+// view it plays from the start: the globe spins for a moment, then steps
+// back and the phone rises in front of it.
+(function () {
+    const panel = document.querySelector('[data-remi]');
+    if (!panel) return;
+    const svg = panel.querySelector('.remi-globe');
+    const NS = 'http://www.w3.org/2000/svg';
+    const R = 100, TILT = -18;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function el(tag, attrs, parent) {
+        const e = document.createElementNS(NS, tag);
+        for (const k in attrs) e.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(e);
+        return e;
+    }
+
+    const defs = el('defs', {}, svg);
+    const g1 = el('radialGradient', { id: 'remi-sea', cx: '38%', cy: '34%', r: '75%' }, defs);
+    el('stop', { offset: '0', 'stop-color': '#6A3BF0' }, g1);
+    el('stop', { offset: '0.6', 'stop-color': '#3412B8' }, g1);
+    el('stop', { offset: '1', 'stop-color': '#B04BEA' }, g1);
+
+    const world = el('g', { transform: 'rotate(' + TILT + ')' }, svg);
+    const back = el('g', {}, world);            // far half of the orbits
+    el('circle', { r: R, fill: 'url(#remi-sea)' }, world);
+    const wire = el('g', { fill: 'none', stroke: 'rgba(255,255,255,0.32)', 'stroke-width': 1.2 }, world);
+
+    // Parallels stand still; meridians are redrawn as the globe turns.
+    [-60, -30, 0, 30, 60].forEach(function (lat) {
+        const r = R * Math.cos(lat * Math.PI / 180);
+        el('ellipse', { cx: 0, cy: R * Math.sin(lat * Math.PI / 180), rx: r, ry: r * 0.14 }, wire);
+    });
+    const meridians = [0, 1, 2, 3, 4, 5].map(function () { return el('ellipse', { cx: 0, cy: 0, rx: 0, ry: R }, wire); });
+
+    // Two orbits in Remiton's lime, each a ring round the globe at its own
+    // slant: the back half behind the globe, the front half over it.
+    [{ rx: 138, ry: 38, rot: 8 }, { rx: 128, ry: 52, rot: -32 }].forEach(function (o) {
+        const arc = function (sweep) { return 'M' + -o.rx + ' 0 A' + o.rx + ' ' + o.ry + ' 0 0 ' + sweep + ' ' + o.rx + ' 0'; };
+        const line = { fill: 'none', stroke: '#C9F23A', 'stroke-width': 1.8, 'stroke-linecap': 'round', transform: 'rotate(' + o.rot + ')' };
+        el('path', Object.assign({ d: arc(1), opacity: 0.4 }, line), back);   // upper arc, behind
+        el('path', Object.assign({ d: arc(0), opacity: 0.95 }, line), world);  // lower arc, in front
+    });
+
+    let spin = 0, last = 0, raf = 0, timer = 0;
+
+    function draw(now) {
+        const dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
+        last = now;
+        spin += dt * 0.8;
+        meridians.forEach(function (m, i) {
+            m.setAttribute('rx', Math.abs(R * Math.sin(spin + i * Math.PI / 6)).toFixed(2));
+        });
+        raf = requestAnimationFrame(draw);
+    }
+
+    function play() {
+        panel.classList.remove('is-phone');
+        clearTimeout(timer);
+        if (reduce.matches) { draw(performance.now()); cancelAnimationFrame(raf); raf = 0; panel.classList.add('is-phone'); return; }
+        if (!raf) { last = 0; raf = requestAnimationFrame(draw); }
+        timer = setTimeout(function () { panel.classList.add('is-phone'); }, 2200);
+    }
+    function pause() {
+        cancelAnimationFrame(raf); raf = 0;
+        clearTimeout(timer);
+        panel.classList.remove('is-phone');
+    }
+
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { e.isIntersecting ? play() : pause(); });
+        }, { threshold: 0.35 }).observe(panel);
+    } else play();
+})();
