@@ -694,6 +694,7 @@
                 fly();
             });
             document.addEventListener('ab-egg', function (e) { if (e.detail !== 'plane') land(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') land(); });
         })();
 
         // Hobbies easter egg: "films" stages the Mexican standoff from
