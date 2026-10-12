@@ -4899,29 +4899,6 @@ html[data-theme="dark"] .case-brief-col:last-child {
         #EAE9E6;
 }
 
-/* Heading row: the title on the left, a short hint on the right. */
-.desk-head {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px 32px;
-    flex-wrap: wrap;
-    margin-bottom: 32px;
-}
-
-.desk-head .projects-heading {
-    margin: 0;
-}
-
-.desk-caption {
-    margin: 0;
-    font-family: 'PP Neue Montreal', sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: -0.01em;
-    color: rgba(15, 15, 15, 0.5);
-}
-
 .desk-stage {
     position: absolute;
     top: 0;
@@ -4939,10 +4916,6 @@ html[data-theme="dark"] .case-brief-col:last-child {
 
     .desk {
         border-radius: 20px;
-    }
-
-    .desk-head {
-        margin-bottom: 24px;
     }
 }
 
@@ -5438,10 +5411,6 @@ html[data-theme="dark"] body.about .education-item + .education-item {
 html[data-theme="dark"] .desk {
     border-color: #262625;
     background: #161615;
-}
-
-html[data-theme="dark"] .desk-caption {
-    color: rgba(255, 255, 255, 0.5);
 }
 
 html[data-theme="dark"] .desk-item--card,
