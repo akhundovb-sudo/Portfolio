@@ -405,7 +405,8 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
     color: var(--ab-soft);
 }
 
-/* Hobbies: one line; "football" drops a ball (script in about.html). */
+/* Hobbies: one line; "football" drops a ball, "travelling" throws a paper
+   plane and "films" starts a twist (scripts in about.html). */
 .ab-hobbies {
     max-width: 640px;
     margin: 0;
@@ -415,7 +416,7 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
     color: var(--ab-soft);
 }
 
-.ab-ball-trigger {
+.ab-hobby-trigger {
     position: relative;
     padding: 0;
     border: 0;
@@ -428,7 +429,7 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
 }
 
 /* A quiet dashed line hints it can be clicked; on hover it marches. */
-.ab-ball-trigger::after {
+.ab-hobby-trigger::after {
     content: '';
     position: absolute;
     left: 0;
@@ -444,22 +445,22 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .ab-ball-trigger:hover {
+    .ab-hobby-trigger:hover {
         color: rgb(255, 72, 16);
     }
 
-    .ab-ball-trigger:hover::after {
+    .ab-hobby-trigger:hover::after {
         opacity: 1;
         animation-play-state: running;
     }
 }
 
-.ab-ball-trigger:focus-visible {
+.ab-hobby-trigger:focus-visible {
     outline: none;
     color: rgb(255, 72, 16);
 }
 
-.ab-ball-trigger:focus-visible::after {
+.ab-hobby-trigger:focus-visible::after {
     opacity: 1;
 }
 
@@ -644,5 +645,147 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
     .ab-do-row {
         grid-template-columns: minmax(0, 1fr);
         row-gap: 6px;
+    }
+}
+
+/* Paper plane: a full-screen layer over the page; the plane and its dashed
+   trail are drawn by the script along one looping route. */
+.ab-plane-sky {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1200;
+    pointer-events: none;
+    overflow: visible;
+    color: var(--ab-ink);
+    transition: opacity 800ms ease;
+}
+
+.ab-plane-sky.is-done {
+    opacity: 0;
+}
+
+.ab-plane-trail {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-dasharray: 5 7;
+    stroke-linecap: round;
+    opacity: 0.35;
+}
+
+.ab-plane {
+    filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.12));
+}
+
+/* The twist: two drawn dancers come up from the bottom under a spotlight. */
+.ab-dance {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    z-index: 1200;
+    display: flex;
+    align-items: flex-end;
+    gap: 40px;
+    padding: 0 24px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    transform: translate(-50%, 110%);
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.ab-dance.is-on {
+    transform: translate(-50%, 0);
+}
+
+.ab-dance-light {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 440px;
+    height: 280px;
+    margin-left: -220px;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(255, 196, 64, 0.35), rgba(255, 196, 64, 0) 70%);
+    pointer-events: none;
+}
+
+.ab-dancer {
+    position: relative;
+    width: 120px;
+    height: 240px;
+    overflow: visible;
+    animation: ab-twist-bob 714ms ease-in-out infinite;
+}
+
+.ab-dancer--mia {
+    transform: scaleX(-1);
+    animation-name: ab-twist-bob-mirror;
+}
+
+.ab-dancer-legs {
+    transform-origin: 50px 180px;
+    animation: ab-twist-legs 714ms ease-in-out infinite;
+}
+
+.ab-dancer-body {
+    transform-origin: 50px 110px;
+    animation: ab-twist-body 714ms ease-in-out infinite;
+}
+
+.ab-dancer-swing {
+    transform-origin: 29px 58px;
+    animation: ab-twist-swing 714ms ease-in-out infinite;
+}
+
+/* The V slides across the eyes and back, two beats each way. */
+.ab-dancer-v {
+    animation: ab-twist-v 1428ms ease-in-out infinite;
+}
+
+.ab-dancer--mia .ab-dancer-v {
+    animation-delay: -714ms;
+}
+
+@keyframes ab-twist-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+}
+
+@keyframes ab-twist-bob-mirror {
+    0%, 100% { transform: scaleX(-1) translateY(0); }
+    50% { transform: scaleX(-1) translateY(4px); }
+}
+
+@keyframes ab-twist-legs {
+    0%, 100% { transform: skewX(8deg); }
+    50% { transform: skewX(-8deg); }
+}
+
+@keyframes ab-twist-body {
+    0%, 100% { transform: rotate(-4deg); }
+    50% { transform: rotate(4deg); }
+}
+
+@keyframes ab-twist-swing {
+    0%, 100% { transform: rotate(18deg); }
+    50% { transform: rotate(-12deg); }
+}
+
+@keyframes ab-twist-v {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-12px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ab-dancer,
+    .ab-dancer-legs,
+    .ab-dancer-body,
+    .ab-dancer-swing,
+    .ab-dancer-v {
+        animation: none;
     }
 }
