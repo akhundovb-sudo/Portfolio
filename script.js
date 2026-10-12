@@ -2455,23 +2455,22 @@ window.caseClock = function (pad) {
 
 
 // Habbi works card ([data-mascot]): on hover the mascot comes out from
-// behind the phone in one second, quick at first and easing into the wave
-// so its speed meets the wave's 30 fps; then it waves once and stays on
-// the last frame while the pointer is there; on leave it runs back fast
-// and hides. 65 of the 80 frames are one 12 x 6 sprite (the blurred and
-// four-finger frames 33-36 and 40-50 are left out; the wave is 51-80).
-// Two layers crossfade a frame into the next by the fraction in between,
-// so nothing steps.
+// behind the phone in one second and raises its hand (no wave), and stays like that while the pointer is
+// there; on leave it runs back fast and hides. The frames are one 12 x 6
+// sprite (the blurred and four-finger frames 33-36 and 40-50 of the 80 are
+// left out); the entrance ends on frame 51. Two layers crossfade a frame
+// into the next by the fraction in between, so nothing steps.
 (function () {
     const stage = document.querySelector('[data-mascot]');
     if (!stage) return;
     const card = stage.closest('.project-card');
     const [a, b] = stage.querySelectorAll('.project-mascot');
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const LAST = 64, LOOP = 35, FPS = 30, INTRO = 1;
-    // Entrance curve: linear part sized so the end speed is the wave's.
-    const K = FPS * INTRO / LOOP;
-    const curve = function (t) { return LOOP * (K * t + (1 - K) * (1 - (1 - t) * (1 - t))); };
+    const END = 35, INTRO = 1, BACK = 120, FPS = 30;
+    // Quick start easing into the clip's own 30 fps, so the hand rises at
+    // its natural speed (the last frames) instead of crawling to a stop.
+    const K = Math.min(1, FPS * INTRO / END);
+    const curve = function (t) { return END * (K * t + (1 - K) * (1 - (1 - t) * (1 - t))); };
     const inverse = function (p) { let lo = 0, hi = 1; for (let n = 0; n < 20; n++) { const m = (lo + hi) / 2; if (curve(m) < p) lo = m; else hi = m; } return lo; };
     let p = -1, t = 0, dir = 0, raf = null, last = 0;
     function cell(el, f) {
@@ -2482,27 +2481,20 @@ window.caseClock = function (pad) {
         if (p < 0) { a.style.opacity = 0; b.style.opacity = 0; return; }
         const f = Math.floor(p), fr = p - f;
         cell(a, f); a.style.opacity = 1;
-        if (f < LAST) { cell(b, f + 1); b.style.opacity = fr; } else b.style.opacity = 0;
+        if (f < END) { cell(b, f + 1); b.style.opacity = fr; } else b.style.opacity = 0;
     }
     function step(now) {
         const dt = Math.min(0.05, (now - last) / 1000); last = now;
-        if (dir > 0) {
-            if (p < LOOP) { t = Math.min(1, t + dt / INTRO); p = curve(t); }
-            else p = Math.min(LAST, p + dt * FPS);
-        } else {
-            p -= dt * FPS * 4;
-        }
+        if (dir > 0) { t = Math.min(1, t + dt / INTRO); p = curve(t); }
+        else p -= dt * BACK;
         paint();
         if (dir < 0 && p < 0) { p = -1; paint(); raf = null; return; }
-        if (dir > 0 && p >= LAST) { raf = null; return; }
+        if (dir > 0 && t >= 1) { raf = null; return; }
         raf = requestAnimationFrame(step);
     }
     function go(d) {
         dir = d;
-        if (d > 0) {
-            if (p < 0) p = 0;
-            if (p < LOOP) t = inverse(p);
-        }
+        if (d > 0) { if (p < 0) p = 0; t = inverse(p); }
         if (!raf) { last = performance.now(); raf = requestAnimationFrame(step); }
     }
     card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && fine.matches) go(1); });
