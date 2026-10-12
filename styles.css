@@ -895,8 +895,6 @@ body .hamburger span {
     grid-row: 2;
     margin-top: clamp(40px, 6vh, 64px);
 }
-
-.home-hero-role,
 .home-hero-lede {
     margin: 0;
     /* Scaled from the name: at 0.355x the longest line (19.96em) ends on
@@ -906,10 +904,6 @@ body .hamburger span {
     font-weight: 400;
     line-height: 1.15;
     letter-spacing: -0.02em;
-}
-
-.home-hero-role {
-    color: var(--hh-muted);
 }
 
 .home-hero-lede {
@@ -1139,7 +1133,6 @@ html.hh-cue-quiet .home-hero-scroll-arrow {
 
     /* Stacked name is sized to "Akhundov" alone, so the text gets its
        own scale here and wraps naturally. */
-    .home-hero-role,
     .home-hero-lede {
         font-size: clamp(22px, 4.6vw, 34px);
         line-height: 1.25;
@@ -2875,82 +2868,6 @@ html.resume-open {
 
     .nokia-egg.is-playing {
         transition: none;
-    }
-}
-
-/* Konami code easter egg (script.js): the falling tetrominoes layer. */
-.tetris-rain {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 950;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 500ms ease;
-}
-
-.tetris-rain.is-on {
-    opacity: 1;
-}
-
-html.nokia-active .home-hero-scroll {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 200ms ease, visibility 0s linear 200ms;
-}
-
-/* Sound toggle shown while the Tetris egg plays, just under the header. */
-.tetris-mute {
-    position: fixed;
-    top: 88px;
-    right: 32px;
-    z-index: 951;
-    display: inline-flex;
-    align-items: center;
-    height: 40px;
-    padding: 0 18px;
-    border: 0;
-    border-radius: 999px;
-    background: #FFFFFF;
-    box-shadow:
-        0 0 0 1px rgba(15, 15, 15, 0.1),
-        0 3px 0 0 #D2D2D2,
-        0 9px 14px -6px rgba(15, 15, 15, 0.25);
-    color: #0F0F0F;
-    font-family: 'PP Neue Montreal', sans-serif;
-    font-size: 14px;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(-8px);
-    transition: opacity 300ms ease, transform 300ms ease;
-}
-
-.tetris-mute.is-on {
-    opacity: 1;
-    transform: none;
-}
-
-.tetris-mute:active {
-    transform: translateY(3px);
-    box-shadow:
-        0 0 0 1px rgba(15, 15, 15, 0.1),
-        inset 0 2px 4px rgba(15, 15, 15, 0.12),
-        0 0 0 0 #D2D2D2;
-    transition-duration: 70ms;
-}
-
-.tetris-mute:focus-visible {
-    outline: 1px solid #0F0F0F;
-    outline-offset: 4px;
-}
-
-@media (max-width: 768px) {
-    .tetris-mute {
-        top: 76px;
-        right: 16px;
     }
 }
 
