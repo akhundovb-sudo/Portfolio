@@ -680,347 +680,340 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
     filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.12));
 }
 
-/* The twist: Vincent and Mia come up from the bottom under a spotlight,
-   in the bottom left corner so the hobbies line stays clickable. */
-.ab-dance {
+/* The briefcase: black leather, brass latches and a three wheel lock, in
+   the middle of the screen. Open, the lid lifts and gold light spills. */
+.ab-case {
     position: fixed;
-    left: 32px;
-    bottom: 0;
+    left: 50%;
+    top: 50%;
     z-index: 1200;
-    transform: translateY(110%);
-    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    opacity: 0;
+    transform: translate(-50%, -46%) scale(0.92);
+    transition: opacity 350ms ease, transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.ab-dance.is-on {
-    transform: translateY(0);
+.ab-case.is-on {
+    opacity: 1;
+    transform: translate(-50%, -50%);
 }
 
-.ab-dance-pair {
+.ab-case-close {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid rgba(15, 15, 15, 0.12);
+    border-radius: 50%;
+    background: #FFFFFF;
+    color: #0F0F0F;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 15, 15, 0.12);
+}
+
+.ab-case-body {
     position: relative;
-    display: block;
-    padding: 58px 0 0;
+    width: 300px;
+    height: 210px;
+    padding: 0;
     border: 0;
     background: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Close: a small round cross just above the pair. */
-.ab-dance-close {
+.ab-case-base {
     position: absolute;
-    left: 50%;
-    top: 0;
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    margin-left: -16px;
-    padding: 0;
-    border: 1px solid rgba(15, 15, 15, 0.12);
-    border-radius: 50%;
-    background: #FFFFFF;
-    color: #0F0F0F;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(15, 15, 15, 0.12);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 150px;
+    border-radius: 6px 6px 14px 14px;
+    background: linear-gradient(180deg, #2A2724 0%, #151311 60%, #0D0C0B 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 40px -16px rgba(0, 0, 0, 0.5);
 }
 
-html[data-theme="dark"] .ab-dance-close {
+/* Stitching just inside the edge. */
+.ab-case-base::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 4px 4px 10px 10px;
+}
+
+.ab-case-lid {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30px;
+    z-index: 2;
+    height: 34px;
+    border-radius: 14px 14px 4px 4px;
+    background: linear-gradient(180deg, #34302C, #1C1A17);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 0 #0B0A09;
+    transform-origin: 50% 0;
+    transition: transform 600ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.ab-case-handle {
+    position: absolute;
+    left: 50%;
+    top: -26px;
+    width: 72px;
+    height: 30px;
+    margin-left: -36px;
+    border: 7px solid #1C1A17;
+    border-bottom: 0;
+    border-radius: 14px 14px 0 0;
+}
+
+.ab-case-latch {
+    position: absolute;
+    top: -4px;
+    z-index: 3;
+    width: 26px;
+    height: 22px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #F2D58A, #B8913F);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+    transition: transform 160ms ease;
+}
+
+.ab-case-latch:nth-child(1) { left: 44px; }
+.ab-case-latch:nth-child(2) { right: 44px; }
+
+/* The lock: three wheels behind small windows in a brass plate. */
+.ab-case-lock {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    z-index: 3;
+    display: flex;
+    gap: 4px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #F2D58A, #B8913F);
+    transform: translateX(-50%);
+}
+
+.ab-case-wheel {
+    width: 14px;
+    height: 18px;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #F7F3EA;
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.35);
+}
+
+.ab-case-wheel span {
+    display: flex;
+    flex-direction: column;
+    transition: transform 380ms cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.ab-case-wheel b {
+    height: 18px;
+    font: 600 12px/18px 'PP Neue Montreal', sans-serif;
+    text-align: center;
+    color: #1A1714;
+}
+
+/* The glow inside, and the rays it throws up when the lid lifts. */
+.ab-case-light {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 52px;
+    z-index: 1;
+    height: 28px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 50% 70%, #FFF3C4 0%, #FFC94A 40%, rgba(255, 170, 30, 0) 75%);
+    opacity: 0;
+    filter: blur(2px);
+    transition: opacity 500ms ease 150ms;
+}
+
+.ab-case-rays {
+    position: absolute;
+    left: 50%;
+    top: 64px;
+    width: 520px;
+    height: 360px;
+    margin: -340px 0 0 -260px;
+    background: radial-gradient(ellipse at 50% 100%, rgba(255, 214, 102, 0.55), rgba(255, 196, 64, 0.18) 45%, rgba(255, 196, 64, 0) 70%);
+    -webkit-mask-image: conic-gradient(from 270deg at 50% 100%, transparent 0deg, #000 10deg, transparent 22deg, #000 34deg, transparent 46deg, #000 60deg, transparent 72deg, #000 86deg, transparent 98deg, #000 112deg, transparent 124deg, #000 138deg, transparent 150deg, #000 164deg, transparent 180deg, transparent 360deg);
+    mask-image: conic-gradient(from 270deg at 50% 100%, transparent 0deg, #000 10deg, transparent 22deg, #000 34deg, transparent 46deg, #000 60deg, transparent 72deg, #000 86deg, transparent 98deg, #000 112deg, transparent 124deg, #000 138deg, transparent 150deg, #000 164deg, transparent 180deg, transparent 360deg);
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.7);
+    transform-origin: 50% 100%;
+    transition: opacity 700ms ease 200ms, transform 900ms cubic-bezier(0.22, 1, 0.36, 1) 200ms;
+}
+
+.ab-case.is-open .ab-case-lid {
+    transform: translateY(-30px) perspective(400px) rotateX(58deg);
+}
+
+.ab-case.is-open .ab-case-latch {
+    transform: translateY(-5px) rotate(-14deg);
+}
+
+.ab-case.is-open .ab-case-latch:nth-child(2) {
+    transform: translateY(-5px) rotate(14deg);
+}
+
+.ab-case.is-open .ab-case-light,
+.ab-case.is-open .ab-case-rays {
+    opacity: 1;
+}
+
+.ab-case.is-open .ab-case-rays {
+    transform: scale(1);
+    animation: ab-case-shimmer 2.4s ease-in-out 1.1s infinite alternate;
+}
+
+@keyframes ab-case-shimmer {
+    from { opacity: 1; }
+    to { opacity: 0.7; }
+}
+
+.ab-case-hint {
+    font: 500 11px/1 'PP Neue Montreal', sans-serif;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ab-soft);
+}
+
+html[data-theme="dark"] .ab-case-close {
     border-color: rgba(255, 255, 255, 0.12);
     background: #222221;
     color: #EDEDEC;
 }
 
 @media (max-width: 768px) {
-    .ab-dance {
-        left: 50%;
-        margin-left: -130px;
+    .ab-case-body {
+        transform: scale(0.85);
     }
-
-    .ab-dance .ab-twist {
-        width: 260px;
-        height: 241px;
-    }
-}
-
-.ab-dance-light {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 380px;
-    height: 240px;
-    margin-left: -190px;
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    background: radial-gradient(ellipse at 50% 100%, rgba(255, 196, 64, 0.35), rgba(255, 196, 64, 0) 70%);
-    pointer-events: none;
-}
-
-/* The pair: still until clicked; .is-dancing starts the twist. */
-.ab-twist {
-    position: relative;
-    display: block;
-    width: 300px;
-    height: 278px;
-    overflow: visible;
-}
-
-.ab-dance-hint {
-    position: absolute;
-    left: 50%;
-    top: 42px;
-    transform: translateX(-50%);
-    font: 500 11px/1 'PP Neue Montreal', sans-serif;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: var(--ab-soft);
-    transition: opacity 300ms ease;
-}
-
-.ab-dance.is-dancing .ab-dance-hint {
-    opacity: 0;
-}
-
-.ab-tw-leg,
-.ab-tw-top,
-.ab-tw-reach {
-    transition: transform 300ms ease;
-}
-
-/* One beat at about 168 bpm is 357ms; a full twist is two beats. */
-.ab-dance.is-dancing .ab-tw {
-    animation: ab-tw-bob 357ms ease-in-out infinite alternate;
-}
-
-.ab-dance.is-dancing .ab-tw-leg--front {
-    animation: ab-tw-leg 714ms ease-in-out infinite;
-}
-
-.ab-dance.is-dancing .ab-tw-leg--back {
-    animation: ab-tw-leg 714ms ease-in-out infinite reverse;
-}
-
-.ab-dance.is-dancing .ab-tw-top {
-    animation: ab-tw-top 714ms ease-in-out infinite;
-}
-
-.ab-dance.is-dancing .ab-tw-reach {
-    animation: ab-tw-reach 714ms ease-in-out infinite;
-}
-
-.ab-dance.is-dancing .ab-tw--vincent .ab-tw-top,
-.ab-dance.is-dancing .ab-tw--vincent .ab-tw-reach {
-    animation-direction: reverse;
-}
-
-@keyframes ab-tw-bob {
-    from { transform: translateY(0); }
-    to { transform: translateY(5px); }
-}
-
-@keyframes ab-tw-leg {
-    0%, 100% { transform: rotate(9deg); }
-    50% { transform: rotate(-9deg); }
-}
-
-@keyframes ab-tw-top {
-    0%, 100% { transform: rotate(-4deg); }
-    50% { transform: rotate(4deg); }
-}
-
-@keyframes ab-tw-reach {
-    0%, 100% { transform: rotate(-12deg); }
-    50% { transform: rotate(10deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ab-dance.is-dancing .ab-tw,
-    .ab-dance.is-dancing .ab-tw-leg--front,
-    .ab-dance.is-dancing .ab-tw-leg--back,
-    .ab-dance.is-dancing .ab-tw-top,
-    .ab-dance.is-dancing .ab-tw-reach {
+    .ab-case.is-open .ab-case-rays {
         animation: none;
     }
 }
 
-/* Viewfinder: corner brackets, a centre cross and the exposure, in ink
-   with a soft light halo so they read on any background. */
-html.ab-vf-on,
-html.ab-vf-on * {
-    cursor: none !important;
-}
-
-html.ab-vf-on .ab-vf-close,
-html.ab-vf-on .ab-vf-close * {
-    cursor: pointer !important;
-}
-
-.ab-vf {
+/* Frosted veil behind the briefcase and the photos. */
+.ab-veil {
     position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1300;
-    pointer-events: none;
+    inset: 0;
+    z-index: 1190;
+    background: rgba(241, 241, 240, 0.72);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     opacity: 0;
-    transition: opacity 200ms ease;
-    will-change: transform;
+    transition: opacity 350ms ease;
 }
 
-.ab-vf.is-on {
+.ab-veil.is-on {
     opacity: 1;
 }
 
-.ab-vf {
-    --vf: #0F0F0F;
-    --vf-halo: rgba(255, 255, 255, 0.7);
+html[data-theme="dark"] .ab-veil {
+    background: rgba(17, 17, 16, 0.72);
 }
 
-html[data-theme="dark"] .ab-vf {
-    --vf: #EDEDEC;
-    --vf-halo: rgba(0, 0, 0, 0.6);
-}
-
-.ab-vf i,
-.ab-vf b,
-.ab-vf-meta {
-    position: absolute;
-    color: var(--vf);
-    filter: drop-shadow(0 0 1.5px var(--vf-halo));
-}
-
-.ab-vf i {
-    width: 22px;
-    height: 22px;
-    border: 0 solid var(--vf);
-}
-
-.ab-vf i:nth-child(1) { left: 0; top: 0; border-left-width: 2px; border-top-width: 2px; }
-.ab-vf i:nth-child(2) { right: 0; top: 0; border-right-width: 2px; border-top-width: 2px; }
-.ab-vf i:nth-child(3) { left: 0; bottom: 0; border-left-width: 2px; border-bottom-width: 2px; }
-.ab-vf i:nth-child(4) { right: 0; bottom: 0; border-right-width: 2px; border-bottom-width: 2px; }
-
-.ab-vf b {
-    left: 50%;
-    top: 50%;
-    width: 18px;
-    height: 18px;
-    margin: -9px 0 0 -9px;
-    background:
-        linear-gradient(var(--vf), var(--vf)) 50% 50% / 1.5px 100% no-repeat,
-        linear-gradient(var(--vf), var(--vf)) 50% 50% / 100% 1.5px no-repeat;
-}
-
-.ab-vf-meta {
-    left: 0;
-    right: 0;
-    bottom: -22px;
-    font: 500 10px/1 'PP Neue Montreal', sans-serif;
-    letter-spacing: 0.12em;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.ab-vf-flash {
-    position: absolute;
+/* Photos: a white flash over everything, then instant prints that drop
+   into a pile in the middle, each developing from white. */
+.ab-flash {
+    position: fixed;
     inset: 0;
+    z-index: 1400;
     background: #FFFFFF;
-    opacity: 0;
+    pointer-events: none;
+    animation: ab-flash 650ms ease-out forwards;
 }
 
-.ab-vf.is-flash .ab-vf-flash {
-    animation: ab-vf-flash 420ms ease-out;
-}
-
-@keyframes ab-vf-flash {
+@keyframes ab-flash {
     0% { opacity: 0.95; }
     100% { opacity: 0; }
 }
 
-/* Bottom bar: the hint and the cross that puts the camera away. */
-.ab-vf-bar {
+.ab-snaps {
     position: fixed;
     left: 50%;
-    bottom: 24px;
-    z-index: 1300;
+    top: 50%;
+    z-index: 1200;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
-    padding: 6px 6px 6px 16px;
-    border: 1px solid rgba(15, 15, 15, 0.12);
-    border-radius: 999px;
-    background: #FFFFFF;
-    box-shadow: 0 4px 12px rgba(15, 15, 15, 0.12);
+    gap: 20px;
     opacity: 0;
-    transform: translate(-50%, 8px);
-    transition: opacity 250ms ease, transform 250ms ease;
+    transform: translate(-50%, -50%);
+    transition: opacity 300ms ease;
 }
 
-.ab-vf-bar.is-on {
+.ab-snaps.is-on {
     opacity: 1;
-    transform: translate(-50%, 0);
 }
 
-.ab-vf-hint {
-    font: 500 11px/1 'PP Neue Montreal', sans-serif;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: rgba(15, 15, 15, 0.6);
+.ab-snap-pile {
+    position: relative;
+    width: 240px;
+    height: 296px;
 }
 
-.ab-vf-close {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    padding: 0;
+.ab-snap {
+    position: absolute;
+    inset: 0;
+    padding: 12px 12px 48px;
     border: 0;
-    border-radius: 50%;
-    background: #F1F1F0;
-    color: #0F0F0F;
-}
-
-html[data-theme="dark"] .ab-vf-bar {
-    border-color: rgba(255, 255, 255, 0.12);
-    background: #222221;
-}
-
-html[data-theme="dark"] .ab-vf-hint {
-    color: rgba(237, 237, 236, 0.6);
-}
-
-html[data-theme="dark"] .ab-vf-close {
-    background: #2A2A29;
-    color: #EDEDEC;
-}
-
-/* A print: the shot in a white border, deeper at the bottom like an
-   instant photo; it flies to the pile from where it was taken. */
-.ab-print {
-    position: fixed;
-    z-index: 1250;
-    padding: 8px 8px 32px;
     border-radius: 4px;
     background: #FFFFFF;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 12px 24px -8px rgba(0, 0, 0, 0.3);
-    transform-origin: 0 0;
-    pointer-events: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 18px 36px -12px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    transform: rotate(var(--rot, 0deg));
+    animation: ab-snap-drop 650ms cubic-bezier(0.22, 1.25, 0.36, 1) both;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.ab-print-shot {
-    position: relative;
+@keyframes ab-snap-drop {
+    0% { opacity: 0; transform: translateY(-60px) rotate(calc(var(--rot, 0deg) * -2)) scale(1.08); }
+    100% { opacity: 1; transform: rotate(var(--rot, 0deg)); }
+}
+
+.ab-snap-shot {
+    display: block;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     border-radius: 2px;
-    background: #F1F1F0;
-    /* Developing: starts washed out, then the picture comes in. */
-    animation: ab-print-develop 1400ms ease-out both;
-    transform: translateZ(0);
+    background: #ECEAE6;
 }
 
-html[data-theme="dark"] .ab-print-shot {
-    background: #111110;
+/* Developing: washed out at first, then the picture comes in. */
+.ab-snap-shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: ab-snap-develop 2600ms ease-out 300ms both;
 }
 
-@keyframes ab-print-develop {
-    0% { filter: brightness(1.8) contrast(0.4) saturate(0); }
-    100% { filter: none; }
+@keyframes ab-snap-develop {
+    0% { opacity: 0; filter: brightness(1.6) contrast(0.5) saturate(0); }
+    35% { opacity: 1; }
+    100% { opacity: 1; filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ab-snap,
+    .ab-snap-shot img {
+        animation: none;
+    }
 }

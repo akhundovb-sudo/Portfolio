@@ -24,7 +24,7 @@
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
     <link rel="stylesheet" href="styles.css?v=fast141">
     <link rel="stylesheet" href="about.css?v=fast1">
-    <link rel="stylesheet" href="about-page.css?v=fast5">
+    <link rel="stylesheet" href="about-page.css?v=fast7">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="About - Bahruz">
@@ -198,7 +198,7 @@
         <section class="container ab-section" aria-labelledby="ab-hobbies">
             <h2 class="ab-label" id="ab-hobbies">Hobbies</h2>
             <div class="ab-body">
-                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-dance-trigger">films</button> and <button type="button" class="ab-hobby-trigger ab-photo-trigger">photography</button>.</p>
+                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-case-trigger">films</button> and <button type="button" class="ab-hobby-trigger ab-photo-trigger">photography</button>.</p>
             </div>
         </section>
     </main>
@@ -696,191 +696,153 @@
             document.addEventListener('ab-egg', function (e) { if (e.detail !== 'plane') land(); });
         })();
 
-        // Hobbies easter egg: "films" brings on Vincent and Mia from Pulp
-        // Fiction, drawn flat in profile, facing each other (my own drawing,
-        // no film footage). They stand still until clicked; a click starts
-        // the twist to a synth beat, another click stops it. Clicking
-        // "films" again, or Esc, sends them off.
+        // Hobbies easter egg: "films" puts the briefcase from Pulp Fiction
+        // in the middle of the screen. Each click rolls one wheel of the lock
+        // to 6; on the third (666) the latches snap, the lid lifts and the
+        // golden glow spills out, with a low hum. Another click shuts it.
+        // The cross above it, Esc or the word again put it away.
         (function () {
-            const trigger = document.querySelector('.ab-dance-trigger');
+            const trigger = document.querySelector('.ab-case-trigger');
             if (!trigger) return;
-            let floor = null, ac = null, beat = null, beatOut = null, idle = null;
-            const SKIN = '#ECBC84', INK = '#0F0F0F', SHIRT = '#FFFFFF';
+            let box = null, veil = null, ac = null, hum = null, set = 0;
 
-            // A limb: a round-capped stroke through hip/shoulder, knee/elbow, end.
-            function limb(cls, d, colour, w) {
-                return '<path class="' + cls + '" d="' + d + '" fill="none" stroke="' + colour + '" stroke-width="' + w + '" stroke-linecap="round" stroke-linejoin="round"/>';
-            }
-
-            // Both dancers in one 400 x 400 drawing: Mia on the left facing
-            // right, Vincent on the right facing left, fingers almost touching.
-            function pair() {
-                const mia =
-                    '<g class="ab-tw ab-tw--mia">' +
-                        '<g class="ab-tw-leg ab-tw-leg--back" style="transform-origin:124px 222px">' +
-                            limb('', 'M124 222 L98 288 L92 356', INK, 24) +
-                            '<path d="M80 352 Q92 348 100 356 L104 368 Q90 372 76 366 Z" fill="' + SKIN + '"/>' +
-                        '</g>' +
-                        '<g class="ab-tw-leg ab-tw-leg--front" style="transform-origin:148px 222px">' +
-                            limb('', 'M148 222 L186 280 L158 352', INK, 24) +
-                            '<path d="M150 348 Q164 344 172 354 L178 366 Q162 370 148 362 Z" fill="' + SKIN + '"/>' +
-                        '</g>' +
-                        '<g transform="rotate(6 136 222)"><g class="ab-tw-top" style="transform-origin:136px 220px">' +
-                            // Back arm: hand on the hip.
-                            limb('', 'M114 120 L94 164', SHIRT, 16) + limb('', 'M94 164 L118 190', SKIN, 11) +
-                            // Oversized white shirt.
-                            '<path d="M112 106 Q136 98 160 108 Q166 168 170 230 L104 230 Q104 168 112 106 Z" fill="' + SHIRT + '"/>' +
-                            '<path d="M130 104 L138 120 L146 104 Z" fill="' + SKIN + '"/>' +
-                            // Neck and head, nose to the right.
-                            '<rect x="131" y="86" width="12" height="20" fill="' + SKIN + '"/>' +
-                            '<circle cx="140" cy="70" r="21" fill="' + SKIN + '"/>' +
-                            '<path d="M159 66 L166 76 L158 78 Z" fill="' + SKIN + '"/>' +
-                            // The bob: straight fringe and a blunt line at the jaw.
-                            '<path d="M160 60 C162 40 138 40 124 46 C112 52 110 72 112 98 L138 98 C132 90 130 80 134 70 C140 64 150 62 160 62 Z" fill="' + INK + '"/>' +
-                            // Front arm reaches towards Vincent, one finger out.
-                            '<g class="ab-tw-reach" style="transform-origin:156px 120px">' +
-                                limb('', 'M156 120 L184 164', SHIRT, 16) + limb('', 'M184 164 L222 150', SKIN, 11) +
-                                limb('', 'M222 150 L234 146', SKIN, 4) +
-                            '</g>' +
-                        '</g></g>' +
-                    '</g>';
-                const vincent =
-                    '<g class="ab-tw ab-tw--vincent">' +
-                        '<g class="ab-tw-leg ab-tw-leg--front" style="transform-origin:262px 246px">' +
-                            limb('', 'M262 246 L226 306 L252 374', INK, 24) +
-                            '<path d="M240 370 Q256 366 270 372 L272 382 Q252 386 236 380 Z" fill="' + INK + '"/>' +
-                        '</g>' +
-                        '<g class="ab-tw-leg ab-tw-leg--back" style="transform-origin:290px 246px">' +
-                            limb('', 'M290 246 L322 306 L300 376', INK, 24) +
-                            '<path d="M290 372 Q306 368 318 376 L320 386 Q302 388 288 382 Z" fill="' + INK + '"/>' +
-                        '</g>' +
-                        '<g transform="rotate(-5 276 246)"><g class="ab-tw-top" style="transform-origin:276px 244px">' +
-                            // Back arm swings behind.
-                            limb('', 'M298 118 L314 170 L300 206', INK, 16) +
-                            '<circle cx="300" cy="208" r="6" fill="' + SKIN + '"/>' +
-                            // Long black suit jacket, white shirt and black tie.
-                            '<path d="M246 104 Q274 96 300 106 Q308 176 306 252 L246 252 Q242 176 246 104 Z" fill="' + INK + '"/>' +
-                            '<path d="M264 102 L272 128 L280 102 Z" fill="' + SHIRT + '"/>' +
-                            '<path d="M271 104 L273 104 L275 126 L272 130 L269 126 Z" fill="' + INK + '"/>' +
-                            '<rect x="266" y="84" width="12" height="22" fill="' + SKIN + '"/>' +
-                            '<circle cx="270" cy="64" r="21" fill="' + SKIN + '"/>' +
-                            '<path d="M251 60 L244 70 L252 72 Z" fill="' + SKIN + '"/>' +
-                            // Slicked-back hair, tied at the nape.
-                            '<path d="M252 56 C254 36 286 34 294 52 C298 64 296 80 290 90 L282 88 C286 76 284 64 276 58 C268 54 260 54 252 58 Z" fill="' + INK + '"/>' +
-                            '<ellipse cx="294" cy="82" rx="5" ry="8" fill="' + INK + '"/>' +
-                            // Front arm reaches towards Mia, one finger out.
-                            '<g class="ab-tw-reach" style="transform-origin:252px 120px">' +
-                                limb('', 'M252 120 L230 166', INK, 16) + limb('', 'M230 166 L200 154', SKIN, 11) +
-                                limb('', 'M200 154 L190 150', SKIN, 4) +
-                            '</g>' +
-                        '</g></g>' +
-                    '</g>';
-                return '<svg class="ab-twist" viewBox="0 30 400 370" aria-hidden="true">' + mia + vincent + '</svg>';
-            }
-
-            // A twist beat, about 168 bpm: kick, clap and a walking bass.
-            function music() {
-                if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
+            function sound() {
+                if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return null;
                 try {
                     ac = ac || new (window.AudioContext || window.webkitAudioContext)();
                     if (ac.state === 'suspended') ac.resume();
-                } catch (e) { return; }
-                const out = ac.createGain(); out.gain.value = 0.18; out.connect(ac.destination);
-                const spb = 60 / 168, bass = [98, 123.5, 146.8, 164.8, 130.8, 164.8, 196, 220, 146.8, 185, 220, 246.9, 98, 123.5, 146.8, 123.5];
-                let n = 0, next = ac.currentTime + 0.05;
-                function note(t) {
-                    const o = ac.createOscillator(), g = ac.createGain();
-                    o.type = 'triangle'; o.frequency.value = bass[n % bass.length];
-                    g.gain.setValueAtTime(0.9, t); g.gain.exponentialRampToValueAtTime(0.001, t + spb * 0.9);
-                    o.connect(g).connect(out); o.start(t); o.stop(t + spb);
-                    if (n % 2 === 0) {
-                        const k = ac.createOscillator(), kg = ac.createGain();
-                        k.frequency.setValueAtTime(150, t); k.frequency.exponentialRampToValueAtTime(45, t + 0.12);
-                        kg.gain.setValueAtTime(1.2, t); kg.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
-                        k.connect(kg).connect(out); k.start(t); k.stop(t + 0.18);
-                    } else {
-                        const len = 0.08, buf = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = buf.getChannelData(0);
-                        for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2);
-                        const s = ac.createBufferSource(); s.buffer = buf;
-                        const f = ac.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 1400;
-                        const sg = ac.createGain(); sg.gain.value = 0.7;
-                        s.connect(f).connect(sg).connect(out); s.start(t);
-                    }
-                    n++;
-                }
-                beat = setInterval(function () {
-                    while (next < ac.currentTime + 0.2) { note(next); next += spb; }
-                }, 50);
-                beatOut = out;
+                } catch (e) { return null; }
+                return ac;
             }
-            function hush() {
-                if (!beat) return;
-                clearInterval(beat);
-                beatOut.gain.setTargetAtTime(0, ac.currentTime, 0.08);
-                beat = beatOut = null;
+            // A dry metal click: a wheel turning, or a latch going.
+            function click(at, tone, level) {
+                const a = sound(); if (!a) return;
+                const len = 0.025, buf = a.createBuffer(1, a.sampleRate * len, a.sampleRate), d = buf.getChannelData(0);
+                for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 5);
+                const n = a.createBufferSource(); n.buffer = buf;
+                const f = a.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = tone; f.Q.value = 3;
+                const g = a.createGain(); g.gain.value = level;
+                n.connect(f).connect(g).connect(a.destination); n.start(a.currentTime + at);
             }
-
-            function dance(on) {
-                if (!floor) return;
-                floor.classList.toggle('is-dancing', on);
-                floor.querySelector('.ab-dance-pair').setAttribute('aria-label', on ? 'Vincent and Mia dancing. Click to stop' : 'Vincent and Mia. Click to dance');
-                clearTimeout(idle);
-                if (on) music();
-                else {
-                    hush();
-                    // Left standing a while, they walk off.
-                    idle = setTimeout(leave, 12000);
+            // The glow: a soft major chord swelling in.
+            function glow(on) {
+                const a = sound(); if (!a) return;
+                if (on && !hum) {
+                    hum = a.createGain(); hum.gain.value = 0; hum.connect(a.destination);
+                    hum.gain.setTargetAtTime(0.07, a.currentTime + 0.15, 0.4);
+                    hum.osc = [110, 165, 220, 277.2].map(function (f, i) {
+                        const o = a.createOscillator(); o.type = i ? 'sine' : 'triangle'; o.frequency.value = f;
+                        o.detune.value = (i - 1.5) * 4;
+                        o.connect(hum); o.start(); return o;
+                    });
+                } else if (!on && hum) {
+                    const h = hum; hum = null;
+                    h.gain.setTargetAtTime(0, a.currentTime, 0.12);
+                    setTimeout(function () { h.osc.forEach(function (o) { o.stop(); }); }, 700);
                 }
             }
 
-            function leave() {
-                if (!floor) return;
-                clearTimeout(idle);
-                hush();
-                const f = floor; floor = null;
-                f.classList.remove('is-on');
-                setTimeout(function () { f.remove(); }, 600);
+            // Each lock wheel is a column of digits; showing one is a slide.
+            function wheel(i, digit, quick) {
+                const col = box.querySelectorAll('.ab-case-wheel span')[i];
+                col.style.transition = quick ? 'none' : '';
+                col.style.transform = 'translateY(' + (-digit * 10) + '%)';
+            }
+            function scramble() {
+                set = 0;
+                [0, 1, 2].forEach(function (i) { wheel(i, Math.floor(Math.random() * 6), true); });
             }
 
-            function come() {
-                if (floor) { leave(); return; }
-                floor = document.createElement('div');
-                floor.className = 'ab-dance';
-                // The pair is the button that starts and stops the twist; the
-                // cross above them sends them off.
-                floor.innerHTML = '<span class="ab-dance-light" aria-hidden="true"></span>' +
-                    '<button type="button" class="ab-dance-pair">' + pair() +
-                    '<span class="ab-dance-hint" aria-hidden="true">Click to dance</span></button>' +
-                    '<button type="button" class="ab-dance-close" aria-label="Close">' +
-                    '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>';
-                document.body.appendChild(floor);
-                floor.querySelector('.ab-dance-pair').addEventListener('click', function () {
-                    dance(!floor.classList.contains('is-dancing'));
-                });
-                floor.querySelector('.ab-dance-close').addEventListener('click', leave);
-                requestAnimationFrame(function () { requestAnimationFrame(function () { floor && floor.classList.add('is-on'); }); });
-                dance(false);
+            function step() {
+                if (!box) return;
+                if (box.classList.contains('is-open')) {
+                    // Shut it, and the code is lost again.
+                    box.classList.remove('is-open');
+                    glow(false);
+                    click(0, 1800, 0.5);
+                    setTimeout(function () { box && scramble(); }, 500);
+                    hint('Click to turn the lock');
+                    return;
+                }
+                wheel(set, 6);
+                click(0, 3200, 0.35);
+                set++;
+                if (set === 3) {
+                    click(0.35, 1500, 0.7);
+                    click(0.42, 1300, 0.7);
+                    setTimeout(function () {
+                        if (!box) return;
+                        box.classList.add('is-open');
+                        glow(true);
+                    }, 450);
+                    hint('Click to shut it');
+                }
+            }
+            function hint(t) { const h = box && box.querySelector('.ab-case-hint'); if (h) h.textContent = t; }
+
+            function digits() {
+                let d = '';
+                for (let i = 0; i < 10; i++) d += '<b>' + i + '</b>';
+                return '<span>' + d + '</span>';
+            }
+
+            function show() {
+                if (box) { hide(); return; }
+                box = document.createElement('div');
+                box.className = 'ab-case';
+                box.innerHTML =
+                    '<button type="button" class="ab-case-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
+                    '<button type="button" class="ab-case-body" aria-label="The briefcase. Click to turn the lock">' +
+                        '<span class="ab-case-rays" aria-hidden="true"></span>' +
+                        '<span class="ab-case-light" aria-hidden="true"></span>' +
+                        '<span class="ab-case-lid" aria-hidden="true"><i class="ab-case-handle"></i></span>' +
+                        '<span class="ab-case-base" aria-hidden="true">' +
+                            '<i class="ab-case-latch"></i><i class="ab-case-latch"></i>' +
+                            '<span class="ab-case-lock"><span class="ab-case-wheel">' + digits() + '</span><span class="ab-case-wheel">' + digits() + '</span><span class="ab-case-wheel">' + digits() + '</span></span>' +
+                        '</span>' +
+                    '</button>' +
+                    '<span class="ab-case-hint" aria-live="polite">Click to turn the lock</span>';
+                // A frosted veil behind it; a click on it puts the case away.
+                veil = document.createElement('div');
+                veil.className = 'ab-veil';
+                veil.addEventListener('click', hide);
+                document.body.append(veil, box);
+                scramble();
+                box.querySelector('.ab-case-body').addEventListener('click', step);
+                box.querySelector('.ab-case-close').addEventListener('click', hide);
+                requestAnimationFrame(function () { requestAnimationFrame(function () {
+                    box && box.classList.add('is-on');
+                    veil && veil.classList.add('is-on');
+                }); });
+            }
+
+            function hide() {
+                if (!box) return;
+                glow(false);
+                const b = box, v = veil; box = veil = null;
+                b.classList.remove('is-on');
+                v.classList.remove('is-on');
+                setTimeout(function () { b.remove(); v.remove(); }, 400);
             }
 
             trigger.addEventListener('click', function () {
-                document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'dance' }));
-                come();
+                document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'case' }));
+                show();
             });
-            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'dance') leave(); });
-            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') leave(); });
+            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'case') hide(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
         })();
 
-        // Hobbies easter egg: "photography" turns the pointer into a
-        // viewfinder. A click takes a shot: a flash, a shutter, and what was
-        // in the frame (a live copy of the page) drops out as a print that
-        // flies to a pile in the bottom right corner. On a phone a tap
-        // shoots where it lands. The cross, Esc or the word again put the
-        // camera away.
+        // Hobbies easter egg: "photography" takes a picture: the screen
+        // flashes, the shutter clicks and an instant print drops into the
+        // middle with one of my travel shots (images/desk/), developing from
+        // white. Click the print to take another; it lands on the pile. The
+        // cross above, a click outside, Esc or the word again clear it.
         (function () {
             const trigger = document.querySelector('.ab-photo-trigger');
             if (!trigger) return;
-            let on = false, vf = null, close = null, pile = null, ac = null, x = 0, y = 0;
-            const prints = [];
+            const SHOTS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'];
+            let stage = null, veil = null, ac = null, left = [];
 
             function shutter() {
                 if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
@@ -888,7 +850,8 @@
                     ac = ac || new (window.AudioContext || window.webkitAudioContext)();
                     if (ac.state === 'suspended') ac.resume();
                 } catch (e) { return; }
-                // Two short clicks: the curtain opens and closes.
+                // Two short clicks, the curtain opening and closing, then the
+                // whirr of the print coming out.
                 [0, 0.07].forEach(function (dt, i) {
                     const len = 0.03, buf = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = buf.getChannelData(0);
                     for (let j = 0; j < d.length; j++) d[j] = (Math.random() * 2 - 1) * Math.pow(1 - j / d.length, 3);
@@ -897,125 +860,81 @@
                     const g = ac.createGain(); g.gain.value = i ? 0.28 : 0.2;
                     n.connect(f).connect(g).connect(ac.destination); n.start(ac.currentTime + dt);
                 });
+                const t = ac.currentTime + 0.25, o = ac.createOscillator(), g = ac.createGain();
+                o.type = 'sawtooth'; o.frequency.value = 70;
+                const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 600;
+                g.gain.setValueAtTime(0.0001, t);
+                g.gain.exponentialRampToValueAtTime(0.05, t + 0.05);
+                g.gain.setValueAtTime(0.05, t + 0.45);
+                g.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
+                o.connect(f).connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.6);
             }
 
-            function size() {
-                return window.innerWidth <= 768 ? { w: 168, h: 120 } : { w: 240, h: 168 };
+            function flash() {
+                const f = document.createElement('div');
+                f.className = 'ab-flash';
+                document.body.appendChild(f);
+                setTimeout(function () { f.remove(); }, 700);
             }
 
-            function place(px, py) {
-                const z = size();
-                x = Math.max(z.w / 2, Math.min(window.innerWidth - z.w / 2, px));
-                y = Math.max(z.h / 2, Math.min(window.innerHeight - z.h / 2, py));
-                vf.style.transform = 'translate(' + (x - z.w / 2) + 'px,' + (y - z.h / 2) + 'px)';
+            // Next photo, never the same one twice until all have been shown.
+            function pick() {
+                if (!left.length) left = SHOTS.slice().sort(function () { return Math.random() - 0.5; });
+                return left.pop();
             }
 
-            // A copy of the page, offset so the frame's patch of it shows.
-            function snapshot(fx, fy, w, h) {
-                const shot = document.createElement('div');
-                shot.className = 'ab-print-shot';
-                const copy = document.body.cloneNode(true);
-                copy.querySelectorAll('script, .ab-vf, .ab-vf-bar, .ab-print, .ab-dance, .ab-plane-sky, .ab-ball, .ab-ball-shadow, .ab-ball-count, .modal').forEach(function (el) { el.remove(); });
-                copy.removeAttribute('id');
-                copy.setAttribute('inert', '');
-                copy.style.cssText = 'position:absolute;margin:0;left:' + -(fx + window.scrollX) + 'px;top:' + -(fy + window.scrollY) + 'px;width:' + document.documentElement.clientWidth + 'px;pointer-events:none;';
-                shot.appendChild(copy);
-                return shot;
-            }
-
-            function shoot() {
-                const z = size(), fx = x - z.w / 2, fy = y - z.h / 2;
+            function snap() {
+                if (!stage) return;
                 shutter();
-                vf.classList.remove('is-flash'); void vf.offsetWidth; vf.classList.add('is-flash');
-
-                const print = document.createElement('div');
-                print.className = 'ab-print';
-                print.setAttribute('aria-hidden', 'true');
-                print.style.width = z.w + 'px';
-                const shot = snapshot(fx, fy, z.w, z.h);
-                shot.style.height = z.h + 'px';
-                print.appendChild(shot);
-                print.style.left = (fx - 8) + 'px';
-                print.style.top = (fy - 8) + 'px';
-                document.body.appendChild(print);
-
-                // Into the pile: shrinks, turns a little, lands on the others.
-                const k = 96 / z.w, i = prints.length;
-                const tx = window.innerWidth - 24 - (z.w + 16) * k - (fx - 8) - i * 6;
-                const ty = window.innerHeight - 24 - (z.h + 40) * k - (fy - 8) - i * 4;
-                const rot = (Math.random() * 16 - 8).toFixed(1);
-                print.animate([
-                    { transform: 'none', offset: 0 },
-                    { transform: 'scale(1.04)', offset: 0.18 },
-                    { transform: 'translate(' + tx + 'px,' + ty + 'px) rotate(' + rot + 'deg) scale(' + k + ')', offset: 1 }
-                ], { duration: 900, delay: 250, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'forwards' });
-                prints.push(print);
-                // Keep the pile small: the oldest print fades out.
-                if (prints.length > 5) {
-                    const old = prints.shift();
-                    old.style.transition = 'opacity 300ms ease';
-                    old.style.opacity = '0';
-                    setTimeout(function () { old.remove(); }, 320);
-                }
+                flash();
+                const pile = stage.querySelector('.ab-snap-pile');
+                const print = document.createElement('button');
+                print.type = 'button';
+                print.className = 'ab-snap';
+                print.setAttribute('aria-label', 'Take another photo');
+                print.style.setProperty('--rot', (Math.random() * 14 - 7).toFixed(1) + 'deg');
+                print.innerHTML = '<span class="ab-snap-shot"><img src="images/desk/' + pick() + '.jpg" alt="" decoding="async"></span>';
+                print.addEventListener('click', snap);
+                pile.appendChild(print);
+                // Keep the pile small: the bottom print goes.
+                const all = pile.querySelectorAll('.ab-snap');
+                if (all.length > 5) all[0].remove();
             }
 
-            // While the camera is out, clicks take photos instead of following links.
-            function onClick(e) {
-                if (!on) return;
-                if (e.target.closest('.ab-vf-close')) return;
-                e.preventDefault();
-                e.stopPropagation();
-                if (e.target.closest('.ab-photo-trigger')) { stop(); return; }
-                place(e.clientX, e.clientY);
-                shoot();
-            }
-            function onMove(e) { if (on && e.pointerType !== 'touch') place(e.clientX, e.clientY); }
-            function onKey(e) { if (on && e.key === 'Escape') stop(); }
-
-            function start() {
-                if (on) { stop(); return; }
-                on = true;
-                document.documentElement.classList.add('ab-vf-on');
-                vf = document.createElement('div');
-                vf.className = 'ab-vf';
-                vf.setAttribute('aria-hidden', 'true');
-                vf.innerHTML = '<i></i><i></i><i></i><i></i><b></b><span class="ab-vf-meta">1/125 · f/2.8 · ISO 400</span><span class="ab-vf-flash"></span>';
-                const z = size();
-                vf.style.width = z.w + 'px';
-                vf.style.height = z.h + 'px';
-                close = document.createElement('div');
-                close.className = 'ab-vf-bar';
-                close.innerHTML = '<span class="ab-vf-hint">' + (matchMedia('(hover: none)').matches ? 'Tap to take a photo' : 'Click to take a photo') + '</span>' +
-                    '<button type="button" class="ab-vf-close" aria-label="Put the camera away"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>';
-                document.body.append(vf, close);
-                close.querySelector('.ab-vf-close').addEventListener('click', stop);
-                const r = trigger.getBoundingClientRect();
-                place(r.left + r.width / 2, r.top - z.h / 2 - 12);
-                requestAnimationFrame(function () { vf && vf.classList.add('is-on'); close && close.classList.add('is-on'); });
-                document.addEventListener('click', onClick, true);
-                document.addEventListener('pointermove', onMove, { passive: true });
-                document.addEventListener('keydown', onKey);
+            function show() {
+                if (stage) { hide(); return; }
+                veil = document.createElement('div');
+                veil.className = 'ab-veil';
+                veil.addEventListener('click', hide);
+                stage = document.createElement('div');
+                stage.className = 'ab-snaps';
+                stage.innerHTML =
+                    '<button type="button" class="ab-case-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
+                    '<div class="ab-snap-pile"></div>' +
+                    '<span class="ab-case-hint">' + (matchMedia('(hover: none)').matches ? 'Tap the photo for another' : 'Click the photo for another') + '</span>';
+                stage.querySelector('.ab-case-close').addEventListener('click', hide);
+                document.body.append(veil, stage);
+                requestAnimationFrame(function () { requestAnimationFrame(function () {
+                    veil && veil.classList.add('is-on');
+                    stage && stage.classList.add('is-on');
+                }); });
+                snap();
             }
 
-            function stop() {
-                if (!on) return;
-                on = false;
-                document.documentElement.classList.remove('ab-vf-on');
-                document.removeEventListener('click', onClick, true);
-                document.removeEventListener('pointermove', onMove);
-                document.removeEventListener('keydown', onKey);
-                const gone = [vf, close].concat(prints.splice(0));
-                vf = close = null;
-                gone.forEach(function (el) { el.style.transition = 'opacity 300ms ease'; el.style.opacity = '0'; });
-                setTimeout(function () { gone.forEach(function (el) { el.remove(); }); }, 320);
+            function hide() {
+                if (!stage) return;
+                const s = stage, v = veil; stage = veil = null;
+                s.classList.remove('is-on');
+                v.classList.remove('is-on');
+                setTimeout(function () { s.remove(); v.remove(); }, 400);
             }
 
             trigger.addEventListener('click', function () {
-                if (on) return; // handled by onClick
                 document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'photo' }));
-                start();
+                show();
             });
-            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'photo') stop(); });
+            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'photo') hide(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
         })();
 
         // The image can finish loading before this script defines
