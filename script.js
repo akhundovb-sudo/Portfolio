@@ -512,7 +512,6 @@ document.addEventListener('click', function (e) {
         const item = e.target.closest('.desk-item');
         if (!item || e.button !== 0) return;
         e.preventDefault();
-        item.style.zIndex = ++top;
 
         const startX = e.clientX, startY = e.clientY;
         const startLeft = item.offsetLeft, startTop = item.offsetTop;
@@ -527,6 +526,9 @@ document.addEventListener('click', function (e) {
             if (!dragged && Math.hypot(dx, dy) < 4) return;
             if (!dragged) {
                 dragged = true;
+                // Only a drag brings a print to the top; a click opens it and
+                // it comes back to its own place in the fan.
+                item.style.zIndex = ++top;
                 item.classList.add('is-dragging');
             }
             const left = Math.max(0, Math.min(maxLeft, startLeft + dx / scale));
@@ -573,6 +575,28 @@ document.addEventListener('click', function (e) {
         return 'translate(' + dx + 'px, ' + dy + 'px) rotate(' + rot + ') scale(' + s + ')';
     }
 
+    // The print on the desk is cropped (one size for all); the large one is
+    // the whole photo. Over the flight its height eases between the two,
+    // cropped from the centre, so it leaves and lands as the same print.
+    function crop(card, item, opening) {
+        if (reduce.matches || !card.animate) return;
+        const small = item.querySelector('img');
+        const big = card.querySelector('img');
+        const ws = small.offsetWidth, w = big.offsetWidth, h = big.offsetHeight;
+        if (!ws || !w || !h) return;
+        const hc = w * small.offsetHeight / ws;
+        if (Math.abs(hc - h) < 1) return;
+        big.style.width = w + 'px';
+        big.style.maxHeight = 'none';
+        big.style.objectFit = 'cover';
+        const frames = [{ height: h + 'px' }, { height: hc + 'px' }];
+        if (opening) frames.reverse();
+        const a = big.animate(frames, { duration: 600, easing: SPRING, fill: opening ? 'none' : 'forwards' });
+        if (opening) a.onfinish = function () {
+            big.style.width = big.style.maxHeight = big.style.objectFit = '';
+        };
+    }
+
     function open(item) {
         if (box) return;
         source = item;
@@ -604,6 +628,7 @@ document.addEventListener('click', function (e) {
                 [{ transform: flight(card, item) }, { transform: 'none' }],
                 { duration: 600, easing: SPRING }
             );
+            crop(card, item, true);
         }
         item.classList.add('is-away');
         play('lift', 0.45);
@@ -663,6 +688,7 @@ document.addEventListener('click', function (e) {
                 [{ transform: 'none' }, { transform: flight(card, item) }],
                 { duration: 600, easing: SPRING, fill: 'forwards' }
             );
+            crop(card, item, false);
             back.onfinish = done;
             // A background tab may never run the animation; close regardless.
             setTimeout(done, 680);
