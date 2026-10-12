@@ -24,7 +24,7 @@
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
     <link rel="stylesheet" href="styles.css?v=fast141">
     <link rel="stylesheet" href="about.css?v=fast1">
-    <link rel="stylesheet" href="about-page.css?v=fast4">
+    <link rel="stylesheet" href="about-page.css?v=fast5">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="About - Bahruz">
@@ -198,7 +198,7 @@
         <section class="container ab-section" aria-labelledby="ab-hobbies">
             <h2 class="ab-label" id="ab-hobbies">Hobbies</h2>
             <div class="ab-body">
-                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-dance-trigger">films</button> and <button type="button" class="ab-hobby-trigger ab-film-trigger">photography</button>.</p>
+                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-dance-trigger">films</button> and <button type="button" class="ab-hobby-trigger ab-photo-trigger">photography</button>.</p>
             </div>
         </section>
     </main>
@@ -870,85 +870,152 @@
             document.addEventListener('keydown', function (e) { if (e.key === 'Escape') leave(); });
         })();
 
-        // Hobbies easter egg: "photography" pulls a strip of 35mm film out
-        // of the word, frames of my own travel shots (images/desk/), and it
-        // runs off the side of the screen with more room, ticking like a
-        // projector. Pointing at it holds it still.
+        // Hobbies easter egg: "photography" turns the pointer into a
+        // viewfinder. A click takes a shot: a flash, a shutter, and what was
+        // in the frame (a live copy of the page) drops out as a print that
+        // flies to a pile in the bottom right corner. On a phone a tap
+        // shoots where it lands. The cross, Esc or the word again put the
+        // camera away.
         (function () {
-            const trigger = document.querySelector('.ab-film-trigger');
+            const trigger = document.querySelector('.ab-photo-trigger');
             if (!trigger) return;
-            const SHOTS = ['11', '06', '17', '18', '10', '01', '16', '15', '04', '07', '12', '14', '13', '08', '02', '09', '03', '05'];
-            const SPEED = 820; // px per second
-            let ac = null, tick = null, roll = null;
+            let on = false, vf = null, close = null, pile = null, ac = null, x = 0, y = 0;
+            const prints = [];
 
-            function clatter(seconds) {
+            function shutter() {
                 if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
                 try {
                     ac = ac || new (window.AudioContext || window.webkitAudioContext)();
                     if (ac.state === 'suspended') ac.resume();
                 } catch (e) { return; }
-                const out = ac.createGain(); out.gain.value = 0.06; out.connect(ac.destination);
-                const len = 0.012, buf = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = buf.getChannelData(0);
-                for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 4);
-                const t0 = ac.currentTime + 0.02, n = Math.floor(seconds * 18);
-                for (let i = 0; i < n; i++) {
-                    const s = ac.createBufferSource(); s.buffer = buf;
-                    const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 2400 + (i % 2) * 900; f.Q.value = 2;
-                    const g = ac.createGain();
-                    // Fades in and out with the strip.
-                    g.gain.value = Math.min(1, i / 6, (n - i) / 10);
-                    s.connect(f).connect(g).connect(out); s.start(t0 + i / 18);
+                // Two short clicks: the curtain opens and closes.
+                [0, 0.07].forEach(function (dt, i) {
+                    const len = 0.03, buf = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = buf.getChannelData(0);
+                    for (let j = 0; j < d.length; j++) d[j] = (Math.random() * 2 - 1) * Math.pow(1 - j / d.length, 3);
+                    const n = ac.createBufferSource(); n.buffer = buf;
+                    const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = i ? 2600 : 3800; f.Q.value = 1.5;
+                    const g = ac.createGain(); g.gain.value = i ? 0.28 : 0.2;
+                    n.connect(f).connect(g).connect(ac.destination); n.start(ac.currentTime + dt);
+                });
+            }
+
+            function size() {
+                return window.innerWidth <= 768 ? { w: 168, h: 120 } : { w: 240, h: 168 };
+            }
+
+            function place(px, py) {
+                const z = size();
+                x = Math.max(z.w / 2, Math.min(window.innerWidth - z.w / 2, px));
+                y = Math.max(z.h / 2, Math.min(window.innerHeight - z.h / 2, py));
+                vf.style.transform = 'translate(' + (x - z.w / 2) + 'px,' + (y - z.h / 2) + 'px)';
+            }
+
+            // A copy of the page, offset so the frame's patch of it shows.
+            function snapshot(fx, fy, w, h) {
+                const shot = document.createElement('div');
+                shot.className = 'ab-print-shot';
+                const copy = document.body.cloneNode(true);
+                copy.querySelectorAll('script, .ab-vf, .ab-vf-bar, .ab-print, .ab-dance, .ab-plane-sky, .ab-ball, .ab-ball-shadow, .ab-ball-count, .modal').forEach(function (el) { el.remove(); });
+                copy.removeAttribute('id');
+                copy.setAttribute('inert', '');
+                copy.style.cssText = 'position:absolute;margin:0;left:' + -(fx + window.scrollX) + 'px;top:' + -(fy + window.scrollY) + 'px;width:' + document.documentElement.clientWidth + 'px;pointer-events:none;';
+                shot.appendChild(copy);
+                return shot;
+            }
+
+            function shoot() {
+                const z = size(), fx = x - z.w / 2, fy = y - z.h / 2;
+                shutter();
+                vf.classList.remove('is-flash'); void vf.offsetWidth; vf.classList.add('is-flash');
+
+                const print = document.createElement('div');
+                print.className = 'ab-print';
+                print.setAttribute('aria-hidden', 'true');
+                print.style.width = z.w + 'px';
+                const shot = snapshot(fx, fy, z.w, z.h);
+                shot.style.height = z.h + 'px';
+                print.appendChild(shot);
+                print.style.left = (fx - 8) + 'px';
+                print.style.top = (fy - 8) + 'px';
+                document.body.appendChild(print);
+
+                // Into the pile: shrinks, turns a little, lands on the others.
+                const k = 96 / z.w, i = prints.length;
+                const tx = window.innerWidth - 24 - (z.w + 16) * k - (fx - 8) - i * 6;
+                const ty = window.innerHeight - 24 - (z.h + 40) * k - (fy - 8) - i * 4;
+                const rot = (Math.random() * 16 - 8).toFixed(1);
+                print.animate([
+                    { transform: 'none', offset: 0 },
+                    { transform: 'scale(1.04)', offset: 0.18 },
+                    { transform: 'translate(' + tx + 'px,' + ty + 'px) rotate(' + rot + 'deg) scale(' + k + ')', offset: 1 }
+                ], { duration: 900, delay: 250, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'forwards' });
+                prints.push(print);
+                // Keep the pile small: the oldest print fades out.
+                if (prints.length > 5) {
+                    const old = prints.shift();
+                    old.style.transition = 'opacity 300ms ease';
+                    old.style.opacity = '0';
+                    setTimeout(function () { old.remove(); }, 320);
                 }
-                tick = out;
             }
 
-            function run() {
-                if (roll) return;
-                const W = window.innerWidth, r = trigger.getBoundingClientRect();
-                const left = r.left + r.width / 2 > W / 2; // run towards the side with more room
-                const wrap = document.createElement('div');
-                wrap.className = 'ab-film' + (left ? ' ab-film--left' : '');
-                wrap.setAttribute('aria-hidden', 'true');
-                const strip = document.createElement('div');
-                strip.className = 'ab-film-strip';
-                strip.innerHTML = SHOTS.map(function (n, i) {
-                    return '<span class="ab-film-frame"><img src="images/desk/' + n + '.jpg" alt="" loading="eager" decoding="async"><i>' + (i + 1) + '</i></span>';
-                }).join('');
-                wrap.appendChild(strip);
-                // The window the film runs through: just under the word, from
-                // it to the edge, so the line stays readable.
-                const top = r.bottom - 2;
-                wrap.style.top = top + 'px';
-                if (left) { wrap.style.left = '0px'; wrap.style.width = (r.left + r.width) + 'px'; }
-                else { wrap.style.left = r.left + 'px'; wrap.style.width = (W - r.left) + 'px'; }
-                document.body.appendChild(wrap);
+            // While the camera is out, clicks take photos instead of following links.
+            function onClick(e) {
+                if (!on) return;
+                if (e.target.closest('.ab-vf-close')) return;
+                e.preventDefault();
+                e.stopPropagation();
+                if (e.target.closest('.ab-photo-trigger')) { stop(); return; }
+                place(e.clientX, e.clientY);
+                shoot();
+            }
+            function onMove(e) { if (on && e.pointerType !== 'touch') place(e.clientX, e.clientY); }
+            function onKey(e) { if (on && e.key === 'Escape') stop(); }
 
-                const sw = strip.offsetWidth, ww = wrap.offsetWidth;
-                // Starts tucked inside the word, ends past the far edge.
-                const from = left ? ww : -sw, to = left ? -sw : ww;
-                const dur = Math.abs(to - from) / SPEED * 1000;
-                roll = strip.animate(
-                    [{ transform: 'translateX(' + from + 'px)' }, { transform: 'translateX(' + to + 'px)' }],
-                    { duration: dur, easing: 'cubic-bezier(0.3, 0, 0.7, 1)', fill: 'forwards' }
-                );
-                clatter(dur / 1000);
-                strip.addEventListener('mouseenter', function () { roll && roll.pause(); if (tick) tick.gain.value = 0; });
-                strip.addEventListener('mouseleave', function () { roll && roll.play(); if (tick) tick.gain.value = 0.06; });
-                roll.onfinish = function () { wrap.remove(); roll = null; tick = null; };
+            function start() {
+                if (on) { stop(); return; }
+                on = true;
+                document.documentElement.classList.add('ab-vf-on');
+                vf = document.createElement('div');
+                vf.className = 'ab-vf';
+                vf.setAttribute('aria-hidden', 'true');
+                vf.innerHTML = '<i></i><i></i><i></i><i></i><b></b><span class="ab-vf-meta">1/125 · f/2.8 · ISO 400</span><span class="ab-vf-flash"></span>';
+                const z = size();
+                vf.style.width = z.w + 'px';
+                vf.style.height = z.h + 'px';
+                close = document.createElement('div');
+                close.className = 'ab-vf-bar';
+                close.innerHTML = '<span class="ab-vf-hint">' + (matchMedia('(hover: none)').matches ? 'Tap to take a photo' : 'Click to take a photo') + '</span>' +
+                    '<button type="button" class="ab-vf-close" aria-label="Put the camera away"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>';
+                document.body.append(vf, close);
+                close.querySelector('.ab-vf-close').addEventListener('click', stop);
+                const r = trigger.getBoundingClientRect();
+                place(r.left + r.width / 2, r.top - z.h / 2 - 12);
+                requestAnimationFrame(function () { vf && vf.classList.add('is-on'); close && close.classList.add('is-on'); });
+                document.addEventListener('click', onClick, true);
+                document.addEventListener('pointermove', onMove, { passive: true });
+                document.addEventListener('keydown', onKey);
             }
-            function cut() {
-                if (!roll) return;
-                if (tick) tick.gain.value = 0;
-                roll.cancel();
-                const w = document.querySelector('.ab-film');
-                if (w) w.remove();
-                roll = null; tick = null;
+
+            function stop() {
+                if (!on) return;
+                on = false;
+                document.documentElement.classList.remove('ab-vf-on');
+                document.removeEventListener('click', onClick, true);
+                document.removeEventListener('pointermove', onMove);
+                document.removeEventListener('keydown', onKey);
+                const gone = [vf, close].concat(prints.splice(0));
+                vf = close = null;
+                gone.forEach(function (el) { el.style.transition = 'opacity 300ms ease'; el.style.opacity = '0'; });
+                setTimeout(function () { gone.forEach(function (el) { el.remove(); }); }, 320);
             }
+
             trigger.addEventListener('click', function () {
-                document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'film' }));
-                run();
+                if (on) return; // handled by onClick
+                document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'photo' }));
+                start();
             });
-            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'film') cut(); });
+            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'photo') stop(); });
         })();
 
         // The image can finish loading before this script defines
