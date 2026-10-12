@@ -842,69 +842,185 @@ html[data-theme="dark"] .ab-dance-close {
     }
 }
 
-/* Film strip: a window from the word to the screen edge (faded at the word
-   end, so the film seems to come out of it); the strip runs through it. */
-.ab-film {
+/* Viewfinder: corner brackets, a centre cross and the exposure, in ink
+   with a soft light halo so they read on any background. */
+html.ab-vf-on,
+html.ab-vf-on * {
+    cursor: none !important;
+}
+
+html.ab-vf-on .ab-vf-close,
+html.ab-vf-on .ab-vf-close * {
+    cursor: pointer !important;
+}
+
+.ab-vf {
     position: fixed;
-    z-index: 1200;
-    height: 128px;
-    overflow: hidden;
-    pointer-events: none;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 48px);
-    mask-image: linear-gradient(90deg, transparent 0, #000 48px);
-}
-
-.ab-film--left {
-    -webkit-mask-image: linear-gradient(270deg, transparent 0, #000 48px);
-    mask-image: linear-gradient(270deg, transparent 0, #000 48px);
-}
-
-.ab-film-strip {
-    position: absolute;
-    top: 8px;
     left: 0;
-    display: flex;
-    gap: 10px;
-    height: 112px;
-    padding: 18px 10px;
-    box-sizing: border-box;
-    pointer-events: auto;
-    cursor: default;
-    /* Base, plus two rows of sprocket holes. */
-    background:
-        linear-gradient(90deg, transparent 4px, rgba(241, 241, 240, 0.92) 4px 12px, transparent 12px) 0 5px / 16px 8px repeat-x,
-        linear-gradient(90deg, transparent 4px, rgba(241, 241, 240, 0.92) 4px 12px, transparent 12px) 0 calc(100% - 5px) / 16px 8px repeat-x,
-        #1A1714;
-    border-radius: 2px;
-    box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.45);
+    top: 0;
+    z-index: 1300;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms ease;
     will-change: transform;
 }
 
-.ab-film-frame {
-    position: relative;
-    flex: none;
-    width: 104px;
-    height: 76px;
-    border-radius: 3px;
-    background: #2A2622;
+.ab-vf.is-on {
+    opacity: 1;
 }
 
-.ab-film-frame img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 3px;
-    filter: saturate(1.05) contrast(1.02);
+.ab-vf {
+    --vf: #0F0F0F;
+    --vf-halo: rgba(255, 255, 255, 0.7);
 }
 
-/* Frame numbers printed on the edge, in the film's amber. */
-.ab-film-frame i {
+html[data-theme="dark"] .ab-vf {
+    --vf: #EDEDEC;
+    --vf-halo: rgba(0, 0, 0, 0.6);
+}
+
+.ab-vf i,
+.ab-vf b,
+.ab-vf-meta {
     position: absolute;
-    left: 4px;
-    bottom: -13px;
-    font: 500 8px/1 'PP Neue Montreal', sans-serif;
-    font-style: normal;
-    letter-spacing: 0.1em;
-    color: rgba(255, 166, 48, 0.85);
+    color: var(--vf);
+    filter: drop-shadow(0 0 1.5px var(--vf-halo));
+}
+
+.ab-vf i {
+    width: 22px;
+    height: 22px;
+    border: 0 solid var(--vf);
+}
+
+.ab-vf i:nth-child(1) { left: 0; top: 0; border-left-width: 2px; border-top-width: 2px; }
+.ab-vf i:nth-child(2) { right: 0; top: 0; border-right-width: 2px; border-top-width: 2px; }
+.ab-vf i:nth-child(3) { left: 0; bottom: 0; border-left-width: 2px; border-bottom-width: 2px; }
+.ab-vf i:nth-child(4) { right: 0; bottom: 0; border-right-width: 2px; border-bottom-width: 2px; }
+
+.ab-vf b {
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    margin: -9px 0 0 -9px;
+    background:
+        linear-gradient(var(--vf), var(--vf)) 50% 50% / 1.5px 100% no-repeat,
+        linear-gradient(var(--vf), var(--vf)) 50% 50% / 100% 1.5px no-repeat;
+}
+
+.ab-vf-meta {
+    left: 0;
+    right: 0;
+    bottom: -22px;
+    font: 500 10px/1 'PP Neue Montreal', sans-serif;
+    letter-spacing: 0.12em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.ab-vf-flash {
+    position: absolute;
+    inset: 0;
+    background: #FFFFFF;
+    opacity: 0;
+}
+
+.ab-vf.is-flash .ab-vf-flash {
+    animation: ab-vf-flash 420ms ease-out;
+}
+
+@keyframes ab-vf-flash {
+    0% { opacity: 0.95; }
+    100% { opacity: 0; }
+}
+
+/* Bottom bar: the hint and the cross that puts the camera away. */
+.ab-vf-bar {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 1300;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 6px 6px 16px;
+    border: 1px solid rgba(15, 15, 15, 0.12);
+    border-radius: 999px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(15, 15, 15, 0.12);
+    opacity: 0;
+    transform: translate(-50%, 8px);
+    transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.ab-vf-bar.is-on {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.ab-vf-hint {
+    font: 500 11px/1 'PP Neue Montreal', sans-serif;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: rgba(15, 15, 15, 0.6);
+}
+
+.ab-vf-close {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #F1F1F0;
+    color: #0F0F0F;
+}
+
+html[data-theme="dark"] .ab-vf-bar {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: #222221;
+}
+
+html[data-theme="dark"] .ab-vf-hint {
+    color: rgba(237, 237, 236, 0.6);
+}
+
+html[data-theme="dark"] .ab-vf-close {
+    background: #2A2A29;
+    color: #EDEDEC;
+}
+
+/* A print: the shot in a white border, deeper at the bottom like an
+   instant photo; it flies to the pile from where it was taken. */
+.ab-print {
+    position: fixed;
+    z-index: 1250;
+    padding: 8px 8px 32px;
+    border-radius: 4px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 12px 24px -8px rgba(0, 0, 0, 0.3);
+    transform-origin: 0 0;
+    pointer-events: none;
+}
+
+.ab-print-shot {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #F1F1F0;
+    /* Developing: starts washed out, then the picture comes in. */
+    animation: ab-print-develop 1400ms ease-out both;
+    transform: translateZ(0);
+}
+
+html[data-theme="dark"] .ab-print-shot {
+    background: #111110;
+}
+
+@keyframes ab-print-develop {
+    0% { filter: brightness(1.8) contrast(0.4) saturate(0); }
+    100% { filter: none; }
 }
