@@ -5065,6 +5065,20 @@ html[data-theme="dark"] .case-brief-col:last-child {
     opacity: 0;
 }
 
+/* Fan: every print the same 3:4 window, cropped, so the hand reads as one
+   deck; pointing at a print slides it up out of the hand along its own
+   axis. Opening still shows the whole photo. */
+.desk--fan .desk-item--card img {
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .desk--fan .desk-item:hover {
+        transform: perspective(600px) rotate(var(--rot, 0deg)) translateY(-36px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) scale(1.06);
+    }
+}
+
 .desk-item:focus-visible {
     outline: 1px solid #0F0F0F;
     outline-offset: 4px;
