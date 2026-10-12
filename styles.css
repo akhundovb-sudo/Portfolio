@@ -5298,6 +5298,36 @@ html[data-theme="dark"] {
     }
 }
 
+/* In-app browsers (Telegram and others) draw the page under their own
+   see-through top bar and don't take the header's colour, so the page
+   showed scrolling above the header. A solid band of page colour runs up
+   from the header to cover whatever sits under that bar. The home header
+   is solid there too (its glass is pinned below with !important). */
+@media (hover: none) {
+    .header::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 100%;
+        height: 100vh;
+        background: #F1F1F0;
+        pointer-events: none;
+    }
+
+    html[data-theme="dark"] .header::before {
+        background: #111110;
+    }
+
+    body.home .header.header--home {
+        background-color: #F1F1F0 !important;
+    }
+
+    html[data-theme="dark"] body.home .header.header--home {
+        background-color: #111110 !important;
+    }
+}
+
 html[data-theme="dark"] body,
 html[data-theme="dark"] body.home,
 html[data-theme="dark"].intro-active:not(.intro-reveal) body.home {
