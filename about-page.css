@@ -518,19 +518,17 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
 }
 
 /* The crest is printed on the ball's front panel: it fits inside the
-   panel's seams, multiplies into the white leather like ink, is a touch
-   faded and soft, and turns with the ball under the same light. */
+   panel's seams and turns with the ball under the same light. Kept sharp:
+   a blend or blur here made it a smudge on iPhone. */
 .ab-ball-crest {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 29%;
-    height: 29%;
+    width: 34%;
+    height: 34%;
     object-fit: contain;
     transform: translate(-50%, -50%);
-    mix-blend-mode: multiply;
-    opacity: 0.9;
-    filter: saturate(0.85) contrast(0.95) blur(0.15px);
+    opacity: 0.95;
     pointer-events: none;
 }
 
