@@ -2299,9 +2299,8 @@ window.caseClock = function (pad) {
     card.addEventListener('pointerleave', function () { if (p >= 0) go(-1); });
 })();
 
-// Remiton card (home): a globe in the onboarding's purple turns, wire
-// meridians sweeping round and lime R coins riding two orbits (behind the
-// globe when they pass round the back). Each time the card comes into
+// Remiton card (home): a globe in Remiton's purple turns, wire meridians
+// sweeping round, ringed by two orbits in its lime. Each time the card comes into
 // view it plays from the start: the globe spins for a moment, then steps
 // back and the phone rises in front of it.
 (function () {
@@ -2326,10 +2325,9 @@ window.caseClock = function (pad) {
     el('stop', { offset: '1', 'stop-color': '#B04BEA' }, g1);
 
     const world = el('g', { transform: 'rotate(' + TILT + ')' }, svg);
-    const back = el('g', {}, world);            // orbits and coins behind the globe
+    const back = el('g', {}, world);            // far half of the orbits
     el('circle', { r: R, fill: 'url(#remi-sea)' }, world);
     const wire = el('g', { fill: 'none', stroke: 'rgba(255,255,255,0.32)', 'stroke-width': 1.2 }, world);
-    const front = el('g', {}, world);           // orbits and coins in front of it
 
     // Parallels stand still; meridians are redrawn as the globe turns.
     [-60, -30, 0, 30, 60].forEach(function (lat) {
@@ -2338,18 +2336,13 @@ window.caseClock = function (pad) {
     });
     const meridians = [0, 1, 2, 3, 4, 5].map(function () { return el('ellipse', { cx: 0, cy: 0, rx: 0, ry: R }, wire); });
 
-    // Two orbits, each a ring round the globe at its own slant.
-    const ORBITS = [{ rx: 138, ry: 38, rot: 8, coins: 3, speed: 0.55 }, { rx: 128, ry: 52, rot: -32, coins: 2, speed: -0.42 }];
-    ORBITS.forEach(function (o) {
-        o.back = el('ellipse', { rx: o.rx, ry: o.ry, transform: 'rotate(' + o.rot + ')', fill: 'none', stroke: 'rgba(255,255,255,0.4)', 'stroke-width': 1.4 }, back);
-        o.items = [];
-        for (let i = 0; i < o.coins; i++) {
-            const c = el('g', {}, front);
-            el('circle', { r: 13, fill: '#C9F23A', stroke: '#9CC21A', 'stroke-width': 1.5 }, c);
-            const t = el('text', { 'text-anchor': 'middle', dy: '0.36em', fill: '#4B1FD0', 'font-size': 14, 'font-weight': 700, 'font-family': 'PP Neue Montreal, sans-serif' }, c);
-            t.textContent = 'R';
-            o.items.push({ g: c, a: i * Math.PI * 2 / o.coins });
-        }
+    // Two orbits in Remiton's lime, each a ring round the globe at its own
+    // slant: the back half behind the globe, the front half over it.
+    [{ rx: 138, ry: 38, rot: 8 }, { rx: 128, ry: 52, rot: -32 }].forEach(function (o) {
+        const arc = function (sweep) { return 'M' + -o.rx + ' 0 A' + o.rx + ' ' + o.ry + ' 0 0 ' + sweep + ' ' + o.rx + ' 0'; };
+        const line = { fill: 'none', stroke: '#C9F23A', 'stroke-width': 1.8, 'stroke-linecap': 'round', transform: 'rotate(' + o.rot + ')' };
+        el('path', Object.assign({ d: arc(1), opacity: 0.4 }, line), back);   // upper arc, behind
+        el('path', Object.assign({ d: arc(0), opacity: 0.95 }, line), world);  // lower arc, in front
     });
 
     let spin = 0, last = 0, raf = 0, timer = 0;
@@ -2360,18 +2353,6 @@ window.caseClock = function (pad) {
         spin += dt * 0.8;
         meridians.forEach(function (m, i) {
             m.setAttribute('rx', Math.abs(R * Math.sin(spin + i * Math.PI / 6)).toFixed(2));
-        });
-        ORBITS.forEach(function (o) {
-            const rot = o.rot * Math.PI / 180, cr = Math.cos(rot), sr = Math.sin(rot);
-            o.items.forEach(function (it) {
-                it.a += dt * o.speed;
-                const x = Math.cos(it.a) * o.rx, y = Math.sin(it.a) * o.ry;
-                const depth = Math.sin(it.a);                 // > 0: in front
-                const k = 0.78 + 0.22 * (depth + 1) / 2;
-                it.g.setAttribute('transform', 'translate(' + (x * cr - y * sr).toFixed(1) + ' ' + (x * sr + y * cr).toFixed(1) + ') rotate(' + (-TILT) + ') scale(' + k.toFixed(3) + ')');
-                const layer = depth > 0 ? front : back;
-                if (it.g.parentNode !== layer) layer.appendChild(it.g);
-            });
         });
         raf = requestAnimationFrame(draw);
     }
