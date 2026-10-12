@@ -8923,19 +8923,19 @@ html[data-theme="dark"] .case-browser {
     100% { background-color: #5B44EB; color: #FFFFFF; }
 }
 
-/* Works card (Habbi): the mascot peeks out from behind the phone. Every
-   frame is cut at the same wall line, 77% of its width, which sits 1cqw
-   behind the phone's left edge (39cqw of the stage), so no gap shows. Two
-   layers crossfade neighbouring frames (script.js), opacity set inline. */
+/* Works card (Habbi): the mascot peeks out from behind the phone. Its 105
+   frames (a 12 x 9 sprite, script.js picks the cell) are cut at the same
+   wall line, 76.6% of their width, which sits 1cqw behind the phone's left
+   edge (39cqw of the stage), so no gap shows. */
 .project-image--habbi .project-mascot {
     position: absolute;
-    left: calc(40cqw - 30cqw * 0.77);
+    left: calc(40cqw - 30cqw * 0.7656);
     top: 13cqw;
     z-index: 1;
     width: 30cqw;
     height: 30cqw;
-    background: url("images/habbi/mascot-sprite.webp?v=3") no-repeat 0 0 / 2000% 100%;
-    background-position-x: calc(var(--f, 0) / 19 * 100%);
+    background: url("images/habbi/mascot-sprite.webp?v=7") no-repeat 0 0 / 1200% 900%;
+    background-position: calc(var(--c, 0) / 11 * 100%) calc(var(--r, 0) / 8 * 100%);
     opacity: 0;
     pointer-events: none;
 }

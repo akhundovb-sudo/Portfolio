@@ -2455,42 +2455,54 @@ window.caseClock = function (pad) {
 
 
 // Habbi works card ([data-mascot]): on hover the mascot comes out from
-// behind the phone, then keeps waving; on leave it goes back and hides.
-// The 20 frames are one sprite; two layers show a frame and the next one
-// crossfaded by the fraction in between, so the motion runs smooth at the
-// screen's frame rate instead of stepping.
+// behind the phone in one second, quick at first and easing into the wave
+// so its speed meets the wave's 30 fps; then it waves once and stays on
+// the last frame while the pointer is there; on leave it runs back fast
+// and hides. 105 of the 120 frames are one 12 x 9 sprite (the blurred and
+// four-finger frames 77-81 and 84-93 are left out; the wave is 94-120).
+// Two layers crossfade a frame into the next by the fraction in between,
+// so nothing steps.
 (function () {
     const stage = document.querySelector('[data-mascot]');
     if (!stage) return;
     const card = stage.closest('.project-card');
     const [a, b] = stage.querySelectorAll('.project-mascot');
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const LAST = 19, WAVE = 12;
-    let p = -1, dir = 0, wave = 1, raf = null, last = 0;
+    const LAST = 104, LOOP = 78, FPS = 30, INTRO = 1;
+    // Entrance curve: linear part sized so the end speed is the wave's.
+    const K = FPS * INTRO / LOOP;
+    const curve = function (t) { return LOOP * (K * t + (1 - K) * (1 - (1 - t) * (1 - t))); };
+    const inverse = function (p) { let lo = 0, hi = 1; for (let n = 0; n < 20; n++) { const m = (lo + hi) / 2; if (curve(m) < p) lo = m; else hi = m; } return lo; };
+    let p = -1, t = 0, dir = 0, raf = null, last = 0;
+    function cell(el, f) {
+        el.style.setProperty('--c', f % 12);
+        el.style.setProperty('--r', Math.floor(f / 12));
+    }
     function paint() {
         if (p < 0) { a.style.opacity = 0; b.style.opacity = 0; return; }
-        const f = Math.floor(p), t = p - f;
-        a.style.setProperty('--f', f);
-        a.style.opacity = f === 0 && p < 1 ? Math.min(1, p * 3 + 0.4) : 1;
-        b.style.setProperty('--f', Math.min(LAST, f + 1));
-        b.style.opacity = f < LAST ? t : 0;
+        const f = Math.floor(p), fr = p - f;
+        cell(a, f); a.style.opacity = 1;
+        if (f < LAST) { cell(b, f + 1); b.style.opacity = fr; } else b.style.opacity = 0;
     }
     function step(now) {
         const dt = Math.min(0.05, (now - last) / 1000); last = now;
         if (dir > 0) {
-            if (p < LAST && wave === 1 && p < WAVE) p = Math.min(LAST, p + dt * 28);
-            else if (p < LAST && p >= WAVE && wave === 1) p = Math.min(LAST, p + dt * (p < WAVE + 0.5 ? 28 : 15));
-            else { p += wave * dt * 15; if (p >= LAST) { p = LAST; wave = -1; } if (p <= WAVE) { p = WAVE; wave = 1; } }
+            if (p < LOOP) { t = Math.min(1, t + dt / INTRO); p = curve(t); }
+            else p = Math.min(LAST, p + dt * FPS);
         } else {
-            p -= dt * 45;
+            p -= dt * FPS * 4;
         }
         paint();
         if (dir < 0 && p < 0) { p = -1; paint(); raf = null; return; }
+        if (dir > 0 && p >= LAST) { raf = null; return; }
         raf = requestAnimationFrame(step);
     }
     function go(d) {
         dir = d;
-        if (d > 0) { if (p < 0) p = 0; if (p < WAVE) wave = 1; }
+        if (d > 0) {
+            if (p < 0) p = 0;
+            if (p < LOOP) t = inverse(p);
+        }
         if (!raf) { last = performance.now(); raf = requestAnimationFrame(step); }
     }
     card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && fine.matches) go(1); });
