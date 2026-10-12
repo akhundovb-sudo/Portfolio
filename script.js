@@ -2299,61 +2299,58 @@ window.caseClock = function (pad) {
     card.addEventListener('pointerleave', function () { if (p >= 0) go(-1); });
 })();
 
-// Remiton card (home): a globe in Remiton's purple turns, wire meridians
-// sweeping round, ringed by two orbits in its lime. Each time the card comes into
-// view it plays from the start: the globe spins for a moment, then steps
-// back and the phone rises in front of it.
+// Remiton card (home): the purple globe with country flags flying round it
+// on two slanted orbits, smaller and dimmer as they pass behind it. Each
+// time the card comes into view it plays from the start: the flags circle
+// for a moment, then the globe steps back and the phone rises in front.
 (function () {
     const panel = document.querySelector('[data-remi]');
     if (!panel) return;
-    const svg = panel.querySelector('.remi-globe');
-    const NS = 'http://www.w3.org/2000/svg';
-    const R = 100, TILT = -18;
+    const globe = panel.querySelector('.remi-globe');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const F = 'images/remiton/flag-';
+    const ORBITS = [
+        { rx: 150, ry: 42, rot: -14, speed: 0.5, flags: ['gb.svg', 'az.svg', 'br.svg', 'jp.svg', 'ch.svg'] },
+        { rx: 132, ry: 58, rot: 26, speed: -0.38, flags: ['eu.png', 'ca.svg', 'es.svg', 'pl.svg', 'se.svg'] }
+    ];
+    ORBITS.forEach(function (o) {
+        const ring = document.createElement('span');
+        ring.className = 'remi-orbit';
+        ring.style.cssText = 'left:' + -o.rx + 'px;top:' + -o.ry + 'px;width:' + 2 * o.rx + 'px;height:' + 2 * o.ry + 'px;transform:rotate(' + o.rot + 'deg)';
+        globe.appendChild(ring);
+        o.items = o.flags.map(function (f, i) {
+            const img = document.createElement('img');
+            img.className = 'remi-flag';
+            img.src = F + f;
+            img.alt = '';
+            img.decoding = 'async';
+            globe.appendChild(img);
+            return { el: img, a: i * Math.PI * 2 / o.flags.length };
+        });
+    });
 
-    function el(tag, attrs, parent) {
-        const e = document.createElementNS(NS, tag);
-        for (const k in attrs) e.setAttribute(k, attrs[k]);
-        if (parent) parent.appendChild(e);
-        return e;
+    function place(dt) {
+        ORBITS.forEach(function (o) {
+            const r = o.rot * Math.PI / 180, cr = Math.cos(r), sr = Math.sin(r);
+            o.items.forEach(function (it) {
+                it.a += dt * o.speed;
+                const x = Math.cos(it.a) * o.rx, y = Math.sin(it.a) * o.ry;
+                const depth = Math.sin(it.a);                 // > 0: in front of the globe
+                const k = 0.7 + 0.3 * (depth + 1) / 2;
+                it.el.style.transform = 'translate(' + (x * cr - y * sr).toFixed(1) + 'px,' + (x * sr + y * cr).toFixed(1) + 'px) scale(' + k.toFixed(3) + ')';
+                it.el.style.zIndex = depth > 0 ? 2 : 0;
+                it.el.style.filter = depth > 0 ? '' : 'brightness(' + (0.75 + 0.25 * (depth + 1)).toFixed(2) + ')';
+            });
+        });
     }
+    place(0);
 
-    const defs = el('defs', {}, svg);
-    const g1 = el('radialGradient', { id: 'remi-sea', cx: '38%', cy: '34%', r: '75%' }, defs);
-    el('stop', { offset: '0', 'stop-color': '#6A3BF0' }, g1);
-    el('stop', { offset: '0.6', 'stop-color': '#3412B8' }, g1);
-    el('stop', { offset: '1', 'stop-color': '#B04BEA' }, g1);
-
-    const world = el('g', { transform: 'rotate(' + TILT + ')' }, svg);
-    const back = el('g', {}, world);            // far half of the orbits
-    el('circle', { r: R, fill: 'url(#remi-sea)' }, world);
-    const wire = el('g', { fill: 'none', stroke: 'rgba(255,255,255,0.32)', 'stroke-width': 1.2 }, world);
-
-    // Parallels stand still; meridians are redrawn as the globe turns.
-    [-60, -30, 0, 30, 60].forEach(function (lat) {
-        const r = R * Math.cos(lat * Math.PI / 180);
-        el('ellipse', { cx: 0, cy: R * Math.sin(lat * Math.PI / 180), rx: r, ry: r * 0.14 }, wire);
-    });
-    const meridians = [0, 1, 2, 3, 4, 5].map(function () { return el('ellipse', { cx: 0, cy: 0, rx: 0, ry: R }, wire); });
-
-    // Two orbits in Remiton's lime, each a ring round the globe at its own
-    // slant: the back half behind the globe, the front half over it.
-    [{ rx: 138, ry: 38, rot: 8 }, { rx: 128, ry: 52, rot: -32 }].forEach(function (o) {
-        const arc = function (sweep) { return 'M' + -o.rx + ' 0 A' + o.rx + ' ' + o.ry + ' 0 0 ' + sweep + ' ' + o.rx + ' 0'; };
-        const line = { fill: 'none', stroke: '#C9F23A', 'stroke-width': 1.8, 'stroke-linecap': 'round', transform: 'rotate(' + o.rot + ')' };
-        el('path', Object.assign({ d: arc(1), opacity: 0.4 }, line), back);   // upper arc, behind
-        el('path', Object.assign({ d: arc(0), opacity: 0.95 }, line), world);  // lower arc, in front
-    });
-
-    let spin = 0, last = 0, raf = 0, timer = 0;
+    let last = 0, raf = 0, timer = 0;
 
     function draw(now) {
         const dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
         last = now;
-        spin += dt * 0.8;
-        meridians.forEach(function (m, i) {
-            m.setAttribute('rx', Math.abs(R * Math.sin(spin + i * Math.PI / 6)).toFixed(2));
-        });
+        place(dt);
         raf = requestAnimationFrame(draw);
     }
 
