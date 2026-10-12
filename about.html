@@ -699,8 +699,8 @@
 
         // Hobbies easter egg: "films" turns the page into a cinema: the
         // lights go down, a velvet curtain parts and the screen shows my
-        // favourite films one at a time, a click for each, with the
-        // projector clicking between reels. After the last one, "The End"
+        // favourite films one at a time, a click for each, in silence.
+        // After the last one, "The End"
         // and the curtain closes. The cross, Esc or the word again leave.
         (function () {
             const trigger = document.querySelector('.ab-cinema-trigger');
@@ -711,49 +711,9 @@
                 ['Fear and Loathing in Las Vegas', '1998', 'Pure chaos, shot like a fever dream.', 'fear-and-loathing', 'Universal Pictures'],
                 ['25th Hour', '2002', 'The score and the dialogue, both stay with you.', '25th-hour', 'Touchstone Pictures'],
                 ['The Godfather Part II', '1974', 'The sequel that outgrew the original.', 'godfather-2', 'Paramount Pictures'],
-                ['A Different Man', '2024', 'Funny and uneasy about who we think we are.', 'a-different-man', 'A24']
+                ['A Different Man', '2024', 'An uneasy look at who we think we are.', 'a-different-man', 'A24']
             ];
-            let hall = null, veil = null, at = -1, ac = null, hum = null, busy = false;
-
-            function sound() {
-                if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return null;
-                try {
-                    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
-                    if (ac.state === 'suspended') ac.resume();
-                } catch (e) { return null; }
-                return ac;
-            }
-            // The projector: a low motor hum while the film runs, and a
-            // clack of the gate between reels.
-            function motor(on) {
-                const a = sound(); if (!a) return;
-                if (on && !hum) {
-                    hum = a.createGain(); hum.gain.value = 0; hum.connect(a.destination);
-                    hum.gain.setTargetAtTime(0.025, a.currentTime, 0.5);
-                    const o = a.createOscillator(); o.type = 'sawtooth'; o.frequency.value = 48;
-                    const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 220;
-                    const lfo = a.createOscillator(), lg = a.createGain();
-                    lfo.frequency.value = 24; lg.gain.value = 0.012;
-                    lfo.connect(lg).connect(hum.gain);
-                    o.connect(f).connect(hum); o.start(); lfo.start();
-                    hum.parts = [o, lfo];
-                } else if (!on && hum) {
-                    const h = hum; hum = null;
-                    h.gain.setTargetAtTime(0, a.currentTime, 0.2);
-                    setTimeout(function () { h.parts.forEach(function (o) { o.stop(); }); }, 900);
-                }
-            }
-            function clack() {
-                const a = sound(); if (!a) return;
-                [0, 0.06].forEach(function (dt) {
-                    const len = 0.03, buf = a.createBuffer(1, a.sampleRate * len, a.sampleRate), d = buf.getChannelData(0);
-                    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 4);
-                    const n = a.createBufferSource(); n.buffer = buf;
-                    const f = a.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1600; f.Q.value = 1.4;
-                    const g = a.createGain(); g.gain.value = 0.3;
-                    n.connect(f).connect(g).connect(a.destination); n.start(a.currentTime + dt);
-                });
-            }
+            let hall = null, veil = null, at = -1, busy = false;
 
             function frame(i) {
                 const reel = hall.querySelector('.ab-cinema-reel');
@@ -781,12 +741,10 @@
                 if (!hall || busy) return;
                 if (at >= FILMS.length) { leave(); return; }
                 at++;
-                clack();
                 frame(at);
                 if (at === FILMS.length) {
                     // The End: the curtain closes over it, then the lights come up.
                     busy = true;
-                    motor(false);
                     hint('');
                     setTimeout(function () { hall && hall.classList.remove('is-open'); }, 1400);
                     setTimeout(function () { busy = false; leave(); }, 3200);
@@ -827,13 +785,11 @@
                     if (!hall) return;
                     next();
                     hall.classList.add('is-open');
-                    motor(true);
                 }, 700);
             }
 
             function leave() {
                 if (!hall) return;
-                motor(false);
                 const h = hall, v = veil; hall = veil = null;
                 h.classList.remove('is-on');
                 v.classList.remove('is-on');
