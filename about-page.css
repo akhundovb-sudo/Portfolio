@@ -749,9 +749,10 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
 
 .ab-cinema-grain {
     position: absolute;
+    z-index: 3;
     inset: -20px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.22'/%3E%3C/svg%3E");
-    mix-blend-mode: multiply;
+    mix-blend-mode: overlay;
     pointer-events: none;
     animation: ab-cinema-grain 300ms steps(3) infinite;
 }
@@ -764,48 +765,102 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
 }
 
 /* The splice between films: a white flash. */
-.ab-cinema.is-cut .ab-cinema-reel {
-    animation: ab-cinema-cut 420ms ease-out;
-}
-
-@keyframes ab-cinema-cut {
-    0% { opacity: 0; filter: brightness(2.2) blur(2px); }
-    100% { opacity: 1; filter: none; }
-}
-
+.ab-cinema.is-cut /* A reel: the still fills the screen, darkened at the bottom where the
+   title, year and why sit; number top left, owner bottom right. */
 .ab-cinema-reel {
-    position: relative;
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    padding: 5% 5.5%;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.ab-cinema-reel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.78) 100%);
+}
+
+.ab-cinema-reel.is-end {
     align-items: center;
-    gap: 10px;
-    padding: 0 8%;
-    text-align: center;
+    justify-content: center;
     color: #1A1714;
 }
 
+.ab-cinema-reel.is-end::before {
+    display: none;
+}
+
+.ab-cinema-still {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Warmed a touch, like a print on the screen. */
+    filter: sepia(0.12) contrast(1.04);
+}
+
+.ab-cinema-no,
+.ab-cinema-text,
+.ab-cinema-credit {
+    position: relative;
+    z-index: 2;
+}
+
 .ab-cinema-no {
+    position: absolute;
+    left: 5.5%;
+    top: 6%;
     font: 500 11px/1 'PP Neue Montreal', sans-serif;
     letter-spacing: 0.2em;
-    color: rgba(26, 23, 20, 0.5);
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.ab-cinema-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 80%;
 }
 
 .ab-cinema-title {
-    font: 400 clamp(26px, 4.4vw, 48px)/1.05 'PP Neue Montreal', sans-serif;
+    font: 400 clamp(22px, 3.6vw, 40px)/1.05 'PP Neue Montreal', sans-serif;
     letter-spacing: -0.03em;
     text-wrap: balance;
 }
 
 .ab-cinema-year {
-    font: 400 16px/1 'PP Neue Montreal', sans-serif;
-    color: rgba(26, 23, 20, 0.55);
+    font-size: 0.5em;
+    letter-spacing: 0;
+    vertical-align: 0.6em;
+    color: rgba(255, 255, 255, 0.65);
 }
 
 .ab-cinema-why {
-    margin-top: 6px;
-    font: 400 clamp(15px, 1.6vw, 18px)/1.35 'PP Neue Montreal', sans-serif;
+    font: 400 clamp(13px, 1.5vw, 17px)/1.35 'PP Neue Montreal', sans-serif;
     font-style: italic;
-    color: rgba(26, 23, 20, 0.8);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.ab-cinema-credit {
+    position: absolute;
+    right: 4%;
+    bottom: 4%;
+    font: 400 10px/1 'PP Neue Montreal', sans-serif;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .ab-cinema-why {
+        display: none;
+    }
 }
 
 .ab-cinema-end {

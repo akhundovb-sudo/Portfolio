@@ -24,7 +24,7 @@
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
     <link rel="stylesheet" href="styles.css?v=fast141">
     <link rel="stylesheet" href="about.css?v=fast1">
-    <link rel="stylesheet" href="about-page.css?v=fast10">
+    <link rel="stylesheet" href="about-page.css?v=fast11">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="About - Bahruz">
@@ -705,12 +705,13 @@
         (function () {
             const trigger = document.querySelector('.ab-cinema-trigger');
             if (!trigger) return;
+            // Title, year, why, the still (images/films/) and who owns it.
             const FILMS = [
-                ['Pulp Fiction', '1994', 'Dialogue I keep wanting to quote.'],
-                ['Fear and Loathing in Las Vegas', '1998', 'Pure chaos, shot like a fever dream.'],
-                ['25th Hour', '2002', 'The score and the dialogue, both stay with you.'],
-                ['The Godfather Part II', '1974', 'The sequel that outgrew the original.'],
-                ['The Matrix', '1999', 'Changed how I look at every screen.']
+                ['Pulp Fiction', '1994', 'Dialogue I keep wanting to quote.', 'pulp-fiction', 'Miramax'],
+                ['Fear and Loathing in Las Vegas', '1998', 'Pure chaos, shot like a fever dream.', 'fear-and-loathing', 'Universal Pictures'],
+                ['25th Hour', '2002', 'The score and the dialogue, both stay with you.', '25th-hour', 'Touchstone Pictures'],
+                ['The Godfather Part II', '1974', 'The sequel that outgrew the original.', 'godfather-2', 'Paramount Pictures'],
+                ['FILM 5 TITLE', 'YEAR', 'WHY', 'film-5', 'STUDIO']
             ];
             let hall = null, veil = null, at = -1, ac = null, hum = null, busy = false;
 
@@ -758,13 +759,17 @@
                 const reel = hall.querySelector('.ab-cinema-reel');
                 if (i >= FILMS.length) {
                     reel.innerHTML = '<span class="ab-cinema-end">The End</span>';
+                reel.classList.add('is-end');
                 } else {
                     const f = FILMS[i];
                     reel.innerHTML =
+                        '<img class="ab-cinema-still" src="images/films/' + f[3] + '.jpg" alt="' + f[0] + ', a still">' +
                         '<span class="ab-cinema-no">' + (i + 1) + ' / ' + FILMS.length + '</span>' +
-                        '<span class="ab-cinema-title">' + f[0] + '</span>' +
-                        '<span class="ab-cinema-year">' + f[1] + '</span>' +
-                        '<span class="ab-cinema-why">' + f[2] + '</span>';
+                        '<span class="ab-cinema-text">' +
+                            '<span class="ab-cinema-title">' + f[0] + ' <span class="ab-cinema-year">' + f[1] + '</span></span>' +
+                            '<span class="ab-cinema-why">' + f[2] + '</span>' +
+                        '</span>' +
+                        '<span class="ab-cinema-credit">© ' + f[4] + '</span>';
                 }
                 // A splice: a quick white flicker as the next reel comes in.
                 hall.classList.remove('is-cut'); void hall.offsetWidth; hall.classList.add('is-cut');
@@ -794,6 +799,8 @@
             function come() {
                 if (hall) { leave(); return; }
                 at = -1; busy = false;
+                // Load the stills now so each reel comes in whole.
+                FILMS.forEach(function (f) { new Image().src = 'images/films/' + f[3] + '.jpg'; });
                 veil = document.createElement('div');
                 veil.className = 'ab-veil ab-veil--dark';
                 veil.addEventListener('click', leave);
