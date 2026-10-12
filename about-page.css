@@ -928,92 +928,217 @@ html[data-theme="dark"] .ab-veil {
     background: rgba(17, 17, 16, 0.72);
 }
 
-/* Photos: a white flash over everything, then instant prints that drop
-   into a pile in the middle, each developing from white. */
-.ab-flash {
-    position: fixed;
-    inset: 0;
-    z-index: 1400;
-    background: #FFFFFF;
-    pointer-events: none;
-    animation: ab-flash 650ms ease-out forwards;
+/* Viewfinder: corner brackets, a centre cross and the exposure, in ink
+   with a soft light halo so they read on any background. */
+html.ab-vf-on,
+html.ab-vf-on * {
+    cursor: none !important;
 }
 
-@keyframes ab-flash {
+html.ab-vf-on .ab-vf-close,
+html.ab-vf-on .ab-vf-close * {
+    cursor: pointer !important;
+}
+
+.ab-vf {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1300;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms ease;
+    will-change: transform;
+}
+
+.ab-vf.is-on {
+    opacity: 1;
+}
+
+.ab-vf {
+    --vf: #0F0F0F;
+    --vf-halo: rgba(255, 255, 255, 0.7);
+}
+
+html[data-theme="dark"] .ab-vf {
+    --vf: #EDEDEC;
+    --vf-halo: rgba(0, 0, 0, 0.6);
+}
+
+.ab-vf i,
+.ab-vf b,
+.ab-vf-meta {
+    position: absolute;
+    color: var(--vf);
+    filter: drop-shadow(0 0 1.5px var(--vf-halo));
+}
+
+.ab-vf i {
+    width: 22px;
+    height: 22px;
+    border: 0 solid var(--vf);
+}
+
+.ab-vf i:nth-child(1) { left: 0; top: 0; border-left-width: 2px; border-top-width: 2px; }
+.ab-vf i:nth-child(2) { right: 0; top: 0; border-right-width: 2px; border-top-width: 2px; }
+.ab-vf i:nth-child(3) { left: 0; bottom: 0; border-left-width: 2px; border-bottom-width: 2px; }
+.ab-vf i:nth-child(4) { right: 0; bottom: 0; border-right-width: 2px; border-bottom-width: 2px; }
+
+.ab-vf b {
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    margin: -9px 0 0 -9px;
+    background:
+        linear-gradient(var(--vf), var(--vf)) 50% 50% / 1.5px 100% no-repeat,
+        linear-gradient(var(--vf), var(--vf)) 50% 50% / 100% 1.5px no-repeat;
+}
+
+.ab-vf-meta {
+    left: 0;
+    right: 0;
+    bottom: -22px;
+    font: 500 10px/1 'PP Neue Montreal', sans-serif;
+    letter-spacing: 0.12em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.ab-vf-flash {
+    position: absolute;
+    inset: 0;
+    background: #FFFFFF;
+    opacity: 0;
+}
+
+.ab-vf.is-flash .ab-vf-flash {
+    animation: ab-vf-flash 420ms ease-out;
+}
+
+@keyframes ab-vf-flash {
     0% { opacity: 0.95; }
     100% { opacity: 0; }
 }
 
-.ab-snaps {
+/* Bottom bar: the hint and the cross that puts the camera away. */
+.ab-vf-bar {
     position: fixed;
     left: 50%;
-    top: 50%;
-    z-index: 1200;
+    bottom: 24px;
+    z-index: 1300;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 20px;
-    opacity: 0;
-    transform: translate(-50%, -50%);
-    transition: opacity 300ms ease;
-}
-
-.ab-snaps.is-on {
-    opacity: 1;
-}
-
-.ab-snap-pile {
-    position: relative;
-    width: 240px;
-    height: 296px;
-}
-
-.ab-snap {
-    position: absolute;
-    inset: 0;
-    padding: 12px 12px 48px;
-    border: 0;
-    border-radius: 4px;
+    gap: 12px;
+    padding: 6px 6px 6px 16px;
+    border: 1px solid rgba(15, 15, 15, 0.12);
+    border-radius: 999px;
     background: #FFFFFF;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 18px 36px -12px rgba(0, 0, 0, 0.35);
-    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 15, 15, 0.12);
+    opacity: 0;
+    transform: translate(-50%, 8px);
+    transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.ab-vf-bar.is-on {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.ab-vf-hint {
+    font: 500 11px/1 'PP Neue Montreal', sans-serif;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: rgba(15, 15, 15, 0.6);
+}
+
+.ab-vf-close {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #F1F1F0;
+    color: #0F0F0F;
+}
+
+html[data-theme="dark"] .ab-vf-bar {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: #222221;
+}
+
+html[data-theme="dark"] .ab-vf-hint {
+    color: rgba(237, 237, 236, 0.6);
+}
+
+html[data-theme="dark"] .ab-vf-close {
+    background: #2A2A29;
+    color: #EDEDEC;
+}
+
+/* The shelf: prints from the camera on the footer's top edge, a loose
+   row in the middle, half over the line as if dropped there. */
+.footer {
+    position: relative;
+}
+
+.ab-shelf {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 392px;
+    height: 0;
+    margin-left: -196px;
+    pointer-events: none;
+}
+
+.ab-print {
+    position: absolute;
+    top: -52px;
+    width: 64px;
+    padding: 4px 4px 14px;
+    border-radius: 3px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 8px 16px -6px rgba(0, 0, 0, 0.3);
     transform: rotate(var(--rot, 0deg));
-    animation: ab-snap-drop 650ms cubic-bezier(0.22, 1.25, 0.36, 1) both;
-    -webkit-tap-highlight-color: transparent;
+    transform-origin: 0 0;
+    will-change: transform;
 }
 
-@keyframes ab-snap-drop {
-    0% { opacity: 0; transform: translateY(-60px) rotate(calc(var(--rot, 0deg) * -2)) scale(1.08); }
-    100% { opacity: 1; transform: rotate(var(--rot, 0deg)); }
-}
-
-.ab-snap-shot {
+.ab-print-shot {
     display: block;
-    width: 100%;
-    height: 100%;
+    height: 64px;
     overflow: hidden;
     border-radius: 2px;
     background: #ECEAE6;
 }
 
-/* Developing: washed out at first, then the picture comes in. */
-.ab-snap-shot img {
+.ab-print-shot img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    animation: ab-snap-develop 2600ms ease-out 300ms both;
+    /* Developing on the way down: washed out, then the picture comes in. */
+    animation: ab-print-develop 2200ms ease-out both;
 }
 
-@keyframes ab-snap-develop {
-    0% { opacity: 0; filter: brightness(1.6) contrast(0.5) saturate(0); }
-    35% { opacity: 1; }
-    100% { opacity: 1; filter: none; }
+@keyframes ab-print-develop {
+    0% { filter: brightness(1.7) contrast(0.45) saturate(0); }
+    100% { filter: none; }
+}
+
+@media (max-width: 768px) {
+    .ab-shelf {
+        transform: scale(0.8);
+        transform-origin: 50% 0;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ab-snap,
-    .ab-snap-shot img {
+    .ab-print-shot img {
         animation: none;
     }
 }

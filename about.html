@@ -24,7 +24,7 @@
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
     <link rel="stylesheet" href="styles.css?v=fast141">
     <link rel="stylesheet" href="about.css?v=fast1">
-    <link rel="stylesheet" href="about-page.css?v=fast7">
+    <link rel="stylesheet" href="about-page.css?v=fast8">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="About - Bahruz">
@@ -833,16 +833,19 @@
             document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
         })();
 
-        // Hobbies easter egg: "photography" takes a picture: the screen
-        // flashes, the shutter clicks and an instant print drops into the
-        // middle with one of my travel shots (images/desk/), developing from
-        // white. Click the print to take another; it lands on the pile. The
-        // cross above, a click outside, Esc or the word again clear it.
+        // Hobbies easter egg: "photography" turns the pointer into a
+        // viewfinder. A click takes a shot: a flash, a shutter, and a print
+        // of one of my nature shots (images/desk/) comes out of the frame,
+        // developing as it flies down to the footer, where the prints stay in
+        // a row on its edge. On a phone a tap shoots where it lands. The
+        // cross, Esc or the word again put the camera away.
         (function () {
             const trigger = document.querySelector('.ab-photo-trigger');
             if (!trigger) return;
-            const SHOTS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'];
-            let stage = null, veil = null, ac = null, left = [];
+            // Nature only: the cliff stairs, the storm, Kolsai lake, Charyn
+            // canyon, the beach and the monkey.
+            const NATURE = ['18', '17', '13', '14', '09', '04'];
+            let on = false, vf = null, close = null, ac = null, x = 0, y = 0, next = 0;
 
             function shutter() {
                 if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
@@ -850,8 +853,7 @@
                     ac = ac || new (window.AudioContext || window.webkitAudioContext)();
                     if (ac.state === 'suspended') ac.resume();
                 } catch (e) { return; }
-                // Two short clicks, the curtain opening and closing, then the
-                // whirr of the print coming out.
+                // Two short clicks: the curtain opens and closes.
                 [0, 0.07].forEach(function (dt, i) {
                     const len = 0.03, buf = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = buf.getChannelData(0);
                     for (let j = 0; j < d.length; j++) d[j] = (Math.random() * 2 - 1) * Math.pow(1 - j / d.length, 3);
@@ -860,81 +862,123 @@
                     const g = ac.createGain(); g.gain.value = i ? 0.28 : 0.2;
                     n.connect(f).connect(g).connect(ac.destination); n.start(ac.currentTime + dt);
                 });
-                const t = ac.currentTime + 0.25, o = ac.createOscillator(), g = ac.createGain();
-                o.type = 'sawtooth'; o.frequency.value = 70;
-                const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 600;
-                g.gain.setValueAtTime(0.0001, t);
-                g.gain.exponentialRampToValueAtTime(0.05, t + 0.05);
-                g.gain.setValueAtTime(0.05, t + 0.45);
-                g.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
-                o.connect(f).connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.6);
             }
 
-            function flash() {
-                const f = document.createElement('div');
-                f.className = 'ab-flash';
-                document.body.appendChild(f);
-                setTimeout(function () { f.remove(); }, 700);
+            function size() {
+                return window.innerWidth <= 768 ? { w: 168, h: 120 } : { w: 240, h: 168 };
             }
 
-            // Next photo, never the same one twice until all have been shown.
-            function pick() {
-                if (!left.length) left = SHOTS.slice().sort(function () { return Math.random() - 0.5; });
-                return left.pop();
+            function place(px, py) {
+                const z = size();
+                x = Math.max(z.w / 2, Math.min(window.innerWidth - z.w / 2, px));
+                y = Math.max(z.h / 2, Math.min(window.innerHeight - z.h / 2, py));
+                vf.style.transform = 'translate(' + (x - z.w / 2) + 'px,' + (y - z.h / 2) + 'px)';
             }
 
-            function snap() {
-                if (!stage) return;
+            // The row of prints on the footer's top edge, made on first use.
+            function shelf() {
+                let p = document.querySelector('.ab-shelf');
+                if (!p) {
+                    p = document.createElement('div');
+                    p.className = 'ab-shelf';
+                    p.setAttribute('aria-hidden', 'true');
+                    document.querySelector('.footer').appendChild(p);
+                }
+                return p;
+            }
+
+            function shoot() {
+                const z = size(), fx = x - z.w / 2, fy = y - z.h / 2;
                 shutter();
-                flash();
-                const pile = stage.querySelector('.ab-snap-pile');
-                const print = document.createElement('button');
-                print.type = 'button';
-                print.className = 'ab-snap';
-                print.setAttribute('aria-label', 'Take another photo');
-                print.style.setProperty('--rot', (Math.random() * 14 - 7).toFixed(1) + 'deg');
-                print.innerHTML = '<span class="ab-snap-shot"><img src="images/desk/' + pick() + '.jpg" alt="" decoding="async"></span>';
-                print.addEventListener('click', snap);
+                vf.classList.remove('is-flash'); void vf.offsetWidth; vf.classList.add('is-flash');
+
+                const pile = shelf();
+                const n = NATURE[next % NATURE.length];
+                const slot = next % NATURE.length;
+                next++;
+                // Six places on the shelf; a new shot of the same place
+                // replaces the old print there.
+                const was = pile.querySelector('[data-slot="' + slot + '"]');
+                if (was) was.remove();
+
+                const print = document.createElement('div');
+                print.className = 'ab-print';
+                print.dataset.slot = slot;
+                print.innerHTML = '<span class="ab-print-shot"><img src="images/desk/' + n + '.jpg" alt="" decoding="async"></span>';
+                const rot = ((slot % 2 ? 1 : -1) * (3 + Math.random() * 6)).toFixed(1) + 'deg';
+                print.style.setProperty('--rot', rot);
+                print.style.left = (slot * 64) + 'px';
                 pile.appendChild(print);
-                // Keep the pile small: the bottom print goes.
-                const all = pile.querySelectorAll('.ab-snap');
-                if (all.length > 5) all[0].remove();
+
+                // Fly from the frame to its place: measure where it will
+                // rest, then play the way there backwards from the frame.
+                const to = print.getBoundingClientRect();
+                const k = z.w / to.width;
+                const dx = fx - to.left, dy = fy - to.top;
+                print.animate([
+                    { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + k + ') rotate(0deg)', offset: 0 },
+                    { transform: 'translate(' + dx + 'px,' + (dy - 12) + 'px) scale(' + k * 1.04 + ') rotate(0deg)', offset: 0.15 },
+                    { transform: 'rotate(' + rot + ')', offset: 1 }
+                ], { duration: 1100, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' });
             }
 
-            function show() {
-                if (stage) { hide(); return; }
-                veil = document.createElement('div');
-                veil.className = 'ab-veil';
-                veil.addEventListener('click', hide);
-                stage = document.createElement('div');
-                stage.className = 'ab-snaps';
-                stage.innerHTML =
-                    '<button type="button" class="ab-case-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
-                    '<div class="ab-snap-pile"></div>' +
-                    '<span class="ab-case-hint">' + (matchMedia('(hover: none)').matches ? 'Tap the photo for another' : 'Click the photo for another') + '</span>';
-                stage.querySelector('.ab-case-close').addEventListener('click', hide);
-                document.body.append(veil, stage);
-                requestAnimationFrame(function () { requestAnimationFrame(function () {
-                    veil && veil.classList.add('is-on');
-                    stage && stage.classList.add('is-on');
-                }); });
-                snap();
+            // While the camera is out, clicks take photos instead of following links.
+            function onClick(e) {
+                if (!on) return;
+                if (e.target.closest('.ab-vf-close')) return;
+                e.preventDefault();
+                e.stopPropagation();
+                if (e.target.closest('.ab-photo-trigger')) { stop(); return; }
+                place(e.clientX, e.clientY);
+                shoot();
+            }
+            function onMove(e) { if (on && e.pointerType !== 'touch') place(e.clientX, e.clientY); }
+            function onKey(e) { if (on && e.key === 'Escape') stop(); }
+
+            function start() {
+                if (on) { stop(); return; }
+                on = true;
+                document.documentElement.classList.add('ab-vf-on');
+                vf = document.createElement('div');
+                vf.className = 'ab-vf';
+                vf.setAttribute('aria-hidden', 'true');
+                vf.innerHTML = '<i></i><i></i><i></i><i></i><b></b><span class="ab-vf-meta">1/125 · f/2.8 · ISO 400</span><span class="ab-vf-flash"></span>';
+                const z = size();
+                vf.style.width = z.w + 'px';
+                vf.style.height = z.h + 'px';
+                close = document.createElement('div');
+                close.className = 'ab-vf-bar';
+                close.innerHTML = '<span class="ab-vf-hint">' + (matchMedia('(hover: none)').matches ? 'Tap to take a photo' : 'Click to take a photo') + '</span>' +
+                    '<button type="button" class="ab-vf-close" aria-label="Put the camera away"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>';
+                document.body.append(vf, close);
+                close.querySelector('.ab-vf-close').addEventListener('click', stop);
+                const r = trigger.getBoundingClientRect();
+                place(r.left + r.width / 2, r.top - z.h / 2 - 12);
+                requestAnimationFrame(function () { vf && vf.classList.add('is-on'); close && close.classList.add('is-on'); });
+                document.addEventListener('click', onClick, true);
+                document.addEventListener('pointermove', onMove, { passive: true });
+                document.addEventListener('keydown', onKey);
             }
 
-            function hide() {
-                if (!stage) return;
-                const s = stage, v = veil; stage = veil = null;
-                s.classList.remove('is-on');
-                v.classList.remove('is-on');
-                setTimeout(function () { s.remove(); v.remove(); }, 400);
+            function stop() {
+                if (!on) return;
+                on = false;
+                document.documentElement.classList.remove('ab-vf-on');
+                document.removeEventListener('click', onClick, true);
+                document.removeEventListener('pointermove', onMove);
+                document.removeEventListener('keydown', onKey);
+                const gone = [vf, close];
+                vf = close = null;
+                gone.forEach(function (el) { el.style.transition = 'opacity 300ms ease'; el.style.opacity = '0'; });
+                setTimeout(function () { gone.forEach(function (el) { el.remove(); }); }, 320);
             }
 
             trigger.addEventListener('click', function () {
+                if (on) return; // handled by onClick
                 document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'photo' }));
-                show();
+                start();
             });
-            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'photo') hide(); });
-            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'photo') stop(); });
         })();
 
         // The image can finish loading before this script defines
