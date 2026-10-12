@@ -5151,6 +5151,42 @@ html[data-theme="dark"] .case-brief-col:last-child {
     pointer-events: none;
 }
 
+/* Close cross: phones and tablets only, top right, fades in with the hint. */
+.desk-lightbox-close {
+    display: none;
+}
+
+@media (hover: none), (max-width: 768px) {
+    .desk-lightbox-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border: 1px solid rgba(15, 15, 15, 0.12);
+        border-radius: 50%;
+        background: #FFFFFF;
+        color: #0F0F0F;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(15, 15, 15, 0.12);
+        opacity: 0;
+        transition: opacity 320ms ease 120ms;
+    }
+
+    .desk-lightbox.is-open .desk-lightbox-close {
+        opacity: 1;
+    }
+
+    html[data-theme="dark"] .desk-lightbox-close {
+        border-color: rgba(255, 255, 255, 0.12);
+        background: #222221;
+        color: #EDEDEC;
+    }
+}
+
 .desk-item.is-away {
     visibility: hidden;
 }

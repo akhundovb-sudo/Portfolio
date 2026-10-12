@@ -611,7 +611,10 @@ document.addEventListener('click', function (e) {
         // card: flies out and back; tilt: follows the pointer once open.
         box.innerHTML = '<div class="desk-lightbox-card"><div class="desk-lightbox-tilt"><img alt="">' +
             '<span class="desk-grain" aria-hidden="true"></span><span class="desk-lightbox-glare" aria-hidden="true"></span></div></div>' +
-            '<span class="desk-lightbox-hint">Click anywhere or press Esc</span>';
+            '<span class="desk-lightbox-hint">Click anywhere or press Esc</span>' +
+            // A cross for phones, where there is no Esc (the click on the
+            // backdrop closes it, so the button needs no handler of its own).
+            '<button type="button" class="desk-lightbox-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>';
         const big = box.querySelector('img');
         // Its size is known up front, so the flight is measured from the
         // real box on the very first frame.

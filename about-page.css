@@ -680,113 +680,164 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
     filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.12));
 }
 
-/* The twist: two drawn dancers come up from the bottom under a spotlight. */
+/* The twist: Vincent and Mia come up from the bottom under a spotlight,
+   in the bottom left corner so the hobbies line stays clickable. */
 .ab-dance {
     position: fixed;
-    left: 50%;
+    left: 32px;
     bottom: 0;
     z-index: 1200;
-    display: flex;
-    align-items: flex-end;
-    gap: 40px;
-    padding: 0 24px;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    transform: translate(-50%, 110%);
+    transform: translateY(110%);
     transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-    -webkit-tap-highlight-color: transparent;
 }
 
 .ab-dance.is-on {
-    transform: translate(-50%, 0);
+    transform: translateY(0);
+}
+
+.ab-dance-pair {
+    position: relative;
+    display: block;
+    padding: 58px 0 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Close: a small round cross just above the pair. */
+.ab-dance-close {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    margin-left: -16px;
+    padding: 0;
+    border: 1px solid rgba(15, 15, 15, 0.12);
+    border-radius: 50%;
+    background: #FFFFFF;
+    color: #0F0F0F;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 15, 15, 0.12);
+}
+
+html[data-theme="dark"] .ab-dance-close {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: #222221;
+    color: #EDEDEC;
+}
+
+@media (max-width: 768px) {
+    .ab-dance {
+        left: 50%;
+        margin-left: -130px;
+    }
+
+    .ab-dance .ab-twist {
+        width: 260px;
+        height: 241px;
+    }
 }
 
 .ab-dance-light {
     position: absolute;
     left: 50%;
     bottom: 0;
-    width: 440px;
-    height: 280px;
-    margin-left: -220px;
+    width: 380px;
+    height: 240px;
+    margin-left: -190px;
     border-radius: 50% 50% 0 0 / 100% 100% 0 0;
     background: radial-gradient(ellipse at 50% 100%, rgba(255, 196, 64, 0.35), rgba(255, 196, 64, 0) 70%);
     pointer-events: none;
 }
 
-.ab-dancer {
+/* The pair: still until clicked; .is-dancing starts the twist. */
+.ab-twist {
     position: relative;
-    width: 120px;
-    height: 240px;
+    display: block;
+    width: 300px;
+    height: 278px;
     overflow: visible;
-    animation: ab-twist-bob 714ms ease-in-out infinite;
 }
 
-.ab-dancer--mia {
-    transform: scaleX(-1);
-    animation-name: ab-twist-bob-mirror;
+.ab-dance-hint {
+    position: absolute;
+    left: 50%;
+    top: 42px;
+    transform: translateX(-50%);
+    font: 500 11px/1 'PP Neue Montreal', sans-serif;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ab-soft);
+    transition: opacity 300ms ease;
 }
 
-.ab-dancer-legs {
-    transform-origin: 50px 180px;
-    animation: ab-twist-legs 714ms ease-in-out infinite;
+.ab-dance.is-dancing .ab-dance-hint {
+    opacity: 0;
 }
 
-.ab-dancer-body {
-    transform-origin: 50px 110px;
-    animation: ab-twist-body 714ms ease-in-out infinite;
+.ab-tw-leg,
+.ab-tw-top,
+.ab-tw-reach {
+    transition: transform 300ms ease;
 }
 
-.ab-dancer-swing {
-    transform-origin: 29px 58px;
-    animation: ab-twist-swing 714ms ease-in-out infinite;
+/* One beat at about 168 bpm is 357ms; a full twist is two beats. */
+.ab-dance.is-dancing .ab-tw {
+    animation: ab-tw-bob 357ms ease-in-out infinite alternate;
 }
 
-/* The V slides across the eyes and back, two beats each way. */
-.ab-dancer-v {
-    animation: ab-twist-v 1428ms ease-in-out infinite;
+.ab-dance.is-dancing .ab-tw-leg--front {
+    animation: ab-tw-leg 714ms ease-in-out infinite;
 }
 
-.ab-dancer--mia .ab-dancer-v {
-    animation-delay: -714ms;
+.ab-dance.is-dancing .ab-tw-leg--back {
+    animation: ab-tw-leg 714ms ease-in-out infinite reverse;
 }
 
-@keyframes ab-twist-bob {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(4px); }
+.ab-dance.is-dancing .ab-tw-top {
+    animation: ab-tw-top 714ms ease-in-out infinite;
 }
 
-@keyframes ab-twist-bob-mirror {
-    0%, 100% { transform: scaleX(-1) translateY(0); }
-    50% { transform: scaleX(-1) translateY(4px); }
+.ab-dance.is-dancing .ab-tw-reach {
+    animation: ab-tw-reach 714ms ease-in-out infinite;
 }
 
-@keyframes ab-twist-legs {
-    0%, 100% { transform: skewX(8deg); }
-    50% { transform: skewX(-8deg); }
+.ab-dance.is-dancing .ab-tw--vincent .ab-tw-top,
+.ab-dance.is-dancing .ab-tw--vincent .ab-tw-reach {
+    animation-direction: reverse;
 }
 
-@keyframes ab-twist-body {
+@keyframes ab-tw-bob {
+    from { transform: translateY(0); }
+    to { transform: translateY(5px); }
+}
+
+@keyframes ab-tw-leg {
+    0%, 100% { transform: rotate(9deg); }
+    50% { transform: rotate(-9deg); }
+}
+
+@keyframes ab-tw-top {
     0%, 100% { transform: rotate(-4deg); }
     50% { transform: rotate(4deg); }
 }
 
-@keyframes ab-twist-swing {
-    0%, 100% { transform: rotate(18deg); }
-    50% { transform: rotate(-12deg); }
-}
-
-@keyframes ab-twist-v {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-12px); }
+@keyframes ab-tw-reach {
+    0%, 100% { transform: rotate(-12deg); }
+    50% { transform: rotate(10deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ab-dancer,
-    .ab-dancer-legs,
-    .ab-dancer-body,
-    .ab-dancer-swing,
-    .ab-dancer-v {
+    .ab-dance.is-dancing .ab-tw,
+    .ab-dance.is-dancing .ab-tw-leg--front,
+    .ab-dance.is-dancing .ab-tw-leg--back,
+    .ab-dance.is-dancing .ab-tw-top,
+    .ab-dance.is-dancing .ab-tw-reach {
         animation: none;
     }
 }
