@@ -4893,10 +4893,14 @@ html[data-theme="dark"] .case-brief-col:last-child {
     overflow: hidden;
     border: 1px solid #E4E4E2;
     border-radius: 22px;
-    /* A quiet tray a shade darker than the page, with fine paper grain. */
+    /* A designer's cutting mat in paper tones: hairline 24px squares on a
+       warm ground with fine grain and a soft vignette. */
     background:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E"),
-        #EAE9E6;
+        radial-gradient(120% 100% at 50% 40%, transparent 55%, rgba(60, 50, 40, 0.09) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E"),
+        linear-gradient(rgba(60, 50, 40, 0.05) 1px, transparent 1px) -1px -1px / 24px 24px,
+        linear-gradient(90deg, rgba(60, 50, 40, 0.05) 1px, transparent 1px) -1px -1px / 24px 24px,
+        #EFEDE9;
 }
 
 .desk-stage {
@@ -4965,29 +4969,18 @@ html[data-theme="dark"] .case-brief-col:last-child {
     }
 }
 
-/* Photo desk effects, after chloemaillot.fr.
-   1. Pointing at a print sends every other print out of focus. */
+/* Photo desk effects, after chloemaillot.fr. */
 .desk-item {
     /* A light lift, as on the reference: a hairline and two small shadows. */
     --shadow: drop-shadow(0 0 0.5px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.05));
-    /* Same filter functions as the blurred state (at rest values), so the
-       browser can interpolate between them instead of snapping. */
-    filter: blur(0px) saturate(1) brightness(1) var(--shadow);
-    /* Coming back into focus is quicker than going out of it. */
+    filter: var(--shadow);
     transition:
         transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
         filter 350ms cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .desk:has(.desk-item:hover):not(:has(.is-dragging)) .desk-item:not(:hover) {
-        filter: blur(5px) saturate(0.8) brightness(0.72) var(--shadow);
-        transition:
-            transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-            filter 600ms cubic-bezier(0.45, 0, 0.25, 1);
-    }
-
-    /* 2. The print under the pointer comes up, grows a little and tilts
+    /* The print under the pointer comes up, grows a little and tilts
        towards the pointer (--tx/--ty set by the script, up to 5deg). */
     .desk-item:hover {
         z-index: 1000 !important;
@@ -5410,7 +5403,9 @@ html[data-theme="dark"] body.about .education-item + .education-item {
 /* Photo desk. */
 html[data-theme="dark"] .desk {
     border-color: #262625;
-    background: #161615;
+    background:
+        radial-gradient(120% 100% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.25) 100%),
+        #161615;
 }
 
 html[data-theme="dark"] .desk-item--card,
