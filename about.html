@@ -24,7 +24,7 @@
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
     <link rel="stylesheet" href="styles.css?v=fast141">
     <link rel="stylesheet" href="about.css?v=fast1">
-    <link rel="stylesheet" href="about-page.css?v=fast8">
+    <link rel="stylesheet" href="about-page.css?v=fast9">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="About - Bahruz">
@@ -198,7 +198,7 @@
         <section class="container ab-section" aria-labelledby="ab-hobbies">
             <h2 class="ab-label" id="ab-hobbies">Hobbies</h2>
             <div class="ab-body">
-                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-case-trigger">films</button> and <button type="button" class="ab-hobby-trigger ab-photo-trigger">photography</button>.</p>
+                <p class="ab-hobbies">Off screen, I love <button type="button" class="ab-hobby-trigger ab-ball-trigger">football</button>, <button type="button" class="ab-hobby-trigger ab-plane-trigger">travelling</button>, <button type="button" class="ab-hobby-trigger ab-standoff-trigger">films</button> and <button type="button" class="ab-hobby-trigger ab-photo-trigger">photography</button>.</p>
             </div>
         </section>
     </main>
@@ -696,15 +696,27 @@
             document.addEventListener('ab-egg', function (e) { if (e.detail !== 'plane') land(); });
         })();
 
-        // Hobbies easter egg: "films" puts the briefcase from Pulp Fiction
-        // in the middle of the screen. Each click rolls one wheel of the lock
-        // to 6; on the third (666) the latches snap, the lid lifts and the
-        // golden glow spills out, with a low hum. Another click shuts it.
-        // The cross above it, Esc or the word again put it away.
+        // Hobbies easter egg: "films" stages the Mexican standoff from
+        // Reservoir Dogs: four pistols round the edges of the screen, each
+        // aimed at the next, shaking. A click counts down 3, 2, 1 and they
+        // all fire at once, confetti instead of bullets. Click again for
+        // another round; the cross, Esc or the word again end it.
         (function () {
-            const trigger = document.querySelector('.ab-case-trigger');
+            const trigger = document.querySelector('.ab-standoff-trigger');
             if (!trigger) return;
-            let box = null, veil = null, ac = null, hum = null, set = 0;
+            // Where the guns stand (fractions of the screen) and who each aims at.
+            const SPOTS = [[0.08, 0.5], [0.36, 0.12], [0.92, 0.44], [0.66, 0.88]];
+            const AIM = [2, 3, 0, 1];
+            const COLOURS = ['#FF4810', '#FFC94A', '#0F0F0F', '#3FB5A6', '#FFFFFF'];
+            const GUN = '<svg viewBox="0 0 120 70" aria-hidden="true">' +
+                '<rect x="10" y="10" width="96" height="18" rx="3" fill="currentColor"/>' +
+                '<rect x="100" y="13" width="16" height="11" rx="2" fill="currentColor"/>' +
+                '<rect x="10" y="26" width="58" height="10" rx="2" fill="currentColor"/>' +
+                '<path d="M14 34 L42 34 L36 68 L8 66 Z" fill="currentColor"/>' +
+                '<path d="M42 36 Q49 54 60 36" fill="none" stroke="currentColor" stroke-width="4"/>' +
+                '<path d="M20 16 H96" stroke="var(--ab-gun-shine)" stroke-width="2" stroke-linecap="round"/>' +
+                '</svg><i class="ab-gun-flash"></i>';
+            let stage = null, veil = null, canvas = null, ctx = null, guns = [], state = 'ready', ac = null, raf = 0, bits = [], timers = [];
 
             function sound() {
                 if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return null;
@@ -714,122 +726,163 @@
                 } catch (e) { return null; }
                 return ac;
             }
-            // A dry metal click: a wheel turning, or a latch going.
-            function click(at, tone, level) {
+            function tick(high) {
                 const a = sound(); if (!a) return;
-                const len = 0.025, buf = a.createBuffer(1, a.sampleRate * len, a.sampleRate), d = buf.getChannelData(0);
-                for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 5);
+                const t = a.currentTime, o = a.createOscillator(), g = a.createGain();
+                o.type = 'square'; o.frequency.value = high ? 1320 : 880;
+                g.gain.setValueAtTime(0.08, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+                o.connect(g).connect(a.destination); o.start(t); o.stop(t + 0.13);
+            }
+            // A pop: a burst of noise over a low thump, a few ms apart per gun.
+            function bang(at) {
+                const a = sound(); if (!a) return;
+                const t = a.currentTime + at, len = 0.35;
+                const buf = a.createBuffer(1, a.sampleRate * len, a.sampleRate), d = buf.getChannelData(0);
+                for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 6);
                 const n = a.createBufferSource(); n.buffer = buf;
-                const f = a.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = tone; f.Q.value = 3;
-                const g = a.createGain(); g.gain.value = level;
-                n.connect(f).connect(g).connect(a.destination); n.start(a.currentTime + at);
-            }
-            // The glow: a soft major chord swelling in.
-            function glow(on) {
-                const a = sound(); if (!a) return;
-                if (on && !hum) {
-                    hum = a.createGain(); hum.gain.value = 0; hum.connect(a.destination);
-                    hum.gain.setTargetAtTime(0.07, a.currentTime + 0.15, 0.4);
-                    hum.osc = [110, 165, 220, 277.2].map(function (f, i) {
-                        const o = a.createOscillator(); o.type = i ? 'sine' : 'triangle'; o.frequency.value = f;
-                        o.detune.value = (i - 1.5) * 4;
-                        o.connect(hum); o.start(); return o;
-                    });
-                } else if (!on && hum) {
-                    const h = hum; hum = null;
-                    h.gain.setTargetAtTime(0, a.currentTime, 0.12);
-                    setTimeout(function () { h.osc.forEach(function (o) { o.stop(); }); }, 700);
-                }
+                const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 2400;
+                const g = a.createGain(); g.gain.value = 0.35;
+                n.connect(f).connect(g).connect(a.destination); n.start(t);
+                const o = a.createOscillator(), og = a.createGain();
+                o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.2);
+                og.gain.setValueAtTime(0.5, t); og.gain.exponentialRampToValueAtTime(0.0001, t + 0.25);
+                o.connect(og).connect(a.destination); o.start(t); o.stop(t + 0.26);
             }
 
-            // Each lock wheel is a column of digits; showing one is a slide.
-            function wheel(i, digit, quick) {
-                const col = box.querySelectorAll('.ab-case-wheel span')[i];
-                col.style.transition = quick ? 'none' : '';
-                col.style.transform = 'translateY(' + (-digit * 10) + '%)';
-            }
-            function scramble() {
-                set = 0;
-                [0, 1, 2].forEach(function (i) { wheel(i, Math.floor(Math.random() * 6), true); });
+            // Place every gun and turn it to its target; a gun aiming left is
+            // flipped so it stays the right way up.
+            function layout() {
+                const W = window.innerWidth, H = window.innerHeight;
+                const size = W <= 768 ? 84 : 128;
+                guns.forEach(function (g, i) {
+                    const p = SPOTS[i], q = SPOTS[AIM[i]];
+                    // Kept fully on screen, however narrow it is.
+                    const m = size * 0.6;
+                    const at = function (f, L) { return Math.max(m, Math.min(L - m, f * L)); };
+                    g.x = at(p[0], W); g.y = at(p[1], H);
+                    g.a = Math.atan2(at(q[1], H) - g.y, at(q[0], W) - g.x);
+                    const deg = g.a * 180 / Math.PI, flip = Math.abs(deg) > 90 ? -1 : 1;
+                    g.el.style.width = size + 'px';
+                    g.el.style.left = (g.x - size / 2) + 'px';
+                    g.el.style.top = (g.y - size * 70 / 240) + 'px';
+                    g.el.style.transform = 'rotate(' + deg + 'deg) scaleY(' + flip + ')';
+                    // The muzzle, in screen pixels.
+                    const r = size * 0.47;
+                    g.mx = g.x + Math.cos(g.a) * r; g.my = g.y + Math.sin(g.a) * r;
+                });
+                canvas.width = W * devicePixelRatio; canvas.height = H * devicePixelRatio;
+                canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
             }
 
-            function step() {
-                if (!box) return;
-                if (box.classList.contains('is-open')) {
-                    // Shut it, and the code is lost again.
-                    box.classList.remove('is-open');
-                    glow(false);
-                    click(0, 1800, 0.5);
-                    setTimeout(function () { box && scramble(); }, 500);
-                    hint('Click to turn the lock');
-                    return;
-                }
-                wheel(set, 6);
-                click(0, 3200, 0.35);
-                set++;
-                if (set === 3) {
-                    click(0.35, 1500, 0.7);
-                    click(0.42, 1300, 0.7);
-                    setTimeout(function () {
-                        if (!box) return;
-                        box.classList.add('is-open');
-                        glow(true);
-                    }, 450);
-                    hint('Click to shut it');
-                }
+            function fire() {
+                guns.forEach(function (g, i) {
+                    g.el.classList.remove('is-fired'); void g.el.offsetWidth; g.el.classList.add('is-fired');
+                    bang(i * 0.035);
+                    for (let k = 0; k < 46; k++) {
+                        // Fast enough to reach the gun it was aimed at.
+                        const reach = Math.hypot(guns[AIM[i]].x - g.x, guns[AIM[i]].y - g.y);
+                        const spread = (Math.random() - 0.5) * 0.5, speed = reach * (0.045 + Math.random() * 0.03);
+                        bits.push({
+                            x: g.mx, y: g.my,
+                            vx: Math.cos(g.a + spread) * speed, vy: Math.sin(g.a + spread) * speed,
+                            r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.4,
+                            w: 6 + Math.random() * 6, h: 3 + Math.random() * 4,
+                            c: COLOURS[(Math.random() * COLOURS.length) | 0], life: 1
+                        });
+                    }
+                });
+                if (!raf) raf = requestAnimationFrame(draw);
             }
-            function hint(t) { const h = box && box.querySelector('.ab-case-hint'); if (h) h.textContent = t; }
 
-            function digits() {
-                let d = '';
-                for (let i = 0; i < 10; i++) d += '<b>' + i + '</b>';
-                return '<span>' + d + '</span>';
+            function draw() {
+                const dpr = devicePixelRatio;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                bits = bits.filter(function (b) { return b.life > 0 && b.y < window.innerHeight + 40; });
+                bits.forEach(function (b) {
+                    b.vx *= 0.96; b.vy = b.vy * 0.96 + 0.18;
+                    b.x += b.vx; b.y += b.vy; b.r += b.vr; b.life -= 0.006;
+                    ctx.save();
+                    ctx.globalAlpha = Math.min(1, b.life * 2);
+                    ctx.translate(b.x, b.y); ctx.rotate(b.r);
+                    ctx.fillStyle = b.c;
+                    ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h * Math.abs(Math.cos(b.r * 2)) + 1);
+                    ctx.restore();
+                });
+                raf = bits.length ? requestAnimationFrame(draw) : 0;
+            }
+
+            function say(big, small) {
+                stage.querySelector('.ab-standoff-count').textContent = big;
+                stage.querySelector('.ab-standoff-hint').textContent = small;
+            }
+
+            function round() {
+                if (!stage || state !== 'ready') return;
+                state = 'counting';
+                stage.classList.add('is-tense');
+                [3, 2, 1].forEach(function (n, i) {
+                    timers.push(setTimeout(function () { say(n, ''); tick(false); }, i * 750));
+                });
+                timers.push(setTimeout(function () {
+                    say('', '');
+                    stage.classList.remove('is-tense');
+                    fire();
+                    state = 'fired';
+                }, 3 * 750));
+                timers.push(setTimeout(function () {
+                    state = 'ready';
+                    say('', matchMedia('(hover: none)').matches ? 'Tap for another round' : 'Click for another round');
+                }, 3 * 750 + 2200));
             }
 
             function show() {
-                if (box) { hide(); return; }
-                box = document.createElement('div');
-                box.className = 'ab-case';
-                box.innerHTML =
-                    '<button type="button" class="ab-case-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
-                    '<button type="button" class="ab-case-body" aria-label="The briefcase. Click to turn the lock">' +
-                        '<span class="ab-case-rays" aria-hidden="true"></span>' +
-                        '<span class="ab-case-light" aria-hidden="true"></span>' +
-                        '<span class="ab-case-lid" aria-hidden="true"><i class="ab-case-handle"></i></span>' +
-                        '<span class="ab-case-base" aria-hidden="true">' +
-                            '<i class="ab-case-latch"></i><i class="ab-case-latch"></i>' +
-                            '<span class="ab-case-lock"><span class="ab-case-wheel">' + digits() + '</span><span class="ab-case-wheel">' + digits() + '</span><span class="ab-case-wheel">' + digits() + '</span></span>' +
-                        '</span>' +
-                    '</button>' +
-                    '<span class="ab-case-hint" aria-live="polite">Click to turn the lock</span>';
-                // A frosted veil behind it; a click on it puts the case away.
+                if (stage) { hide(); return; }
                 veil = document.createElement('div');
                 veil.className = 'ab-veil';
-                veil.addEventListener('click', hide);
-                document.body.append(veil, box);
-                scramble();
-                box.querySelector('.ab-case-body').addEventListener('click', step);
-                box.querySelector('.ab-case-close').addEventListener('click', hide);
+                stage = document.createElement('div');
+                stage.className = 'ab-standoff';
+                stage.innerHTML =
+                    '<canvas class="ab-standoff-confetti" aria-hidden="true"></canvas>' +
+                    '<div class="ab-standoff-mid"><button type="button" class="ab-standoff-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
+                    '<span class="ab-standoff-count" aria-live="polite"></span>' +
+                    '<span class="ab-standoff-hint">' + (matchMedia('(hover: none)').matches ? 'Tap to count down' : 'Click to count down') + '</span></div>';
+                canvas = stage.querySelector('canvas'); ctx = canvas.getContext('2d');
+                guns = SPOTS.map(function () {
+                    const el = document.createElement('span');
+                    el.className = 'ab-gun';
+                    el.innerHTML = GUN;
+                    stage.appendChild(el);
+                    return { el: el };
+                });
+                state = 'ready';
+                document.body.append(veil, stage);
+                layout();
+                stage.querySelector('.ab-standoff-close').addEventListener('click', function (e) { e.stopPropagation(); hide(); });
+                stage.addEventListener('click', round);
+                window.addEventListener('resize', layout);
                 requestAnimationFrame(function () { requestAnimationFrame(function () {
-                    box && box.classList.add('is-on');
                     veil && veil.classList.add('is-on');
+                    stage && stage.classList.add('is-on');
                 }); });
             }
 
             function hide() {
-                if (!box) return;
-                glow(false);
-                const b = box, v = veil; box = veil = null;
-                b.classList.remove('is-on');
+                if (!stage) return;
+                timers.forEach(clearTimeout); timers = [];
+                cancelAnimationFrame(raf); raf = 0; bits = [];
+                window.removeEventListener('resize', layout);
+                const s = stage, v = veil; stage = veil = null;
+                s.classList.remove('is-on');
                 v.classList.remove('is-on');
-                setTimeout(function () { b.remove(); v.remove(); }, 400);
+                setTimeout(function () { s.remove(); v.remove(); }, 400);
             }
 
             trigger.addEventListener('click', function () {
-                document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'case' }));
+                document.dispatchEvent(new CustomEvent('ab-egg', { detail: 'standoff' }));
                 show();
             });
-            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'case') hide(); });
+            document.addEventListener('ab-egg', function (e) { if (e.detail !== 'standoff') hide(); });
             document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
         })();
 
