@@ -4893,14 +4893,10 @@ html[data-theme="dark"] .case-brief-col:last-child {
     overflow: hidden;
     border: 1px solid #E4E4E2;
     border-radius: 22px;
-    /* A designer's cutting mat in paper tones: hairline 24px squares on a
-       warm ground with fine grain and a soft vignette. */
+    /* A quiet tray a shade darker than the page, with fine paper grain. */
     background:
-        radial-gradient(120% 100% at 50% 40%, transparent 55%, rgba(60, 50, 40, 0.09) 100%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E"),
-        linear-gradient(rgba(60, 50, 40, 0.05) 1px, transparent 1px) -1px -1px / 24px 24px,
-        linear-gradient(90deg, rgba(60, 50, 40, 0.05) 1px, transparent 1px) -1px -1px / 24px 24px,
-        #EFEDE9;
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E"),
+        #EAE9E6;
 }
 
 .desk-stage {
@@ -5040,6 +5036,20 @@ html[data-theme="dark"] .case-brief-col:last-child {
 
 .desk-item.is-dragging .desk-glare {
     opacity: 0;
+}
+
+/* Fan: every print the same 3:4 window, cropped, so the hand reads as one
+   deck; pointing at a print slides it up out of the hand along its own
+   axis. Opening still shows the whole photo. */
+.desk--fan .desk-item--card img {
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .desk--fan .desk-item:hover {
+        transform: perspective(600px) rotate(var(--rot, 0deg)) translateY(-36px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) scale(1.06);
+    }
 }
 
 .desk-item:focus-visible {
@@ -5400,9 +5410,7 @@ html[data-theme="dark"] body.about .education-item + .education-item {
 /* Photo desk. */
 html[data-theme="dark"] .desk {
     border-color: #262625;
-    background:
-        radial-gradient(120% 100% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.25) 100%),
-        #161615;
+    background: #161615;
 }
 
 html[data-theme="dark"] .desk-item--card,
