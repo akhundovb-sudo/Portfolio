@@ -699,7 +699,8 @@
 
         // Hobbies easter egg: "films" turns the page into a cinema: the
         // lights go down, a velvet curtain parts and the screen shows my
-        // favourite films one at a time, a click for each, in silence.
+        // favourite films one at a time, a click for each, with a soft
+        // slide projector click as the film changes.
         // After the last one, "The End"
         // and the curtain closes. The cross, Esc or the word again leave.
         (function () {
@@ -713,7 +714,32 @@
                 ['The Godfather Part II', '1974', 'The sequel that outgrew the original.', 'godfather-2', 'Paramount Pictures'],
                 ['A Different Man', '2024', 'An uneasy look at who we think we are.', 'a-different-man', 'A24']
             ];
-            let hall = null, veil = null, at = -1, busy = false;
+            let hall = null, veil = null, at = -1, busy = false, ac = null;
+
+            // Changing films: a slide projector's soft "ka-chunk", the tray
+            // sliding out and the next slide dropping in. Short and quiet,
+            // with no hum in between.
+            function flick() {
+                if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
+                try {
+                    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+                    if (ac.state === 'suspended') ac.resume();
+                } catch (e) { return; }
+                [[0, 900, 0.16], [0.11, 520, 0.22]].forEach(function (p) {
+                    const t = ac.currentTime + p[0], len = 0.06;
+                    const buf = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = buf.getChannelData(0);
+                    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 6);
+                    const n = ac.createBufferSource(); n.buffer = buf;
+                    const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = p[1] * 2.2;
+                    const g = ac.createGain(); g.gain.value = p[2];
+                    n.connect(f).connect(g).connect(ac.destination); n.start(t);
+                    // A small body under the click, so it sounds like plastic, not static.
+                    const o = ac.createOscillator(), og = ac.createGain();
+                    o.frequency.setValueAtTime(p[1], t); o.frequency.exponentialRampToValueAtTime(p[1] * 0.6, t + 0.05);
+                    og.gain.setValueAtTime(p[2] * 0.5, t); og.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
+                    o.connect(og).connect(ac.destination); o.start(t); o.stop(t + 0.08);
+                });
+            }
 
             function frame(i) {
                 const reel = hall.querySelector('.ab-cinema-reel');
@@ -741,6 +767,7 @@
                 if (!hall || busy) return;
                 if (at >= FILMS.length) { leave(); return; }
                 at++;
+                flick();
                 frame(at);
                 if (at === FILMS.length) {
                     // The End: the curtain closes over it, then the lights come up.
