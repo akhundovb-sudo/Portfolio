@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast141">
+    <link rel="stylesheet" href="styles.css?v=fast142">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -269,12 +269,13 @@
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">Remiton</span><span class="project-sep"> · </span><span class="project-description">Mobile app</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <!-- Phones: the home screen in front; on hover the onboarding and
-                         the passcode login slide out from behind it. -->
-                    <div class="project-image project-image--phones" aria-hidden="true">
+                    <!-- Remiton: a globe in the onboarding's purple spins with the
+                         R coins on their orbits; then the globe steps back and the
+                         phone with the home screen rises in front (script.js
+                         [data-remi], played each time the card comes into view). -->
+                    <div class="project-image project-image--phones project-image--remi" aria-hidden="true" data-remi>
                         <div class="project-phones">
-                            <div class="case-phone case-phone--back case-phone--left case-phone--dark"><div class="case-phone-screen" style="--screen: #35079E"><span class="case-phone-status"></span><img src="images/remiton/01.jpg?v=5" alt="" loading="lazy" decoding="async"></div></div>
-                            <div class="case-phone case-phone--back case-phone--right"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/login.jpg?v=3" alt="" loading="lazy" decoding="async"></div></div>
+                            <svg class="remi-globe" viewBox="-160 -160 320 320"></svg>
                             <div class="case-phone case-phone--front"><div class="case-phone-screen case-phone-screen--full"><img src="images/remiton/home.jpg?v=1" alt="" loading="lazy" decoding="async"></div></div>
                         </div>
                     </div>
@@ -416,7 +417,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261014j"></script>
+    <script src="script.js?v=20261014k"></script>
     <script>
 
         // Mobile Menu Functionality

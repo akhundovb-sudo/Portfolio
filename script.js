@@ -2298,3 +2298,100 @@ window.caseClock = function (pad) {
     card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && fine.matches) go(1); });
     card.addEventListener('pointerleave', function () { if (p >= 0) go(-1); });
 })();
+
+// Remiton card (home): a globe in the onboarding's purple turns, wire
+// meridians sweeping round and lime R coins riding two orbits (behind the
+// globe when they pass round the back). Each time the card comes into
+// view it plays from the start: the globe spins for a moment, then steps
+// back and the phone rises in front of it.
+(function () {
+    const panel = document.querySelector('[data-remi]');
+    if (!panel) return;
+    const svg = panel.querySelector('.remi-globe');
+    const NS = 'http://www.w3.org/2000/svg';
+    const R = 100, TILT = -18;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function el(tag, attrs, parent) {
+        const e = document.createElementNS(NS, tag);
+        for (const k in attrs) e.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(e);
+        return e;
+    }
+
+    const defs = el('defs', {}, svg);
+    const g1 = el('radialGradient', { id: 'remi-sea', cx: '38%', cy: '34%', r: '75%' }, defs);
+    el('stop', { offset: '0', 'stop-color': '#6A3BF0' }, g1);
+    el('stop', { offset: '0.6', 'stop-color': '#3412B8' }, g1);
+    el('stop', { offset: '1', 'stop-color': '#B04BEA' }, g1);
+
+    const world = el('g', { transform: 'rotate(' + TILT + ')' }, svg);
+    const back = el('g', {}, world);            // orbits and coins behind the globe
+    el('circle', { r: R, fill: 'url(#remi-sea)' }, world);
+    const wire = el('g', { fill: 'none', stroke: 'rgba(255,255,255,0.32)', 'stroke-width': 1.2 }, world);
+    const front = el('g', {}, world);           // orbits and coins in front of it
+
+    // Parallels stand still; meridians are redrawn as the globe turns.
+    [-60, -30, 0, 30, 60].forEach(function (lat) {
+        const r = R * Math.cos(lat * Math.PI / 180);
+        el('ellipse', { cx: 0, cy: R * Math.sin(lat * Math.PI / 180), rx: r, ry: r * 0.14 }, wire);
+    });
+    const meridians = [0, 1, 2, 3, 4, 5].map(function () { return el('ellipse', { cx: 0, cy: 0, rx: 0, ry: R }, wire); });
+
+    // Two orbits, each a ring round the globe at its own slant.
+    const ORBITS = [{ rx: 138, ry: 38, rot: 8, coins: 3, speed: 0.55 }, { rx: 128, ry: 52, rot: -32, coins: 2, speed: -0.42 }];
+    ORBITS.forEach(function (o) {
+        o.back = el('ellipse', { rx: o.rx, ry: o.ry, transform: 'rotate(' + o.rot + ')', fill: 'none', stroke: 'rgba(255,255,255,0.4)', 'stroke-width': 1.4 }, back);
+        o.items = [];
+        for (let i = 0; i < o.coins; i++) {
+            const c = el('g', {}, front);
+            el('circle', { r: 13, fill: '#C9F23A', stroke: '#9CC21A', 'stroke-width': 1.5 }, c);
+            const t = el('text', { 'text-anchor': 'middle', dy: '0.36em', fill: '#4B1FD0', 'font-size': 14, 'font-weight': 700, 'font-family': 'PP Neue Montreal, sans-serif' }, c);
+            t.textContent = 'R';
+            o.items.push({ g: c, a: i * Math.PI * 2 / o.coins });
+        }
+    });
+
+    let spin = 0, last = 0, raf = 0, timer = 0;
+
+    function draw(now) {
+        const dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
+        last = now;
+        spin += dt * 0.8;
+        meridians.forEach(function (m, i) {
+            m.setAttribute('rx', Math.abs(R * Math.sin(spin + i * Math.PI / 6)).toFixed(2));
+        });
+        ORBITS.forEach(function (o) {
+            const rot = o.rot * Math.PI / 180, cr = Math.cos(rot), sr = Math.sin(rot);
+            o.items.forEach(function (it) {
+                it.a += dt * o.speed;
+                const x = Math.cos(it.a) * o.rx, y = Math.sin(it.a) * o.ry;
+                const depth = Math.sin(it.a);                 // > 0: in front
+                const k = 0.78 + 0.22 * (depth + 1) / 2;
+                it.g.setAttribute('transform', 'translate(' + (x * cr - y * sr).toFixed(1) + ' ' + (x * sr + y * cr).toFixed(1) + ') rotate(' + (-TILT) + ') scale(' + k.toFixed(3) + ')');
+                const layer = depth > 0 ? front : back;
+                if (it.g.parentNode !== layer) layer.appendChild(it.g);
+            });
+        });
+        raf = requestAnimationFrame(draw);
+    }
+
+    function play() {
+        panel.classList.remove('is-phone');
+        clearTimeout(timer);
+        if (reduce.matches) { draw(performance.now()); cancelAnimationFrame(raf); raf = 0; panel.classList.add('is-phone'); return; }
+        if (!raf) { last = 0; raf = requestAnimationFrame(draw); }
+        timer = setTimeout(function () { panel.classList.add('is-phone'); }, 2200);
+    }
+    function pause() {
+        cancelAnimationFrame(raf); raf = 0;
+        clearTimeout(timer);
+        panel.classList.remove('is-phone');
+    }
+
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { e.isIntersecting ? play() : pause(); });
+        }, { threshold: 0.35 }).observe(panel);
+    } else play();
+})();
