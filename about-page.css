@@ -864,9 +864,26 @@ body.about-v2:has(.ab-link:focus-visible) .about-wave {
     color: rgba(255, 255, 255, 0.5);
 }
 
+/* The why above the screen: phones only, where the still is too small to
+   carry it as well as the title. */
+.ab-cinema-caption {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .ab-cinema-why {
         display: none;
+    }
+
+    .ab-cinema-caption {
+        display: block;
+        align-self: stretch;
+        min-height: 2.7em;
+        font: 400 16px/1.35 'PP Neue Montreal', sans-serif;
+        font-style: italic;
+        text-align: center;
+        text-wrap: balance;
+        color: rgba(237, 237, 236, 0.85);
     }
 }
 
