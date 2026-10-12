@@ -2458,8 +2458,8 @@ window.caseClock = function (pad) {
 // behind the phone in one second, quick at first and easing into the wave
 // so its speed meets the wave's 30 fps; then it waves once and stays on
 // the last frame while the pointer is there; on leave it runs back fast
-// and hides. 105 of the 120 frames are one 12 x 9 sprite (the blurred and
-// four-finger frames 77-81 and 84-93 are left out; the wave is 94-120).
+// and hides. 65 of the 80 frames are one 12 x 6 sprite (the blurred and
+// four-finger frames 33-36 and 40-50 are left out; the wave is 51-80).
 // Two layers crossfade a frame into the next by the fraction in between,
 // so nothing steps.
 (function () {
@@ -2468,7 +2468,7 @@ window.caseClock = function (pad) {
     const card = stage.closest('.project-card');
     const [a, b] = stage.querySelectorAll('.project-mascot');
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const LAST = 104, LOOP = 78, FPS = 30, INTRO = 1;
+    const LAST = 64, LOOP = 35, FPS = 30, INTRO = 1;
     // Entrance curve: linear part sized so the end speed is the wave's.
     const K = FPS * INTRO / LOOP;
     const curve = function (t) { return LOOP * (K * t + (1 - K) * (1 - (1 - t) * (1 - t))); };
