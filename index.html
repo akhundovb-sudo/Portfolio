@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast173">
+    <link rel="stylesheet" href="styles.css?v=fast174">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -187,13 +187,20 @@
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">Finharbor</span><span class="project-sep"> · </span><span class="project-description">Mobile app</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <!-- The mobile home in front; on hover the Send form and the receive
-                         address slide out from behind it, like the Remiton phones. -->
-                    <div class="project-image project-image--phones project-image--fh" aria-hidden="true">
-                        <div class="project-phones">
-                            <div class="case-phone case-phone--back case-phone--left"><div class="case-phone-screen case-phone-screen--full"><img src="images/finharbor/flow/send-4.jpg?v=4" alt="" loading="lazy" decoding="async"></div></div>
-                            <div class="case-phone case-phone--back case-phone--right"><div class="case-phone-screen case-phone-screen--full"><img src="images/finharbor/flow/receive-5.jpg?v=1" alt="" loading="lazy" decoding="async"></div></div>
-                            <div class="case-phone case-phone--front"><div class="case-phone-screen case-phone-screen--full"><img src="images/finharbor/m-card.jpg?v=10" alt="" loading="lazy" decoding="async"></div></div>
+                    <!-- A hand holding a phone against the sky; the Finharbor home
+                         scrolls inside its screen (the screen is a flat 393 x 852
+                         layer laid onto the photo's screen by a perspective matrix,
+                         styles.css .fhp-screen; script.js [data-fhp] plays the scroll
+                         while the card is on screen and sizes the layer to the photo). -->
+                    <div class="project-image project-image--fhp" aria-hidden="true" data-fhp>
+                        <div class="fhp-stage">
+                            <img class="fhp-photo" src="images/finharbor/phone-hand.webp?v=1" alt="" width="1186" height="1186" loading="lazy" decoding="async">
+                            <div class="fhp-screen">
+                                <div class="fhp-page"><img src="images/finharbor/m-home.jpg?v=5" alt="" loading="lazy" decoding="async"></div>
+                                <img class="fhp-status" src="images/finharbor/m-status.png?v=6" alt="" loading="lazy" decoding="async">
+                                <img class="fhp-tabbar" src="images/finharbor/m-tabbar.png?v=3" alt="" loading="lazy" decoding="async">
+                                <i class="fhp-island"></i>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -472,7 +479,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261014r"></script>
+    <script src="script.js?v=20261014s"></script>
     <script>
 
         // Mobile Menu Functionality

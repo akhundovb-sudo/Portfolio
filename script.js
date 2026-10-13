@@ -2319,3 +2319,21 @@ window.caseClock = function (pad) {
     card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && fine.matches) go(1); });
     card.addEventListener('pointerleave', function () { if (p >= 0) go(-1); });
 })();
+
+// Finharbor card (home): the layer on the phone's screen is scaled with the
+// photo, and the scroll plays only while the card is on screen.
+(function () {
+    const panel = document.querySelector('[data-fhp]');
+    if (!panel) return;
+    const stage = panel.querySelector('.fhp-stage');
+    const NATIVE = 1186; // the photo's own width the screen matrix is worked out in
+    function fit() { stage.style.setProperty('--k', (stage.clientWidth / NATIVE).toFixed(5)); }
+    fit();
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(stage);
+    else window.addEventListener('resize', fit);
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { panel.classList.toggle('is-play', e.isIntersecting); });
+        }, { threshold: 0.3 }).observe(panel);
+    } else panel.classList.add('is-play');
+})();
