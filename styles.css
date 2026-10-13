@@ -9440,3 +9440,8 @@ html[data-theme="dark"] .case-browser {
     margin: 0 -20px;
     border-radius: 20px 20px 0 0;
 }
+
+/* The phone (and the mascot behind it) sits lower in the taller sky panel. */
+.project-image--habbi .project-phones {
+    top: 28px;
+}
