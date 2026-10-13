@@ -732,11 +732,32 @@ document.addEventListener('click', function (e) {
         b.addEventListener('click', function () {
             const dark = root.getAttribute('data-theme') !== 'dark';
             const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            // A cross-fade between the two themes where supported.
+            // The icon that comes in turns into place.
+            function flip() {
+                buttons.forEach(function (x) {
+                    x.classList.remove('is-flipping'); void x.offsetWidth; x.classList.add('is-flipping');
+                });
+                setTimeout(function () { buttons.forEach(function (x) { x.classList.remove('is-flipping'); }); }, 600);
+            }
             if (document.startViewTransition && !reduce) {
-                document.startViewTransition(function () { apply(dark); });
+                // The new theme spreads in a circle from this button (styles.css).
+                const r = b.getBoundingClientRect();
+                const x = r.left + r.width / 2, y = r.top + r.height / 2;
+                const far = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+                root.style.setProperty('--vt-x', x + 'px');
+                root.style.setProperty('--vt-y', y + 'px');
+                root.style.setProperty('--vt-r', far + 'px');
+                root.classList.add('theme-switching');
+                const t = document.startViewTransition(function () { apply(dark); flip(); });
+                t.finished.finally(function () {
+                    root.classList.remove('theme-switching');
+                    root.style.removeProperty('--vt-x');
+                    root.style.removeProperty('--vt-y');
+                    root.style.removeProperty('--vt-r');
+                });
             } else {
                 apply(dark);
+                if (!reduce) flip();
             }
         });
     });
