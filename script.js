@@ -2319,17 +2319,3 @@ window.caseClock = function (pad) {
     card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && fine.matches) go(1); });
     card.addEventListener('pointerleave', function () { if (p >= 0) go(-1); });
 })();
-
-// Habbi card (home): the stickers peel off once, the first time the card
-// comes into view (styles.css .is-peeled).
-(function () {
-    const box = document.querySelector('[data-stickers]');
-    if (!box) return;
-    if (!('IntersectionObserver' in window)) { box.classList.add('is-peeled'); return; }
-    const io = new IntersectionObserver(function (entries) {
-        if (!entries.some(function (e) { return e.isIntersecting; })) return;
-        box.classList.add('is-peeled');
-        io.disconnect();
-    }, { threshold: 0.5 });
-    io.observe(box);
-})();
