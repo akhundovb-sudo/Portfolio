@@ -5948,6 +5948,58 @@ html[data-theme="dark"] .project-arrow::before {
     }
 }
 
+/* Remiton card: the purple light-streak photo behind the phones, slowly
+   drifting along its streaks and breathing in hue; a soft band of light
+   sweeps across now and then. The phones stay on top. */
+.project-card--remiton .project-image--phones {
+    background: #05010F;
+    isolation: isolate;
+}
+
+.project-card--remiton .project-image--phones::before {
+    content: '';
+    position: absolute;
+    inset: -12%;
+    z-index: 0;
+    background: url("images/remiton/card-bg.webp") 50% 18% / cover no-repeat;
+    pointer-events: none;
+    will-change: transform;
+    animation: remi-drift 14s ease-in-out infinite alternate;
+}
+
+.project-card--remiton .project-image--phones::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.28) 48%, rgba(214, 255, 160, 0.18) 52%, transparent 65%) no-repeat;
+    background-size: 250% 100%;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    animation: remi-sweep 7s ease-in-out infinite;
+}
+
+.project-card--remiton .project-phones {
+    z-index: 1;
+}
+
+@keyframes remi-drift {
+    0% { transform: translate(-5%, -4%) scale(1.02); filter: hue-rotate(-8deg) saturate(1); }
+    100% { transform: translate(5%, 4%) scale(1.08); filter: hue-rotate(14deg) saturate(1.2); }
+}
+
+@keyframes remi-sweep {
+    0%, 15% { background-position: 120% 0; }
+    70%, 100% { background-position: -20% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-card--remiton .project-image--phones::before,
+    .project-card--remiton .project-image--phones::after {
+        animation: none;
+    }
+}
+
 /* Works cards without their shots yet: a grey placeholder like the cases'. */
 .project-image--placeholder {
     border-radius: 12px 12px 0 0;
