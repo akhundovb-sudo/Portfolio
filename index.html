@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast150">
+    <link rel="stylesheet" href="styles.css?v=fast151">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -785,8 +785,9 @@
     <script>
         // Hero pressure grid. A fine grid sits under the hero; around the mouse
         // it surfaces and dips toward the cursor, as if the cursor presses the
-        // surface (deeper while the button is held). Mouse only, off during the
-        // intro, no dip with reduced motion. Only the area around the cursor is
+        // surface (deeper while the button is held). On a touch screen it does
+        // the same under the finger. Off during the intro, no dip with reduced
+        // motion. Only the area around the cursor is
         // drawn, and only while something is still moving.
         (function () {
             var hero = document.querySelector('.home-hero');
@@ -930,12 +931,53 @@
                 shownTarget = 1;
                 kick();
             });
-            hero.addEventListener('pointerleave', function () {
+            hero.addEventListener('pointerleave', function (e) {
+                // A finger leaves on every lift; touch fades on its own below.
+                if (e.pointerType !== 'mouse') return;
                 entered = false;
                 shownTarget = 0;
                 pressedTarget = 0;
                 kick();
             });
+            // Touch: the grid surfaces under the finger and dips while it is
+            // down, follows it, and fades a moment after it lifts (or once the
+            // page takes the gesture over as a scroll).
+            var touching = false, fadeTimer = null;
+            function touchAt(e) {
+                var r = hero.getBoundingClientRect();
+                target.x = e.clientX - r.left;
+                target.y = e.clientY - r.top;
+            }
+            hero.addEventListener('pointerdown', function (e) {
+                if (e.pointerType === 'mouse' || root.classList.contains('intro-active')) return;
+                clearTimeout(fadeTimer);
+                touching = true;
+                touchAt(e);
+                if (!entered || shown < 0.05) { pos.x = target.x; pos.y = target.y; }
+                entered = true;
+                shownTarget = 1;
+                pressedTarget = 1;
+                kick();
+            }, { passive: true });
+            hero.addEventListener('pointermove', function (e) {
+                if (!touching || e.pointerType === 'mouse') return;
+                touchAt(e);
+                kick();
+            }, { passive: true });
+            function lift(e) {
+                if (!touching || e.pointerType === 'mouse') return;
+                touching = false;
+                pressedTarget = 0;
+                kick();
+                fadeTimer = setTimeout(function () {
+                    entered = false;
+                    shownTarget = 0;
+                    kick();
+                }, 600);
+            }
+            window.addEventListener('pointerup', lift);
+            window.addEventListener('pointercancel', lift);
+
             // Click sounds: retro mobile-phone beeps (Web Audio, no files).
             // Each press plays the next note of the famous Nokia Tune phrase
             // (from Tarrega's "Gran Vals", 1902), so clicking along spells the
