@@ -2326,7 +2326,7 @@ window.caseClock = function (pad) {
     const panel = document.querySelector('[data-fhp]');
     if (!panel) return;
     const stage = panel.querySelector('.fhp-stage');
-    const NATIVE = 1408; // the photo's own width the screen matrix is worked out in
+    const NATIVE = 1730; // the photo's own width the screen matrix is worked out in
     function fit() { stage.style.setProperty('--k', (stage.clientWidth / NATIVE).toFixed(5)); }
     fit();
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(stage);
