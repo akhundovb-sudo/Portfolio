@@ -960,7 +960,7 @@
                 { freq: 880.00,  dur: 0.30 }   // A5
             ];
             var note = 0;
-            var audio = null, speaker = null, current = null;
+            var audio = null, speaker = null, voices = [];
 
             // A tiny phone speaker: no lows, no airy highs, a bump around 2.5k.
             function makeSpeaker(ctx) {
@@ -981,7 +981,7 @@
                 return low;
             }
 
-            function beep(n) {
+            function beep(n, delay) {
                 var AC = window.AudioContext || window.webkitAudioContext;
                 if (!AC) return;
                 if (!audio) {
@@ -989,14 +989,18 @@
                     speaker = makeSpeaker(audio);
                 }
                 if (audio.state === 'suspended') audio.resume();
-                var t = audio.currentTime;
+                var t = audio.currentTime + (delay || 0);
 
-                // Monophonic: a new note cuts the previous one, like the phones.
-                if (current) {
-                    current.amp.gain.cancelScheduledValues(t);
-                    current.amp.gain.setTargetAtTime(0.0001, t, 0.004);
-                    current.osc.stop(t + 0.03);
-                    current.mod.stop(t + 0.03);
+                // Monophonic, like the phones: a press cuts whatever is still
+                // sounding or queued from the last one (notes of a run follow
+                // each other on their own, so only the first of a run cuts).
+                if (!delay) {
+                    voices.forEach(function (v) {
+                        v.amp.gain.cancelScheduledValues(t);
+                        v.amp.gain.setTargetAtTime(0.0001, t, 0.004);
+                        try { v.osc.stop(t + 0.03); v.mod.stop(t + 0.03); } catch (e) {}
+                    });
+                    voices = [];
                 }
 
                 // Square-wave body; starts a semitone sharp and drops into the
@@ -1028,19 +1032,33 @@
                 mod.start(t);
                 osc.stop(t + n.dur + 0.02);
                 mod.stop(t + n.dur + 0.02);
-                current = { osc: osc, mod: mod, amp: amp };
+                var voice = { osc: osc, mod: mod, amp: amp };
+                voices.push(voice);
                 osc.onended = function () {
-                    if (current && current.osc === osc) current = null;
+                    voices = voices.filter(function (v) { return v !== voice; });
                 };
             }
 
-            // One note per press, the next one in the phrase each time.
+            // The first three presses play one note each; from the fourth on a
+            // press plays the next four in a row, in the tune's rhythm, so the
+            // phrase (and the Nokia at its end) is six presses away, not 13.
+            var SINGLE = 3, RUN = 4, presses = 0;
             function sound(kind) {
                 if (kind !== 'press') return;
-                beep(NOTES[note]);
-                note = (note + 1) % NOTES.length;
-                // The phrase just finished on its last note.
-                if (note === 0) showEgg();
+                presses++;
+                var count = presses <= SINGLE ? 1 : RUN, at = 0;
+                for (var i = 0; i < count; i++) {
+                    beep(NOTES[note], at);
+                    at += NOTES[note].dur + 0.02;
+                    note = (note + 1) % NOTES.length;
+                    // The phrase just finished on its last note: ring once
+                    // it has played out, and start counting again.
+                    if (note === 0) {
+                        presses = 0;
+                        setTimeout(showEgg, at * 1000);
+                        break;
+                    }
+                }
             }
 
             // Easter egg: play the whole tune and an old Nokia rings in from
