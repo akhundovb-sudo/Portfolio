@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast181">
+    <link rel="stylesheet" href="styles.css?v=fast185">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -221,7 +221,7 @@
                     </div>
                 </a>
 
-                <a href="myguava-payment.html" class="project-card">
+                <a href="myguava-payment.html" class="project-card project-card--pay">
                     <div class="project-head">
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Payment</span><span class="project-sep"> · </span><span class="project-description">Web checkout</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
@@ -238,18 +238,14 @@
                 </a>
 
                 <!-- Row 2 -->
-                <a href="myguava-design-system.html" class="project-card">
+                <a href="myguava-design-system.html" class="project-card project-card--ds">
                     <div class="project-head">
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">Customizable Design System</span><span class="project-sep"> · </span><span class="project-description">Web &amp; mobile</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <!-- The primary button alone; on hover it grows a little and drifts
-                         through the set's colours. -->
-                    <div class="project-image project-image--phones project-image--dsbtns" aria-hidden="true">
-                        <div class="project-phones">
-                            <span class="project-dsbtn project-dsbtn--front" style="--bg: #BAF400; --fg: #0D0D0D; --r: 0.2">Button</span>
-                        </div>
-                    </div>
+                    <!-- The case's component bento on black; on hover the picture grows a
+                         little (styles.css .project-card--ds). -->
+                    <div class="project-image project-image--phones project-image--dsbg" aria-hidden="true"></div>
                 </a>
 
                 <a href="myguava-business.html" class="project-card">

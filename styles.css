@@ -6003,6 +6003,8 @@ html[data-theme="dark"] .project-arrow::before {
    own rounded corners clip it. */
 .project-card--remiton .project-image--phones,
 .project-card--pos .project-image--phones,
+.project-card--pay .project-image--phones,
+.project-card--ds .project-image--phones,
 .project-image--biz {
     flex: 1 0 auto;
     margin: 0 -20px;
@@ -9580,5 +9582,55 @@ html[data-theme="dark"] .case-browser {
 }
 
 .project-card--pos .project-phones {
+    z-index: 1;
+}
+
+/* Works cards (MyGuava Payment, Design System): the same panel as POS and
+   Remiton, running to the card's edges, with its own background. Payment:
+   the pixel gradient behind the browsers. Design System: the case's bento
+   of components on black (logo, check, lettering, buttons, colour bars,
+   icons, switches), cropped to its top row behind the button. */
+.project-card--pay,
+.project-card--ds {
+    gap: 16px;
+    padding-bottom: 0;
+}
+
+.project-card--pay .project-head,
+.project-card--ds .project-head {
+    min-height: 0;
+}
+
+.project-card--pay .project-image--phones,
+.project-card--ds .project-image--phones {
+    isolation: isolate;
+}
+
+.project-card--pay .project-image--phones {
+    background: #FFFFFF url("images/pay-card-bg.webp") 50% 50% / cover no-repeat;
+}
+
+.project-card--ds .project-image--phones {
+    background: #000000;
+    overflow: hidden;
+}
+
+.project-card--ds .project-image--phones::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("images/ds-card-bg.webp?v=3") 50% 0 / cover no-repeat;
+    transform-origin: 50% 30%;
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card--ds:hover .project-image--phones::before {
+        transform: scale(1.06);
+    }
+}
+
+.project-card--pay .project-phones,
+.project-card--ds .project-phones {
     z-index: 1;
 }
