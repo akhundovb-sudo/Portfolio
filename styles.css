@@ -8268,6 +8268,12 @@ html[data-theme="dark"] .project-wip {
         color: inherit;
     }
 
+    /* Keep the description and separator at their rest grey on hover. */
+    .project-card--wip:hover .project-sep,
+    .project-card--wip:hover .project-description {
+        color: rgba(15, 15, 15, 0.5);
+    }
+
     .project-card--wip:hover .project-label-text::after {
         opacity: 0;
     }
