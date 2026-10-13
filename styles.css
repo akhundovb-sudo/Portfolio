@@ -6046,8 +6046,8 @@ html[data-theme="dark"] .project-arrow::before {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: max(100cqw, 185.95cqh);
-    aspect-ratio: 1588 / 854;
+    width: max(100cqw, 177.68cqh);
+    aspect-ratio: 1672 / 941;
     transform: translate(-50%, -50%);
 }
 
@@ -6059,10 +6059,10 @@ html[data-theme="dark"] .project-arrow::before {
 
 .biz-screen {
     position: absolute;
-    left: 28.59%;
-    top: 16.39%;
-    width: 43.01%;
-    height: 53.04%;
+    left: 34.27%;
+    top: 15.73%;
+    width: 31.70%;
+    height: 40.70%;
     display: flex;
     justify-content: center;
     overflow: hidden;
@@ -6070,13 +6070,13 @@ html[data-theme="dark"] .project-arrow::before {
 }
 
 /* The clip sizes its figures to its own width (cqw), as on the case page. */
-/* Fills the screen's width like a page in a browser; the bottom row runs
-   off below, as if there were more to scroll. */
+/* The whole overview on the screen: it fills it edge to edge (a touch
+   shorter than the page's own proportions; the layers are placed in %, so
+   they stay on their charts). */
 .biz-screen .case-stage {
     flex: none;
     width: 100%;
-    height: auto;
-    aspect-ratio: 1600 / 1305;
+    height: 100%;
     container-type: inline-size;
 }
 
