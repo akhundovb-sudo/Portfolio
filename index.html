@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast153">
+    <link rel="stylesheet" href="styles.css?v=fast154">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -382,7 +382,7 @@
     </div>
 
     <!-- Snake on a phone: the whole screen becomes the Nokia. The LCD with
-         the score up top, the keypad below (arrows steer, C quits); a swipe
+         the score up top, a d-pad below (arrows steer, C quits); a swipe
          on the LCD steers too, a tap on it plays again after game over.
          Shown by the egg script. -->
     <div class="nokia-full" aria-hidden="true">
@@ -394,15 +394,14 @@
             </div>
         </div>
         <div class="nokia-full-pad">
-            <button type="button" class="nokia-full-key nokia-full-key--c" data-full="c" aria-label="Quit"><b>C</b><small>quit</small></button>
-            <button type="button" class="nokia-full-key" data-full="2" aria-label="Up"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5L20 17H4Z" fill="currentColor"/></svg></button>
-            <span></span>
-            <button type="button" class="nokia-full-key" data-full="4" aria-label="Left"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12L17 4V20Z" fill="currentColor"/></svg></button>
-            <span></span>
-            <button type="button" class="nokia-full-key" data-full="6" aria-label="Right"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12L7 20V4Z" fill="currentColor"/></svg></button>
-            <span></span>
-            <button type="button" class="nokia-full-key" data-full="8" aria-label="Down"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19L4 7H20Z" fill="currentColor"/></svg></button>
-            <span></span>
+            <button type="button" class="nokia-full-quit" data-full="c" aria-label="Quit"><b>C</b><small>quit</small></button>
+            <div class="nokia-full-dpad">
+                <button type="button" class="nokia-full-arm nokia-full-arm--up" data-full="2" aria-label="Up"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5L20 17H4Z" fill="currentColor"/></svg></button>
+                <button type="button" class="nokia-full-arm nokia-full-arm--left" data-full="4" aria-label="Left"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12L17 4V20Z" fill="currentColor"/></svg></button>
+                <span class="nokia-full-hub" aria-hidden="true"></span>
+                <button type="button" class="nokia-full-arm nokia-full-arm--right" data-full="6" aria-label="Right"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12L7 20V4Z" fill="currentColor"/></svg></button>
+                <button type="button" class="nokia-full-arm nokia-full-arm--down" data-full="8" aria-label="Down"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19L4 7H20Z" fill="currentColor"/></svg></button>
+            </div>
         </div>
     </div>
 
