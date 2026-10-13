@@ -6046,8 +6046,8 @@ html[data-theme="dark"] .project-arrow::before {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: max(100cqw, 177.7cqh);
-    aspect-ratio: 1672 / 941;
+    width: max(100cqw, 185.95cqh);
+    aspect-ratio: 1588 / 854;
     transform: translate(-50%, -50%);
 }
 
@@ -6059,10 +6059,10 @@ html[data-theme="dark"] .project-arrow::before {
 
 .biz-screen {
     position: absolute;
-    left: 35.23%;
-    top: 16.68%;
-    width: 29.49%;
-    height: 33.37%;
+    left: 28.59%;
+    top: 16.39%;
+    width: 43.01%;
+    height: 53.04%;
     display: flex;
     justify-content: center;
     overflow: hidden;
