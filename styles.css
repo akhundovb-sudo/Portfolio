@@ -9484,9 +9484,10 @@ html[data-theme="dark"] .case-browser {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: max(140cqw, 200cqh);
+    width: max(112cqw, 190cqh);
     aspect-ratio: 1408 / 1046;
-    transform: translate(-50%, -41%);
+    transform: translate(-50%, -37%);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .fhp-photo {
@@ -9543,6 +9544,14 @@ html[data-theme="dark"] .case-browser {
     margin-left: -62px;
     border-radius: 18px;
     background: #050507;
+}
+
+/* Pointing at the card draws the photo in a little, about the phone. */
+@media (hover: hover) and (pointer: fine) {
+    .project-card:hover .fhp-stage {
+        transform: translate(-50%, -37%) scale(1.08);
+        transform-origin: 51% 43%;
+    }
 }
 
 /* The home scrolls down through its sections, rests, and returns. */
