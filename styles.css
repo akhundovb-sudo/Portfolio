@@ -5975,31 +5975,10 @@ html[data-theme="dark"] .project-arrow::before {
     z-index: 0;
     background: url("images/remiton/card-bg.webp") 50% 0 / 100% auto no-repeat;
     pointer-events: none;
-    will-change: background-position, filter;
-    animation:
-        remi-glide 16s ease-in-out infinite alternate,
-        remi-breathe 6s ease-in-out infinite alternate;
 }
 
 .project-card--remiton .project-phones {
     z-index: 1;
-}
-
-/* From the top of the photo down to its last colour, above the black. */
-@keyframes remi-glide {
-    0% { background-position: 50% 0; }
-    100% { background-position: 50% 38%; }
-}
-
-@keyframes remi-breathe {
-    0% { filter: brightness(0.82) saturate(1) hue-rotate(-6deg); }
-    100% { filter: brightness(1.12) saturate(1.25) hue-rotate(10deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .project-card--remiton .project-image--phones::before {
-        animation: none;
-    }
 }
 
 /* MyGuava Business card: the photo of a monitor on a desk, the overview
@@ -6023,6 +6002,7 @@ html[data-theme="dark"] .project-arrow::before {
 /* The panel runs to the card's left, right and bottom edges; the card's
    own rounded corners clip it. */
 .project-card--remiton .project-image--phones,
+.project-card--pos .project-image--phones,
 .project-image--biz {
     flex: 1 0 auto;
     margin: 0 -20px;
@@ -9492,9 +9472,11 @@ html[data-theme="dark"] .case-browser {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: max(160cqw, 300cqh);
+    width: max(142cqw, 300cqh);
     aspect-ratio: 1730 / 836;
-    transform: translate(-50%, -46%);
+    /* -54.1% puts the phone's screen (at 54.1% of the photo's width) on the
+       panel's centre line. */
+    transform: translate(-54.1%, -46%);
     transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -9557,8 +9539,8 @@ html[data-theme="dark"] .case-browser {
 /* Pointing at the card draws the photo in a little, about the phone. */
 @media (hover: hover) and (pointer: fine) {
     .project-card:hover .fhp-stage {
-        transform: translate(-50%, -46%) scale(1.08);
-        transform-origin: 56% 36%;
+        transform: translate(-54.1%, -46%) scale(1.08);
+        transform-origin: 54% 40%;
     }
 }
 
@@ -9578,4 +9560,25 @@ html[data-theme="dark"] .case-browser {
     .project-image--fhp.is-play .fhp-page {
         animation: none;
     }
+}
+
+/* Works card (MyGuava POS): the terminals on the MyGuava lettering pattern.
+   Like the Remiton card: a panel that runs to the card's edges, rounded on
+   top, with the pattern covering it; the terminals sit above it. */
+.project-card--pos {
+    gap: 16px;
+    padding-bottom: 0;
+}
+
+.project-card--pos .project-head {
+    min-height: 0;
+}
+
+.project-card--pos .project-image--phones {
+    isolation: isolate;
+    background: #FFFFFF url("images/pos-card-bg.webp?v=2") 50% 50% / cover no-repeat;
+}
+
+.project-card--pos .project-phones {
+    z-index: 1;
 }
