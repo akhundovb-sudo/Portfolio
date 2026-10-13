@@ -3007,59 +3007,109 @@ html.nokia-full-open body {
     display: flex;
 }
 
-/* Keypad: four arrows as a cross, C top left. */
+/* Controls: a d-pad like a game pad's, a cross of four arrows with a
+   hub in the middle on a round base, centred low on the screen; C to quit
+   sits apart, top left of the control area. */
 .nokia-full-pad {
+    position: relative;
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+}
+
+.nokia-full-dpad {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    gap: 14px;
-    max-height: 340px;
-    margin-top: auto;
+    width: min(76vw, 300px, 100%);
+    aspect-ratio: 1;
+    padding: 9%;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 40%, #3E5276 0%, #2B3A57 70%, #24324C 100%);
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.08),
+        inset 0 -6px 14px rgba(0, 0, 0, 0.35),
+        0 10px 24px rgba(0, 0, 0, 0.3);
 }
 
-.nokia-full-key {
+.nokia-full-arm,
+.nokia-full-hub {
+    display: grid;
+    place-items: center;
+    background: #C9CED6;
+    color: #2F3E55;
+}
+
+.nokia-full-arm {
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+    box-shadow: inset 0 -4px 0 rgba(47, 62, 85, 0.22);
+    transition: background-color 80ms ease, box-shadow 80ms ease;
+}
+
+.nokia-full-arm:active {
+    background: #AEB5C0;
+    box-shadow: inset 0 3px 6px rgba(47, 62, 85, 0.35);
+}
+
+.nokia-full-arm--up { grid-area: 1 / 2; border-radius: 16px 16px 0 0; }
+.nokia-full-arm--up:not(:active) { box-shadow: none; }
+.nokia-full-arm--left { grid-area: 2 / 1; border-radius: 16px 0 0 16px; }
+.nokia-full-arm--right { grid-area: 2 / 3; border-radius: 0 16px 16px 0; }
+.nokia-full-arm--down { grid-area: 3 / 2; border-radius: 0 0 16px 16px; }
+
+/* The middle of the cross, with a shallow dimple. */
+.nokia-full-hub {
+    grid-area: 2 / 2;
+    background:
+        radial-gradient(circle, rgba(47, 62, 85, 0.18) 0 34%, transparent 36%),
+        #C9CED6;
+}
+
+.nokia-full-quit {
+    position: absolute;
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 1px;
+    width: 64px;
+    height: 64px;
     padding: 0;
     border: 0;
-    border-radius: 999px;
-    background: #C9CED6;
-    box-shadow: inset 0 -4px 0 rgba(47, 62, 85, 0.25), 0 4px 10px rgba(0, 0, 0, 0.25);
-    color: #2F3E55;
+    border-radius: 50%;
+    background: #8FA0BC;
+    box-shadow: inset 0 -3px 0 rgba(29, 37, 50, 0.25), 0 4px 10px rgba(0, 0, 0, 0.25);
+    color: #1D2532;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    touch-action: none;
-    transition: transform 80ms ease, box-shadow 80ms ease;
 }
 
-.nokia-full-key:active {
+.nokia-full-quit:active {
     transform: translateY(2px);
-    box-shadow: inset 0 -1px 0 rgba(47, 62, 85, 0.25), 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-.nokia-full-key b {
-    font-size: 26px;
+.nokia-full-quit b {
+    font-size: 22px;
     line-height: 1;
 }
 
-.nokia-full-key small {
-    font-size: 11px;
+.nokia-full-quit small {
+    font-size: 10px;
     line-height: 1;
-    text-transform: uppercase;
     letter-spacing: 0.08em;
-    opacity: 0.75;
+    text-transform: uppercase;
 }
-
-.nokia-full-key--c {
-    background: #8FA0BC;
-    color: #1D2532;
-}
-
 
 @media (prefers-reduced-motion: reduce) {
     .nokia-full,

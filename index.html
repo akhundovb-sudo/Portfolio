@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast153">
+    <link rel="stylesheet" href="styles.css?v=fast154">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -382,7 +382,7 @@
     </div>
 
     <!-- Snake on a phone: the whole screen becomes the Nokia. The LCD with
-         the score up top, the keypad below (arrows steer, C quits); a swipe
+         the score up top, a d-pad below (arrows steer, C quits); a swipe
          on the LCD steers too, a tap on it plays again after game over.
          Shown by the egg script. -->
     <div class="nokia-full" aria-hidden="true">
@@ -394,15 +394,14 @@
             </div>
         </div>
         <div class="nokia-full-pad">
-            <button type="button" class="nokia-full-key nokia-full-key--c" data-full="c" aria-label="Quit"><b>C</b><small>quit</small></button>
-            <button type="button" class="nokia-full-key" data-full="2" aria-label="Up"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5L20 17H4Z" fill="currentColor"/></svg></button>
-            <span></span>
-            <button type="button" class="nokia-full-key" data-full="4" aria-label="Left"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12L17 4V20Z" fill="currentColor"/></svg></button>
-            <span></span>
-            <button type="button" class="nokia-full-key" data-full="6" aria-label="Right"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12L7 20V4Z" fill="currentColor"/></svg></button>
-            <span></span>
-            <button type="button" class="nokia-full-key" data-full="8" aria-label="Down"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19L4 7H20Z" fill="currentColor"/></svg></button>
-            <span></span>
+            <button type="button" class="nokia-full-quit" data-full="c" aria-label="Quit"><b>C</b><small>quit</small></button>
+            <div class="nokia-full-dpad">
+                <button type="button" class="nokia-full-arm nokia-full-arm--up" data-full="2" aria-label="Up"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5L20 17H4Z" fill="currentColor"/></svg></button>
+                <button type="button" class="nokia-full-arm nokia-full-arm--left" data-full="4" aria-label="Left"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12L17 4V20Z" fill="currentColor"/></svg></button>
+                <span class="nokia-full-hub" aria-hidden="true"></span>
+                <button type="button" class="nokia-full-arm nokia-full-arm--right" data-full="6" aria-label="Right"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12L7 20V4Z" fill="currentColor"/></svg></button>
+                <button type="button" class="nokia-full-arm nokia-full-arm--down" data-full="8" aria-label="Down"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19L4 7H20Z" fill="currentColor"/></svg></button>
+            </div>
         </div>
     </div>
 
@@ -967,7 +966,7 @@
             // Touch: the grid surfaces under the finger and dips while it is
             // down, follows it, and fades a moment after it lifts (or once the
             // page takes the gesture over as a scroll).
-            var touching = false, fadeTimer = null;
+            var touching = false, fadeTimer = null, safety = null;
             function touchAt(e) {
                 var r = hero.getBoundingClientRect();
                 target.x = e.clientX - r.left;
@@ -983,25 +982,41 @@
                 shownTarget = 1;
                 pressedTarget = 1;
                 kick();
+                // However the touch ends, the grid settles within 2.5s.
+                clearTimeout(safety);
+                safety = setTimeout(function () { touching = false; rest(0); }, 2500);
             }, { passive: true });
             hero.addEventListener('pointermove', function (e) {
                 if (!touching || e.pointerType === 'mouse') return;
                 touchAt(e);
                 kick();
             }, { passive: true });
-            function lift(e) {
-                if (!touching || e.pointerType === 'mouse') return;
-                touching = false;
-                pressedTarget = 0;
-                kick();
+            // Back to the flat, hidden grid once the finger is gone. Phones
+            // don't always send pointerup to the page (a scroll or the
+            // browser's own gesture can swallow it), so touchend, a scroll and
+            // a safety timer bring it back as well.
+            function rest(delay) {
+                clearTimeout(fadeTimer);
                 fadeTimer = setTimeout(function () {
                     entered = false;
                     shownTarget = 0;
+                    pressedTarget = 0;
                     kick();
-                }, 600);
+                }, delay);
+            }
+            function lift(e) {
+                if (!touching || (e && e.pointerType === 'mouse')) return;
+                touching = false;
+                clearTimeout(safety);
+                pressedTarget = 0;
+                kick();
+                rest(600);
             }
             window.addEventListener('pointerup', lift);
             window.addEventListener('pointercancel', lift);
+            window.addEventListener('touchend', function () { lift(); }, { passive: true });
+            window.addEventListener('touchcancel', function () { lift(); }, { passive: true });
+            window.addEventListener('scroll', function () { if (touching || shownTarget) { touching = false; pressedTarget = 0; rest(0); } }, { passive: true });
 
             // Click sounds: retro mobile-phone beeps (Web Audio, no files).
             // Each press plays the next note of the famous Nokia Tune phrase
