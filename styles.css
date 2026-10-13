@@ -6009,8 +6009,19 @@ html[data-theme="dark"] .project-arrow::before {
 .project-image--biz {
     position: relative;
     overflow: hidden;
-    border-radius: 12px 12px 0 0;
+    border-radius: 12px;
     background: #0A1FB8;
+}
+
+/* Like the Remiton card: the panel rounded all round with room under it,
+   and closer to the title. */
+.project-card:has(.project-image--biz) {
+    gap: 16px;
+    padding-bottom: 20px;
+}
+
+.project-card:has(.project-image--biz) .project-head {
+    min-height: 0;
 }
 
 .biz-stage {
