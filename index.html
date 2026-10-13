@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast151">
+    <link rel="stylesheet" href="styles.css?v=fast152">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -379,6 +379,30 @@
             <button type="button" class="nokia-egg-snake" tabindex="-1">Play Snake 🐍</button>
         </div>
         <p class="nokia-egg-hint"><span class="nokia-egg-hint-keys">Arrows or 2 4 6 8 to steer<br>Esc to quit</span><span class="nokia-egg-hint-touch">Tap 2 4 6 8 to steer<br>C to quit</span></p>
+    </div>
+
+    <!-- Snake on a phone: the whole screen becomes the Nokia. The LCD with
+         the score up top, the keypad below (2 4 6 8 steer, 5 plays again,
+         C quits); a swipe on the LCD steers too. Shown by the egg script. -->
+    <div class="nokia-full" aria-hidden="true">
+        <div class="nokia-full-lcd">
+            <div class="nokia-full-glass">
+                <div class="nokia-full-bar"><span>Score <b class="nokia-full-score">0</b></span><span>Snake</span></div>
+                <canvas class="nokia-full-screen" width="180" height="140"></canvas>
+                <div class="nokia-full-over">Game over<span class="nokia-full-final">Score 0</span><small>Tap or 5 to play again</small></div>
+            </div>
+        </div>
+        <div class="nokia-full-pad">
+            <button type="button" class="nokia-full-key nokia-full-key--c" data-full="c" aria-label="Quit"><b>C</b><small>quit</small></button>
+            <button type="button" class="nokia-full-key" data-full="2" aria-label="Up"><b>2</b><small>&#9650;</small></button>
+            <span></span>
+            <button type="button" class="nokia-full-key" data-full="4" aria-label="Left"><b>4</b><small>&#9664;</small></button>
+            <button type="button" class="nokia-full-key nokia-full-key--5" data-full="5" aria-label="Play again"><b>5</b><small>again</small></button>
+            <button type="button" class="nokia-full-key" data-full="6" aria-label="Right"><b>6</b><small>&#9654;</small></button>
+            <span></span>
+            <button type="button" class="nokia-full-key" data-full="8" aria-label="Down"><b>8</b><small>&#9660;</small></button>
+            <span></span>
+        </div>
     </div>
 
     <!-- Contact Modal -->
@@ -1122,6 +1146,15 @@
                 });
                 // The scroll cue shares the corner; it steps aside meanwhile.
                 document.documentElement.classList.toggle('nokia-active', !!state);
+                // Full-screen Snake on touch screens: on while playing or over.
+                if (full) {
+                    var on = fullMode && (state === 'playing' || state === 'over');
+                    if (!on) fullMode = false;
+                    full.classList.toggle('is-on', on);
+                    full.classList.toggle('is-over', on && state === 'over');
+                    full.setAttribute('aria-hidden', on ? 'false' : 'true');
+                    document.documentElement.classList.toggle('nokia-full-open', on);
+                }
                 Array.prototype.forEach.call(eggUi.querySelectorAll('.nokia-egg-actions button'), function (b) {
                     b.tabIndex = state === 'ringing' ? 0 : -1;
                 });
@@ -1153,6 +1186,26 @@
             var COLS = 18, ROWS = 14, CELL = 2;
             var snake, dir, nextDir, food, score, loop = null, speed;
 
+            // On a touch screen the game takes the whole screen instead
+            // (.nokia-full): the same field, ten times the pixels.
+            var full = document.querySelector('.nokia-full');
+            var bigScreen = full && full.querySelector('.nokia-full-screen');
+            var big = bigScreen && bigScreen.getContext('2d');
+            var BIG = 10, fullMode = false;
+            var touchScreen = window.matchMedia('(hover: none)');
+
+            function drawFull() {
+                big.clearRect(0, 0, bigScreen.width, bigScreen.height);
+                big.fillStyle = '#26301C';
+                snake.forEach(function (c) {
+                    big.fillRect(c.x * BIG + 1, c.y * BIG + 1, BIG - 2, BIG - 2);
+                });
+                var h = BIG / 2;
+                big.fillRect(food.x * BIG + 1, food.y * BIG + 1, h - 1, h - 1);
+                big.fillRect(food.x * BIG + h, food.y * BIG + h, h - 1, h - 1);
+                full.querySelector('.nokia-full-score').textContent = score;
+            }
+
             function placeFood() {
                 do {
                     food = { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
@@ -1168,10 +1221,12 @@
                 // Food as a single checker pixel pair, like the original.
                 lcd.fillRect(food.x * CELL, food.y * CELL, 1, 1);
                 lcd.fillRect(food.x * CELL + 1, food.y * CELL + 1, 1, 1);
+                if (fullMode && big) drawFull();
             }
 
             function startSnake() {
                 clearTimeout(eggTimer);
+                fullMode = !!(full && big && touchScreen.matches);
                 snake = [{ x: 6, y: 7 }, { x: 5, y: 7 }, { x: 4, y: 7 }, { x: 3, y: 7 }];
                 dir = { x: 1, y: 0 };
                 nextDir = dir;
@@ -1218,6 +1273,7 @@
             function snakeOver() {
                 stopSnake();
                 egg.querySelector('.nokia-egg-score').textContent = 'Score ' + score;
+                if (full) full.querySelector('.nokia-full-final').textContent = 'Score ' + score;
                 eggState('over');
                 [{ freq: 659.25, dur: 0.12 }, { freq: 523.25, dur: 0.12 }, { freq: 392.0, dur: 0.24 }]
                     .forEach(function (n, i) {
@@ -1268,6 +1324,34 @@
                 eggUi.querySelector('.nokia-egg-answer').addEventListener('click', answer);
                 eggUi.querySelector('.nokia-egg-snake').addEventListener('click', startSnake);
                 eggUi.querySelector('.nokia-egg-close').addEventListener('click', hideEgg);
+
+                if (full) {
+                    // The keypad: a press steers at once (pointerdown, not click).
+                    full.querySelector('.nokia-full-pad').addEventListener('pointerdown', function (e) {
+                        var b = e.target.closest('[data-full]');
+                        if (!b) return;
+                        e.preventDefault();
+                        var k = b.getAttribute('data-full');
+                        if (k === 'c') return hideEgg();
+                        if (k === '5') { if (egg.classList.contains('is-over')) startSnake(); return; }
+                        turn(KEYS[k][0], KEYS[k][1]);
+                    });
+                    // On the LCD: a swipe steers; a tap after game over plays again.
+                    var swipe = null;
+                    var glass = full.querySelector('.nokia-full-lcd');
+                    glass.addEventListener('pointerdown', function (e) { swipe = { x: e.clientX, y: e.clientY }; });
+                    glass.addEventListener('pointerup', function (e) {
+                        if (!swipe) return;
+                        var dx = e.clientX - swipe.x, dy = e.clientY - swipe.y;
+                        swipe = null;
+                        if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) {
+                            if (egg.classList.contains('is-over')) startSnake();
+                            return;
+                        }
+                        if (Math.abs(dx) > Math.abs(dy)) turn(dx > 0 ? 1 : -1, 0);
+                        else turn(0, dy > 0 ? 1 : -1);
+                    });
+                }
 
                 // Held off while the pointer is on it, so it can be answered.
                 [egg, eggUi].forEach(function (el) {
