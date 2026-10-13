@@ -3007,7 +3007,7 @@ html.nokia-full-open body {
     display: flex;
 }
 
-/* Keypad: 2 4 6 8 as a cross with 5 in the middle, C top left. */
+/* Keypad: four arrows as a cross, C top left. */
 .nokia-full-pad {
     flex: 1;
     display: grid;
@@ -3060,10 +3060,6 @@ html.nokia-full-open body {
     color: #1D2532;
 }
 
-.nokia-full-key--5 {
-    background: #5B7FB0;
-    color: #FFFFFF;
-}
 
 @media (prefers-reduced-motion: reduce) {
     .nokia-full,

@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast152">
+    <link rel="stylesheet" href="styles.css?v=fast153">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -382,25 +382,26 @@
     </div>
 
     <!-- Snake on a phone: the whole screen becomes the Nokia. The LCD with
-         the score up top, the keypad below (2 4 6 8 steer, 5 plays again,
-         C quits); a swipe on the LCD steers too. Shown by the egg script. -->
+         the score up top, the keypad below (arrows steer, C quits); a swipe
+         on the LCD steers too, a tap on it plays again after game over.
+         Shown by the egg script. -->
     <div class="nokia-full" aria-hidden="true">
         <div class="nokia-full-lcd">
             <div class="nokia-full-glass">
                 <div class="nokia-full-bar"><span>Score <b class="nokia-full-score">0</b></span><span>Snake</span></div>
                 <canvas class="nokia-full-screen" width="180" height="140"></canvas>
-                <div class="nokia-full-over">Game over<span class="nokia-full-final">Score 0</span><small>Tap or 5 to play again</small></div>
+                <div class="nokia-full-over">Game over<span class="nokia-full-final">Score 0</span><small>Tap to play again</small></div>
             </div>
         </div>
         <div class="nokia-full-pad">
             <button type="button" class="nokia-full-key nokia-full-key--c" data-full="c" aria-label="Quit"><b>C</b><small>quit</small></button>
-            <button type="button" class="nokia-full-key" data-full="2" aria-label="Up"><b>2</b><small>&#9650;</small></button>
+            <button type="button" class="nokia-full-key" data-full="2" aria-label="Up"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5L20 17H4Z" fill="currentColor"/></svg></button>
             <span></span>
-            <button type="button" class="nokia-full-key" data-full="4" aria-label="Left"><b>4</b><small>&#9664;</small></button>
-            <button type="button" class="nokia-full-key nokia-full-key--5" data-full="5" aria-label="Play again"><b>5</b><small>again</small></button>
-            <button type="button" class="nokia-full-key" data-full="6" aria-label="Right"><b>6</b><small>&#9654;</small></button>
+            <button type="button" class="nokia-full-key" data-full="4" aria-label="Left"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12L17 4V20Z" fill="currentColor"/></svg></button>
             <span></span>
-            <button type="button" class="nokia-full-key" data-full="8" aria-label="Down"><b>8</b><small>&#9660;</small></button>
+            <button type="button" class="nokia-full-key" data-full="6" aria-label="Right"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12L7 20V4Z" fill="currentColor"/></svg></button>
+            <span></span>
+            <button type="button" class="nokia-full-key" data-full="8" aria-label="Down"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19L4 7H20Z" fill="currentColor"/></svg></button>
             <span></span>
         </div>
     </div>
@@ -1333,7 +1334,7 @@
                         e.preventDefault();
                         var k = b.getAttribute('data-full');
                         if (k === 'c') return hideEgg();
-                        if (k === '5') { if (egg.classList.contains('is-over')) startSnake(); return; }
+                        // An arrow after game over plays again (turn() does).
                         turn(KEYS[k][0], KEYS[k][1]);
                     });
                     // On the LCD: a swipe steers; a tap after game over plays again.
