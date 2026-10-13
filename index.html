@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast148">
+    <link rel="stylesheet" href="styles.css?v=fast149">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -373,6 +373,7 @@
         <canvas class="nokia-egg-screen" width="36" height="28" aria-hidden="true"></canvas>
     </div>
     <div class="nokia-egg-ui" aria-hidden="true">
+        <button type="button" class="nokia-egg-close" tabindex="-1" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
         <div class="nokia-egg-actions">
             <button type="button" class="home-cta nokia-egg-answer" tabindex="-1">Answer</button>
             <button type="button" class="nokia-egg-snake" tabindex="-1">Play Snake 🐍</button>
@@ -1064,6 +1065,7 @@
                 Array.prototype.forEach.call(eggUi.querySelectorAll('.nokia-egg-actions button'), function (b) {
                     b.tabIndex = state === 'ringing' ? 0 : -1;
                 });
+                eggUi.querySelector('.nokia-egg-close').tabIndex = state ? 0 : -1;
             }
 
             function answer() {
@@ -1205,6 +1207,7 @@
 
                 eggUi.querySelector('.nokia-egg-answer').addEventListener('click', answer);
                 eggUi.querySelector('.nokia-egg-snake').addEventListener('click', startSnake);
+                eggUi.querySelector('.nokia-egg-close').addEventListener('click', hideEgg);
 
                 // Held off while the pointer is on it, so it can be answered.
                 [egg, eggUi].forEach(function (el) {
