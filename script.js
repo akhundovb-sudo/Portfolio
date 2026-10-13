@@ -2319,3 +2319,21 @@ window.caseClock = function (pad) {
     card.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && fine.matches) go(1); });
     card.addEventListener('pointerleave', function () { if (p >= 0) go(-1); });
 })();
+
+// MyGuava Business card (home): the charts on the monitor load each time
+// the card comes into view (styles.css .biz-load).
+(function () {
+    const panel = document.querySelector('[data-biz]');
+    if (!panel || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+            if (e.isIntersecting) {
+                panel.classList.remove('is-play');
+                void panel.offsetWidth;
+                panel.classList.add('is-play');
+            } else {
+                panel.classList.remove('is-play');
+            }
+        });
+    }, { threshold: 0.4 }).observe(panel);
+})();

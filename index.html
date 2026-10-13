@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast157">
+    <link rel="stylesheet" href="styles.css?v=fast158">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -250,16 +250,23 @@
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Business</span><span class="project-sep"> · </span><span class="project-description">Web dashboard</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <!-- The overview in a browser in front; on hover four chart cards
-                         slide out from behind it, two each side, each to the side
-                         its graphic sits on (donut and gauge left, bars and line right). -->
-                    <div class="project-image project-image--phones project-image--browsers project-image--charts" aria-hidden="true">
-                        <div class="project-phones">
-                            <img class="project-chart project-chart--lt" src="images/business-card-donut.jpg?v=1" alt="" loading="lazy" decoding="async">
-                            <img class="project-chart project-chart--lb" src="images/business-card-gauge.jpg?v=1" alt="" loading="lazy" decoding="async">
-                            <img class="project-chart project-chart--rt" src="images/business-card-bars.jpg?v=1" alt="" loading="lazy" decoding="async">
-                            <img class="project-chart project-chart--rb" src="images/business-card-line.jpg?v=1" alt="" loading="lazy" decoding="async">
-                            <div class="case-browser case-browser--front"><div class="case-browser-bar"><i></i><i></i><i></i><span>business.myguava.com</span></div><img class="case-browser-shot" src="images/business-overview.jpg?v=2" alt="" loading="lazy" decoding="async"></div>
+                    <!-- The overview on a monitor on a desk in blue light. Each time
+                         the card comes into view the charts load: skeletons shimmer,
+                         then the lines draw, the donut fills round, the gauge sweeps
+                         and the bars grow (script.js [data-biz]). -->
+                    <div class="project-image project-image--biz" aria-hidden="true" data-biz>
+                        <div class="biz-stage">
+                            <img class="biz-desk" src="images/business-desk.webp?v=1" alt="" loading="lazy" decoding="async">
+                            <div class="biz-screen">
+                                <div class="biz-sheet">
+                                    <img src="images/business-overview.jpg?v=2" alt="" loading="lazy" decoding="async">
+                                    <span class="biz-load biz-load--fade" style="left:2.8%;top:21.8%;width:94.4%;height:6.3%"></span>
+                                    <span class="biz-load biz-load--x" style="left:6.2%;top:36.4%;width:50%;height:17.2%;--d:0ms"></span>
+                                    <span class="biz-load biz-load--round" style="left:60%;top:36%;width:15.6%;height:19.2%;--d:150ms"></span>
+                                    <span class="biz-load biz-load--x" style="left:10%;top:63.2%;width:22.8%;height:14%;--d:300ms"></span>
+                                    <span class="biz-load biz-load--up" style="left:49.4%;top:64.4%;width:45.3%;height:15.3%;--d:450ms"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -441,7 +448,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261014n"></script>
+    <script src="script.js?v=20261014o"></script>
     <script>
 
         // Mobile Menu Functionality
