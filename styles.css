@@ -853,11 +853,6 @@ body .hamburger span {
     pointer-events: none;
 }
 
-@media not all and (hover: hover) and (pointer: fine) {
-    .home-hero-field {
-        display: none;
-    }
-}
 
 .home-hero-grid {
     display: grid;
