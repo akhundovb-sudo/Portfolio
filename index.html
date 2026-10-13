@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast159">
+    <link rel="stylesheet" href="styles.css?v=fast160">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -250,21 +250,45 @@
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Business</span><span class="project-sep"> · </span><span class="project-description">Web dashboard</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <!-- The overview on a monitor on a desk in blue light. Each time
-                         the card comes into view the charts load: skeletons shimmer,
-                         then the lines draw, the donut fills round, the gauge sweeps
-                         and the bars grow (script.js [data-biz]). -->
-                    <div class="project-image project-image--biz" aria-hidden="true" data-biz>
+                    <!-- The overview on a monitor on a desk in blue light, loading
+                         as in the case cover: skeletons, figures counting up, then
+                         the charts drawing in (script.js, data-flow="dashboard"). -->
+                    <div class="project-image project-image--biz" aria-hidden="true">
                         <div class="biz-stage">
                             <img class="biz-desk" src="images/business-desk.webp?v=1" alt="" loading="lazy" decoding="async">
                             <div class="biz-screen">
-                                <div class="biz-sheet">
-                                    <img src="images/business-overview.jpg?v=2" alt="" loading="lazy" decoding="async">
-                                    <span class="biz-load biz-load--fade" style="left:2.8%;top:21.8%;width:94.4%;height:6.3%"></span>
-                                    <span class="biz-load biz-load--x" style="left:6.2%;top:36.4%;width:50%;height:17.2%;--d:0ms"></span>
-                                    <span class="biz-load biz-load--round" style="left:60%;top:36%;width:15.6%;height:19.2%;--d:150ms"></span>
-                                    <span class="biz-load biz-load--x" style="left:10%;top:63.2%;width:22.8%;height:14%;--d:300ms"></span>
-                                    <span class="biz-load biz-load--up" style="left:49.4%;top:64.4%;width:45.3%;height:15.3%;--d:450ms"></span>
+                                <div class="case-stage" data-flow="dashboard">
+                                <img class="case-browser-shot" src="images/business-overview.jpg?v=2" alt="" loading="lazy" width="1600" height="1305" decoding="async">
+                                <span class="case-skel" aria-hidden="true" style="--x: 3.250; --y: 24.674; --w: 14.688; --h: 2.605; --sw: 62%"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 19.000; --y: 24.674; --w: 14.688; --h: 2.605; --sw: 62%"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 34.750; --y: 24.674; --w: 14.688; --h: 2.605; --sw: 62%"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 50.500; --y: 24.674; --w: 14.688; --h: 2.605; --sw: 62%"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 66.250; --y: 24.674; --w: 14.688; --h: 2.605; --sw: 62%"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 82.000; --y: 24.674; --w: 14.688; --h: 2.605; --sw: 62%"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 3.250; --y: 93.563; --w: 14.062; --h: 2.529; --sw: 40%; --bg: #F5F5F5"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 18.375; --y: 93.563; --w: 14.062; --h: 2.529; --sw: 40%; --bg: #F5F5F5"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 33.500; --y: 93.563; --w: 14.062; --h: 2.529; --sw: 40%; --bg: #F5F5F5"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 52.312; --y: 93.563; --w: 14.062; --h: 2.529; --sw: 40%; --bg: #F5F5F5"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 67.438; --y: 93.563; --w: 14.062; --h: 2.529; --sw: 40%; --bg: #F5F5F5"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 82.562; --y: 93.563; --w: 14.062; --h: 2.529; --sw: 40%; --bg: #F5F5F5"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 63.75; --y: 45.67; --w: 8.0; --h: 2.1; --sw: 0%; --bg: #FFFFFF"></span>
+                                <span class="case-skel" aria-hidden="true" style="--x: 17.375; --y: 72.82; --w: 7.94; --h: 2.1; --sw: 0%; --bg: #FFFFFF"></span>
+                                <span class="case-count" aria-hidden="true" data-to="17420.70" data-dec="2" data-pre="£" style="--x: 3.750; --y: 25.824">£0</span>
+                                <span class="case-count" aria-hidden="true" data-to="16320.50" data-dec="2" data-pre="£" style="--x: 19.562; --y: 25.824">£0</span>
+                                <span class="case-count" aria-hidden="true" data-to="128.45" data-dec="2" data-pre="£" style="--x: 35.312; --y: 25.824">£0</span>
+                                <span class="case-count" aria-hidden="true" data-to="1128.45" data-dec="2" data-pre="£" style="--x: 51.062; --y: 25.824">£0</span>
+                                <span class="case-count" aria-hidden="true" data-to="1100.20" data-dec="2" data-pre="£" style="--x: 66.812; --y: 25.824">£0</span>
+                                <span class="case-count" aria-hidden="true" data-to="127" data-dec="0" data-pre="" style="--x: 82.562; --y: 25.824">0</span>
+                                <span class="case-count" aria-hidden="true" data-to="12" data-dec="0" data-pre="" style="--x: 3.750; --y: 94.559">0</span>
+                                <span class="case-count" aria-hidden="true" data-to="1" data-dec="0" data-pre="" style="--x: 18.875; --y: 94.559">0</span>
+                                <span class="case-count" aria-hidden="true" data-to="1" data-dec="0" data-pre="" style="--x: 52.875; --y: 94.559">0</span>
+                                <span class="case-count" aria-hidden="true" data-to="1" data-dec="0" data-pre="" style="--x: 68.000; --y: 94.559">0</span>
+                                <span class="case-count case-count--center" aria-hidden="true" data-to="16320.50" data-dec="2" data-pre="£" style="--x: 67.719; --y: 46.513">£0</span>
+                                <span class="case-count case-count--center" aria-hidden="true" data-to="16320.50" data-dec="2" data-pre="£" style="--x: 21.344; --y: 73.716">£0</span>
+                                <span class="case-chart-cover" aria-hidden="true" style="--x: 6.25; --y: 40.46; --w: 50.06; --h: 7.97"></span>
+                                <span class="case-chart-cover case-chart-cover--ring" aria-hidden="true" style="--x: 59.84; --y: 35.9; --w: 15.875; --h: 19.46"></span>
+                                <span class="case-chart-cover case-chart-cover--gauge" aria-hidden="true" style="--x: 10.14; --y: 63.09; --w: 22.21; --h: 13.62"></span>
+                                <span class="case-chart-cover case-chart-cover--bars" aria-hidden="true" style="--x: 49.875; --y: 64.83; --w: 44.69; --h: 14.87"></span>
                                 </div>
                             </div>
                         </div>
@@ -448,7 +472,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261014o"></script>
+    <script src="script.js?v=20261014p"></script>
     <script>
 
         // Mobile Menu Functionality
