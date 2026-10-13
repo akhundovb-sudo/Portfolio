@@ -6026,7 +6026,8 @@ html[data-theme="dark"] .project-arrow::before {
 .project-image--biz {
     flex: 1 0 auto;
     margin: 0 -20px;
-    border-radius: 0;
+    /* Rounded on top, like the card; the card's own corners round the bottom. */
+    border-radius: 20px 20px 0 0;
 }
 
 .project-card:has(.project-image--biz) .project-head {
