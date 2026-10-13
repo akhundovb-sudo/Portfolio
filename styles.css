@@ -9458,7 +9458,7 @@ html[data-theme="dark"] .case-browser {
    covers the panel (a size container), a little above centre so the whole
    phone shows. The Finharbor home is a flat 393 x 852 layer, laid onto the
    photo's screen by a perspective matrix worked out from the screen's four
-   corners (in the photo's own 1186px), then scaled with the photo (--k, set
+   corners (in the photo's own 1408px), then scaled with the photo (--k, set
    by script.js). Like the other image cards it runs to the card's edges. */
 .project-card:has(.project-image--fhp) {
     gap: 16px;
@@ -9484,9 +9484,9 @@ html[data-theme="dark"] .case-browser {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: max(100cqw, 100cqh);
-    aspect-ratio: 1;
-    transform: translate(-50%, -40%);
+    width: max(140cqw, 200cqh);
+    aspect-ratio: 1408 / 1046;
+    transform: translate(-50%, -41%);
 }
 
 .fhp-photo {
@@ -9505,7 +9505,7 @@ html[data-theme="dark"] .case-browser {
     border-radius: 55px;
     background: #FFFFFF;
     transform-origin: 0 0;
-    transform: scale(var(--k)) matrix3d(0.631039, -0.151486, 0, 6.10549e-05, 0.204322, 0.584105, 0, -4.10303e-05, 0, 0, 1, 0, 400.6, 254.4, 0, 1);
+    transform: scale(var(--k)) matrix3d(0.5074, -0.115419, 0, 5.79524e-05, 0.16172, 0.458656, 0, -2.21201e-05, 0, 0, 1, 0, 555.4, 271.7, 0, 1);
 }
 
 .fhp-page {
