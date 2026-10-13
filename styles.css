@@ -6065,6 +6065,8 @@ html[data-theme="dark"] .project-arrow::before {
     height: 40.70%;
     display: flex;
     justify-content: center;
+    /* Top, not stretched: the overview keeps its own proportions. */
+    align-items: flex-start;
     overflow: hidden;
     background: #F5F5F5;
 }
