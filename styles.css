@@ -5272,10 +5272,48 @@ html[data-theme="dark"] .theme-icon-sun {
     height: 24px;
 }
 
-/* Theme cross-fade (View Transitions where supported). */
+/* Theme switch (View Transitions where supported): the new theme spreads
+   out in a circle from the toggle that was pressed until it covers the
+   screen; the old one stays put underneath. script.js sets the centre
+   (--vt-x, --vt-y) and the radius that reaches the farthest corner (--vt-r). */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-    animation-duration: 350ms;
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+    animation: theme-reveal 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@keyframes theme-reveal {
+    from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); }
+    to { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 0)); }
+}
+
+/* While the circle spreads, colours switch at once underneath it (the
+   page's own colour fades would show through as grey). */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+    transition: none !important;
+}
+
+/* The icon that comes in turns and grows into place. */
+.theme-toggle.is-flipping svg {
+    animation: theme-icon-in 550ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes theme-icon-in {
+    from { transform: rotate(-120deg) scale(0.4); opacity: 0; }
+    to { transform: none; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle.is-flipping svg {
+        animation: none;
+    }
 }
 
 /* Dark palette. */
