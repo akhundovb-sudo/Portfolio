@@ -9492,9 +9492,9 @@ html[data-theme="dark"] .case-browser {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: max(112cqw, 190cqh);
-    aspect-ratio: 1408 / 1046;
-    transform: translate(-50%, -37%);
+    width: max(160cqw, 300cqh);
+    aspect-ratio: 1730 / 836;
+    transform: translate(-50%, -46%);
     transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -9514,7 +9514,7 @@ html[data-theme="dark"] .case-browser {
     border-radius: 55px;
     background: #FFFFFF;
     transform-origin: 0 0;
-    transform: scale(var(--k)) matrix3d(0.5074, -0.115419, 0, 5.79524e-05, 0.16172, 0.458656, 0, -2.21201e-05, 0, 0, 1, 0, 555.4, 271.7, 0, 1);
+    transform: scale(var(--k)) matrix3d(0.382999, -0.0665507, 0, 4.46199e-05, 0.0971016, 0.328565, 0, -7.40962e-06, 0, 0, 1, 0, 825.4, 249.3, 0, 1);
 }
 
 .fhp-page {
@@ -9557,8 +9557,8 @@ html[data-theme="dark"] .case-browser {
 /* Pointing at the card draws the photo in a little, about the phone. */
 @media (hover: hover) and (pointer: fine) {
     .project-card:hover .fhp-stage {
-        transform: translate(-50%, -37%) scale(1.08);
-        transform-origin: 51% 43%;
+        transform: translate(-50%, -46%) scale(1.08);
+        transform-origin: 56% 36%;
     }
 }
 
