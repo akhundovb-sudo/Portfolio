@@ -2906,6 +2906,33 @@ html[data-theme="dark"] .nokia-egg-close {
     color: #EDEDEC;
 }
 
+/* While the Nokia is out, the "you can just scroll" cue steps aside: it
+   shares the bottom of the screen with the phone, its buttons and hint. */
+.home-hero-scroll {
+    transition: color 300ms ease, font-size 300ms ease, line-height 300ms ease, opacity 250ms ease;
+}
+
+html.nokia-active .home-hero-scroll {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* The hint names the keys you have: the keyboard's on a computer, the
+   phone's own keypad on a touch screen. */
+.nokia-egg-hint-touch {
+    display: none;
+}
+
+@media (hover: none) {
+    .nokia-egg-hint-keys {
+        display: none;
+    }
+
+    .nokia-egg-hint-touch {
+        display: inline;
+    }
+}
+
 .nokia-egg-snake:focus-visible {
     outline: 1px solid #0F0F0F;
     outline-offset: 4px;

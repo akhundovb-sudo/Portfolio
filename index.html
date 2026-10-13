@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast149">
+    <link rel="stylesheet" href="styles.css?v=fast150">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -378,7 +378,7 @@
             <button type="button" class="home-cta nokia-egg-answer" tabindex="-1">Answer</button>
             <button type="button" class="nokia-egg-snake" tabindex="-1">Play Snake 🐍</button>
         </div>
-        <p class="nokia-egg-hint">Arrows or 2 4 6 8 to steer<br>Esc to quit</p>
+        <p class="nokia-egg-hint"><span class="nokia-egg-hint-keys">Arrows or 2 4 6 8 to steer<br>Esc to quit</span><span class="nokia-egg-hint-touch">Tap 2 4 6 8 to steer<br>C to quit</span></p>
     </div>
 
     <!-- Contact Modal -->
@@ -1268,6 +1268,23 @@
                     kick();
                 }
             });
+
+            // Phones and tablets: a tap in the hero plays the tune too. Only a
+            // tap counts (short, finger barely moved), so scrolling past the
+            // hero stays silent. The grid itself remains mouse only.
+            var tap = null;
+            document.addEventListener('pointerdown', function (e) {
+                if (e.pointerType === 'mouse' || root.classList.contains('intro-active')) return;
+                if (!playable(e) || !e.target.closest('.home-hero, .home-hero-name')) return;
+                tap = { x: e.clientX, y: e.clientY, t: Date.now() };
+            }, { passive: true });
+            document.addEventListener('pointerup', function (e) {
+                if (!tap || e.pointerType === 'mouse') return;
+                var still = Math.hypot(e.clientX - tap.x, e.clientY - tap.y) < 10 && Date.now() - tap.t < 400;
+                tap = null;
+                if (still) sound('press');
+            });
+            document.addEventListener('pointercancel', function () { tap = null; });
 
             resize();
             if ('ResizeObserver' in window) new ResizeObserver(resize).observe(hero);
