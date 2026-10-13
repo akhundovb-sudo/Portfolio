@@ -6070,13 +6070,14 @@ html[data-theme="dark"] .project-arrow::before {
 }
 
 /* The clip sizes its figures to its own width (cqw), as on the case page. */
-/* The whole overview on the screen: it fills it edge to edge (a touch
-   shorter than the page's own proportions; the layers are placed in %, so
-   they stay on their charts). */
+/* The whole overview on the screen at its own proportions: fitted by
+   height and centred; the strips left and right are the page's own grey
+   (#F5F5F5, as the screen), so the page just runs a little wider. */
 .biz-screen .case-stage {
     flex: none;
-    width: 100%;
     height: 100%;
+    width: auto;
+    aspect-ratio: 1600 / 1305;
     container-type: inline-size;
 }
 
