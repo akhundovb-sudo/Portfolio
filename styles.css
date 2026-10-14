@@ -9610,6 +9610,27 @@ html[data-theme="dark"] .case-browser {
     background: #FFFFFF url("images/pay-card-bg.webp") 50% 50% / cover no-repeat;
 }
 
+/* One full hue turn makes a seamless colour loop in the existing pixels.
+   Only the background layer is filtered; the browsers stay above it. */
+@media (prefers-reduced-motion: no-preference) {
+    .project-card--pay .project-image--phones::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        border-radius: inherit;
+        background: inherit;
+        pointer-events: none;
+        animation: pay-pixel-colors 14s linear infinite;
+        will-change: filter;
+    }
+}
+
+@keyframes pay-pixel-colors {
+    from { filter: hue-rotate(0deg); }
+    to { filter: hue-rotate(360deg); }
+}
+
 .project-card--ds .project-image--phones {
     background-color: #000000;
     overflow: hidden;
