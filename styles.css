@@ -9611,15 +9611,18 @@ html[data-theme="dark"] .case-browser {
 }
 
 .project-card--ds .project-image--phones {
-    background: #000000;
+    background-color: #000000;
     overflow: hidden;
 }
 
+/* The frame is scaled to the panel's width and pinned to its top-left, so
+   its left and top margins are the same fraction of the width at every size
+   (the frame's own margin is 6% of its width on each side). */
 .project-card--ds .project-image--phones::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: url("images/ds-card-bg.webp?v=3") 50% 0 / cover no-repeat;
+    background: url("images/ds-card-bg.webp?v=5") 0 0 / 100% auto no-repeat;
     transform-origin: 50% 30%;
     transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
