@@ -9587,7 +9587,7 @@ html[data-theme="dark"] .case-browser {
 
 /* Works cards (MyGuava Payment, Design System): the same panel as POS and
    Remiton, running to the card's edges, with its own background. Payment:
-   the checkout on a monitor on a desk. Design System: the case's bento
+   the checkout on a laptop. Design System: the case's bento
    of components on black (logo, check, lettering, buttons, colour bars,
    icons, switches), cropped to its top row behind the button. */
 .project-card--pay,
@@ -9606,11 +9606,11 @@ html[data-theme="dark"] .case-browser {
     isolation: isolate;
 }
 
-/* The checkout on a monitor on a desk, cropped to cover the panel about the
-   monitor, with the same gentle hover zoom as the other works cards. */
+/* The checkout on a laptop, cropped to cover the panel about the laptop,
+   with the same gentle hover zoom as the other works cards. */
 .project-card--pay .project-image--phones {
     overflow: hidden;
-    background: #CFC6B8;
+    background: #B9B6AE;
 }
 
 .paydesk-photo {
@@ -9619,8 +9619,8 @@ html[data-theme="dark"] .case-browser {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 62%;
-    transform-origin: 50% 50%;
+    object-position: 45% 40%;
+    transform-origin: 44% 38%;
     transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
