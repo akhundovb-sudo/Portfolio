@@ -5978,7 +5978,7 @@ html[data-theme="dark"] .project-arrow::before {
 }
 
 /* Frames 2 to 5 stacked over the first, each fading in over the one below
-   in its quarter of an 8s pass; the pass then plays back, 16s a loop. */
+   in its quarter of a 4s pass; the pass then plays back, 8s a loop. */
 .remiton-bg {
     position: absolute;
     inset: 0;
@@ -5991,7 +5991,7 @@ html[data-theme="dark"] .project-arrow::before {
     inset: 0;
     opacity: 0;
     background: 50% 0 / 100% auto no-repeat;
-    animation: 8s ease-in-out infinite alternate;
+    animation: 4s ease-in-out infinite alternate;
 }
 
 .remiton-bg i:nth-child(1) { background-image: url("images/remiton/card-bg-2.webp"); animation-name: remiton-bg-2; }
@@ -9668,14 +9668,14 @@ html[data-theme="dark"] .case-browser {
     overflow: hidden;
 }
 
-/* The frame is scaled to the panel's width and pinned to its top-left, so
-   its left and top margins are the same fraction of the width at every size
-   (the frame's own margin is 6% of its width on each side). */
+/* The frame covers the panel, pinned to its top-left, so its own left and
+   top margins (about 3% of its width) stay even at every size: on a wide
+   panel it fills the width, on a narrow one the height. */
 .project-card--ds .project-image--phones::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: url("images/ds-card-bg.webp?v=5") 0 0 / 100% auto no-repeat;
+    background: url("images/ds-card-bg.webp?v=6") 0 0 / cover no-repeat;
     transform-origin: 50% 30%;
     transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
