@@ -5977,13 +5977,26 @@ html[data-theme="dark"] .project-arrow::before {
     pointer-events: none;
 }
 
-/* Frames 2 to 5 stacked over the first, each fading in over the one below
-   in its quarter of a 4s pass; the pass then plays back, 8s a loop. */
+/* The streaks move: the five frames sit in a layer a little larger than
+   the panel that drifts slowly across the streaks and back while the light
+   breathes, brighter then deeper (remiton-drift, 7s each way). Inside it,
+   frames 2 to 5 stack over the first and each fades in over the one below
+   in its quarter of a 4s pass, which then plays back. */
 .remiton-bg {
     position: absolute;
     inset: 0;
     z-index: 0;
+    overflow: hidden;
+    border-radius: inherit;
     pointer-events: none;
+}
+
+.remiton-bg-drift {
+    position: absolute;
+    inset: -10%;
+    background: url("images/remiton/card-bg-1.webp") 50% 0 / 100% auto no-repeat;
+    animation: remiton-drift 7s ease-in-out infinite alternate;
+    will-change: transform, filter;
 }
 
 .remiton-bg i {
@@ -5998,6 +6011,11 @@ html[data-theme="dark"] .project-arrow::before {
 .remiton-bg i:nth-child(2) { background-image: url("images/remiton/card-bg-3.webp"); animation-name: remiton-bg-3; }
 .remiton-bg i:nth-child(3) { background-image: url("images/remiton/card-bg-4.webp"); animation-name: remiton-bg-4; }
 .remiton-bg i:nth-child(4) { background-image: url("images/remiton/card-bg-5.webp"); animation-name: remiton-bg-5; }
+
+@keyframes remiton-drift {
+    0% { transform: translate(-4%, 3%) rotate(-2deg); filter: brightness(0.85) saturate(1); }
+    100% { transform: translate(4%, -3%) rotate(2deg); filter: brightness(1.2) saturate(1.25); }
+}
 
 @keyframes remiton-bg-2 { 0% { opacity: 0; } 25%, 100% { opacity: 1; } }
 @keyframes remiton-bg-3 { 0%, 25% { opacity: 0; } 50%, 100% { opacity: 1; } }
