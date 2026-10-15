@@ -22,7 +22,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast187">
+    <link rel="stylesheet" href="styles.css?v=fast202">
     <link rel="stylesheet" href="about.css?v=fast1">
     <!-- Social meta -->
     <meta property="og:type" content="website">
@@ -60,7 +60,6 @@
                 <!-- Desktop Navigation -->
                 <nav class="nav desktop-nav home-nav" aria-label="Primary">
                     <a href="index.html#projects" class="home-nav-link">Works</a>
-                    <a href="resume.pdf" class="home-nav-link" data-resume target="_blank" rel="noopener">Resume</a>
                     <a href="about.html" class="home-nav-link">About</a>
                     <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
                     <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
@@ -84,10 +83,6 @@
                     </div>
                     <nav class="mobile-menu" aria-label="Menu">
                         <a href="index.html#projects" class="mobile-nav-link">Works</a>
-                        <div class="mobile-nav-row">
-                            <a href="resume.pdf" class="mobile-nav-link" data-resume target="_blank" rel="noopener">Resume</a>
-                            <a href="resume.pdf" download="Bahruz Akhundov - Resume.pdf" class="mobile-nav-download" aria-label="Download resume"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5V20.5M4.5 13L12 20.5L19.5 13" stroke="currentColor" stroke-width="2.6" stroke-linecap="butt" stroke-linejoin="miter"/></svg></a>
-                        </div>
                         <a href="about.html" class="mobile-nav-link">About</a>
                     </nav>
                     <div class="mobile-menu-bottom">
@@ -442,7 +437,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261014u"></script>
+    <script src="script.js?v=20261015a"></script>
     <script>
         // Mobile Menu Functionality
         function toggleMobileMenu() {
