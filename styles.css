@@ -9393,7 +9393,7 @@ html[data-theme="dark"] .case-browser {
 .project-card--pos .project-image--phones {
     isolation: isolate;
     overflow: hidden;
-    background: #EEEDEA url("images/pos-card.webp?v=2") 50% 50% / cover no-repeat;
+    background: #EEEDEA url("images/pos-card.webp?v=3") 50% 50% / cover no-repeat;
 }
 
 .pos-video {
