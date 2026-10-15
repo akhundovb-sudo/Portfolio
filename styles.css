@@ -7069,7 +7069,8 @@ html[data-theme="dark"] body.about .exp-logo {
 }
 
 /* Works card (MyGuava POS): three terminals like the Remiton phones, the
-   sale screen in front, the other two fanning out on hover. */
+   sale screen in front, the other two sliding out level on either side
+   on hover. */
 .project-term {
     position: absolute;
     left: 50%;
@@ -7097,11 +7098,11 @@ html[data-theme="dark"] body.about .exp-logo {
     }
 
     .project-card:hover .project-term--left {
-        transform: translateX(-122%) translateY(6%) rotate(-8deg) scale(0.9);
+        transform: translateX(-122%) translateY(6%) scale(0.9);
     }
 
     .project-card:hover .project-term--right {
-        transform: translateX(22%) translateY(6%) rotate(8deg) scale(0.9);
+        transform: translateX(22%) translateY(6%) scale(0.9);
     }
 }
 
