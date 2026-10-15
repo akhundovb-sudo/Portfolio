@@ -9487,7 +9487,7 @@ html[data-theme="dark"] .case-browser {
 }
 
 .project-card--ds .project-image--phones {
-    background: #EFEDE9;
+    background: #EEEDEA;
     overflow: hidden;
 }
 
@@ -9517,7 +9517,7 @@ html[data-theme="dark"] .case-browser {
     }
 
     .project-card--ds .project-image--phones {
-        background: #EFEDE9 url("images/ds-card.webp?v=2") 50% 50% / cover no-repeat;
+        background: #EEEDEA url("images/ds-card.webp?v=3") 50% 50% / cover no-repeat;
     }
 }
 
