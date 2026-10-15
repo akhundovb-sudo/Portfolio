@@ -9598,7 +9598,28 @@ html[data-theme="dark"] .case-browser {
 
 .project-card--pos .project-image--phones {
     isolation: isolate;
-    background: #FFFFFF url("images/pos-card-bg.webp?v=2") 50% 50% / cover no-repeat;
+    background: #FFFFFF url("images/pos-card-bg.webp?v=3") 50% 50% / cover no-repeat;
+}
+
+/* The MyGuava lettering swirls behind the terminals in a seamless 8s video
+   loop; its first frame (the panel's background) stands behind it while it
+   loads, and alone under reduced motion. */
+.pos-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pos-bg {
+        display: none;
+    }
 }
 
 .project-card--pos .project-phones {
