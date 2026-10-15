@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast210">
+    <link rel="stylesheet" href="styles.css?v=fast211">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -205,13 +205,11 @@
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava POS</span><span class="project-sep"> · </span><span class="project-description">Terminal app</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <!-- The sale screen on a terminal, lifting a little on hover, over
-                         the swirling MyGuava lettering (a video loop at 0.6x, styles.css .pos-bg). -->
+                    <!-- The sale keyed in on the terminal, Continue, the pay screen; a cut
+                         to a florist's shop where the card taps it and the payment is
+                         approved; a dissolve back (a 7.4s loop, styles.css .pos-video). -->
                     <div class="project-image project-image--phones project-image--terms" aria-hidden="true">
-                        <video class="pos-bg" data-rate="0.6" poster="images/pos-card-bg.webp?v=3" width="960" height="540" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1"><source src="images/pos-card-bg.mp4?v=1" type="video/mp4"><source src="images/pos-card-bg.webm?v=1" type="video/webm"></video>
-                        <div class="project-phones">
-                            <img class="project-term project-term--front" src="images/pos-terminal.png?v=1" alt="" loading="lazy" decoding="async">
-                        </div>
+                        <video class="pos-video" poster="images/pos-card.webp?v=1" width="1280" height="720" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1"><source src="images/pos-card.mp4?v=1" type="video/mp4"><source src="images/pos-card.webm?v=1" type="video/webm"></video>
                     </div>
                 </a>
 

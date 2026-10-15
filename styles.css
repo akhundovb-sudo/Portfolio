@@ -6898,30 +6898,6 @@ html[data-theme="dark"] body.about .exp-logo {
     z-index: 0;
 }
 
-/* Works card (MyGuava POS): the sale screen on a terminal, lifting a
-   little on hover. */
-.project-term {
-    position: absolute;
-    left: 50%;
-    top: 34px;
-    width: 22cqw;
-    height: auto;
-    max-width: none;
-    filter: drop-shadow(0 0.4cqw 1.2cqw rgba(15, 15, 15, 0.14));
-    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.project-term--front {
-    z-index: 2;
-    transform: translateX(-50%);
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .project-card:hover .project-term--front {
-        transform: translateX(-50%) translateY(-3%);
-    }
-}
-
 /* Design System cover: the palette filling the whole card, swatches edge
    to edge, without labels; a swatch lifts gently on hover. */
 .case-cover--palette {
@@ -9218,8 +9194,7 @@ html[data-theme="dark"] .case-browser {
 }
 
 .case-cover .case-terminal,
-.case-term-clip > img,
-.project-term {
+.case-term-clip > img {
     filter: none;
 }
 
@@ -9400,9 +9375,12 @@ html[data-theme="dark"] .case-browser {
     }
 }
 
-/* Works card (MyGuava POS): the terminals on the MyGuava lettering pattern.
-   Like the Remiton card: a panel that runs to the card's edges, rounded on
-   top, with the pattern covering it; the terminals sit above it. */
+/* Works card (MyGuava POS): a video of a sale keyed in on the terminal,
+   then a card tapping it in a florist's shop and the payment approved. Like the
+   Remiton card: a panel that runs to the card's edges, rounded on top, the
+   video covering it with the same gentle hover zoom as the other cards; its
+   first frame stands behind it while it loads, and alone under reduced
+   motion. */
 .project-card--pos {
     gap: 16px;
     padding-bottom: 0;
@@ -9414,32 +9392,32 @@ html[data-theme="dark"] .case-browser {
 
 .project-card--pos .project-image--phones {
     isolation: isolate;
-    background: #FFFFFF url("images/pos-card-bg.webp?v=3") 50% 50% / cover no-repeat;
+    overflow: hidden;
+    background: #EEEDEA url("images/pos-card.webp?v=1") 50% 50% / cover no-repeat;
 }
 
-/* The MyGuava lettering swirls behind the terminals in a seamless 8s video
-   loop; its first frame (the panel's background) stands behind it while it
-   loads, and alone under reduced motion. */
-.pos-bg {
+.pos-video {
     position: absolute;
     inset: 0;
-    z-index: 0;
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: inherit;
     pointer-events: none;
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .pos-bg {
-        display: none;
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .project-card--pos:hover .pos-video {
+        transform: scale(1.06);
     }
 }
 
-.project-card--pos .project-phones {
-    z-index: 1;
+@media (prefers-reduced-motion: reduce) {
+    .pos-video {
+        display: none;
+    }
 }
 
 /* Works cards (MyGuava Payment, Design System): the same panel as POS and
