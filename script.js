@@ -175,6 +175,19 @@ window.addEventListener('scroll', handleScroll, { passive: true });
 
 // Mobile menu event listeners are handled in index.html
 
+// Background video loops that play slower than they were cut: the clip's
+// data-rate (the MyGuava swirl behind the POS terminals). Set as the
+// default rate too, so a reload or loop keeps it.
+document.querySelectorAll('video[data-rate]').forEach(function (video) {
+    const rate = parseFloat(video.getAttribute('data-rate')) || 1;
+    function apply() {
+        video.defaultPlaybackRate = rate;
+        video.playbackRate = rate;
+    }
+    apply();
+    video.addEventListener('loadedmetadata', apply);
+});
+
 // Copy buttons (the Email row in the contact dialog): copies data-copy and
 // shows "Copied" over the button for a moment.
 document.addEventListener('click', function (e) {
