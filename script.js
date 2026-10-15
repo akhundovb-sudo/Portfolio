@@ -217,7 +217,7 @@ document.querySelectorAll('video[data-rate]').forEach(function (video) {
     });
 })();
 
-// Copy buttons (the Email row in the contact dialog): copies data-copy and
+// Copy buttons (the Email and Telegram rows in the contact dialog): copies data-copy and
 // shows "Copied" over the button for a moment.
 document.addEventListener('click', function (e) {
     const button = e.target.closest && e.target.closest('.contact-copy');
