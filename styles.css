@@ -5948,11 +5948,11 @@ html[data-theme="dark"] .project-arrow::before {
     }
 }
 
-/* Remiton card: the purple light-streak photo behind the phones, in a
-   panel rounded on all sides with room under it, and closer to the title
-   than the other cards. The photo is never scaled up: it fills the panel's
-   width, and as it is far taller than the panel it glides slowly up and
-   down inside it while the light breathes, brighter then deeper. */
+/* Remiton card: the purple light streaks behind the phones, in a panel
+   rounded on all sides with room under it, and closer to the title than
+   the other cards. The streaks fill the panel's width from the top and
+   drift in a loop: five frames of them crossfade one into the next and
+   back again (.remiton-bg), so the loop has no seam. */
 .project-card--remiton {
     gap: 16px;
     padding-bottom: 0;
@@ -5973,8 +5973,41 @@ html[data-theme="dark"] .project-arrow::before {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background: url("images/remiton/card-bg.webp") 50% 0 / 100% auto no-repeat;
+    background: url("images/remiton/card-bg-1.webp") 50% 0 / 100% auto no-repeat;
     pointer-events: none;
+}
+
+/* Frames 2 to 5 stacked over the first, each fading in over the one below
+   in its quarter of an 8s pass; the pass then plays back, 16s a loop. */
+.remiton-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.remiton-bg i {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: 50% 0 / 100% auto no-repeat;
+    animation: 8s ease-in-out infinite alternate;
+}
+
+.remiton-bg i:nth-child(1) { background-image: url("images/remiton/card-bg-2.webp"); animation-name: remiton-bg-2; }
+.remiton-bg i:nth-child(2) { background-image: url("images/remiton/card-bg-3.webp"); animation-name: remiton-bg-3; }
+.remiton-bg i:nth-child(3) { background-image: url("images/remiton/card-bg-4.webp"); animation-name: remiton-bg-4; }
+.remiton-bg i:nth-child(4) { background-image: url("images/remiton/card-bg-5.webp"); animation-name: remiton-bg-5; }
+
+@keyframes remiton-bg-2 { 0% { opacity: 0; } 25%, 100% { opacity: 1; } }
+@keyframes remiton-bg-3 { 0%, 25% { opacity: 0; } 50%, 100% { opacity: 1; } }
+@keyframes remiton-bg-4 { 0%, 50% { opacity: 0; } 75%, 100% { opacity: 1; } }
+@keyframes remiton-bg-5 { 0%, 75% { opacity: 0; } 100% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .remiton-bg {
+        display: none;
+    }
 }
 
 .project-card--remiton .project-phones {
