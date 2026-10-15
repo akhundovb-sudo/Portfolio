@@ -175,81 +175,18 @@ window.addEventListener('scroll', handleScroll, { passive: true });
 
 // Mobile menu event listeners are handled in index.html
 
-// Resume viewer: the header's Resume link opens the PDF in a sheet over the
-// page (browser's own PDF viewer in an iframe) with Download and close. The
-// link itself points at resume.pdf in a new tab, so phones, middle clicks
-// and no-JS still get the file.
-(function () {
-    const RESUME_URL = 'resume.pdf';
-    const RESUME_NAME = 'Bahruz Akhundov - Resume.pdf';
-    let sheet = null;
-    let lastFocus = null;
-
-    function build() {
-        sheet = document.createElement('div');
-        sheet.className = 'resume-sheet';
-        sheet.setAttribute('role', 'dialog');
-        sheet.setAttribute('aria-modal', 'true');
-        sheet.setAttribute('aria-label', 'Resume');
-        sheet.innerHTML =
-            '<div class="resume-sheet-panel" tabindex="-1">' +
-                '<div class="resume-sheet-bar">' +
-                    '<a class="resume-sheet-download" href="' + RESUME_URL + '" download="' + RESUME_NAME + '">' +
-                        '<span class="resume-sheet-download-text">Download</span>' +
-                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3V20M5 13L12 20L19 13" stroke="currentColor" stroke-width="1.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>' +
-                    '</a>' +
-                    '<button type="button" class="resume-sheet-close" aria-label="Close">' +
-                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>' +
-                    '</button>' +
-                '</div>' +
-                '<div class="resume-sheet-doc"></div>' +
-            '</div>';
-        document.body.appendChild(sheet);
-
-        sheet.querySelector('.resume-sheet-close').addEventListener('click', close);
-        // A click on the dimmed page around the panel closes it.
-        sheet.addEventListener('click', function (e) {
-            if (e.target === sheet) close();
-        });
+// Background video loops that play slower than they were cut: the clip's
+// data-rate (the MyGuava swirl behind the POS terminals). Set as the
+// default rate too, so a reload or loop keeps it.
+document.querySelectorAll('video[data-rate]').forEach(function (video) {
+    const rate = parseFloat(video.getAttribute('data-rate')) || 1;
+    function apply() {
+        video.defaultPlaybackRate = rate;
+        video.playbackRate = rate;
     }
-
-    function open() {
-        if (!sheet) build();
-        const doc = sheet.querySelector('.resume-sheet-doc');
-        // The PDF loads on first open only, fitted to the panel width.
-        if (!doc.firstChild) {
-            const frame = document.createElement('iframe');
-            frame.src = RESUME_URL + '#view=FitH&navpanes=0';
-            frame.title = 'Resume';
-            doc.appendChild(frame);
-        }
-        lastFocus = document.activeElement;
-        document.documentElement.classList.add('resume-open');
-        requestAnimationFrame(function () {
-            sheet.classList.add('is-open');
-        });
-        // Focus the panel itself, so Tab starts inside without lighting a button.
-        sheet.querySelector('.resume-sheet-panel').focus({ preventScroll: true });
-    }
-
-    function close() {
-        if (!sheet || !sheet.classList.contains('is-open')) return;
-        sheet.classList.remove('is-open');
-        document.documentElement.classList.remove('resume-open');
-        if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
-    }
-
-    document.addEventListener('click', function (e) {
-        const link = e.target.closest && e.target.closest('.home-nav-link[data-resume]');
-        if (!link || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-        e.preventDefault();
-        open();
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') close();
-    });
-})();
+    apply();
+    video.addEventListener('loadedmetadata', apply);
+});
 
 // Copy buttons (the Email row in the contact dialog): copies data-copy and
 // shows "Copied" over the button for a moment.
