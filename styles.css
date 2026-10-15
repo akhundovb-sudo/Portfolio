@@ -9665,14 +9665,15 @@ html[data-theme="dark"] .case-browser {
     width: max(100cqw, 177.78cqh);
     aspect-ratio: 1920 / 1080;
     background: url("images/ds-card-bg.webp?v=6") 0 0 / 100% 100% no-repeat;
-    /* About the middle of the colour tile, so a hover draws in on it. */
+    /* About the middle of the colour tile, so a hover draws in a little on
+       it, as gently as the other works cards. */
     transform-origin: 36.25% 64.44%;
-    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (hover: hover) and (pointer: fine) {
     .project-card--ds:hover .ds-stage {
-        transform: scale(1.5);
+        transform: scale(1.06);
     }
 }
 
