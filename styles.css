@@ -9684,23 +9684,68 @@ html[data-theme="dark"] .case-browser {
 .project-card--ds .project-image--phones {
     background-color: #000000;
     overflow: hidden;
+    container-type: size;
 }
 
 /* The frame covers the panel, pinned to its top-left, so its own left and
    top margins (about 3% of its width) stay even at every size: on a wide
    panel it fills the width, on a narrow one the height. */
-.project-card--ds .project-image--phones::before {
-    content: '';
+.ds-stage {
     position: absolute;
-    inset: 0;
-    background: url("images/ds-card-bg.webp?v=6") 0 0 / cover no-repeat;
-    transform-origin: 50% 30%;
-    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    left: 0;
+    top: 0;
+    width: max(100cqw, 177.78cqh);
+    aspect-ratio: 1920 / 1080;
+    background: url("images/ds-card-bg.webp?v=6") 0 0 / 100% 100% no-repeat;
+    /* About the middle of the colour tile, so a hover draws in on it. */
+    transform-origin: 36.25% 64.44%;
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .project-card--ds:hover .project-image--phones::before {
-        transform: scale(1.06);
+    .project-card--ds:hover .ds-stage {
+        transform: scale(1.5);
+    }
+}
+
+/* The colour tile laid over its place in the frame (494, 494, 404 square of
+   1920 x 1080). Its bars slide slowly to the left in a seamless loop: the
+   strip holds the palette twice and moves on by one palette, then starts
+   over where it began. */
+.ds-colors {
+    position: absolute;
+    left: 25.729%;
+    top: 45.741%;
+    width: 21.042%;
+    height: 37.407%;
+    overflow: hidden;
+    border-radius: 4.5%;
+}
+
+.ds-colors-strip {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    animation: ds-colors 12s linear infinite;
+}
+
+.ds-colors-strip i {
+    flex: 1;
+}
+
+.ds-colors-strip i:nth-child(5n + 1) { background: #50CE39; }
+.ds-colors-strip i:nth-child(5n + 2) { background: #40CFCF; }
+.ds-colors-strip i:nth-child(5n + 3) { background: #F5EA0A; }
+.ds-colors-strip i:nth-child(5n + 4) { background: #F568F5; }
+.ds-colors-strip i:nth-child(5n + 5) { background: #A298F4; }
+
+@keyframes ds-colors {
+    to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ds-colors {
+        display: none;
     }
 }
 
