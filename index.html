@@ -1072,7 +1072,9 @@
                 { freq: 880.00,  dur: 0.30 }   // A5
             ];
             var note = 0;
-            var audio = null, speaker = null, voices = [];
+            var audio = null, speaker = null;
+            // Audio time at which the notes already queued finish.
+            var queueEnd = 0;
 
             // A tiny phone speaker: no lows, no airy highs, a bump around 2.5k.
             function makeSpeaker(ctx) {
@@ -1093,27 +1095,24 @@
                 return low;
             }
 
-            function beep(n, delay) {
+            function getAudio() {
                 var AC = window.AudioContext || window.webkitAudioContext;
-                if (!AC) return;
+                if (!AC) return null;
                 if (!audio) {
                     audio = new AC();
                     speaker = makeSpeaker(audio);
                 }
                 if (audio.state === 'suspended') audio.resume();
-                var t = audio.currentTime + (delay || 0);
+                return audio;
+            }
 
-                // Monophonic, like the phones: a press cuts whatever is still
-                // sounding or queued from the last one (notes of a run follow
-                // each other on their own, so only the first of a run cuts).
-                if (!delay) {
-                    voices.forEach(function (v) {
-                        v.amp.gain.cancelScheduledValues(t);
-                        v.amp.gain.setTargetAtTime(0.0001, t, 0.004);
-                        try { v.osc.stop(t + 0.03); v.mod.stop(t + 0.03); } catch (e) {}
-                    });
-                    voices = [];
-                }
+            // One note at audio time t (now if left out). Tune notes never
+            // overlap: each is queued after the last (see sound()), so it
+            // stays monophonic, like the phones.
+            function beep(n, t) {
+                var ctx = getAudio();
+                if (!ctx) return;
+                if (t === undefined) t = ctx.currentTime;
 
                 // Square-wave body; starts a semitone sharp and drops into the
                 // note in 8ms for a tactile click.
@@ -1144,21 +1143,26 @@
                 mod.start(t);
                 osc.stop(t + n.dur + 0.02);
                 mod.stop(t + n.dur + 0.02);
-                var voice = { osc: osc, mod: mod, amp: amp };
-                voices.push(voice);
-                osc.onended = function () {
-                    voices = voices.filter(function (v) { return v !== voice; });
-                };
             }
 
             // The first three presses play one note each; from the fourth on a
             // press plays the next four in a row, in the tune's rhythm, so the
             // phrase (and the Nokia at its end) is six presses away, not 13.
-            var SINGLE = 3, RUN = 4, presses = 0;
+            // Fast clicking never jumbles the tune: a press's notes queue up
+            // after those still playing, so the phrase always plays in order
+            // and in its rhythm. Presses while more than a short backlog is
+            // still waiting are let go, so the tune doesn't trail on long after
+            // the clicking stops.
+            var SINGLE = 3, RUN = 4, presses = 0, BACKLOG = 0.25;
             function sound(kind) {
                 if (kind !== 'press') return;
+                var ctx = getAudio();
+                if (!ctx) return;
+                var now = ctx.currentTime;
+                if (queueEnd - now > BACKLOG) return;
                 presses++;
-                var count = presses <= SINGLE ? 1 : RUN, at = 0;
+                var count = presses <= SINGLE ? 1 : RUN;
+                var at = Math.max(now, queueEnd);
                 for (var i = 0; i < count; i++) {
                     beep(NOTES[note], at);
                     at += NOTES[note].dur + 0.02;
@@ -1167,10 +1171,11 @@
                     // it has played out, and start counting again.
                     if (note === 0) {
                         presses = 0;
-                        setTimeout(showEgg, at * 1000);
+                        setTimeout(showEgg, (at - now) * 1000);
                         break;
                     }
                 }
+                queueEnd = at;
             }
 
             // Easter egg: play the whole tune and an old Nokia rings in from
