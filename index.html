@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast203">
+    <link rel="stylesheet" href="styles.css?v=fast204">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -233,11 +233,12 @@
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">Customizable Design System</span><span class="project-sep"> · </span><span class="project-description">Web &amp; mobile</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <!-- The case's component bento on black, its colour bars slowly
-                         sliding by; on hover the picture draws in on them
-                         (styles.css .ds-stage). -->
+                    <!-- One shape morphing through the library's components (button,
+                         loader, checkbox, badge, input, payments table, segmented
+                         control, switch, tabs, chart, search, toast), a 14s loop;
+                         on hover it draws in a little (styles.css .ds-video). -->
                     <div class="project-image project-image--phones project-image--dsbg" aria-hidden="true">
-                        <div class="ds-stage"><div class="ds-colors"><div class="ds-colors-strip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+                        <video class="ds-video" poster="images/ds-card.webp?v=1" width="1080" height="1080" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1"><source src="images/ds-card.mp4?v=1" type="video/mp4"><source src="images/ds-card.webm?v=1" type="video/webm"></video>
                     </div>
                 </a>
 
