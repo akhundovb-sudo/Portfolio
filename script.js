@@ -188,6 +188,35 @@ document.querySelectorAll('video[data-rate]').forEach(function (video) {
     video.addEventListener('loadedmetadata', apply);
 });
 
+// Background video loops (the Remiton, POS and Design System cards) are
+// muted autoplay, but phones can still hold them on their first frame, as
+// iOS does in Low Power Mode. Ask each one to play when it comes into view
+// and again on the first touch, which counts as the visitor's go-ahead. A
+// loop the stylesheet hides (reduced motion) is left alone.
+(function () {
+    const loops = Array.prototype.slice.call(document.querySelectorAll('video[autoplay][loop]'));
+    if (!loops.length) return;
+
+    function start(video) {
+        if (!video.paused || video.offsetParent === null) return;
+        video.muted = true;
+        const p = video.play();
+        if (p && p.catch) p.catch(function () {});
+    }
+
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { if (e.isIntersecting) start(e.target); });
+        }, { threshold: 0.1 });
+        loops.forEach(function (v) { io.observe(v); });
+    }
+
+    function onTouch() { loops.forEach(start); }
+    ['touchend', 'pointerup', 'click'].forEach(function (type) {
+        document.addEventListener(type, onTouch, { passive: true });
+    });
+})();
+
 // Copy buttons (the Email row in the contact dialog): copies data-copy and
 // shows "Copied" over the button for a moment.
 document.addEventListener('click', function (e) {
