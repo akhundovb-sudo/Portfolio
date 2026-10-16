@@ -9357,24 +9357,6 @@ html[data-theme="dark"] .case-browser {
     }
 }
 
-/* The home scrolls down through its sections, rests, and returns. */
-.project-image--fhp.is-play .fhp-page {
-    animation: fhp-scroll 14s cubic-bezier(0.45, 0, 0.25, 1) infinite;
-}
-
-@keyframes fhp-scroll {
-    0%, 12% { transform: translateY(0); }
-    38%, 50% { transform: translateY(-260px); }
-    76%, 86% { transform: translateY(-523px); }
-    100% { transform: translateY(0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .project-image--fhp.is-play .fhp-page {
-        animation: none;
-    }
-}
-
 /* Works card (MyGuava POS): a video of a sale keyed in on the terminal,
    then a card tapping it in a florist's shop and the payment approved. Like the
    Remiton card: a panel that runs to the card's edges, rounded on top, the
@@ -9393,7 +9375,7 @@ html[data-theme="dark"] .case-browser {
 .project-card--pos .project-image--phones {
     isolation: isolate;
     overflow: hidden;
-    background: #EEEDEA url("images/pos-card.webp?v=3") 50% 50% / cover no-repeat;
+    background: #EEEDEA url("images/pos-card.webp?v=4") 50% 50% / cover no-repeat;
 }
 
 .pos-video {
