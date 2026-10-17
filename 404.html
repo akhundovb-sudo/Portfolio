@@ -60,31 +60,13 @@
             color: rgba(15, 15, 15, 0.6);
             text-wrap: pretty;
         }
-        .nf-home {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            height: 64px;
-            padding: 0 40px;
-            border-radius: 999px;
-            background: #BAF400;
-            color: #0F0F0F;
-            font-size: 20px;
-            font-weight: 500;
+        /* the site's black key button (styles.css .home-cta), a size up */
+        .nf-home.home-cta {
+            height: 52px;
+            padding: 0 30px;
+            font-size: 17px;
             text-decoration: none;
-            transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease;
         }
-        .nf-home::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-        }
-        .nf-home:hover { background: #C9F83A; transform: translateY(-2px); }
-        .nf-home:active { transform: translateY(0); }
-        .nf-home:focus-visible { outline: 2px solid #0F0F0F; outline-offset: 3px; }
         /* 404 in the palette's swatches, a 17 x 7 grid; a wave of the case
            page's hover lift runs across it, column by column */
         .nf-digits {
@@ -118,7 +100,6 @@
         html[data-theme="dark"] .nf-cell.on { box-shadow: inset 0 0 0 1px rgba(241, 241, 240, 0.12); }
         html[data-theme="dark"] .nf-code { color: rgba(241, 241, 240, 0.5); }
         html[data-theme="dark"] .nf-text { color: rgba(241, 241, 240, 0.6); }
-        html[data-theme="dark"] .nf-home:focus-visible { outline-color: #F1F1F0; }
     </style>
     <!-- Hotjar Tracking Code -->
     <script>
@@ -187,7 +168,7 @@
             <div class="nf-digits" id="nfDigits" role="img" aria-label="404"></div>
             <h1 class="nf-title">This page doesn't exist</h1>
             <p class="nf-text">The link may be out of date or have a typo in it. My work and contacts are on the home page.</p>
-            <a href="/" class="nf-home">Back to home</a>
+            <a href="/" class="home-cta nf-home">Back to home</a>
         </div>
     </main>
 
