@@ -27,15 +27,15 @@
     <style>
         /* 404: one centred block on the page ground, like the rest of the site */
         .nf {
-            min-height: calc(100vh - 220px);
-            min-height: calc(100svh - 220px);
+            min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 48px 20px 96px;
             text-align: center;
         }
-        .nf-inner { max-width: 760px; }
+        .nf-inner { max-width: 640px; }
         .nf-code {
             margin: 0 0 20px;
             font-family: ui-monospace, 'SF Mono', Menlo, monospace;
@@ -45,26 +45,23 @@
             color: rgba(15, 15, 15, 0.5);
         }
         .nf-title {
-            margin: 0 0 20px;
-            font-size: clamp(44px, 8vw, 88px);
-            font-weight: 500;
-            line-height: 1;
-            letter-spacing: -0.03em;
+            margin: 0 0 16px;
+            font-size: clamp(32px, 4.4vw, 48px);
+            font-weight: 400;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
             text-wrap: balance;
         }
         .nf-text {
-            margin: 0 auto 40px;
-            max-width: 560px;
-            font-size: clamp(18px, 2.2vw, 22px);
-            line-height: 1.45;
+            margin: 0 auto 24px;
+            max-width: 440px;
+            font-size: 17px;
+            line-height: 1.5;
             color: rgba(15, 15, 15, 0.6);
             text-wrap: pretty;
         }
-        /* the site's black key button (styles.css .home-cta), a size up */
+        /* the site's black key button (styles.css .home-cta) */
         .nf-home.home-cta {
-            height: 52px;
-            padding: 0 30px;
-            font-size: 17px;
             text-decoration: none;
         }
         /* 404 in the palette's swatches, a 17 x 7 grid; a wave of the case
@@ -77,14 +74,31 @@
             grid-auto-rows: var(--cell);
             gap: var(--gap);
             justify-content: center;
-            margin: 0 auto 40px;
-            cursor: pointer;
+            margin: 0 auto 48px;
             -webkit-tap-highlight-color: transparent;
         }
         .nf-cell { border-radius: 2px; }
-        .nf-cell.on { background: var(--c); }
+        .nf-cell.on {
+            cursor: pointer;
+            background: var(--c);
+            transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), border-radius 260ms ease, box-shadow 260ms ease, background-color 320ms ease;
+        }
         .nf-digits.is-wave .nf-cell.on {
-            animation: nf-lift 560ms cubic-bezier(0.22, 1, 0.36, 1) var(--d) both;
+            animation: nf-lift 560ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--d) + 450ms) both;
+        }
+        /* a swatch lifts and rounds under the pointer */
+        @media (hover: hover) and (pointer: fine) {
+            .nf-digits:not(.is-wave) .nf-cell.on:hover {
+                transform: translateY(-14%) scale(1.14);
+                border-radius: 22%;
+                box-shadow: 0 6px 14px -6px rgba(15, 15, 15, 0.45);
+            }
+        }
+        /* and pops when its colour changes */
+        .nf-cell.on.is-pop { animation: nf-pop 380ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes nf-pop {
+            0% { transform: scale(0.82); border-radius: 30%; }
+            100% { transform: translateY(-14%) scale(1.14); border-radius: 22%; }
         }
         @keyframes nf-lift {
             0%, 100% { transform: none; border-radius: 2px; box-shadow: none; }
@@ -95,11 +109,77 @@
             }
         }
         @media (prefers-reduced-motion: reduce) {
-            .nf-digits.is-wave .nf-cell.on { animation: none; }
+            .nf-digits.is-wave .nf-cell.on, .nf-cell.on.is-pop { animation: none; }
         }
         html[data-theme="dark"] .nf-cell.on { box-shadow: inset 0 0 0 1px rgba(241, 241, 240, 0.12); }
         html[data-theme="dark"] .nf-code { color: rgba(241, 241, 240, 0.5); }
         html[data-theme="dark"] .nf-text { color: rgba(241, 241, 240, 0.6); }
+
+        /* hint under the digits: the count, then the reward */
+        .nf-hint {
+            height: 20px;
+            margin: -32px 0 28px;
+            font-size: 14px;
+            line-height: 20px;
+            color: rgba(15, 15, 15, 0.5);
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 240ms ease, transform 240ms ease;
+        }
+        .nf-hint.is-on { opacity: 1; transform: none; }
+        html[data-theme="dark"] .nf-hint { color: rgba(241, 241, 240, 0.5); }
+        /* "+1" rising from a recoloured swatch */
+        .nf-plus {
+            position: absolute;
+            z-index: 960;
+            font-size: 15px;
+            font-weight: 500;
+            color: rgb(255, 72, 16);
+            pointer-events: none;
+            transform: translate(-50%, -100%);
+            animation: nf-plus 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        @keyframes nf-plus {
+            0% { opacity: 0; transform: translate(-50%, -60%); }
+            25% { opacity: 1; }
+            100% { opacity: 0; transform: translate(-50%, -220%); }
+        }
+
+        /* Tetris in the 404 itself: the same 17 x 7 swatches become the
+           well; empty cells show faintly, no hover lift while playing */
+        .nf-digits.is-game .nf-cell { background: rgba(15, 15, 15, 0.05); cursor: default; }
+        .nf-digits.is-game .nf-cell.on { background: var(--c); }
+        .nf-digits.is-game .nf-cell, .nf-digits.is-game .nf-cell:hover {
+            transform: none !important; border-radius: 2px !important; box-shadow: none !important; transition: none;
+        }
+        html[data-theme="dark"] .nf-digits.is-game .nf-cell { background: rgba(241, 241, 240, 0.07); }
+        html[data-theme="dark"] .nf-digits.is-game .nf-cell.on { background: var(--c); }
+        .nf-hint b { font-weight: 500; color: #0F0F0F; font-variant-numeric: tabular-nums; }
+        .nf-hint button {
+            padding: 0;
+            border: 0;
+            background: none;
+            color: rgb(255, 72, 16);
+            font: inherit;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+        }
+        html[data-theme="dark"] .nf-hint b { color: #F1F1F0; }
+        .nf-pad { justify-content: center; gap: 8px; margin: -12px 0 28px; }
+        .nf-pad:not([hidden]) { display: flex; }
+        .nf-pad button {
+            width: 48px;
+            height: 48px;
+            border: 0;
+            border-radius: 14px;
+            background: rgba(15, 15, 15, 0.06);
+            color: inherit;
+            font-size: 20px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        html[data-theme="dark"] .nf-pad button { background: rgba(241, 241, 240, 0.1); }
     </style>
     <!-- Hotjar Tracking Code -->
     <script>
@@ -117,55 +197,17 @@
 
 <body class="about-v2">
     <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="/" class="logo logo--name" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
-                
-                <!-- Desktop Navigation -->
-                <nav class="nav desktop-nav home-nav" aria-label="Primary">
-                    <a href="/#projects" class="home-nav-link">Works</a>
-                    <a href="/about.html" class="home-nav-link">About</a>
-                    <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
-                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
-                </nav>
-
-                <!-- Mobile Navigation -->
-                <div class="mobile-nav">
-                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
-                    <button class="hamburger" onclick="toggleMobileMenu()">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-
-                <!-- Mobile Menu Overlay -->
-                <div class="mobile-menu-overlay" id="mobileMenuOverlay">
-                    <div class="mobile-menu-top">
-                        <a href="/" class="logo logo--name mobile-menu-logo" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
-                        <button class="mobile-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
-                    </div>
-                    <nav class="mobile-menu" aria-label="Menu">
-                        <a href="/#projects" class="mobile-nav-link">Works</a>
-                        <a href="/about.html" class="mobile-nav-link">About</a>
-                    </nav>
-                    <div class="mobile-menu-bottom">
-                        <div class="mobile-social-links">
-                            <a href="mailto:akhundovb@gmail.com" class="mobile-social-link" aria-label="Email"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="4.75" width="18.5" height="14.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M3 5.5L12 12.5L21 5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
-                            <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M7.75 10.75V17.25M7.75 7V7.5M11.25 17.25V10.75M11.25 13.5C11.25 11.75 12.25 10.75 13.75 10.75C15.25 10.75 16.25 11.75 16.25 13.5V17.25" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
-                            <a href="https://t.me/akhundesign" class="mobile-social-link" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.25 3.5L2.75 10.75L9 13.25L11.5 20.25L14.75 16L19 19.25L21.25 3.5Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M9 13.25L21.25 3.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
-                        </div>
-                        <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
     <main class="nf">
         <div class="nf-inner">
             <div class="nf-digits" id="nfDigits" role="img" aria-label="404"></div>
+            <p class="nf-hint" id="nfHint" aria-live="polite"></p>
+            <div class="nf-pad" id="nfPad" hidden aria-label="Controls">
+                <button type="button" data-k="left" aria-label="Left">←</button>
+                <button type="button" data-k="rotate" aria-label="Rotate">⟳</button>
+                <button type="button" data-k="right" aria-label="Right">→</button>
+                <button type="button" data-k="down" aria-label="Down">↓</button>
+                <button type="button" data-k="drop" aria-label="Drop">⤓</button>
+            </div>
             <h1 class="nf-title">This page doesn't exist</h1>
             <p class="nf-text">The link may be out of date or have a typo in it. My work and contacts are on the home page.</p>
             <a href="/" class="home-cta nf-home">Back to home</a>
@@ -217,8 +259,7 @@
 
     <script>
         // 404 drawn in the palette: each column takes one of the seven scales
-        // (light at the top, dark at the bottom); the wave plays once on load,
-        // then on hover or tap.
+        // (light at the top, dark at the bottom).
         (function () {
             var SCALES = [
                 ['DFFB64', 'D0F83E', 'C4F627', 'BAF400', '9AD100', '7DAF00', '618D00'],
@@ -243,18 +284,186 @@
                     grid.appendChild(el);
                 }
             }
-            var busy = false;
-            function wave() {
-                if (busy) return;
-                busy = true;
-                grid.classList.remove('is-wave');
-                void grid.offsetWidth;
-                grid.classList.add('is-wave');
-                setTimeout(function () { busy = false; }, 16 * 45 + 6 * 12 + 560);
+            // The wave plays once on load; after that each swatch answers on
+            // its own: it lifts under the pointer, and a click gives it a new
+            // colour from the palette (never the one it has), with a pop.
+            grid.classList.add('is-wave');
+            setTimeout(function () { grid.classList.remove('is-wave'); }, 450 + 16 * 45 + 6 * 12 + 560);
+            // Recolours only use swatches that stand out on the page ground
+            // (#F1F1F0): contrast ratio of at least 1.6, so no pale ones.
+            function lum(hex) {
+                return [0, 2, 4].map(function (i) {
+                    var v = parseInt(hex.substr(i, 2), 16) / 255;
+                    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+                }).reduce(function (s, v, i) { return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0);
             }
-            setTimeout(wave, 450);
-            grid.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') wave(); });
-            grid.addEventListener('click', wave);
+            var GROUND = lum('F1F1F0');
+            var ALL = [].concat.apply([], SCALES).filter(function (c) { return (GROUND + 0.05) / (lum(c) + 0.05) >= 1.6; });
+            window.NF_COLOURS = ALL;
+            var GOAL = 5, count = 0, hint = document.getElementById('nfHint');
+            function say(text) { hint.textContent = text; hint.classList.add('is-on'); }
+            window.nfSay = say;
+            function plusOne(cell) {
+                var r = cell.getBoundingClientRect(), b = document.createElement('span');
+                b.className = 'nf-plus'; b.textContent = '+1'; b.setAttribute('aria-hidden', 'true');
+                b.style.left = (r.left + r.width / 2) + 'px'; b.style.top = (r.top + window.scrollY) + 'px';
+                document.body.appendChild(b);
+                setTimeout(function () { b.remove(); }, 900);
+            }
+            grid.addEventListener('click', function (e) {
+                if (window.nfPlaying && window.nfPlaying()) return;
+                var cell = e.target.closest('.nf-cell.on');
+                if (!cell) return;
+                if (count < GOAL) {
+                    count++;
+                    plusOne(cell);
+                    if (count < GOAL) say(count + ' / ' + GOAL + ' — keep recolouring');
+                    else setTimeout(function () {
+                        window.nfTetris(function () { count = 0; say('Recolour 5 more to play again'); });
+                    }, 500);
+                }
+                var now = cell.style.getPropertyValue('--c').replace('#', '').toUpperCase(), next = now;
+                while (next === now) next = ALL[Math.floor(Math.random() * ALL.length)];
+                cell.style.setProperty('--c', '#' + next);
+                cell.classList.remove('is-pop');
+                void cell.offsetWidth;
+                cell.classList.add('is-pop');
+            });
+            grid.addEventListener('animationend', function (e) {
+                if (e.target.classList) e.target.classList.remove('is-pop');
+            });
+        })();
+    </script>
+    <script>
+        // 404 easter egg: five recoloured swatches turn the 404 itself into
+        // Tetris: the same swatches, five rows taller (17 x 12), are the well, pieces in the
+        // palette's colours. Arrows move and rotate, Space drops, a pad on
+        // touch screens; Exit or Esc puts the 404 back as it was.
+        (function () {
+            var COLS = 17, ROWS = 12, EXTRA = ROWS - 7;
+            var PIECES = {
+                I: [[0,1],[1,1],[2,1],[3,1]], O: [[1,0],[2,0],[1,1],[2,1]],
+                T: [[1,0],[0,1],[1,1],[2,1]], S: [[1,0],[2,0],[0,1],[1,1]],
+                Z: [[0,0],[1,0],[1,1],[2,1]], J: [[0,0],[0,1],[1,1],[2,1]],
+                L: [[2,0],[0,1],[1,1],[2,1]]
+            };
+            var COLOUR = { I: '11A4F9', O: 'DBAE0E', T: '3D4B68', S: '42AC27', Z: 'FF3F2D', J: '7DAF00', L: '6A6B6E' };
+            var digits = document.getElementById('nfDigits'), hint = document.getElementById('nfHint');
+            var pad = document.getElementById('nfPad');
+            var touch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+            var cells, saved, grid, piece, score, timer = null, onEnd = null, alive = false, playing = false;
+
+            function blank() { grid = []; for (var r = 0; r < ROWS; r++) grid.push(new Array(COLS).fill(null)); }
+            function spawn() {
+                var keys = Object.keys(PIECES), k = keys[Math.floor(Math.random() * keys.length)];
+                piece = { k: k, cells: PIECES[k].map(function (p) { return p.slice(); }), x: 7, y: -1 };
+                if (!fits(piece.cells, piece.x, piece.y + 1)) { piece = null; over(); return; }
+            }
+            function fits(cs, x, y) {
+                return cs.every(function (p) {
+                    var cx = x + p[0], cy = y + p[1];
+                    return cx >= 0 && cx < COLS && cy < ROWS && (cy < 0 || !grid[cy][cx]);
+                });
+            }
+            function rotated() {
+                if (piece.k === 'O') return piece.cells;
+                var size = piece.k === 'I' ? 4 : 3;
+                return piece.cells.map(function (p) { return [size - 1 - p[1], p[0]]; });
+            }
+            function paint(i, hex) {
+                var el = cells[i];
+                el.className = 'nf-cell' + (hex ? ' on' : '');
+                if (hex) el.style.setProperty('--c', '#' + hex);
+            }
+            function draw() {
+                for (var r = 0; r < ROWS; r++) for (var c = 0; c < COLS; c++) paint(r * COLS + c, grid[r][c]);
+                if (piece) piece.cells.forEach(function (p) {
+                    var y = piece.y + p[1];
+                    if (y >= 0) paint(y * COLS + piece.x + p[0], COLOUR[piece.k]);
+                });
+                var s = document.getElementById('nfScore');
+                if (s) s.textContent = score;
+            }
+            function lock() {
+                piece.cells.forEach(function (p) { var y = piece.y + p[1]; if (y >= 0) grid[y][piece.x + p[0]] = COLOUR[piece.k]; });
+                var cleared = 0;
+                for (var r = ROWS - 1; r >= 0; r--) {
+                    if (grid[r].every(Boolean)) { grid.splice(r, 1); grid.unshift(new Array(COLS).fill(null)); cleared++; r++; }
+                }
+                score += [0, 100, 300, 500, 800][cleared];
+                spawn();
+            }
+            function move(dx, dy) {
+                if (!alive || !piece) return false;
+                if (fits(piece.cells, piece.x + dx, piece.y + dy)) { piece.x += dx; piece.y += dy; draw(); return true; }
+                if (dy) { lock(); draw(); }
+                return false;
+            }
+            function act(k) {
+                if (!alive) return;
+                if (k === 'left') move(-1, 0);
+                else if (k === 'right') move(1, 0);
+                else if (k === 'down') move(0, 1);
+                else if (k === 'drop') { while (move(0, 1)) {} }
+                else if (k === 'rotate' && piece) {
+                    var rc = rotated();
+                    [0, -1, 1, -2, 2].some(function (kick) {
+                        if (fits(rc, piece.x + kick, piece.y)) { piece.cells = rc; piece.x += kick; return true; }
+                    });
+                    draw();
+                }
+            }
+            function tick() {
+                move(0, 1);
+                if (alive) timer = setTimeout(tick, Math.max(160, 560 - Math.floor(score / 400) * 50));
+            }
+            function bar(html) { hint.innerHTML = html; hint.classList.add('is-on'); }
+            function start() {
+                blank(); score = 0; alive = true;
+                bar('Score <b id="nfScore">0</b> · ' + (touch ? '' : '← → ↑ ↓ Space · ') + '<button type="button" data-exit>Exit</button>' + (touch ? '' : ' Esc'));
+                spawn(); draw();
+                clearTimeout(timer); timer = setTimeout(tick, 560);
+            }
+            function over() {
+                alive = false; clearTimeout(timer);
+                bar('Game over · ' + score + ' · <button type="button" data-again>Play again</button> · <button type="button" data-exit>Exit</button>');
+            }
+            function exit() {
+                alive = false; playing = false; clearTimeout(timer); piece = null;
+                cells.slice(0, EXTRA * COLS).forEach(function (el) { el.remove(); });
+                cells.slice(EXTRA * COLS).forEach(function (el, i) { el.className = saved[i][0]; el.style.setProperty('--c', saved[i][1]); });
+                digits.classList.remove('is-game');
+                pad.hidden = true;
+                if (onEnd) onEnd();
+            }
+            window.nfTetris = function (done) {
+                onEnd = done; playing = true;
+                var own = Array.prototype.slice.call(digits.children);
+                saved = own.map(function (el) { return [el.className, el.style.getPropertyValue('--c')]; });
+                // The well is taller than the 404: extra rows on top.
+                var first = digits.firstChild;
+                for (var n = 0; n < EXTRA * COLS; n++) { var x = document.createElement('i'); x.className = 'nf-cell'; digits.insertBefore(x, first); }
+                cells = Array.prototype.slice.call(digits.children);
+                digits.classList.add('is-game');
+                if (touch) pad.hidden = false;
+                start();
+            };
+            window.nfPlaying = function () { return playing; };
+            hint.addEventListener('click', function (e) {
+                if (e.target.closest('[data-exit]')) exit();
+                else if (e.target.closest('[data-again]')) start();
+            });
+            pad.querySelectorAll('button').forEach(function (b) {
+                b.addEventListener('click', function () { act(b.dataset.k); });
+            });
+            var KEYS = { ArrowLeft: 'left', ArrowRight: 'right', ArrowDown: 'down', ArrowUp: 'rotate', Space: 'drop', KeyX: 'rotate' };
+            document.addEventListener('keydown', function (e) {
+                if (!playing) return;
+                if (e.code === 'Escape') { e.preventDefault(); exit(); return; }
+                if (e.code === 'Enter' && !alive) { e.preventDefault(); start(); return; }
+                var k = KEYS[e.code];
+                if (k) { e.preventDefault(); act(k); }
+            });
         })();
     </script>
     <script src="/script.js?v=20261016a"></script>
