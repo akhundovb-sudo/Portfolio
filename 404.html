@@ -85,6 +85,37 @@
         .nf-home:hover { background: #C9F83A; transform: translateY(-2px); }
         .nf-home:active { transform: translateY(0); }
         .nf-home:focus-visible { outline: 2px solid #0F0F0F; outline-offset: 3px; }
+        /* 404 in the palette's swatches, a 17 x 7 grid; a wave of the case
+           page's hover lift runs across it, column by column */
+        .nf-digits {
+            --cell: clamp(13px, 3.3vw, 34px);
+            --gap: clamp(2px, 0.35vw, 4px);
+            display: grid;
+            grid-template-columns: repeat(17, var(--cell));
+            grid-auto-rows: var(--cell);
+            gap: var(--gap);
+            justify-content: center;
+            margin: 0 auto 40px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nf-cell { border-radius: 2px; }
+        .nf-cell.on { background: var(--c); }
+        .nf-digits.is-wave .nf-cell.on {
+            animation: nf-lift 560ms cubic-bezier(0.22, 1, 0.36, 1) var(--d) both;
+        }
+        @keyframes nf-lift {
+            0%, 100% { transform: none; border-radius: 2px; box-shadow: none; }
+            45% {
+                transform: translateY(-14%) scale(1.14);
+                border-radius: 22%;
+                box-shadow: 0 6px 14px -6px rgba(15, 15, 15, 0.45);
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .nf-digits.is-wave .nf-cell.on { animation: none; }
+        }
+        html[data-theme="dark"] .nf-cell.on { box-shadow: inset 0 0 0 1px rgba(241, 241, 240, 0.12); }
         html[data-theme="dark"] .nf-code { color: rgba(241, 241, 240, 0.5); }
         html[data-theme="dark"] .nf-text { color: rgba(241, 241, 240, 0.6); }
         html[data-theme="dark"] .nf-home:focus-visible { outline-color: #F1F1F0; }
@@ -153,7 +184,7 @@
 
     <main class="nf">
         <div class="nf-inner">
-            <p class="nf-code">Error 404</p>
+            <div class="nf-digits" id="nfDigits" role="img" aria-label="404"></div>
             <h1 class="nf-title">This page doesn't exist</h1>
             <p class="nf-text">The link may be out of date or have a typo in it. My work and contacts are on the home page.</p>
             <a href="/" class="nf-home">Back to home</a>
@@ -203,6 +234,48 @@
         </div>
     </div>
 
+    <script>
+        // 404 drawn in the palette: each column takes one of the seven scales
+        // (light at the top, dark at the bottom); the wave plays once on load,
+        // then on hover or tap.
+        (function () {
+            var SCALES = [
+                ['DFFB64', 'D0F83E', 'C4F627', 'BAF400', '9AD100', '7DAF00', '618D00'],
+                ['A5ACB9', '828C9E', '606B83', '3D4B68', '1A2B4D', '121E36', '0A111E'],
+                ['FFC6AB', 'FFA081', 'FF7B61', 'FF3F2D', 'DB2120', 'B71623', '930E23'],
+                ['C3FA95', 'AAF57A', '84EF4F', '61CD39', '42AC27', '288A19', '16720F'],
+                ['9FEDFE', '6FDAFD', '4BC5FB', '11A4F9', '0C7FD6', '085FB3', '054390'],
+                ['FFF2A1', 'FFE872', 'FFDF4E', 'FFD014', 'DBAE0E', 'B78D0A', '936E06'],
+                ['D3D3D5', 'B1B2B4', '8D8E91', '6A6B6E', '464749', '28292A', '1B1C1D']
+            ];
+            var FOUR = ['10010', '10010', '10010', '11111', '00010', '00010', '00010'];
+            var ZERO = ['01110', '10001', '10001', '10001', '10001', '10001', '01110'];
+            var grid = document.getElementById('nfDigits');
+            if (!grid) return;
+            for (var r = 0; r < 7; r++) {
+                var row = FOUR[r] + '0' + ZERO[r] + '0' + FOUR[r];
+                for (var c = 0; c < 17; c++) {
+                    var el = document.createElement('i');
+                    el.className = 'nf-cell' + (row[c] === '1' ? ' on' : '');
+                    el.style.setProperty('--c', '#' + SCALES[c % 7][r]);
+                    el.style.setProperty('--d', (c * 45 + r * 12) + 'ms');
+                    grid.appendChild(el);
+                }
+            }
+            var busy = false;
+            function wave() {
+                if (busy) return;
+                busy = true;
+                grid.classList.remove('is-wave');
+                void grid.offsetWidth;
+                grid.classList.add('is-wave');
+                setTimeout(function () { busy = false; }, 16 * 45 + 6 * 12 + 560);
+            }
+            setTimeout(wave, 450);
+            grid.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') wave(); });
+            grid.addEventListener('click', wave);
+        })();
+    </script>
     <script src="/script.js?v=20261016a"></script>
     <script>
         // Mobile Menu Functionality
