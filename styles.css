@@ -1612,9 +1612,8 @@ body {
     display: block;
 }
 
-/* Home footer icons are inline SVG, so hover can show each brand's own
-   colour: Email in the site accent, LinkedIn blue, Telegram blue, Medium
-   black. At rest they keep the muted grey of the icon set. */
+/* Footer icons are the real brand marks (Gmail, LinkedIn, Telegram,
+   Medium) as inline SVG: grey at rest, each brand's own colour on hover. */
 .footer-social .social-icon svg {
     display: block;
     width: 100%;
@@ -1623,9 +1622,16 @@ body {
     transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.footer-social .social-icon--email:hover svg,
-.footer-social .social-icon--email:focus-visible svg {
-    color: rgb(255, 72, 16);
+/* The Gmail mark: grey at rest like the others, its own four colours on
+   hover (each part carries its colour in --c). */
+.footer-social .social-icon--email svg path {
+    fill: currentColor;
+    transition: fill 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-social .social-icon--email:hover svg path,
+.footer-social .social-icon--email:focus-visible svg path {
+    fill: var(--c);
 }
 
 .footer-social .social-icon--linkedin:hover svg,
@@ -5596,6 +5602,16 @@ html[data-theme="dark"] .footer-social .social-icon svg {
 html[data-theme="dark"] .footer-social .social-icon--medium:hover svg,
 html[data-theme="dark"] .footer-social .social-icon--medium:focus-visible svg {
     color: #FFFFFF;
+}
+
+html[data-theme="dark"] .footer-social .social-icon--linkedin:hover svg,
+html[data-theme="dark"] .footer-social .social-icon--linkedin:focus-visible svg {
+    color: #0A66C2;
+}
+
+html[data-theme="dark"] .footer-social .social-icon--telegram:hover svg,
+html[data-theme="dark"] .footer-social .social-icon--telegram:focus-visible svg {
+    color: #26A5E4;
 }
 
 /* Dialogs and sheets. */
