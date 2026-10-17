@@ -1937,12 +1937,19 @@ html.mobile-menu-open {
 .mobile-social-link:active,
 .mobile-social-link:focus-visible {
     outline: none;
-    color: rgb(255, 72, 16);
 }
 
 .mobile-social-link svg {
     display: block;
 }
+
+/* Burger menu: the same brand marks as the footer, but in their own
+   colours at rest, since a touch screen has no hover to reveal them. */
+.mobile-social-link svg { width: 24px; height: 24px; transition: opacity 200ms ease; }
+.mobile-social-link--email svg path { fill: var(--c); }
+.mobile-social-link--linkedin { color: #0A66C2; }
+.mobile-social-link--telegram { color: #26A5E4; }
+.mobile-social-link:active svg { opacity: 0.6; }
 
 /* Entry: the links rise in one after another. */
 .mobile-menu-overlay .mobile-menu > *,
@@ -5515,7 +5522,6 @@ html[data-theme="dark"] .case-title,
 html[data-theme="dark"] .modal-title,
 html[data-theme="dark"] .contact-button,
 html[data-theme="dark"] .mobile-nav-link,
-html[data-theme="dark"] .mobile-social-link,
 html[data-theme="dark"] .mobile-menu-bottom .theme-toggle,
 html[data-theme="dark"] .breadcrumb-current,
 html[data-theme="dark"] .case-fact-value,
@@ -5682,7 +5688,6 @@ html[data-theme="dark"] .desk-lightbox-hint {
 html[data-theme="dark"] .mobile-nav-link:active,
 html[data-theme="dark"] .mobile-nav-link:focus-visible,
 html[data-theme="dark"] .mobile-nav-link[aria-current="page"],
-html[data-theme="dark"] .mobile-social-link:active,
 html[data-theme="dark"] .modal-close:hover,
 html[data-theme="dark"] .contact-copy:hover,
 html[data-theme="dark"] .mobile-menu-bottom .theme-toggle:active,
