@@ -1553,6 +1553,23 @@ body {
     color: #8C8C8C;
 }
 
+/* "Let's work together" opens the same contact window as Get in touch. */
+.footer-title-link {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    cursor: pointer;
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-title-link:hover,
+.footer-title-link:focus-visible {
+    color: #0F0F0F;
+}
+
 .footer-social {
     display: flex;
     align-items: center;
@@ -5599,6 +5616,11 @@ html[data-theme="dark"] .footer {
 
 html[data-theme="dark"] .footer-title {
     color: #7A7A79;
+}
+
+html[data-theme="dark"] .footer-title-link:hover,
+html[data-theme="dark"] .footer-title-link:focus-visible {
+    color: #EDEDEC;
 }
 
 html[data-theme="dark"] .footer-social .social-icon svg {
