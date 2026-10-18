@@ -1553,8 +1553,10 @@ body {
     color: #8C8C8C;
 }
 
-/* "Let's work together" opens the same contact window as Get in touch. */
+/* "Let's work together" opens the same contact window as Get in touch,
+   with the site's standard hover: accent colour and a marching dashed rule. */
 .footer-title-link {
+    position: relative;
     padding: 0;
     border: 0;
     background: none;
@@ -1562,12 +1564,49 @@ body {
     letter-spacing: inherit;
     color: inherit;
     cursor: pointer;
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color var(--hover-time, 200ms) ease;
 }
 
-.footer-title-link:hover,
+.footer-title-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 2px;
+    background-image: linear-gradient(90deg, currentColor 6px, transparent 6px);
+    background-size: 10px 2px;
+    background-repeat: repeat-x;
+    opacity: 0;
+    transition: opacity var(--hover-time, 200ms) ease;
+    pointer-events: none;
+    animation: hover-dash-march 600ms linear infinite paused;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .footer-title-link:hover {
+        color: var(--hover-accent, rgb(255, 72, 16));
+    }
+
+    .footer-title-link:hover::after {
+        opacity: 1;
+        animation-play-state: running;
+    }
+}
+
 .footer-title-link:focus-visible {
-    color: #0F0F0F;
+    outline: none;
+    color: var(--hover-accent, rgb(255, 72, 16));
+}
+
+.footer-title-link:focus-visible::after {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .footer-title-link::after {
+        animation: none !important;
+    }
 }
 
 .footer-social {
@@ -2149,6 +2188,20 @@ html.mobile-menu-open {
     flex-shrink: 0;
     width: 24px;
     height: 24px;
+}
+
+/* Real brand marks in the text colour at rest, each brand's own colour
+   while its row is hovered (the label turns the accent colour). */
+.contact-icon { color: #0F0F0F; transition: color var(--hover-time, 200ms) ease; }
+.contact-icon--email path { fill: currentColor; transition: fill var(--hover-time, 200ms) ease; }
+html[data-theme="dark"] .contact-icon { color: #EDEDEC; }
+
+@media (hover: hover) and (pointer: fine) {
+    .contact-button:has(.contact-main:hover, .contact-fill:hover) .contact-icon--email path { fill: var(--c); }
+    .contact-button:has(.contact-main:hover, .contact-fill:hover) .contact-icon--telegram,
+    html[data-theme="dark"] .contact-button:has(.contact-main:hover, .contact-fill:hover) .contact-icon--telegram { color: #26A5E4; }
+    .contact-button:has(.contact-main:hover, .contact-fill:hover) .contact-icon--linkedin,
+    html[data-theme="dark"] .contact-button:has(.contact-main:hover, .contact-fill:hover) .contact-icon--linkedin { color: #0A66C2; }
 }
 
 .contact-label {
@@ -5616,11 +5669,6 @@ html[data-theme="dark"] .footer {
 
 html[data-theme="dark"] .footer-title {
     color: #7A7A79;
-}
-
-html[data-theme="dark"] .footer-title-link:hover,
-html[data-theme="dark"] .footer-title-link:focus-visible {
-    color: #EDEDEC;
 }
 
 html[data-theme="dark"] .footer-social .social-icon svg {
