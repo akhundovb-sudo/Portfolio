@@ -5141,6 +5141,15 @@ html[data-theme="dark"] .case-brief-col:last-child {
     touch-action: none;
 }
 
+/* Touch screens: prints aren't dragged there, so the page scrolls over
+   the fan and a tap opens the print. */
+@media (hover: none), (pointer: coarse) {
+    .desk-item {
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+}
+
 .desk-item img {
     display: block;
     width: 100%;

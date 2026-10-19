@@ -474,9 +474,21 @@ document.addEventListener('click', function (e) {
         item.style.removeProperty('--ty');
     });
 
+    // Touch: no dragging, so a swipe over the fan scrolls the page; a tap
+    // (the browser's click, which a scroll never fires) opens the print.
+    stage.addEventListener('click', function (e) {
+        if (!touchTap) return;
+        touchTap = false;
+        const item = e.target.closest('.desk-item');
+        if (item) open(item);
+    });
+    let touchTap = false;
+
     stage.addEventListener('pointerdown', function (e) {
         const item = e.target.closest('.desk-item');
         if (!item || e.button !== 0) return;
+        touchTap = e.pointerType !== 'mouse';
+        if (touchTap) return;
         e.preventDefault();
 
         const startX = e.clientX, startY = e.clientY;
