@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast227">
+    <link rel="stylesheet" href="styles.css?v=fast229">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -250,7 +250,12 @@
                          the charts drawing in (script.js, data-flow="dashboard"). -->
                     <div class="project-image project-image--biz" aria-hidden="true">
                         <div class="biz-stage">
-                            <img class="biz-desk" src="images/business-desk.webp?v=4" alt="" loading="lazy" decoding="async">
+                            <img class="biz-desk" src="images/business-desk.webp?v=5" alt="" loading="lazy" decoding="async">
+                            <!-- The wall's light moves: two more frames of the same shot (the light
+                                 leaning right, a glow in the middle) fade in and out over the
+                                 first in turn (styles.css .biz-desk--side / --glow). -->
+                            <img class="biz-desk biz-desk--side" src="images/business-desk-side.webp?v=1" alt="" loading="lazy" decoding="async">
+                            <img class="biz-desk biz-desk--glow" src="images/business-desk-glow.webp?v=1" alt="" loading="lazy" decoding="async">
                             <div class="biz-screen">
                                 <div class="case-stage" data-flow="dashboard">
                                 <img class="case-browser-shot" src="images/business-overview.jpg?v=2" alt="" loading="lazy" width="1600" height="1305" decoding="async">

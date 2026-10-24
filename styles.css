@@ -5996,6 +5996,45 @@ html[data-theme="dark"] .project-arrow::before {
     height: 100%;
 }
 
+/* The light on the wall moves, without a pause: two other frames of the
+   shot lie over the first and swell and fade in turn (14s loop, every leg
+   eased), so the light leans to the right, comes back, swells in the
+   middle and comes back again, always in motion. The monitor's screen is
+   its own layer above them all. */
+.biz-desk--side,
+.biz-desk--glow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    pointer-events: none;
+    animation: biz-side 14s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    will-change: opacity;
+}
+
+.biz-desk--glow {
+    animation-name: biz-glow;
+}
+
+@keyframes biz-side {
+    0%        { opacity: 0; }
+    25%       { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+@keyframes biz-glow {
+    0%, 50%   { opacity: 0; }
+    75%       { opacity: 1; }
+    100%      { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .biz-desk--side,
+    .biz-desk--glow {
+        animation: none;
+    }
+}
+
 .biz-screen {
     position: absolute;
     left: 34.27%;
