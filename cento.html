@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EGSLKL72KZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EGSLKL72KZ');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cento - Bahruz</title>
+    <link rel="icon" href="images/favicon.ico?v=2" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png?v=2">
+    <link rel="apple-touch-icon" href="images/icon-180.png?v=2">
+    <link rel="manifest" href="site.webmanifest">
+    <!-- Theme: light unless the visitor picked dark before (stored per
+         browser); set before paint so the page never flashes. -->
+    <meta name="color-scheme" content="light dark">
+    <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+    <link rel="stylesheet" href="styles.css?v=fast267">
+    <link rel="stylesheet" href="about.css?v=fast1">
+    <!-- Social meta -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Cento - Bahruz">
+    <meta property="og:description" content="I designed and built an iOS currency converter that shows any amount across currencies and crypto on one screen.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cento - Bahruz">
+    <meta name="twitter:description" content="I designed and built an iOS currency converter that shows any amount across currencies and crypto on one screen.">
+    
+    <!-- Hotjar Tracking Code -->
+    <script>
+        (function (c, s, q, u, a, r, e) {
+            c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
+            c._hjSettings = { hjid: a };
+            r = s.getElementsByTagName('head')[0];
+            e = s.createElement('script');
+            e.async = true;
+            e.src = q + c._hjSettings.hjid + u;
+            r.appendChild(e);
+        })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', 6550275);
+    </script>
+</head>
+
+<body class="project-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo logo--name" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="nav desktop-nav home-nav" aria-label="Primary">
+                    <a href="index.html#projects" class="home-nav-link">Works</a>
+                    <a href="about.html" class="home-nav-link">About</a>
+                    <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
+                </nav>
+
+                <!-- Mobile Navigation -->
+                <div class="mobile-nav">
+                    <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
+                    <button class="hamburger" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Overlay -->
+                <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+                    <div class="mobile-menu-top">
+                        <a href="index.html" class="logo logo--name mobile-menu-logo" aria-label="Bahruz Akhundov, home"><span class="logo-name">Bahruz <span class="logo-name-line">Akhundov</span></span></a>
+                        <button class="mobile-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                    </div>
+                    <nav class="mobile-menu" aria-label="Menu">
+                        <a href="index.html#projects" class="mobile-nav-link">Works</a>
+                        <a href="about.html" class="mobile-nav-link">About</a>
+                    </nav>
+                    <div class="mobile-menu-bottom">
+                        <div class="mobile-social-links">
+                            <a href="mailto:akhundovb@gmail.com" class="mobile-social-link mobile-social-link--email" aria-label="Email"><svg width="24" height="24" viewBox="50 37 92 76" aria-hidden="true"><path style="--c:#4285F4" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6"/><path style="--c:#34A853" d="M120 108h14c3.32 0 6-2.69 6-6V59l-20 15"/><path style="--c:#FBBC04" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2"/><path style="--c:#EA4335" d="M72 74V48l24 18 24-18v26L96 92"/><path style="--c:#C5221F" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2"/></svg></a>
+                            <a href="https://www.linkedin.com/in/bahruzakh/" class="mobile-social-link mobile-social-link--linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                            <a href="https://t.me/akhundesign" class="mobile-social-link mobile-social-link--telegram" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+                        </div>
+                        <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="index.html" class="breadcrumb-link">Home</a>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-current">Cento</span>
+            </nav>
+        </div>
+    </section>
+
+
+    <!-- Case content: same shared flow as the other cases. Screens are placeholders until the exports are in. -->
+    <section class="case-content">
+        <div class="container">
+            <header class="case-hero" data-toc="Intro">
+                <h1 class="case-title">Cento</h1>
+                <p class="case-lede">I designed and built Cento from the initial interface concepts to the final code. My goal was to make it easier to compare one amount across multiple currencies without switching pairs or repeating calculations.</p>
+                <p class="case-lede">Cento brings traditional currencies and crypto into one customizable list. Users choose their currencies, arrange them in their preferred order, and see conversions as they type.</p>
+                <p class="case-lede">I also designed widgets for quick access to exchange rates, charts, and crypto prices. A dedicated Travel widget uses location to identify the local currency and compare it with the user’s home currency.</p>
+                <p class="case-lede">Cento answers a simple everyday question: How much is this in my money?</p>
+                <!-- TODO: put the real App Store link in href. -->
+                    <a class="case-appstore" href="#" target="_blank" rel="noopener noreferrer" aria-label="Download Cento on the App Store"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span><small>Download on the</small><b>App Store</b></span></a>
+                <ul class="case-facts" aria-label="Project details">
+                    <li class="case-fact"><span class="case-fact-label">Role</span><span class="case-fact-value">Product Designer &amp; Vibe Coder</span></li>
+                    <li class="case-fact"><span class="case-fact-label">Period</span><span class="case-fact-value">2026</span></li>
+                </ul>
+                <!-- Cover: the four App Store screenshots in a row, as they run in the listing (images/cento/01, 02, 03, 05). -->
+                <div class="case-store-shots" role="img" aria-label="Cento on the App Store: the first four screenshots">
+                    <img src="images/cento/01.webp?v=1" alt="One amount. Multiple currencies at once." width="660" height="1434" decoding="async">
+                    <img src="images/cento/02.webp?v=1" alt="Your currencies. In your preferred order." width="660" height="1434" decoding="async">
+                    <img src="images/cento/03.webp?v=1" alt="Crypto next to world currencies" width="660" height="1434" decoding="async">
+                    <img src="images/cento/05.webp?v=3" alt="Your icon. Your style." width="660" height="1434" decoding="async">
+                </div>
+            </header>
+
+            <section class="case-brief" data-toc="Overview" aria-label="Challenge, solution and outcome">
+                <div class="case-brief-col">
+                    <h2 class="case-brief-title">Challenge</h2>
+                    <p class="case-brief-text">Comparing an amount across several currencies often means switching pairs and repeating calculations. I wanted to make that comparison effortless, whether checking crypto prices or understanding costs abroad.</p>
+                </div>
+                <div class="case-brief-col">
+                    <h2 class="case-brief-title">Solution</h2>
+                    <p class="case-brief-text">I designed and built a single list for currencies and crypto. Enter an amount in any row and the others update instantly. Widgets bring rates and charts to the Home Screen, while a location-aware Travel widget compares the local currency with the user’s home currency.</p>
+                </div>
+                <div class="case-brief-col">
+                    <h2 class="case-brief-title">Outcome</h2>
+                    <p class="case-brief-text">An iOS app that I took from interface design to working code, combining currency conversion, a built-in calculator, and widgets for everyday use and travel.</p>
+                </div>
+            </section>
+
+            <section class="case-section" data-toc="One list, any input" aria-labelledby="case-list">
+                <h2 class="case-section-title" id="case-list">One list, any input</h2>
+                <p class="case-section-text">Any currency in the list can be the input. A user taps a row, enters an amount on the keypad, and the other rows convert as the amount is typed. Each row shows its rate, and there is no base currency to choose. To change the order, press and hold a row and drag it, no need to open Edit.</p>
+                <div class="case-cover-pair"><div class="case-cover case-cover--phones case-cover--half case-cover--ink"><div class="case-phone case-phone--solo"><div class="case-phone-screen case-phone-screen--full" style="--screen: #EDEEF4"><video src="images/cento/video/list-type.mp4?v=1" autoplay muted loop playsinline preload="auto" aria-label="Cento: tap a row, type an amount, the list converts; the keypad closes to show every sum"></video></div></div></div><div class="case-cover case-cover--phones case-cover--half case-cover--lilac"><div class="case-phone case-phone--solo"><div class="case-phone-screen case-phone-screen--full" style="--screen: #EDEEF4"><video src="images/cento/video/list-reorder.mp4?v=2" autoplay muted loop playsinline preload="auto" aria-label="Cento: press and hold a row to drag it to a new place"></video></div></div></div></div>
+            </section>
+
+            <section class="case-section" data-toc="Currencies and crypto together" aria-labelledby="case-crypto">
+                <h2 class="case-section-title" id="case-crypto">Currencies and crypto together</h2>
+                <p class="case-section-text">World currencies and cryptocurrencies live in the same list, so a user can compare dollars with bitcoin in one place. Rates are cached on the device, so the last known values are available offline.</p>
+                <div class="case-photo-grid case-photo-grid--phones"><div class="case-photo-stack"><div class="case-cover case-cover--lilac case-tile-phone"><div class="case-tile-stage"><div class="case-phone case-phone--solo"><div class="case-phone-screen case-phone-screen--full" style="--screen: #EDEEF4"><video src="images/cento/video/add-fiat.mp4?v=2" autoplay muted loop playsinline preload="auto" aria-label="Cento: adding world currencies"></video></div></div></div></div><div class="case-cover case-cover--lilac case-tile-phone"><div class="case-tile-stage"><div class="case-phone case-phone--solo"><div class="case-phone-screen case-phone-screen--full" style="--screen: #EDEEF4"><video src="images/cento/video/add-crypto.mp4?v=2" autoplay muted loop playsinline preload="auto" aria-label="Cento: adding cryptocurrencies"></video></div></div></div></div></div><div class="case-cover case-cover--ink case-photo-tall case-tile-phone"><div class="case-tile-stage"><div class="case-phone case-phone--solo"><div class="case-phone-screen case-phone-screen--full" style="--screen: #EDEEF4"><video src="images/cento/video/crypto-list.mp4?v=2" autoplay muted loop playsinline preload="auto" aria-label="Cento: currencies and crypto in one list"></video></div></div></div></div></div>
+            </section>
+
+            <section class="case-section" data-toc="Pull to refresh" aria-labelledby="case-island">
+                <h2 class="case-section-title" id="case-island">Pull to refresh</h2>
+                <p class="case-section-text">Pull the list down to update the rates.</p>
+                <div class="case-cover case-cover--phones case-cover--ink"><div class="case-phone"><div class="case-phone-screen case-phone-screen--full" style="--screen: #EDEEF4"><video src="images/cento/video/island.mp4?v=2" autoplay muted loop playsinline preload="auto" aria-label="Cento: pull to refresh, the drop falls out of the Dynamic Island"></video></div></div></div>
+            </section>
+
+            <section class="case-section" data-toc="App icons" aria-labelledby="case-yours">
+                <h2 class="case-section-title" id="case-yours">App icons</h2>
+                <p class="case-section-text">Settings has a picker with 16 app icons, some of them Pro. A tap on an icon changes it on the Home Screen, and the launch screen follows the chosen icon.</p>
+                <div class="case-cover-pair"><div class="case-cover case-cover--phones case-cover--half case-cover--ink"><div class="case-phone case-phone--solo"><div class="case-phone-screen case-phone-screen--full" style="--screen: #EDEEF4"><video src="images/cento/video/icon-pick.mp4?v=3" autoplay muted loop playsinline preload="auto" aria-label="Cento: choosing the app icon in Settings"></video></div></div></div><div class="case-cover case-cover--phones case-cover--half case-cover--lilac"><div class="case-phone case-phone--solo"><div class="case-phone-screen case-phone-screen--full" style="--screen: #EDEEF4"><video src="images/cento/video/launch.mp4?v=4" autoplay muted loop playsinline preload="auto" aria-label="Cento: the new icon on the Home Screen, and the launch screen that follows it"></video></div></div></div></div>
+            </section>
+
+            <section class="case-section" data-toc="Widgets" aria-labelledby="case-widgets">
+                <h2 class="case-section-title" id="case-widgets">Widgets</h2>
+                <p class="case-section-text">Five widgets for the Home and Lock Screen: a currency pair, my currencies, a chart, the crypto market and a travel converter.</p>
+                <div class="case-cover-pair"><div class="case-cover case-cover--phones case-cover--half case-cover--lilac"><div class="case-phone case-phone--solo"><div class="case-phone-screen case-phone-screen--full" style="--screen: #000"><video src="images/cento/video/widget-home.mp4?v=2" autoplay muted loop playsinline preload="auto" aria-label="Cento: the exchange rate widget on the Home Screen, switching 1, 10, 100"></video></div></div></div><div class="case-cover case-cover--phones case-cover--half case-cover--ink"><div class="case-phone case-phone--solo"><div class="case-phone-screen case-phone-screen--full" style="--screen: #000"><video src="images/cento/video/widget-gallery.mp4?v=2" autoplay muted loop playsinline preload="auto" aria-label="Cento: the widget gallery: exchange rate, my currencies, chart, crypto market, travel"></video></div></div></div></div>
+            </section>
+
+            <section class="case-section" data-toc="Pro" aria-labelledby="case-pro">
+                <h2 class="case-section-title" id="case-pro">Pro</h2>
+                <p class="case-section-text">Free covers everyday use; Pro unlocks every currency, all crypto and extra icons. Subscription or one-time purchase, with a 7-day free trial.</p>
+                <div class="case-cover case-cover--phones case-cover--lilac case-cover--aligned"><div class="case-phone"><div class="case-phone-screen case-phone-screen--full" style="--screen: #EDEEF4"><img src="images/cento/settings.webp?v=1" alt="Cento: Settings with the Pro upgrade" width="720" height="1560" decoding="async"></div></div><div class="case-phone"><div class="case-phone-screen case-phone-screen--full" style="--screen: #1E1446"><video src="images/cento/video/paywall.mp4?v=1" autoplay muted loop playsinline preload="auto" aria-label="Cento: the Pro paywall"></video></div></div></div>
+            </section>
+        </div>
+    </section>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 class="footer-title"><button type="button" class="footer-title-link" onclick="openModal()">Let's work together</button></h3>
+            <div class="footer-social">
+                <a href="mailto:akhundovb@gmail.com" class="social-icon social-icon--email" data-tooltip="Email" aria-label="Email">
+                    <svg width="24" height="24" viewBox="50 37 92 76" aria-hidden="true"><path style="--c:#4285F4" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6"/><path style="--c:#34A853" d="M120 108h14c3.32 0 6-2.69 6-6V59l-20 15"/><path style="--c:#FBBC04" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2"/><path style="--c:#EA4335" d="M72 74V48l24 18 24-18v26L96 92"/><path style="--c:#C5221F" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/bahruzakh/" class="social-icon social-icon--linkedin" data-tooltip="LinkedIn" aria-label="LinkedIn" target="_blank"
+                    rel="noopener noreferrer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="https://t.me/akhundesign" class="social-icon social-icon--telegram" data-tooltip="Telegram" aria-label="Telegram" target="_blank"
+                    rel="noopener noreferrer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </a>
+                <a href="https://medium.com/@akhundov.design" class="social-icon medium-link social-icon--medium" data-tooltip="Medium" aria-label="Medium" target="_blank"
+                    rel="noopener noreferrer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Let's connect!</h3>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+            </div>
+            <div class="modal-body">
+                <div class="contact-buttons">
+                    <div class="contact-button contact-button--copy email">
+                        <a href="mailto:akhundovb@gmail.com" class="contact-main">
+                            <svg class="contact-icon contact-icon--email" width="24" height="24" viewBox="50 37 92 76" aria-hidden="true"><path style="--c:#4285F4" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6"/><path style="--c:#34A853" d="M120 108h14c3.32 0 6-2.69 6-6V59l-20 15"/><path style="--c:#FBBC04" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2"/><path style="--c:#EA4335" d="M72 74V48l24 18 24-18v26L96 92"/><path style="--c:#C5221F" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2"/></svg>
+                            <span class="contact-label">Email</span>
+                        </a>
+                        <button type="button" class="contact-copy" data-copy="akhundovb@gmail.com" aria-label="Copy email address">
+                            <svg class="contact-copy-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.75" y="8.75" width="12.5" height="12.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M15.25 5.5V2.75H2.75V15.25H5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <svg class="contact-copy-done" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5L9.5 18L20 6.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <span class="contact-copy-tip" role="status" aria-live="polite"></span>
+                        </button>
+                        <a href="mailto:akhundovb@gmail.com" class="contact-fill" tabindex="-1" aria-hidden="true"><svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                    </div>
+                    <div class="contact-button contact-button--copy telegram">
+                        <a href="https://t.me/akhundesign" class="contact-main" target="_blank" rel="noopener noreferrer">
+                            <svg class="contact-icon contact-icon--telegram" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <span class="contact-label">Telegram</span>
+                        </a>
+                        <button type="button" class="contact-copy" data-copy="https://t.me/akhundesign" aria-label="Copy Telegram link">
+                            <svg class="contact-copy-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.75" y="8.75" width="12.5" height="12.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M15.25 5.5V2.75H2.75V15.25H5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <svg class="contact-copy-done" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5L9.5 18L20 6.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <span class="contact-copy-tip" role="status" aria-live="polite"></span>
+                        </button>
+                        <a href="https://t.me/akhundesign" class="contact-fill" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                    </div>
+                    <div class="contact-button contact-button--copy linkedin">
+                        <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-main" target="_blank" rel="noopener noreferrer">
+                            <svg class="contact-icon contact-icon--linkedin" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span class="contact-label">LinkedIn</span>
+                        </a>
+                        <button type="button" class="contact-copy" data-copy="https://www.linkedin.com/in/bahruzakh/" aria-label="Copy LinkedIn link">
+                            <svg class="contact-copy-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.75" y="8.75" width="12.5" height="12.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges"/><path d="M15.25 5.5V2.75H2.75V15.25H5.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <svg class="contact-copy-done" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5L9.5 18L20 6.5" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+                            <span class="contact-copy-tip" role="status" aria-live="polite"></span>
+                        </button>
+                        <a href="https://www.linkedin.com/in/bahruzakh/" class="contact-fill" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Viewer -->
+    <div class="photo-viewer" id="photoViewer">
+        <div class="photo-viewer-content">
+            <img class="photo-viewer-img" id="photoViewerImg" alt="Full size image">
+            <video class="photo-viewer-img" id="photoViewerVideo" muted loop playsinline hidden></video>
+            <!-- Mobile Zoom Button -->
+            <button class="mobile-zoom-button modal-icon" id="mobileZoomButton" onclick="toggleMobileZoom(); event.stopPropagation();">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10.5" cy="10.5" r="7.75" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M16.25 16.25L21 21M10.5 7.5V13.5M7.5 10.5H13.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+            </button>
+            
+            <button class="photo-viewer-close modal-icon" onclick="closePhotoViewer(); event.stopPropagation();" aria-label="Close">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+            </button>
+            
+            <!-- Navigation Arrows -->
+            <button class="photo-nav-btn photo-nav-prev" onclick="previousPhoto()" aria-label="Previous">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+            </button>
+            <button class="photo-nav-btn photo-nav-next" onclick="nextPhoto()" aria-label="Next">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+            </button>
+            
+            <!-- Simple Zoom Slider -->
+            <div class="simple-zoom-controls">
+                <div class="zoom-percentage" id="zoomPercentage">100%</div>
+                <input type="range" class="simple-zoom-slider" id="simpleZoomSlider" min="25" max="300" value="100" oninput="updateSimpleZoom(this.value)">
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="script.js?v=20261019a"></script>
+    <script>
+        // Mobile Menu Functionality
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const body = document.body;
+            const html = document.documentElement;
+            
+            overlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            body.classList.toggle('mobile-menu-open');
+            html.classList.toggle('mobile-menu-open');
+            
+            // Hide mobile nav when menu is open
+            if (overlay.classList.contains('active')) {
+                mobileNav.style.display = 'none';
+                // Prevent scrolling
+                body.style.overflow = 'hidden';
+                html.style.overflow = 'hidden';
+            } else {
+                mobileNav.style.display = 'flex';
+                // Restore scrolling
+                body.style.overflow = '';
+                html.style.overflow = '';
+            }
+        }
+
+        // Close mobile menu when clicking on overlay
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        toggleMobileMenu();
+                    }
+                });
+
+                // Handle mobile menu navigation links
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        const href = this.getAttribute('href');
+                        
+                        if (href.startsWith('#')) {
+                            // For anchor links, close menu first, then navigate
+                            e.preventDefault();
+            e.stopPropagation(); // Prevent modal close
+                            
+                            // Close the mobile menu using the toggle function
+                            toggleMobileMenu();
+                            
+                            // Wait for menu to close, then scroll to target
+                            setTimeout(() => {
+                                const target = document.querySelector(href);
+                                if (target) {
+                                    // Ensure the target is visible and scroll to it
+                                    target.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                        inline: 'nearest'
+                                    });
+                                    
+                                    // Fallback: if smooth scroll doesn't work, try direct scroll
+                                    setTimeout(() => {
+                                        if (window.pageYOffset === 0) {
+                                            window.scrollTo({
+                                                top: target.offsetTop - 100,
+                                                behavior: 'smooth'
+                                            });
+                                        }
+                                    }, 100);
+                                }
+                            }, 600);
+                        } else {
+                            // For external links, close menu immediately
+                            toggleMobileMenu();
+                        }
+                    });
+                });
+            }
+        });
+
+        // Simple Photo Viewer functionality
+        let currentPhotoIndex = 0;
+        let availablePhotos = [];
+        let isTransitioning = false;
+
+        function openPhotoViewer(imgSrc) {
+            console.log('Opening photo viewer with:', imgSrc);
+            const viewer = document.getElementById('photoViewer');
+            const img = document.getElementById('photoViewerImg');
+            
+            if (!viewer || !img) {
+                console.error('Photo viewer elements not found');
+                return;
+            }
+            
+            // Reset state
+            resetPhotoViewerState();
+            
+            // Populate available photos array
+            populateAvailablePhotos();
+            
+            // Find current photo index
+            currentPhotoIndex = availablePhotos.findIndex(photo => photo.src === imgSrc);
+            if (currentPhotoIndex === -1) {
+                console.warn('Image not found in gallery, using first image');
+                currentPhotoIndex = 0;
+            }
+            
+            // Show the image, or the clip when a screen recording was clicked
+            showViewerMedia(imgSrc);
+            
+            // Show modal
+            viewer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            console.log('Photo viewer opened successfully');
+        }
+        
+        function resetPhotoViewerState() {
+            const viewer = document.getElementById('photoViewer');
+            const img = document.getElementById('photoViewerImg');
+            
+            if (!viewer || !img) return;
+            
+            // Reset image styles
+            img.style.transform = 'scale(1)';
+            img.style.cursor = 'zoom-in';
+            img.style.transition = 'transform 0.3s ease';
+            img.classList.remove('zoomed');
+            
+            // Reset viewer classes
+            viewer.classList.remove('zoomed');
+            
+            // Reset slider
+            const slider = document.getElementById('simpleZoomSlider');
+            if (slider) {
+                slider.value = 100;
+            }
+        }
+
+        function populateAvailablePhotos() {
+            const clickableImages = document.querySelectorAll('.project-page .system-img, .project-page .profile-img, .project-page .ui-showcase-img, .project-page .restaurant-img, .project-page .case-store-shots img, .project-page .case-phone-screen img:not(.case-flow-layer), .project-page .case-phone-screen video');
+            availablePhotos = Array.from(clickableImages).map(el => ({
+                src: el.currentSrc || el.src,
+                alt: el.alt || el.getAttribute('aria-label') || 'Project image'
+            }));
+        }
+
+        // The viewer shows an image or, for a screen recording, the clip itself.
+        function showViewerMedia(src) {
+            const img = document.getElementById('photoViewerImg');
+            const video = document.getElementById('photoViewerVideo');
+            const isVideo = /\.(mp4|mov|webm)(\?|$)/i.test(src);
+            img.hidden = isVideo;
+            video.hidden = !isVideo;
+            if (isVideo) {
+                video.src = src;
+                video.play().catch(() => {});
+            } else {
+                video.pause();
+                video.removeAttribute('src');
+                img.src = src;
+                img.alt = 'Full size image';
+            }
+        }
+
+        function closePhotoViewer() {
+            const viewer = document.getElementById('photoViewer');
+            if (!viewer) return;
+            
+            // Hide modal and reset body overflow
+            viewer.classList.remove('active');
+            const video = document.getElementById('photoViewerVideo');
+            if (video) video.pause();
+            document.body.style.overflow = '';
+            
+            console.log('Photo viewer closed');
+        }
+
+        function toggleZoom() {
+            // Only work on desktop (screen width > 768px)
+            if (window.innerWidth <= 768) return;
+            
+            const img = document.getElementById('photoViewerImg');
+            const viewer = document.getElementById('photoViewer');
+            if (!img || !viewer) return;
+            
+            const isZoomed = img.classList.contains('zoomed');
+            
+            if (isZoomed) {
+                // Zoom out
+                img.style.transform = 'scale(1)';
+                img.style.cursor = 'zoom-in';
+                img.classList.remove('zoomed');
+                viewer.classList.remove('zoomed');
+            } else {
+                // Zoom in
+                img.style.transform = 'scale(1.2)';
+                img.style.cursor = 'zoom-out';
+                img.classList.add('zoomed');
+                viewer.classList.add('zoomed');
+            }
+        }
+
+
+
+
+
+
+
+
+        // Simple mobile zoom functionality
+        function toggleMobileZoom() {
+            if (window.innerWidth > 768) return;
+            
+            const img = document.getElementById('photoViewerImg');
+            const zoomButton = document.getElementById('mobileZoomButton');
+            
+            if (!img || !zoomButton) return;
+            
+            const isZoomed = img.classList.contains('mobile-zoomed');
+            
+            if (isZoomed) {
+                // Zoom out
+                img.style.transform = 'scale(1)';
+                img.style.cursor = 'zoom-in';
+                img.classList.remove('mobile-zoomed');
+                zoomButton.classList.remove('zoomed');
+            } else {
+                // Zoom in
+                img.style.transform = 'scale(2)';
+            img.style.cursor = 'grab';
+                img.classList.add('mobile-zoomed');
+                zoomButton.classList.add('zoomed');
+            }
+        }
+
+        // Simple zoom slider update
+        function updateSimpleZoom(value) {
+            const img = document.getElementById('photoViewerImg');
+            if (img) {
+                const zoom = value / 100;
+                img.style.transform = `scale(${zoom})`;
+                
+                // Update zoom percentage display
+                const percentage = document.getElementById('zoomPercentage');
+                if (percentage) {
+                    percentage.textContent = value + '%';
+                }
+            }
+        }
+
+
+
+
+
+
+
+        // Simple photo navigation functions
+        function nextPhoto() {
+            if (availablePhotos.length === 0) return;
+            
+            currentPhotoIndex = (currentPhotoIndex + 1) % availablePhotos.length;
+            showViewerMedia(availablePhotos[currentPhotoIndex].src);
+        }
+
+        function previousPhoto() {
+            if (availablePhotos.length === 0) return;
+            
+            currentPhotoIndex = (currentPhotoIndex - 1 + availablePhotos.length) % availablePhotos.length;
+            showViewerMedia(availablePhotos[currentPhotoIndex].src);
+        }
+
+
+        // Close viewer when clicking outside image
+        document.getElementById('photoViewer').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePhotoViewer();
+            }
+        });
+
+        // Close viewer with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoViewer();
+            }
+        });
+
+        // Add click handlers to all images (excluding icons)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a bit for images to load
+            setTimeout(() => {
+            const images = document.querySelectorAll('.project-page img');
+                console.log('Found images:', images.length);
+            images.forEach(img => {
+                // Skip icons and small images
+                if (img.width <= 48 || img.height <= 48 || 
+                    img.src.includes('icon') || 
+                    img.closest('.mobile-social-links') ||
+                    img.closest('.social-links') ||
+                    img.closest('.mobile-close-btn') ||
+                    img.closest('.hamburger')) {
+                    return;
+                }
+                
+                    // Add click event listener
+                    img.addEventListener('click', function(e) {
+                        // On phones the case screens open in the full-screen viewer instead.
+                        if (window.innerWidth <= 768 && this.closest('.case-cover--phones')) return;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Image clicked:', this.src);
+                    openPhotoViewer(this.src);
+                });
+                    
+                    // Ensure cursor is set correctly
+                    img.style.cursor = 'zoom-in';
+                    img.style.userSelect = 'none';
+                    img.style.webkitUserSelect = 'none';
+                    console.log('Added click handler to:', img.src);
+                });
+                
+                // Test photo viewer functionality
+                console.log('Photo viewer test - available photos:', availablePhotos.length);
+            }, 100);
+
+            // Screen recordings open in the viewer as well.
+            document.querySelectorAll('.project-page .case-phone-screen video').forEach(video => {
+                video.style.cursor = 'zoom-in';
+                video.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768 && this.closest('.case-cover--phones')) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openPhotoViewer(this.currentSrc || this.src);
+                });
+            });
+
+            // Add click handler for photo viewer image
+            const photoViewerImg = document.getElementById('photoViewerImg');
+            if (photoViewerImg) {
+                // Desktop zoom toggle on click
+                photoViewerImg.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent modal close
+                    toggleZoom();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

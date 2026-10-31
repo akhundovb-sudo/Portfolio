@@ -9630,3 +9630,889 @@ html[data-theme="dark"] .case-browser {
 .project-card--ds .project-phones {
     z-index: 1;
 }
+
+/* Photo grid: two stacked tiles beside one tall tile (Cento). The tall
+   tile is as high as the stack; --flip puts it on the left. */
+.case-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.case-photo-stack {
+    display: grid;
+    gap: 16px;
+}
+
+.case-photo-grid .case-cover--placeholder {
+    aspect-ratio: 448 / 312;
+}
+
+.case-photo-grid .case-photo-tall {
+    aspect-ratio: auto;
+    height: 100%;
+}
+
+.case-photo-grid--flip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 768px) {
+    .case-photo-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .case-photo-grid .case-photo-tall {
+        aspect-ratio: 448 / 640;
+        height: auto;
+    }
+}
+
+/* App Store badge under the intro text (Cento). */
+/* Several intro paragraphs in a row (Cento) sit close together. */
+.case-lede:has(+ .case-lede) {
+    margin-bottom: 16px;
+}
+
+.case-lede:has(+ .case-appstore) {
+    margin-bottom: 20px;
+}
+
+.case-appstore {
+    margin: 0 0 40px;
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 10px;
+    height: 56px;
+    padding: 0 22px 0 18px;
+    /* The same physical key as the Get in touch button: dark body, lighter
+       bevel ring, a dark side wall below that the press sinks onto. */
+    border: 2px solid transparent;
+    border-radius: 14px;
+    background:
+        linear-gradient(180deg, #46494e 0%, #2c2e32 58%, #232528 100%) padding-box,
+        linear-gradient(180deg, #8f9297 0%, #4a4d51 40%, #2a2c2f 70%, #5b5e62 100%) border-box;
+    --cta-depth: 4px;
+    box-shadow:
+        0 0 0 1px #0c0d0e,
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+        0 var(--cta-depth) 0 0 #0a0b0c,
+        0 calc(var(--cta-depth) + 6px) 14px -6px rgba(0, 0, 0, 0.55);
+    color: #d6d8db;
+    font-family: 'PP Neue Montreal', sans-serif;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75), 0 1px 0 rgba(255, 255, 255, 0.06);
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        transform 220ms cubic-bezier(0.3, 1.6, 0.5, 1),
+        box-shadow 220ms ease,
+        filter 220ms ease;
+}
+
+.case-appstore:active {
+    transform: translateY(var(--cta-depth));
+    filter: brightness(0.9);
+    box-shadow:
+        0 0 0 1px #0c0d0e,
+        inset 0 2px 5px rgba(0, 0, 0, 0.55),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+        0 0 0 0 #0a0b0c,
+        0 2px 4px -2px rgba(0, 0, 0, 0.5);
+    transition-duration: 70ms;
+    transition-timing-function: ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .case-appstore:hover:not(:active) {
+        transform: translateY(-1px);
+        filter: brightness(1.1);
+    }
+}
+
+.case-appstore:focus-visible {
+    outline: 2px solid rgb(255, 72, 16);
+    outline-offset: 4px;
+}
+
+.case-appstore svg {
+    filter: drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.6));
+}
+
+.case-appstore span {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.case-appstore small {
+    font-size: 11px;
+    letter-spacing: 0.01em;
+}
+
+.case-appstore b {
+    margin-top: 3px;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+
+/* Cento's card backgrounds from the Figma file: deep violet and lilac;
+   the labels of the empty placeholders follow the tone. */
+.case-cover--ink {
+    background: #1E0B3D;
+}
+
+.case-cover--lilac {
+    background: #E4DCFF;
+}
+
+.case-cover--ink.case-cover--placeholder span {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.case-cover--lilac.case-cover--placeholder span {
+    color: rgba(30, 11, 61, 0.5);
+}
+
+/* Works card (Cento): deep violet panel to the card's edges. An 11s loop:
+   the headline rises in line by line, holds, zooms away; the phone comes
+   up and holds (the typed amount goes on its screen), then it all fades
+   and starts over. Sizes are in cqw of the panel. */
+.project-card:has(.project-image--cento) {
+    gap: 16px;
+    padding-bottom: 0;
+}
+
+.project-card:has(.project-image--cento) .project-head {
+    min-height: 0;
+}
+
+.project-image--cento {
+    position: relative;
+    container-type: size;
+    flex: 1 0 auto;
+    margin: 0 -20px;
+    border-radius: 20px 20px 0 0;
+    background: #1E0B3D;
+}
+
+.cento-title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    margin: 0;
+    transform: translateY(-50%);
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-size: 8.6cqw;
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    text-align: center;
+    color: #E9B3FB;
+    transform-origin: 50% 50%;
+}
+
+/* Each line is a mask; its text rises into it. */
+.cento-title span {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+}
+
+.cento-title i {
+    display: block;
+    font-style: normal;
+}
+
+.cento-title span:first-child {
+    color: #E4DCFF;
+}
+
+/* The lilac second background the phone stands on. */
+.cento-bg {
+    position: absolute;
+    inset: 0;
+    background: #E4DCFF;
+    opacity: 0;
+}
+
+/* The phone: the case pages' own frame (.case-phone, in .project-phones) a
+   little larger than Habbi's, so it runs further past the bottom edge. */
+.cento-phone {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.project-image--cento .case-phone {
+    width: 17cqw;
+    top: 12px;
+    /* The frame's bezel, glass border and corners are in cqw of the 780px
+       box, so at a narrower phone they read thick: scaled by 17 / 22 to
+       keep Habbi's proportions. */
+    padding: 0.247cqw;
+    border-radius: 2.7cqw;
+}
+
+.project-image--cento .case-phone-screen {
+    border-width: 0.556cqw;
+    border-radius: 2.46cqw;
+}
+
+/* The shot carries its own island and status bar. */
+.project-image--cento .case-phone-screen::before,
+.project-image--cento .case-phone-screen::after {
+    display: none;
+}
+
+/* The app screen at its own 982 x 2023 ratio, fitted to the phone's width.
+   Everything on it is placed in "px of that screen" (--u is one of them, in
+   cqw); the amount and the converted values are typed: 1, 10, 100. */
+.cento-app {
+    position: absolute;
+    inset: 0;
+    container-type: inline-size;
+    overflow: hidden;
+    background: linear-gradient(180deg, #EDEEF4 0%, #F2F1F8 100%);
+}
+
+.cento-stage {
+    --u: calc(100cqw / 982);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    aspect-ratio: 982 / 2023;
+}
+
+.cento-scroll {
+    position: absolute;
+    inset: 0;
+}
+
+.cento-app .cento-usd {
+    position: absolute;
+    left: 0;
+    bottom: auto;
+    top: calc(var(--u) * 290);
+    width: 100%;
+    height: auto;
+}
+
+/* The top of the screen: the status bar, the three buttons, and a glass band
+   behind them that blurs the list as it scrolls up under it. */
+.cento-blur {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 100%;
+    height: calc(var(--u) * 290);
+    -webkit-backdrop-filter: blur(calc(var(--u) * 16));
+    backdrop-filter: blur(calc(var(--u) * 16));
+    background: linear-gradient(180deg, rgba(239, 238, 243, 0.96) 0%, rgba(239, 238, 243, 0.88) 45%, rgba(239, 238, 243, 0.45) 78%, rgba(239, 238, 243, 0) 100%);
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+}
+
+.cento-app .cento-status {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: auto;
+    z-index: 3;
+    width: 100%;
+    height: auto;
+}
+
+.cento-app .cento-btn {
+    position: absolute;
+    left: calc(var(--u) * var(--x));
+    top: calc(var(--u) * 148);
+    bottom: auto;
+    z-index: 3;
+    width: calc(var(--u) * var(--w));
+    height: calc(var(--u) * 107);
+    border-radius: calc(var(--u) * 54);
+}
+
+.cento-patch {
+    position: absolute;
+    left: var(--l);
+    top: var(--t);
+    width: var(--w);
+    height: var(--h);
+    background: #fff;
+}
+
+.cento-num,
+.cento-val {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.005em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: #000;
+}
+
+.cento-num {
+    position: absolute;
+    right: 9.8%;
+    top: var(--t);
+    display: grid;
+    align-items: center;
+    justify-items: end;
+    height: 3.95%;
+    font-size: var(--fs);
+    color: #A947E4;
+}
+
+.cento-num u,
+.cento-val u {
+    grid-area: 1 / 1;
+    text-decoration: none;
+    opacity: 0;
+}
+
+.cento-num u:last-child,
+.cento-val u:last-child {
+    opacity: 1;
+}
+
+.cento-caretbox {
+    position: absolute;
+    left: 90.4%;
+    top: 17.2%;
+    width: 0.35%;
+    height: 2.5%;
+}
+
+.cento-caret {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #D9B8F2;
+}
+
+/* A currency row: white card, icon, code and name, the converted amount and
+   the rate. Sizes follow the 982px screen (the App Store shot). */
+.cento-row {
+    position: absolute;
+    left: calc(var(--u) * 41);
+    top: calc(var(--u) * var(--y));
+    width: calc(var(--u) * 898);
+    height: calc(var(--u) * 212);
+    border-radius: calc(var(--u) * 64);
+    background: #fff;
+    box-shadow: 0 calc(var(--u) * 6) calc(var(--u) * 28) rgba(40, 40, 70, 0.07), 0 0 0 1px rgba(40, 40, 70, 0.03);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.cento-app .cento-ico {
+    position: absolute;
+    bottom: auto;
+    left: calc(var(--u) * 48);
+    top: calc(var(--u) * 52);
+    width: calc(var(--u) * 107);
+    height: calc(var(--u) * 107);
+    border-radius: 50%;
+}
+
+.cento-ico--flag {
+    background: var(--f) center / cover no-repeat;
+}
+
+/* The app's gloss on a flag: a soft highlight top left and a fine rim. */
+.cento-ico--flag::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 52%),
+        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 0, 0.16) 100%);
+    box-shadow: inset 0 0 0 calc(var(--u) * 2) rgba(0, 0, 0, 0.1);
+}
+
+.cento-code,
+.cento-name,
+.cento-sub {
+    position: absolute;
+    height: calc(var(--u) * 70);
+    line-height: calc(var(--u) * 70);
+    white-space: nowrap;
+}
+
+.cento-code {
+    left: calc(var(--u) * 184);
+    top: calc(var(--u) * 40);
+    font-size: calc(var(--u) * 46);
+    font-weight: 500;
+    color: #000;
+}
+
+.cento-name {
+    left: calc(var(--u) * 184);
+    top: calc(var(--u) * 100);
+    font-size: calc(var(--u) * 38);
+    color: #8E8E93;
+}
+
+.cento-val {
+    position: absolute;
+    right: calc(var(--u) * 51);
+    top: calc(var(--u) * 39);
+    display: grid;
+    align-items: center;
+    justify-items: end;
+    height: calc(var(--u) * 70);
+    font-size: calc(var(--u) * 53);
+}
+
+.cento-sub {
+    right: calc(var(--u) * 51);
+    top: calc(var(--u) * 100);
+    font-size: calc(var(--u) * 34);
+    color: #8E8E93;
+}
+
+/* The keypad (glass sheet) with the pressed-key marks. */
+.cento-kbd {
+    position: absolute;
+    left: 0;
+    top: calc(var(--u) * 1213);
+    z-index: 3;
+    width: 100%;
+}
+
+/* The screen is a little taller than the shot: the sheet carries on below
+   the last key row in its own colour. */
+.cento-kbd::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    height: calc(var(--u) * 240);
+    background: #E4E7EF;
+}
+
+.cento-app .cento-kbd img {
+    position: static;
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.cento-key {
+    position: absolute;
+    left: calc(var(--u) * var(--x));
+    top: calc(var(--u) * var(--y));
+    width: calc(var(--u) * 288);
+    height: calc(var(--u) * 136);
+    border-radius: calc(var(--u) * 68);
+    /* The key itself, cut from the keypad: pressed, it sinks and darkens. */
+    background: url(images/cento/app-kbd.webp?v=1) no-repeat;
+    background-size: calc(var(--u) * 982) auto;
+    background-position: calc(var(--u) * var(--x) * -1) calc(var(--u) * var(--y) * -1);
+    box-shadow: inset 0 calc(var(--u) * 4) calc(var(--u) * 12) rgba(30, 20, 60, 0.28), 0 0 0 calc(var(--u) * 2) rgba(30, 20, 60, 0.06);
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .cento-title { animation: cento-zoom 11s linear infinite; }
+    .cento-title i { animation: cento-rise 11s linear infinite; }
+    .cento-title span:nth-child(2) i { animation-name: cento-rise-2; }
+    .cento-title span:nth-child(3) i { animation-name: cento-rise-3; }
+    .cento-bg { animation: cento-bg 11s linear infinite; }
+    .cento-phone { animation: cento-phone 11s linear infinite; }
+    .cento-num u:nth-child(1), .cento-val u:nth-child(1) { animation: cento-n1 11s steps(1, end) infinite; }
+    .cento-num u:nth-child(2), .cento-val u:nth-child(2) { animation: cento-n2 11s steps(1, end) infinite; }
+    .cento-num u:nth-child(3), .cento-val u:nth-child(3) { animation: cento-n3 11s steps(1, end) infinite; }
+    .cento-caretbox { animation: cento-caretbox 11s steps(1, end) infinite; }
+    .cento-caret { animation: cento-blink 0.9s steps(1, end) infinite; }
+    .cento-kbd { animation: cento-kbd 11s linear infinite; }
+    .cento-scroll { animation: cento-scroll 11s linear infinite; }
+    .project-image--cento .case-phone { transform-origin: 50% 0; animation: cento-settle 11s linear infinite; }
+    .cento-key { animation: cento-key1 11s linear infinite; }
+    .cento-key--0a { animation-name: cento-key0a; }
+    .cento-key--0b { animation-name: cento-key0b; }
+    .cento-key--h { animation-name: cento-keyH; }
+}
+
+/* One 11s timeline (1% = 110ms). "One amount." rises first (0-6.5%), the
+   other two lines follow (8-16%), hold, a quick zoom through the headline
+   at 29-31.5% (ease-in), the lilac comes up under it and the phone lands
+   (30-36%). Keys 1, 0, 0 are pressed at 38, 43 and 47% and the amount is
+   typed with them. The hide-keypad key is pressed (50-52%), the keypad drops away (51.6-56.6%),
+   the list scrolls up to show every converted sum (57-67.5%), and the phone zooms away like the headline did (91-93.5%). */
+@keyframes cento-rise {
+    0% { transform: translateY(105%); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    6.5%, 100% { transform: none; }
+}
+
+@keyframes cento-rise-2 {
+    0%, 8% { transform: translateY(105%); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    14.5%, 100% { transform: none; }
+}
+
+@keyframes cento-rise-3 {
+    0%, 9.5% { transform: translateY(105%); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    16%, 100% { transform: none; }
+}
+
+@keyframes cento-zoom {
+    0%, 29% { transform: translateY(-50%) scale(1); opacity: 1; animation-timing-function: cubic-bezier(0.6, 0, 1, 0.5); }
+    31.5% { transform: translateY(-50%) scale(7); opacity: 0; }
+    31.51%, 100% { transform: translateY(-50%) scale(1); opacity: 0; }
+}
+
+@keyframes cento-bg {
+    0%, 29% { opacity: 0; }
+    31.5%, 91% { opacity: 1; }
+    93.5%, 100% { opacity: 0; }
+}
+
+@keyframes cento-phone {
+    0%, 30% { opacity: 0; transform: translateY(10cqh) scale(0.88); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    36%, 91% { opacity: 1; transform: none; animation-timing-function: cubic-bezier(0.5, 0, 1, 0.6); }
+    92% { opacity: 0.5; transform: scale(2); animation-timing-function: linear; }
+    93% { opacity: 0; transform: scale(6); }
+    93.01% { opacity: 0; transform: scale(6); }
+    93.51%, 100% { opacity: 0; transform: translateY(10cqh) scale(0.88); }
+}
+
+@keyframes cento-n1 { 0% { opacity: 1; } 42.7% { opacity: 0; } }
+@keyframes cento-n2 { 0% { opacity: 0; } 42.7% { opacity: 1; } 47.3% { opacity: 0; } }
+@keyframes cento-n3 { 0% { opacity: 0; } 47.3% { opacity: 1; } }
+@keyframes cento-blink { 50% { opacity: 0; } }
+@keyframes cento-caretbox { 0% { opacity: 1; } 51.6% { opacity: 0; } }
+
+@keyframes cento-kbd {
+    0%, 51.6% { transform: none; animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0); }
+    56.6%, 96.9% { transform: translateY(105%); }
+    97%, 100% { transform: none; }
+}
+
+@keyframes cento-scroll {
+    0%, 57% { transform: none; animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1); }
+    67.5%, 96.9% { transform: translateY(calc(var(--u) * -250)); }
+    97%, 100% { transform: none; }
+}
+
+@keyframes cento-key1 {
+    0%, 38% { opacity: 0; transform: scale(1); filter: none; }
+    38.4%, 39.6% { opacity: 1; transform: scale(0.94); filter: brightness(0.84) saturate(1.15); }
+    40.4%, 100% { opacity: 0; transform: scale(1); filter: none; }
+}
+
+@keyframes cento-key0a {
+    0%, 42.7% { opacity: 0; transform: scale(1); filter: none; }
+    43.1%, 44.3% { opacity: 1; transform: scale(0.94); filter: brightness(0.84) saturate(1.15); }
+    45.1%, 100% { opacity: 0; transform: scale(1); filter: none; }
+}
+
+@keyframes cento-key0b {
+    0%, 47.3% { opacity: 0; transform: scale(1); filter: none; }
+    47.7%, 48.9% { opacity: 1; transform: scale(0.94); filter: brightness(0.84) saturate(1.15); }
+    49.7%, 100% { opacity: 0; transform: scale(1); filter: none; }
+}
+
+/* Cover as the App Store screenshots row (Cento): four screenshots on the
+   page itself, no card behind them. Two to a row on a phone. */
+.case-store-shots {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.case-store-shots img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.08);
+}
+
+.case-store-shots--5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+@media (max-width: 768px) {
+    .case-store-shots {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .case-store-shots img {
+        border-radius: 18px;
+    }
+}
+
+/* With the keypad gone the phone eases down and out to where Habbi's stands
+   (22cqw wide, 34px from the top: 17cqw x 1.294), together with the list scrolling. */
+@keyframes cento-settle {
+    0%, 51.6% { transform: translateX(-50%); animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1); }
+    62.5%, 96.9% { transform: translateX(-50%) translateY(22px) scale(1.294); }
+    97%, 100% { transform: translateX(-50%); }
+}
+
+/* The key that hides the keypad is pressed (50.4-52.2%) just before it drops. */
+@keyframes cento-keyH {
+    0%, 50.2% { opacity: 0; transform: scale(1); filter: none; }
+    50.6%, 51.6% { opacity: 1; transform: scale(0.94); filter: brightness(0.84) saturate(1.15); }
+    52.4%, 100% { opacity: 0; transform: scale(1); filter: none; }
+}
+
+/* Photo tiles holding a ready image (Cento): the App Store shot fills the
+   tile in its own colour, or a screen stands on the tile as a flat card. */
+.case-photo-grid .case-tile-img,
+.case-photo-grid .case-tile-shot {
+    align-items: center;
+    padding: 0;
+}
+
+.case-photo-grid .case-tile-img img {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.case-photo-grid .case-tile-shot img {
+    width: auto;
+    height: 86%;
+    max-width: 62%;
+    border-radius: 28px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14), 0 24px 48px -16px rgba(0, 0, 0, 0.5);
+}
+
+/* Photo tiles holding a screen (Cento): a flat screen card peeking up from
+   the tile's bottom edge, or a cut-out of a screen filling the tile. */
+.case-photo-grid .case-tile-peek,
+.case-photo-grid .case-tile-fill {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+}
+
+.case-photo-grid .case-tile-peek img {
+    position: absolute;
+    left: 50%;
+    top: 12%;
+    width: 56%;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    border-radius: 22px;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.06), 0 18px 40px -16px rgba(30, 11, 61, 0.35);
+    transform: translateX(-50%);
+}
+
+.case-photo-grid .case-photo-tall.case-tile-peek img {
+    top: 7%;
+    width: 72%;
+}
+
+.case-photo-grid .case-tile-fill img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+}
+
+.case-photo-stack > .case-cover {
+    height: auto;
+    aspect-ratio: 448 / 312;
+}
+
+/* The tall tile takes the stack's height; its picture never sets it. */
+.case-photo-grid .case-tile-img,
+.case-photo-grid .case-tile-shot {
+    position: relative;
+}
+
+.case-photo-grid .case-tile-img img,
+.case-photo-grid .case-tile-shot img {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+}
+
+/* Screen recordings (Cento): a video fills the phone screen like a shot,
+   and sits in the tiles the way the pictures do. */
+.case-phone-screen video {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.case-photo-grid .case-tile-peek video {
+    position: absolute;
+    left: 50%;
+    top: 12%;
+    width: 56%;
+    height: auto;
+    border-radius: 22px;
+    box-shadow: 0 0 0 1px rgba(15, 15, 15, 0.06), 0 18px 40px -16px rgba(30, 11, 61, 0.35);
+    transform: translateX(-50%);
+}
+
+.case-photo-grid .case-photo-tall.case-tile-peek video {
+    top: 7%;
+    width: 72%;
+}
+
+.case-photo-grid .case-tile-fill video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Photo grid with phones (Cento): the grid is the size container, so a
+   phone in any tile is as wide as the ones in the paired cards (22cqw).
+   In the short tiles it peeks up and runs past the bottom edge; in the
+   tall tile it stands whole. */
+.case-photo-grid--phones {
+    container-type: inline-size;
+}
+
+.case-photo-grid--phones .case-tile-phone {
+    position: relative;
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    container-type: normal;
+}
+
+.case-tile-stage {
+    position: absolute;
+    left: 50%;
+    top: 14%;
+    transform: translateX(-50%);
+}
+
+.case-photo-tall .case-tile-stage {
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.case-tile-stage .case-phone {
+    width: 22cqw;
+    --y: 0%;
+}
+
+@media (max-width: 768px) {
+    .case-tile-stage .case-phone {
+        width: 44cqw;
+    }
+}
+
+/* Two phones side by side on one line (Cento Pro): no stagger between them. */
+.case-cover--aligned .case-phone,
+.case-cover--aligned .case-phone:nth-child(2),
+.case-cover--aligned .case-phone:nth-child(3) {
+    --y: 0%;
+}
+
+/* Habbi's card backgrounds: a flat sky blue, and a pale ice blue. */
+.case-cover--sky {
+    background: #8BDCF7;
+}
+
+.case-cover--ice {
+    background: #E3F6FD;
+}
+
+/* Habbi Stats: the streak card turns from blue (1 day) to orange (2 days),
+   the second shot fading in over the first and back again. */
+.habbi-streak-up {
+    animation: habbi-streak 6s ease-in-out infinite;
+}
+
+@keyframes habbi-streak {
+    0%, 35% { opacity: 0; }
+    50%, 90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* The orange card is alive, as in the app: its glow breathes and embers
+   drift up through it. Laid over the card's place in the shot (720 x 1560)
+   and shown with the orange shot. */
+.habbi-streak-fx {
+    position: absolute;
+    left: 4.2%;
+    top: 13.7%;
+    width: 91.6%;
+    height: 15.5%;
+    overflow: hidden;
+    border-radius: 9% / 33%;
+    pointer-events: none;
+    animation: habbi-streak 6s ease-in-out infinite;
+    container-type: inline-size;
+}
+
+.habbi-streak-fx::before {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background:
+        radial-gradient(40% 70% at 50% 110%, rgba(255, 170, 60, 0.55), transparent 70%),
+        radial-gradient(30% 60% at 20% 100%, rgba(255, 90, 20, 0.35), transparent 70%),
+        radial-gradient(30% 60% at 80% 100%, rgba(255, 110, 30, 0.35), transparent 70%);
+    mix-blend-mode: screen;
+    animation: habbi-glow 2.6s ease-in-out infinite alternate;
+}
+
+.habbi-streak-fx i {
+    position: absolute;
+    bottom: -4%;
+    width: 0.9cqw;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #FFC27A;
+    box-shadow: 0 0 1.2cqw 0.3cqw rgba(255, 150, 60, 0.7);
+    opacity: 0;
+    animation: habbi-ember 3.2s linear infinite;
+}
+
+.habbi-streak-fx i:nth-child(1) { left: 8%; animation-delay: 0s; }
+.habbi-streak-fx i:nth-child(2) { left: 19%; animation-delay: 1.4s; animation-duration: 3.8s; }
+.habbi-streak-fx i:nth-child(3) { left: 31%; animation-delay: 0.7s; }
+.habbi-streak-fx i:nth-child(4) { left: 42%; animation-delay: 2.1s; animation-duration: 2.8s; }
+.habbi-streak-fx i:nth-child(5) { left: 55%; animation-delay: 0.3s; animation-duration: 3.6s; }
+.habbi-streak-fx i:nth-child(6) { left: 63%; animation-delay: 1.8s; }
+.habbi-streak-fx i:nth-child(7) { left: 72%; animation-delay: 1s; animation-duration: 2.9s; }
+.habbi-streak-fx i:nth-child(8) { left: 81%; animation-delay: 2.6s; }
+.habbi-streak-fx i:nth-child(9) { left: 88%; animation-delay: 0.5s; animation-duration: 3.4s; }
+.habbi-streak-fx i:nth-child(10) { left: 94%; animation-delay: 1.6s; animation-duration: 4s; }
+
+@keyframes habbi-glow {
+    from { opacity: 0.55; transform: translateY(4%) scale(1); }
+    to { opacity: 1; transform: translateY(-3%) scale(1.06); }
+}
+
+@keyframes habbi-ember {
+    0% { opacity: 0; transform: translate(0, 0) scale(1); }
+    15% { opacity: 0.9; }
+    60% { opacity: 0.7; transform: translate(1.5cqw, -22cqw) scale(0.8); }
+    100% { opacity: 0; transform: translate(-1cqw, -40cqw) scale(0.5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .habbi-streak-up { animation: none; opacity: 1; }
+    .habbi-streak-fx, .habbi-streak-fx::before, .habbi-streak-fx i { animation: none; }
+}
