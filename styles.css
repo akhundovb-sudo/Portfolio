@@ -10516,3 +10516,23 @@ html[data-theme="dark"] .case-browser {
     .habbi-streak-up { animation: none; opacity: 1; }
     .habbi-streak-fx, .habbi-streak-fx::before, .habbi-streak-fx i { animation: none; }
 }
+
+/* Case media on its way: a shimmer where the shot or the clip will be
+   (script.js adds .media-loading until the first frame is in). */
+.media-loading {
+    background: linear-gradient(100deg, #DEDEDC 30%, #F7F7F6 50%, #DEDEDC 70%) 0 0 / 250% 100%;
+    animation: media-shimmer 1.4s ease-in-out infinite;
+}
+
+html[data-theme="dark"] .media-loading {
+    background-image: linear-gradient(100deg, #26272A 30%, #333438 50%, #26272A 70%);
+}
+
+@keyframes media-shimmer {
+    from { background-position: 100% 0; }
+    to { background-position: -150% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .media-loading { animation: none; }
+}

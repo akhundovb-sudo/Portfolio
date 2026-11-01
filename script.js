@@ -2310,3 +2310,19 @@ window.caseClock = function (pad) {
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(stage);
     else window.addEventListener('resize', fit);
 })();
+
+// Case pages: a shot or a screen recording that is still on its way shows a
+// soft shimmer in its place, so a slow connection reads as loading rather
+// than as an empty phone. The shimmer goes as soon as the first frame is in.
+(function () {
+    if (!document.body.classList.contains('project-page')) return;
+    document.querySelectorAll('.case-content img, .case-content video').forEach(function (el) {
+        var isVideo = el.tagName === 'VIDEO';
+        var ready = isVideo ? el.readyState >= 2 : (el.complete && el.naturalWidth > 0);
+        if (ready) return;
+        el.classList.add('media-loading');
+        var done = function () { el.classList.remove('media-loading'); };
+        el.addEventListener(isVideo ? 'loadeddata' : 'load', done, { once: true });
+        el.addEventListener('error', done, { once: true });
+    });
+})();
