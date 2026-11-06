@@ -3524,6 +3524,12 @@ html.shot-viewer-lock body {
     color: rgba(15, 15, 15, 0.5);
 }
 
+/* A screen's text in two short paragraphs: what it is for, then what sits
+   below it; the pair keeps the section's one gap under it. */
+.case-section-text:has(+ .case-section-text) {
+    margin-bottom: 12px;
+}
+
 @media (max-width: 768px) {
     .case-section {
         margin-top: 80px;
@@ -3532,6 +3538,10 @@ html.shot-viewer-lock body {
     .case-section-text {
         margin-bottom: 28px;
         font-size: 16px;
+    }
+
+    .case-section-text:has(+ .case-section-text) {
+        margin-bottom: 10px;
     }
 }
 
