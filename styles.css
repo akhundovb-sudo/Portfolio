@@ -3732,6 +3732,14 @@ html[data-theme="dark"] .case-section-text {
     container-type: inline-size;
 }
 
+/* In a phone the clip fills the screen's width (by height it came out
+   ~3 px narrower and the screen showed through at the sides); the extra
+   ~1% of height falls off the bottom. */
+.case-phone-screen > .case-pass:not(.case-pass--scroll) {
+    width: 100%;
+    height: auto;
+}
+
 /* The screenshot under the clip fills it. */
 .case-pass > img {
     position: absolute;
@@ -8647,6 +8655,7 @@ html[data-theme="dark"] .project-wip {
 
 .case-stats.is-in .case-stat:nth-child(2) b::after { transition-delay: 350ms; }
 .case-stats.is-in .case-stat:nth-child(3) b::after { transition-delay: 500ms; }
+.case-stats.is-in .case-stat:nth-child(n+4) b::after { transition-delay: 650ms; }
 
 .case-stat b em {
     display: inline-block;
@@ -8794,6 +8803,10 @@ html[data-theme="dark"] .case-stats-note { color: rgba(255, 255, 255, 0.45); }
 .case-pass--seq {
     overflow: hidden;
     background: #FFFFFF;
+    /* Round to the screen's inner corner (3.18cqw radius - 0.72cqw border):
+       under the 3D tilt the screen's own rounded overflow stops clipping
+       the animated layers, and their square corners cut over the frame. */
+    clip-path: inset(0 round 2.46cqw);
 }
 
 .case-pass--seq > img,

@@ -1,0 +1,778 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="apple-mobile-web-app-capable" content="yes"></head><body><title>Qonaqlar və masalar</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&family=Manrope:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: two views (Guests / Gifts) switched by a bottom tab bar; details and forms open in a bottom sheet */
+:root{
+  --bg:#F7F6F4; --surface:#FFFFFF; --ink:#22202A; --muted:#6E6A78; --line:#E4E1E8; --soft:#EFEDF1;
+  --accent:#8E1B36; --accent-soft:#F6E3E8; --ok:#2E8A5C; --ok-soft:#E1F2E9; --money:#1F7A55; --warn:#B4361F;
+  --c-bey:#2F6FB0; --c-bey-bg:#E3EEF9;
+  --c-gel:#B0456E; --c-gel-bg:#F8E4EC;
+  --c-dost:#2E8A5C; --c-dost-bg:#E1F2E9;
+  --c-is:#B07316; --c-is-bg:#F7EBD7;
+  --c-x:#6E6A78; --c-x-bg:#ECEAEF;
+  --c-qiz:#7A4FB5; --c-qiz-bg:#EEE6F8;
+  --hit:#FFD84D; --on:#FFFFFF; --scrim:rgba(20,18,26,.45); --shadow:rgba(20,18,26,.08);
+  --f-display:"Prata", Georgia, serif;
+  --f-body:"Manrope", -apple-system, system-ui, sans-serif;
+  --tabbar:64px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#16151B; --surface:#201F27; --ink:#EEECF2; --muted:#A29EAD; --line:#33313D; --soft:#2A2933;
+  --accent:#E57A94; --accent-soft:#3A2129; --ok:#6FD3A0; --ok-soft:#18322A; --money:#6FD3A0; --warn:#F08A72;
+  --c-bey:#7DB2EA; --c-bey-bg:#1C2A3A; --c-gel:#EE8DB2; --c-gel-bg:#3A1F2B;
+  --c-dost:#6FD3A0; --c-dost-bg:#18322A; --c-is:#E9B25E; --c-is-bg:#382B17;
+  --c-x:#A29EAD; --c-x-bg:#2A2933; --c-qiz:#B99AE8; --c-qiz-bg:#2C2240;
+  --hit:#C9A31F; --on:#16151B; --scrim:rgba(0,0,0,.6); --shadow:rgba(0,0,0,.4); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#16151B; --surface:#201F27; --ink:#EEECF2; --muted:#A29EAD; --line:#33313D; --soft:#2A2933;
+  --accent:#E57A94; --accent-soft:#3A2129; --ok:#6FD3A0; --ok-soft:#18322A; --money:#6FD3A0; --warn:#F08A72;
+  --c-bey:#7DB2EA; --c-bey-bg:#1C2A3A; --c-gel:#EE8DB2; --c-gel-bg:#3A1F2B;
+  --c-dost:#6FD3A0; --c-dost-bg:#18322A; --c-is:#E9B25E; --c-is-bg:#382B17;
+  --c-x:#A29EAD; --c-x-bg:#2A2933; --c-qiz:#B99AE8; --c-qiz-bg:#2C2240;
+  --hit:#C9A31F; --on:#16151B; --scrim:rgba(0,0,0,.6); --shadow:rgba(0,0,0,.4); color-scheme:dark }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45;
+  padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));
+  padding-block:0 calc(var(--tabbar) + 40px + env(safe-area-inset-bottom,0px));
+  -webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+body.lock{overflow:hidden}
+button{font:inherit;color:inherit}
+.wrap{max-width:640px;margin:0 auto}
+.view{display:grid;gap:28px}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:16px 14px;display:grid;gap:14px;margin-bottom:-14px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+h1{font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1.1;margin:0}
+.prog{display:grid;justify-items:end;gap:6px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.prog b{color:var(--ink);font-size:15px}
+.bar{width:120px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.search{position:relative}
+.search input{width:100%;font:inherit;font-size:17px;padding:14px 46px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);-webkit-appearance:none;appearance:none}
+.search input::placeholder{color:var(--muted)}
+.search input::-webkit-search-cancel-button{display:none}
+.search input:focus{outline:none;border-color:var(--accent)}
+.search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted);pointer-events:none}
+.clr{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--muted);font-size:24px;line-height:1;width:40px;height:40px;border-radius:50%;cursor:pointer}
+
+#results{display:grid;gap:8px;max-height:min(56vh,460px);overflow-y:auto;overscroll-behavior:contain;padding-bottom:2px}
+#results:empty{display:none}
+.row{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 8px 8px 10px}
+.row .open{flex:1;min-width:0;display:flex;align-items:center;gap:14px;border:0;background:none;text-align:left;padding:4px 0;cursor:pointer}
+.num{flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:18px;font-variant-numeric:tabular-nums;color:#fff;line-height:1}
+.num.none{background:var(--soft);color:var(--muted);font-size:15px}
+.who{min-width:0;display:grid;gap:3px}
+.who .nm{font-weight:700;font-size:16px;line-height:1.25;overflow-wrap:anywhere}
+.who .gp{font-size:13px;line-height:1.35;color:var(--muted)}
+.row.done .nm{color:var(--muted)}
+.chk{flex:none;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--muted)}
+.chk svg{width:20px;height:20px}
+.chk.on{background:var(--ok);border-color:var(--ok);color:var(--on)}
+.addrow{display:flex;align-items:center;gap:12px;width:100%;border:1.5px dashed var(--line);background:none;border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;color:var(--accent);font-weight:700}
+.addrow svg{width:20px;height:20px;flex:none}
+.empty{color:var(--muted);font-size:14px;padding:4px 4px}
+
+section{display:grid;gap:12px}
+.sec-h{display:grid;gap:4px}
+h2{font-family:var(--f-display);font-weight:400;font-size:21px;line-height:1.2;margin:0}
+.sub{color:var(--muted);font-size:14px;margin:0}
+.hall{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 12px 14px}
+.stage{font-family:var(--f-display);text-align:center;border:1.5px solid var(--accent);color:var(--accent);border-radius:8px;padding:7px;margin:0 auto 16px;width:60%;letter-spacing:.08em;font-size:14px}
+.stage + .grid{margin-top:22px}
+.grid{display:grid;grid-template-columns:1fr 1fr 0.8fr 0.8fr 1fr;grid-template-rows:repeat(10,38px);gap:10px 8px}
+.zone{grid-column:4/6;grid-row:1/5;border:1.5px dashed var(--c-qiz);border-radius:12px;margin:-7px -5px;pointer-events:none;position:relative}
+.zone span{position:absolute;top:-9px;right:10px;background:var(--surface);color:var(--c-qiz);font-size:10px;line-height:16px;font-weight:700;letter-spacing:.08em;padding:0 6px}
+.t{border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;border-radius:6px;padding:0;position:relative;transition:transform .15s,opacity .15s}
+.t .n{font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
+.t .s{font-size:10px;font-weight:600;opacity:.85;margin-top:3px;font-variant-numeric:tabular-nums}
+.t.circle{border-radius:50%;width:40px;height:40px;justify-self:center;align-self:center}
+.t.spare{background:transparent;border:1.5px dashed var(--line);color:var(--muted);cursor:default;font-size:10px}
+.t.full::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.t.dim{opacity:.22}
+.t.hit{outline:3px solid var(--hit);outline-offset:2px;transform:scale(1.08);z-index:1}
+:is(.t,.chk,.open,.card,.gift,.tab,.addrow,.btn,.seg button,.more,.close,.clr,.gone button,.sugg button,.reset):focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.foot{display:flex;justify-content:space-between;margin-top:16px;gap:10px}
+.foot span{flex:1;text-align:center;font-size:11px;letter-spacing:.12em;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:7px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+.cards{display:grid;gap:10px}
+.card,.gift{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 16px 10px 10px;cursor:pointer}
+.card .who,.gift .who{flex:1}
+.pr{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.full{color:var(--ok);font-weight:700}
+.amt{font-weight:800;font-size:17px;color:var(--money);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* gifts summary */
+.sum{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:6px}
+.sum .lbl{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.sum .big{font-size:30px;font-weight:800;line-height:1.15;color:var(--money);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.sum .meta{font-size:14px;color:var(--muted)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:14px;padding:15px 18px;font-weight:700;font-size:16px;cursor:pointer;background:var(--accent);color:var(--on)}
+.btn svg{width:20px;height:20px}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.danger{background:none;color:var(--warn);border:1.5px solid var(--line)}
+.btn.danger.arm{border-color:var(--warn);background:var(--warn);color:var(--on)}
+.btn:disabled{opacity:.45;cursor:default}
+.store{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center}
+.store i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.store.cloud i{background:var(--ok)}
+.pin{display:grid;gap:10px;margin-top:16px;padding:16px;background:var(--surface);border:1.5px solid var(--accent);border-radius:16px}
+.pin label{display:grid;gap:4px}.pin label span{font-size:14px;color:var(--muted)}
+.pin-row{display:flex;gap:10px}.pin-row .inp{flex:1;min-width:0}.pin-row .btn{width:auto;padding:0 18px}
+.pin-msg{margin:0;font-size:14px;color:var(--accent)}.pin-msg:empty{display:none}
+.err{background:var(--accent-soft);color:var(--accent);border-radius:12px;padding:12px 14px;font-size:14px}
+
+/* tab bar */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--surface);border-top:1px solid var(--line);
+  padding:0 max(18px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(18px,env(safe-area-inset-left,0px))}
+body.searching .tabbar{display:none}
+.tabbar .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;height:var(--tabbar)}
+.tab{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer}
+.tab svg{width:24px;height:24px}
+.tab[aria-selected="true"]{color:var(--accent)}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:20;opacity:0;transition:opacity .2s}
+.scrim.show{opacity:1}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:var(--surface);border-radius:20px 20px 0 0;max-height:90vh;display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform .25s cubic-bezier(.2,.8,.2,1);box-shadow:0 -8px 30px var(--shadow)}
+.sheet.show{transform:none}
+.sh-in{max-width:640px;width:100%;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.sh-head{padding-block:10px 16px;border-bottom:1px solid var(--line)}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 14px}
+.sh-row{display:flex;align-items:center;gap:14px}
+.sh-row .num{width:56px;height:56px;font-size:24px;border-radius:14px}
+.sh-row .who .nm{font-family:var(--f-display);font-weight:400;font-size:22px}
+.close{margin-left:auto;flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--soft);font-size:22px;cursor:pointer;color:var(--muted)}
+.where{margin-top:14px;font-size:14px;background:var(--soft);border-radius:12px;padding:10px 14px}
+.where b{font-weight:700}
+.sh-body{overflow-y:auto;overscroll-behavior:contain;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+.sh-body .sh-in{display:grid;gap:16px;padding-top:16px}
+.mini .grid{grid-template-rows:repeat(10,22px);gap:4px}
+.mini .t .n{font-size:11px}.mini .t .s{display:none}
+.mini .t.circle{width:24px;height:24px}
+.mini .t.spare{font-size:0}
+.mini .grid{gap:5px 5px}
+.mini .zone{margin:-4px -3px;border-radius:8px}
+.mini .zone span{font-size:8px;line-height:12px;top:-7px;padding:0 4px}
+.mini .stage{font-size:11px;padding:3px;margin-bottom:10px}
+.mini .stage + .grid{margin-top:14px}
+.mini .foot{margin-top:10px}.mini .foot span{font-size:9px;padding:3px}
+.list{list-style:none;margin:0;padding:0}
+.list label{display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid var(--line);cursor:pointer;min-height:56px}
+.list li{display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--line)}
+.list li:last-child{border-bottom:0}
+.list li label{flex:1;min-width:0;border-bottom:0}
+.more{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--soft);color:var(--muted);cursor:pointer;display:grid;place-items:center}
+.more svg{width:18px;height:18px}
+.gone{display:grid;gap:8px;padding:14px;background:var(--soft);border-radius:12px}
+.gone b{font-size:13px;color:var(--muted);font-weight:700}
+.gone div{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:15px}
+.gone button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;color:var(--accent)}
+.btn.sec{background:var(--soft);color:var(--ink)}
+.list input{position:absolute;opacity:0;pointer-events:none}
+.box{flex:none;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;color:transparent}
+.box svg{width:16px;height:16px}
+.list input:checked + .box{background:var(--ok);border-color:var(--ok);color:var(--on)}
+.list input:focus-visible + .box{outline:3px solid var(--accent);outline-offset:2px}
+.list .i{width:22px;text-align:right;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.list .nm{flex:1;min-width:0;overflow-wrap:anywhere}
+.list input:checked ~ .nm{color:var(--muted)}
+.tag{font-size:12px;font-weight:700;white-space:nowrap}
+.tag.ok{color:var(--ok)}.tag.money{color:var(--money)}.tag.extra{color:var(--accent)}
+.list li.me{background:var(--accent-soft);border-radius:12px;padding-inline:10px 6px;border-bottom-color:transparent}
+.note{font-size:14px;color:var(--muted);margin:0}
+
+/* forms */
+.field{display:grid;gap:8px}
+.field > span{font-size:14px;font-weight:700}
+.field small{font-size:13px;color:var(--muted)}
+.inp{width:100%;font:inherit;font-size:17px;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)}
+.inp:focus{outline:none;border-color:var(--accent)}
+.inp.amount{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;padding:12px 14px}
+select.inp{-webkit-appearance:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.seg button{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 0;font-weight:700;cursor:pointer}
+.seg button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.sugg{display:grid;gap:6px}
+.sugg button{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 12px 8px 8px;text-align:left;cursor:pointer}
+.sugg .num{width:36px;height:36px;font-size:15px;border-radius:9px}
+#whoBox{display:grid;gap:10px}
+.picked{display:flex;align-items:center;gap:12px;border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:8px 8px 8px 10px}
+.picked .who{flex:1}
+.picked .close{width:36px;height:36px;font-size:20px;background:var(--surface)}
+.actions{display:grid;gap:10px;margin-top:4px}
+
+.reset{justify-self:start;font-size:13px;color:var(--muted);background:none;border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer}
+.reset.arm{color:var(--accent);border-color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.t,.sheet,.scrim,.bar i{transition:none}}
+</style>
+
+<div class="wrap">
+  <form class="pin" id="pinBar" hidden>
+    <label for="pinIn"><b>Общие записи</b><span>Введите код, чтобы отметки и подарки были видны всем, у кого он есть.</span></label>
+    <div class="pin-row"><input class="inp" id="pinIn" inputmode="numeric" autocomplete="off" placeholder="Код" aria-describedby="pinMsg"><button class="btn" type="submit">Подключить</button></div>
+    <p class="pin-msg" id="pinMsg" aria-live="polite"></p>
+  </form>
+  <!-- GUESTS -->
+  <main class="view" id="vGuests" role="tabpanel" aria-labelledby="tabG">
+    <header>
+      <div class="top">
+        <h1>Qonaqlar</h1>
+        <div class="prog"><span>Пришли <b id="cnt">0</b> из <span id="tot">0</span></span><span class="bar" id="bar" role="progressbar" aria-label="Сколько гостей пришло" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><i id="barI"></i></span></div>
+      </div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Найти гостя или стол" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" aria-label="Найти гостя или стол">
+        <button class="clr" id="clr" aria-label="Очистить поиск" hidden>×</button>
+      </div>
+      <div id="results" role="region" aria-label="Результаты поиска"></div>
+      <p class="sr" id="live" aria-live="polite"></p>
+    </header>
+    <div class="err" id="errG" hidden></div>
+
+    <section>
+      <div class="sec-h"><h2>Схема зала</h2><p class="sub">Нажмите на стол, чтобы увидеть, кто за ним сидит.</p></div>
+      <div class="hall" id="hall"></div>
+    </section>
+
+    <section>
+      <div class="sec-h"><h2>Все столы</h2></div>
+      <button class="addrow" data-act="add-guest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Пришёл гость не из списка</button>
+      <div class="cards" id="cards"></div>
+      <button class="reset" id="reset">Сбросить все отметки «пришёл»</button>
+    </section>
+  </main>
+
+  <!-- GIFTS -->
+  <main class="view" id="vGifts" role="tabpanel" aria-labelledby="tabM" hidden>
+    <header>
+      <div class="top"><h1>Hədiyyələr</h1></div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="gq" type="search" placeholder="Найти в подарках" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Найти в подарках">
+        <button class="clr" id="gclr" aria-label="Очистить поиск" hidden>×</button>
+      </div>
+    </header>
+    <div class="err" id="errM" hidden></div>
+    <div class="sum">
+      <span class="lbl">Всего подарено</span>
+      <span class="big" id="sumBig">0 ₼</span>
+      <span class="meta" id="sumMeta">Пока ничего не записано</span>
+    </div>
+    <button class="btn" data-act="add-gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Записать подарок</button>
+    <section>
+      <div class="sec-h"><h2>Кто сколько дал</h2><p class="store" id="store"><i></i><span>Подключаю хранилище…</span></p></div>
+      <div class="cards" id="gifts"></div>
+    </section>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="Разделы"><div class="in" role="tablist">
+  <button class="tab" role="tab" id="tabG" aria-selected="true" aria-controls="vGuests" data-view="vGuests">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.8a3.3 3.3 0 0 1 0 6.4M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg>Гости</button>
+  <button class="tab" role="tab" id="tabM" aria-selected="false" aria-controls="vGifts" tabindex="-1" data-view="vGifts">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/></svg>Подарки</button>
+</div></nav>
+
+<div class="scrim" id="scrim" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle" hidden></div>
+
+<script>
+const CAT={
+  bey:{l:"Ağa qohumları",v:"--c-bey"},
+  gel:{l:"Rəvanə tərəfi",v:"--c-gel"},
+  dost:{l:"Bəyin dostları",v:"--c-dost"},
+  is:{l:"İş yoldaşları",v:"--c-is"},
+  x:{l:"Digər",v:"--c-x"},
+  qiz:{l:"Qız evi",v:"--c-qiz"}
+};
+const QIZ="Стол стороны невесты (Qız evi). Списка гостей здесь нет.";
+const T={
+1:{c:"gel",g:"Rəvanə qohumları",n:["Aytən x.","Sürayəya x.","Adil","Zəminə x.","Cavid","Lalə x.","Sənubər x.","Anar","Elazə x.","Gülay x.","Elxan","Günel x."]},
+2:{c:"bey",g:"Ağa qohumları",n:["Gülbəniz x.","Elman","Aygün x.","Agaismayıl","Toğrul","Günay x.","Ülkər x.","Aytən x.","Yaqub","Anar (dayı oğlu)","İlahə","Əkbər"]},
+3:{c:"bey",g:"Ağa qohumları",n:["Rəhim","Anar","Murad","Elvin","Merzağa (Ağadadaş)","Tohid","İqbal","Tahir","Cəhfər","Rauf","Hamlet","Ağa"]},
+4:{c:"bey",g:"Ağa qohumları",n:["Səbinə x.","İntiqam","Elşad (xala oğlu)","Elşad","Sevda x.","Hikmət","Gülü x.","Səadət x.","Şərafət x.","Şakir","Mahir","Rəmziyyə x."]},
+5:{c:"bey",g:"Ağa qohumları",n:["Aybəniz","İdrak","İradə","Rüstəm","Vəfadar","Mahirə","Xuraman","Qönçə","Şəhriyar","Yoldaşı (Şəhriyar)","Nəzifə","Raqif"]},
+6:{c:"is",g:"Bəyin iş yoldaşları",n:["Rövşən m.","Teymur m.","İlkin (Ofis)","Faiq (Ofis)","Oktay (Ofis)","Nurlan (Ofis)","Elgün (Ofis)","Ziyafət","Hilal","Emil","Emil","Eldəniz"]},
+7:{c:"x",g:"Masa 7",n:["Abutalıb","Əbülfəz","Dadaş","İlyas 145","Natiq 145","Namiq 145","Əhməd 145","Əbdül","Elnur ROV","Mirismayıl","Eldəniz B","Eldəniz M"]},
+8:{c:"gel",g:"Rəvanə qohumları",n:["Zaimə x.","İlham","Qönçə x.","Nihat","Azər","Bikə x.","Amar","Emin","Sevər x.","Sara x.","Rəna x.","Sevinc x."]},
+9:{c:"gel",g:"Rəvanə İnst./Məktəb",n:["Rəfiqə","Sevinc x. (Maştağa)","Sevinc","Rəna x.","Şəhla x.","Səmayə x.","Vəfa x.","Gülnarə x.","Afət x.","Məlahət x.","Cəlalət x.","Kəmalə x."]},
+10:{c:"gel",g:"Rəvanə İnst./Məktəb",n:["Ülkər x.","Səfərəli","Yoldaşı (Səfərəli)","Ziyafət x.","Mətanət x.","Mayıl","Gülqız x.","Arzu x.","İlhamə x.","Afiqə x.","Samirə x.","Rəvanə x.","Təranə x. (bibi qızı)"]},
+11:{c:"qiz",g:"Qız evi",n:[],note:QIZ},12:{c:"qiz",g:"Qız evi",n:[],note:QIZ},13:{c:"qiz",g:"Qız evi",n:[],note:QIZ},
+14:{c:"qiz",g:"Qız evi",n:[],note:QIZ},15:{c:"qiz",g:"Qız evi",n:[],note:QIZ},16:{c:"qiz",g:"Qız evi",n:[],note:QIZ},17:{c:"qiz",g:"Qız evi",n:[],note:QIZ},
+18:{c:"dost",g:"Bəyin dostları",n:["Muxtar (Ağa dayı oğlu)","Rövşən (Ağa dayı oğlu)","Nəbi","Vüsalə","Emin","Könül","Qədir","Yoldaşı (Qədir)","Tərlan (qonşu, 7 mkr)","Sabir (qonşu, 7 mkr)","Teymur","Anar Seyyid"]},
+19:{c:"dost",g:"Bəhruz dostları",n:["Bəhruz (bəy qardaşı)","Röyal","Eyyub","Rüfət","Kənan","İsmayıl","Nicat","Ramin","Azər (bəy qonşusu, 7 mkr)","Orxan (bəy qonşusu, Butik)","Aydın (bəy qonşusu, Butik)","Fərid (qonşu, 7 mkr)"]},
+20:{c:"dost",g:"Bəyin dostları",n:["Ağa","Vüqar","Əli","Turan","İbrahim","Ziya","Rəşad","Faiq","Elçin","Amid","Yusif","Kamran"]},
+21:{c:"dost",g:"Bəyin dostları",n:["Mamed","Məhəmməd","Anar","İsmail","Hüseyn","Cavid","Hüseyin","Elvin","Anar","Fərid","Rövşən","Bəhruz"]},
+22:{c:"is",g:"İş yoldaşları",n:["Qədir","Bayram","Yusif","Samir","Eyyub","Kamran","Anar M","Yədulla 145","Nizami","Rüstəm"],cap:10},
+23:{c:"x",g:"Masa 23",n:["Mirzağa","Emil Qasımov","Səfa","Aydın","Anar","Faiq","Natiq","Elçin","Sərxan","Nəcəf","Əli","Əlövsət"]},
+24:{c:"is",g:"İş",n:["Hidayət","Seymur","Kənan","Elvin","Emin","Roma","Həsən","Əhməd","Təbriz","Abdul","Nizami","Şükür"]},
+25:{c:"is",g:"Bəyin iş yoldaşları",n:["Şahin","Emin M.","Aslan","Bəhmən","Tural (Əzizağa)","Mirzə","Rüfət","Vüqar","Kamran","İsmail","Ramiz","Niyaz"]},
+26:{c:"is",g:"Bəyin iş yoldaşları",n:["Xaliq","Samir","Zeynal","Ruslan","Ziya","İlyas","Tural","Ülvi","Vaqif","Samir","Elnur","Rasim bəy"]},
+27:{c:"x",g:"Rezerv",n:[],note:"Резервный стол. Соседей из 7 мкр. пересадили: Sabir и Tərlan за стол 18, Yusif и Kamran за стол 20, Azər и Fərid за стол 19."}
+};
+const POS=[[22,1,1],[23,1,2],[24,1,3],[25,1,4],[26,1,5],[27,1,7],
+ [1,2,1],[2,2,2],[3,2,3],[4,2,4],[5,2,5],[6,2,7],[7,2,8],
+ [8,3,1,"c"],[9,3,2,"c"],[10,3,3,"c"],
+ [11,4,1,"c"],[12,4,2,"c"],[13,4,3,"c"],
+ [14,5,1],[15,5,2],[16,5,3],[17,5,4],[18,5,5],[19,5,6],[20,5,8],[21,5,9]];
+const SPARE=[[1,8],[1,9],[1,10],[5,10]];
+const COLNAME={1:"Крайний левый ряд",2:"Второй ряд слева",3:"Круглые столы в центре",4:"Круглые столы, зона Qız evi",5:"Правый ряд"};
+const CUR={AZN:"₼",USD:"$",EUR:"€",RUB:"₽"};
+
+/* ---------- helpers ---------- */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const col=c=>`var(${CAT[c].v})`, bg=c=>`var(${CAT[c].v}-bg)`;
+const numBox=t=>t&&T[t]?`<span class="num" style="background:${bg(T[t].c)};color:${col(T[t].c)}">${t}</span>`:`<span class="num none">—</span>`;
+const fmt=n=>new Intl.NumberFormat("ru-RU",{maximumFractionDigits:2}).format(n);
+const money=(n,c)=>`${fmt(n)} ${CUR[c]||c}`;
+const hm=ts=>ts?new Date(ts).toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}):"";
+const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const PLUS='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+function where(t){
+  const p=POS.find(x=>x[0]===t);if(!p)return"";
+  const [,c,r]=p;
+  const inCol=[...POS.filter(x=>x[1]===c).map(x=>x[2]),...SPARE.filter(x=>x[0]===c).map(x=>x[1])].sort((a,b)=>a-b);
+  return `<b>${COLNAME[c]}</b>, ${inCol.indexOf(r)+1}-й от сцены`;
+}
+const tableOptions=sel=>`<option value="">Без стола</option>`+Object.keys(T).map(Number).sort((a,b)=>a-b).map(t=>`<option value="${t}"${+sel===t?" selected":""}>Стол ${t} · ${esc(T[t].g)}</option>`).join("");
+
+/* loose matching: Latin AZ + Cyrillic */
+const CYR={"а":"a","б":"b","в":"v","г":"g","д":"d","е":"e","ё":"e","ж":"j","з":"z","и":"i","й":"y","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f","х":"x","ц":"s","ч":"c","ш":"s","щ":"s","ъ":"","ы":"i","ь":"","э":"e","ю":"yu","я":"ya"};
+function norm(s){
+  s=String(s).toLocaleLowerCase("az").replace(/дж/g,"c").replace(/[а-яё]/g,ch=>CYR[ch]??ch);
+  return s.replace(/[əeä]/g,"a").replace(/[ıi̇]/g,"i").replace(/ö/g,"o").replace(/ü/g,"u")
+   .replace(/[qğ]/g,"g").replace(/ş/g,"s").replace(/ç/g,"c").replace(/h/g,"x").replace(/[^a-z0-9 ]/g,"");
+}
+const match=(k,q)=>k.split(" ").some(w=>w.startsWith(q))||(q.length>2&&k.includes(q));
+
+/* ---------- state: shared store (db) with on-phone fallback ---------- */
+const S={arrived:{},extras:{},gifts:{},moves:{}};
+let db=null,mode="local";
+const LK=c=>"qonaq-"+c+"-v2";
+function loadLocal(){for(const c in S){try{S[c]=JSON.parse(localStorage.getItem(LK(c)))||{}}catch(e){}}
+  try{const old=JSON.parse(localStorage.getItem("qonaq-arrived-v1"));if(old&&!Object.keys(S.arrived).length)for(const k in old)S.arrived[k]={at:Date.now()}}catch(e){}}
+function saveLocal(c){try{localStorage.setItem(LK(c),JSON.stringify(S[c]))}catch(e){}}
+function showErr(msg){for(const id of ["errG","errM"]){const e=$(id);e.textContent=msg||"";e.hidden=!msg}}
+/* server (Netlify function) */
+let PIN="";try{PIN=localStorage.getItem("qonaq-pin")||""}catch(e){}
+let busy=0;
+async function api(path,body){
+  const r=await fetch("/api/"+path,{method:body?"POST":"GET",headers:{"content-type":"application/json","x-pin":PIN},body:body?JSON.stringify(body):undefined,cache:"no-store"});
+  if(!r.ok){const e=new Error("http "+r.status);e.status=r.status;throw e}
+  return r.json();
+}
+async function serverWrite(c,id,data){
+  busy++;
+  try{await api("doc",{col:c,id,data});showErr("")}
+  catch(e){showErr(e.status===401?"Код не подходит. Введите код заново.":"Не удалось сохранить на сервере. Запись осталась на этом телефоне, проверьте интернет.");if(e.status===401)askPin("Код не подходит.")}
+  finally{busy--}
+}
+async function put(c,id,data){
+  S[c]={...S[c],[id]:data};saveLocal(c);render();
+  if(mode==="server"){serverWrite(c,id,data);return}
+  if(db){try{await db.collection(c).doc(id).set(data);showErr("")}catch(e){showErr("Не удалось сохранить в аккаунт. Запись осталась на этом телефоне, проверьте интернет.")}}
+}
+async function del(c,id){
+  const n={...S[c]};delete n[id];S[c]=n;saveLocal(c);render();
+  if(mode==="server"){serverWrite(c,id,null);return}
+  if(db){try{await db.collection(c).doc(id).delete();showErr("")}catch(e){showErr("Не удалось удалить в аккаунте. Проверьте интернет.")}}
+}
+function askPin(msg){const f=$("pinBar");f.hidden=false;$("pinMsg").textContent=msg||""}
+$("pinBar").addEventListener("submit",async e=>{
+  e.preventDefault();PIN=$("pinIn").value.trim();if(!PIN){$("pinIn").focus();return}
+  $("pinMsg").textContent="Проверяю…";
+  const ok=await connectServer(true);
+  if(ok){try{localStorage.setItem("qonaq-pin",PIN)}catch(_){}$("pinBar").hidden=true;$("pinIn").value=""}
+});
+let pollT=null;
+async function pull(){
+  if(busy)return;
+  try{const st=await api("state");for(const c in S){S[c]=st[c]||{};saveLocal(c)}showErr("");render()}
+  catch(e){if(e.status===401){mode="local";clearInterval(pollT);askPin("Код больше не подходит. Введите новый.");render()}else showErr("Нет связи с сервером. Записи пока сохраняются на этом телефоне.")}
+}
+async function connectServer(fromForm){
+  let st;
+  try{st=await api("state")}
+  catch(e){
+    if(e.status===401){askPin(fromForm?"Код не подходит. Проверьте и попробуйте ещё раз.":"");return false}
+    if(fromForm)$("pinMsg").textContent="Сервер не отвечает. Проверьте интернет.";
+    return false;
+  }
+  mode="server";
+  for(const c in S){const remote=st[c]||{};
+    for(const id in S[c])if(!remote[id]){remote[id]=S[c][id];serverWrite(c,id,S[c][id])}
+    S[c]=remote;saveLocal(c)}
+  render();clearInterval(pollT);pollT=setInterval(pull,12000);
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden&&mode==="server")pull()});
+  return true;
+}
+async function connect(){
+  try{db=window.claude&&window.claude.use?await window.claude.use("db"):null}catch(e){db=null}
+  if(!db){mode="local";render();if(location.protocol.startsWith("http")&&!/claude/.test(location.hostname))connectServer(false);return}
+  mode="cloud";
+  const firstLocal={...S};
+  let pending=Object.keys(S).length;
+  const timer=setTimeout(()=>{if(pending>0)showErr("Хранилище долго не отвечает. Записи пока сохраняются на этом телефоне.")},10000);
+  for(const c in S){
+    let first=true;
+    db.collection(c).onSnapshot(snap=>{
+      const remote={};snap.docs.forEach(d=>{remote[d.id]=d.data()});
+      if(first){first=false;pending--;if(!pending)clearTimeout(timer);
+        // push anything recorded on this phone before the store answered
+        for(const id in firstLocal[c])if(!remote[id]){remote[id]=firstLocal[c][id];db.collection(c).doc(id).set(firstLocal[c][id]).catch(()=>{})}}
+      S[c]=remote;saveLocal(c);showErr("");render();
+    },()=>{showErr("Нет связи с хранилищем. Записи сохраняются на этом телефоне.")});
+  }
+  render();
+}
+
+/* ---------- derived ---------- */
+const akey=(t,i)=>t+"-"+i;
+function people(){
+  const out=[];
+  for(const t in T)T[t].n.forEach((n0,i)=>{const ref=akey(t,i),mv=S.moves[ref]||{};if(mv.removed)return;
+    const tt=("table" in mv)?mv.table:+t,n=mv.name||n0;out.push({ref,t:tt,from:+t,n,n0,k:norm(n),extra:false,moved:tt!==+t})});
+  for(const id in S.extras){const x=S.extras[id];out.push({ref:"x:"+id,t:x.table||null,n:x.name,k:norm(x.name),extra:true,id})}
+  return out;
+}
+const isHere=ref=>ref.startsWith("x:")||!!S.arrived[ref];
+const extrasAt=t=>Object.entries(S.extras).filter(([,x])=>(+x.table||0)===t);
+const baseAt=t=>people().filter(p=>!p.extra&&(p.t||0)===t);
+const hereAt=t=>baseAt(t).filter(p=>S.arrived[p.ref]).length+extrasAt(t).length;
+const sizeAt=t=>baseAt(t).length+extrasAt(t).length;
+const removedFrom=t=>Object.entries(S.moves).filter(([ref,m])=>m.removed&&+ref.split("-")[0]===t).map(([ref])=>{const [a,i]=ref.split("-");return{ref,n:T[a].n[+i]}});
+const MORE='<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>';
+function giftsByRef(){const m={};for(const id in S.gifts){const g=S.gifts[id];if(g.ref)(m[g.ref]=m[g.ref]||[]).push(g)}return m}
+const giftTag=list=>list?list.map(g=>money(g.amount,g.cur)).join(" + "):"";
+
+/* ---------- hall ---------- */
+function hallHTML(hits,interactive=true){
+  let h=`<div class="stage">BƏY – GƏLİN</div><div class="grid"><div class="zone"><span>QIZ EVİ</span></div>`;
+  for(const [t,c,r,sh] of POS){
+    const d=T[t],a=hereAt(t),sz=sizeAt(t),tag=interactive?"button":"div";
+    const cls="t"+(sh?" circle":"")+(hits&&!hits.has(t)?" dim":"")+(hits&&hits.has(t)?" hit":"")+(d.n.length&&a>=sz?" full":"");
+    h+=`<${tag} class="${cls}" ${interactive?`data-t="${t}" aria-label="Стол ${t}, ${esc(d.g)}"`:""} style="grid-column:${c};grid-row:${r};background:${bg(d.c)};color:${col(d.c)}"><span class="n">${t}</span>${d.c==="qiz"&&!sz?"":`<span class="s">${sz?a+"/"+sz:"резерв"}</span>`}</${tag}>`;
+  }
+  for(const [c,r] of SPARE)h+=`<div class="t spare" style="grid-column:${c};grid-row:${r}">запас</div>`;
+  return h+`</div><div class="foot"><span>MUSİQİ</span><span>GİRİŞ</span></div>`;
+}
+let hits=null;
+function drawHall(){
+  $("hall").innerHTML=hallHTML(hits)+`<div class="legend">${Object.values(CAT).map(c=>`<span><i style="background:var(${c.v})"></i>${c.l}</span>`).join("")}</div>`;
+}
+$("hall").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(b)openTable(+b.dataset.t)});
+
+function drawCards(){
+  $("cards").innerHTML=Object.keys(T).map(Number).filter(t=>T[t].c!=="qiz").sort((a,b)=>a-b).map(t=>{
+    const d=T[t],a=hereAt(t),sz=sizeAt(t);
+    const pr=sz?`<span class="pr${a>=sz?" full":""}">${a} из ${sz}</span>`:`<span class="pr">${d.c==="qiz"?"Qız evi":"резерв"}</span>`;
+    return `<button class="card" data-t="${t}">${numBox(t)}<span class="who"><span class="nm">Стол ${t}</span><span class="gp">${esc(d.g)}</span></span>${pr}</button>`;
+  }).join("");
+  const nLoose=sizeAt(0);
+  if(nLoose)$("cards").innerHTML+=`<button class="card" data-t="0"><span class="num none">—</span><span class="who"><span class="nm">Без стола</span><span class="gp">Гости, которым ещё не выбрали стол</span></span><span class="pr">${nLoose}</span></button>`;
+}
+$("cards").addEventListener("click",e=>{const b=e.target.closest(".card");if(b)openTable(+b.dataset.t)});
+
+/* ---------- guest search ---------- */
+function search(){
+  const raw=$("q").value.trim();$("clr").hidden=!raw;
+  const r=$("results");
+  if(!raw){r.innerHTML="";hits=null;drawHall();return}
+  if(/^\d+$/.test(raw)){
+    const t=+raw;hits=T[t]?new Set([t]):new Set();drawHall();
+    r.innerHTML=T[t]?`<div class="row"><button class="open" data-t="${t}">${numBox(t)}<span class="who"><span class="nm">Стол ${t}</span><span class="gp">${esc(T[t].g)}</span></span></button></div>`
+      :`<div class="empty">Стола ${t} нет. Столы в зале: 1–27.</div>`;
+    return;
+  }
+  const q=norm(raw),m=people().filter(x=>match(x.k,q)).slice(0,40);
+  hits=new Set(m.map(x=>x.t).filter(Boolean));drawHall();
+  $("live").textContent=m.length?`Найдено: ${m.length}`:"Никого не нашли";
+  r.innerHTML=m.map(x=>{const on=isHere(x.ref);
+    const gp=(x.t?`Стол ${x.t} · ${esc(T[x.t].g)}`:"Без стола")+(x.extra?" · не из списка":"");
+    const right=x.extra?`<span class="tag extra">добавлен</span>`:`<button class="chk${on?" on":""}" data-k="${x.ref}" aria-pressed="${on}" aria-label="${on?"Отменить отметку":"Отметить, что пришёл"}: ${esc(x.n)}">${CHECK}</button>`;
+    return `<div class="row${on&&!x.extra?" done":""}"><button class="open" data-t="${x.t||0}" data-ref="${x.ref}">${numBox(x.t)}<span class="who"><span class="nm">${esc(x.n)}</span><span class="gp">${gp}</span></span></button>${right}</div>`}).join("")
+    +(m.length?"":`<div class="empty">В списке нет «${esc(raw)}».</div>`)
+    +`<button class="addrow" data-act="add-guest" data-name="${esc(raw)}">${PLUS}Добавить «${esc(raw)}» как гостя не из списка</button>`;
+}
+$("results").addEventListener("click",e=>{
+  const c=e.target.closest(".chk");if(c){toggleArrived(c.dataset.k);return}
+  const o=e.target.closest(".open");if(o){$("q").blur();openTable(+o.dataset.t,o.dataset.ref)}
+});
+$("q").addEventListener("input",search);
+$("q").addEventListener("keydown",e=>{if(e.key==="Enter"){const f=$("results").querySelector(".open");if(f)f.click()}});
+$("clr").onclick=()=>{$("q").value="";search();$("q").focus()};
+
+function toggleArrived(k,val){const on=val??!S.arrived[k];if(on)put("arrived",k,{at:Date.now()});else del("arrived",k)}
+
+/* ---------- gifts list ---------- */
+function drawGifts(){
+  const all=Object.entries(S.gifts).map(([id,g])=>({id,...g})).sort((a,b)=>(b.at||0)-(a.at||0));
+  const tot={};all.forEach(g=>{tot[g.cur]=(tot[g.cur]||0)+(+g.amount||0)});
+  const cs=Object.keys(tot).sort((a,b)=>a==="AZN"?-1:b==="AZN"?1:0);
+  $("sumBig").textContent=cs.length?cs.map(c=>money(tot[c],c)).join(" + "):"0 ₼";
+  $("sumMeta").textContent=all.length?`${all.length} ${plural(all.length,"запись","записи","записей")}`:"Пока ничего не записано";
+  const raw=$("gq").value.trim(),q=norm(raw);$("gclr").hidden=!raw;
+  const list=raw?all.filter(g=>match(norm(g.name),q)||(g.table&&String(g.table)===raw)):all;
+  $("gifts").innerHTML=list.length?list.map(g=>`<button class="gift" data-id="${g.id}">${numBox(g.table)}<span class="who"><span class="nm">${esc(g.name)}</span><span class="gp">${[g.table?"Стол "+g.table:"Без стола",hm(g.at),g.note?esc(g.note):""].filter(Boolean).join(" · ")}</span></span><span class="amt">${money(g.amount,g.cur)}</span></button>`).join("")
+    :`<p class="empty">${raw?"Ничего не нашли.":"Здесь появятся записи. Нажмите «Записать подарок»."}</p>`;
+  const st=$("store");st.classList.toggle("cloud",mode!=="local");
+  st.querySelector("span").textContent=mode==="cloud"?"Сохраняется в вашем аккаунте и видно на всех ваших устройствах":mode==="server"?"Общие записи: видно всем, кто ввёл код":"Сохраняется только на этом телефоне";
+}
+const plural=(n,a,b,c)=>{const m=n%10,h=n%100;return m===1&&h!==11?a:m>=2&&m<=4&&(h<10||h>=20)?b:c};
+$("gifts").addEventListener("click",e=>{const b=e.target.closest(".gift");if(b)openGiftForm(b.dataset.id)});
+$("gq").addEventListener("input",drawGifts);
+$("gclr").onclick=()=>{$("gq").value="";drawGifts();$("gq").focus()};
+
+/* ---------- sheet ---------- */
+let cur=null,lastFocus=null;
+function showSheet(html){
+  lastFocus=document.activeElement;
+  const s=$("sheet"),sc=$("scrim"),wasOpen=!s.hidden;s.innerHTML=html;s.hidden=false;sc.hidden=false;document.body.classList.add("lock");
+  if(!wasOpen&&lastFocus&&!s.contains(lastFocus))openerFocus=lastFocus;
+  for(const el of document.querySelectorAll(".wrap,.tabbar"))el.inert=true;
+  requestAnimationFrame(()=>{s.classList.add("show");sc.classList.add("show");
+    const f=s.querySelector("input:not([type=checkbox]):not([value]),.close");if(f)f.focus({preventScroll:true})});
+}
+let openerFocus=null;
+$("sheet").addEventListener("keydown",e=>{
+  if(e.key!=="Tab")return;
+  const f=[...$("sheet").querySelectorAll("button,input,select,textarea,[href]")].filter(x=>!x.disabled&&x.offsetParent!==null);
+  if(!f.length)return;const a=f[0],z=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}
+});
+function closeSheet(){
+  if(!cur)return;cur=null;
+  const s=$("sheet"),sc=$("scrim");s.classList.remove("show");sc.classList.remove("show");document.body.classList.remove("lock");
+  for(const el of document.querySelectorAll(".wrap,.tabbar"))el.inert=false;
+  setTimeout(()=>{if(!cur){s.hidden=true;sc.hidden=true;s.innerHTML=""}},260);
+  const back=openerFocus&&document.contains(openerFocus)?openerFocus:$("q");openerFocus=null;
+  if(back&&back.focus)back.focus({preventScroll:true});
+}
+const head=(left,title,sub,extra="")=>`<div class="sh-head"><div class="sh-in"><div class="grab"></div><div class="sh-row">${left}<span class="who"><span class="nm" id="shTitle">${title}</span>${sub?`<span class="gp">${sub}</span>`:""}</span><button class="close" data-act="close" aria-label="Закрыть">×</button></div>${extra}</div></div>`;
+
+/* table sheet */
+function baseRows(t,me){
+  const gm=giftsByRef();
+  return baseAt(t).map((p,i)=>{const k=p.ref,on=!!S.arrived[k],g=giftTag(gm[k]);
+    const tag=g?`<span class="tag money">${g}</span>`:p.moved?`<span class="tag extra">${p.from?"со стола "+p.from:""}</span>`:on?'<span class="tag ok">пришёл</span>':"";
+    return `<li${me===k?' class="me"':""}><label><span class="i">${i+1}</span><input type="checkbox" id="g${k}" data-k="${k}"${on?" checked":""}><span class="box">${CHECK}</span><span class="nm">${esc(p.n)}</span>${tag}</label><button class="more" type="button" data-act="edit-guest" data-ref="${k}" aria-label="Перенести или убрать: ${esc(p.n)}">${MORE}</button></li>`}).join("");
+}
+function goneHTML(t){
+  const g=removedFrom(t);if(!g.length)return"";
+  return `<div class="gone"><b>Убраны из списка</b>${g.map(x=>`<div><span>${esc(x.n)}</span><button type="button" data-act="restore" data-ref="${x.ref}">Вернуть</button></div>`).join("")}</div>`;
+}
+function tableHTML(t,me){
+  if(t===0){
+    const ex=extrasAt(0);
+    return head(`<span class="num none">—</span>`,"Без стола","Гости, которым ещё не выбрали стол")+`<div class="sh-body"><div class="sh-in"><ul class="list">${baseRows(0,me)}${extraRows(ex,me)}</ul></div></div>`;
+  }
+  const d=T[t],sz=sizeAt(t);
+  let h=head(numBox(t),`Стол ${t}`,`${esc(d.g)}${sz?` · пришли ${hereAt(t)} из ${sz}`:""}`,`<div class="where">${where(t)}</div>`)+`<div class="sh-body"><div class="sh-in"><div class="mini" aria-hidden="true">${hallHTML(new Set([t]),false)}</div>`;
+  if(d.note)h+=`<p class="note">${esc(d.note)}</p>`;
+  if(sz)h+=`<ul class="list">${baseRows(t,me)}${extraRows(extrasAt(t),me)}</ul>`;
+  h+=goneHTML(t);
+  h+=`<button class="addrow" data-act="add-guest" data-table="${t}">${PLUS}Добавить гостя за этот стол</button>`;
+  return h+`</div></div>`;
+}
+function extraRows(list,me){
+  const gm=giftsByRef();
+  return list.map(([id,x])=>{const ref="x:"+id,g=giftTag(gm[ref]);
+    return `<li${me===ref?' class="me"':""}><label data-act="edit-extra" data-id="${id}"><span class="i">+</span><span class="box" style="background:var(--ok);border-color:var(--ok);color:var(--on)">${CHECK}</span><span class="nm">${esc(x.name)}${x.note?` <span class="gp" style="color:var(--muted);font-size:13px">· ${esc(x.note)}</span>`:""}</span>${g?`<span class="tag money">${g}</span>`:`<span class="tag extra">не из списка</span>`}</label><button class="more" type="button" data-act="edit-extra" data-id="${id}" aria-label="Изменить: ${esc(x.name)}">${MORE}</button></li>`}).join("");
+}
+function openTable(t,me=null){
+  cur={kind:"table",t,me};showSheet(tableHTML(t,me));
+  const mine=$("sheet").querySelector("li.me");if(mine)setTimeout(()=>mine.scrollIntoView({block:"center"}),80);
+}
+
+/* add / edit walk-in guest */
+function openGuestForm({id=null,name="",table=""}={}){
+  const x=id?S.extras[id]:null;
+  cur={kind:"guest",id};
+  showSheet(head(`<span class="num none">+</span>`,id?"Гость не из списка":"Новый гость","Его нет в списке — добавим и отметим, что пришёл")+
+  `<div class="sh-body"><div class="sh-in"><form id="gf" class="sh-in" style="padding:0;gap:18px;display:grid">
+    <label class="field"><span>Имя</span><input class="inp" id="gfName" required value="${esc(x?x.name:name)}" autocomplete="off" placeholder="Например: Elnur"></label>
+    <label class="field"><span>Стол</span><select class="inp" id="gfTable">${tableOptions(x?x.table:table)}</select><small>Можно оставить «Без стола» и выбрать потом.</small></label>
+    <label class="field"><span>Заметка</span><input class="inp" id="gfNote" value="${esc(x?x.note:"")}" autocomplete="off" placeholder="Чей гость, с кем пришёл"></label>
+    <div class="actions"><button class="btn" type="submit">${id?"Сохранить":"Добавить гостя"}</button>${id?`<button class="btn danger" type="button" data-act="del-extra">Убрать гостя</button>`:""}</div>
+  </form></div></div>`);
+  setTimeout(()=>{const n=$("gfName");if(!n.value)n.focus()},280);
+}
+
+/* move / remove a listed guest */
+function openMoveForm(ref){
+  const p=people().find(x=>x.ref===ref);if(!p)return;
+  cur={kind:"move",ref};
+  const changed=!!S.moves[ref];
+  showSheet(head(numBox(p.t),esc(p.n),`В списке: стол ${p.from}${p.moved?` · сейчас ${p.t?"стол "+p.t:"без стола"}`:""}`)+
+  `<div class="sh-body"><div class="sh-in"><form id="mf" style="display:grid;gap:18px">
+    <label class="field"><span>Имя</span><input class="inp" id="mfName" value="${esc(p.n)}" autocomplete="off"></label>
+    <label class="field"><span>Стол</span><select class="inp" id="mfTable">${tableOptions(p.t)}</select><small>Выберите другой стол, чтобы пересадить гостя.</small></label>
+    <div class="actions"><button class="btn" type="submit">Сохранить</button>
+      ${changed?`<button class="btn sec" type="button" data-act="restore" data-ref="${ref}">Вернуть как в списке (стол ${p.from})</button>`:""}
+      <button class="btn danger" type="button" data-act="remove-guest">Убрать из списка</button></div>
+  </form></div></div>`);
+}
+
+/* gift form */
+let GF=null;
+function openGiftForm(id=null,preset=null){
+  const g=id?S.gifts[id]:null;
+  GF=g?{id,ref:g.ref||null,name:g.name,table:g.table||"",amount:g.amount,cur:g.cur||"AZN",note:g.note||""}
+      :{id:null,ref:null,name:"",table:"",amount:"",cur:"AZN",note:"",...(preset||{})};
+  cur={kind:"gift"};
+  showSheet(head(`<span class="num" style="background:var(--ok-soft);color:var(--money)">₼</span>`,id?"Подарок":"Записать подарок","Кто дал и сколько")+
+  `<div class="sh-body"><div class="sh-in"><form id="ff" style="display:grid;gap:18px">
+    <div class="field"><span>Кто дал</span><div id="whoBox"></div></div>
+    <label class="field"><span>Сумма</span><input class="inp amount" id="ffAmt" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(GF.amount)}"></label>
+    <div class="field"><span>Валюта</span><div class="seg" id="ffCur">${Object.keys(CUR).map(c=>`<button type="button" data-cur="${c}" aria-pressed="${GF.cur===c}">${CUR[c]} ${c}</button>`).join("")}</div></div>
+    <label class="field"><span>Заметка</span><input class="inp" id="ffNote" value="${esc(GF.note)}" autocomplete="off" placeholder="Конверт, золото, от семьи…"></label>
+    <div class="actions"><button class="btn" type="submit" id="ffSave">${id?"Сохранить":"Записать"}</button>${id?`<button class="btn danger" type="button" data-act="del-gift">Удалить запись</button>`:""}</div>
+  </form></div></div>`);
+  drawWho();
+}
+function drawWho(){
+  const box=$("whoBox");if(!box)return;
+  if(GF.ref||GF.isNew){
+    const sub=GF.isNew?"Нет в списке":(GF.table?`Стол ${GF.table} · ${esc(T[GF.table]?T[GF.table].g:"")}`:"Без стола");
+    box.innerHTML=`<div class="picked">${numBox(GF.table)}<span class="who"><span class="nm">${esc(GF.name)}</span><span class="gp">${sub}</span></span><button type="button" class="close" data-act="unpick" aria-label="Выбрать другого">×</button></div>`+
+      (GF.isNew?`<label class="field" style="margin-top:10px"><small>За каким столом (необязательно)</small><select class="inp" id="ffTable">${tableOptions(GF.table)}</select></label>`:"");
+    return;
+  }
+  box.innerHTML=`<input class="inp" id="ffWho" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Начните вводить имя" value="${esc(GF.name)}"><div class="sugg" id="ffSugg"></div>`;
+  drawSugg();
+  const w=$("ffWho");w.addEventListener("input",()=>{GF.name=w.value;drawSugg()});
+}
+function drawSugg(){
+  const s=$("ffSugg");if(!s)return;const raw=GF.name.trim();
+  if(!raw){s.innerHTML=`<small style="color:var(--muted);font-size:13px">Выберите из списка гостей или впишите новое имя.</small>`;return}
+  const q=norm(raw),m=people().filter(x=>match(x.k,q)).slice(0,8);
+  s.innerHTML=m.map(x=>`<button type="button" data-ref="${x.ref}">${numBox(x.t)}<span class="who"><span class="nm">${esc(x.n)}</span><span class="gp">${x.t?`Стол ${x.t} · ${esc(T[x.t].g)}`:"Без стола"}</span></span></button>`).join("")
+   +`<button type="button" data-new="1"><span class="num none">+</span><span class="who"><span class="nm">«${esc(raw)}»</span><span class="gp">Новый человек, нет в списке</span></span></button>`;
+}
+
+/* sheet events */
+$("scrim").onclick=closeSheet;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet()});
+let y0=null;
+$("sheet").addEventListener("touchstart",e=>{if(e.target.closest(".sh-head"))y0=e.touches[0].clientY},{passive:true});
+$("sheet").addEventListener("touchend",e=>{if(y0!=null&&e.changedTouches[0].clientY-y0>60)closeSheet();y0=null},{passive:true});
+$("sheet").addEventListener("change",e=>{
+  if(e.target.dataset.k)toggleArrived(e.target.dataset.k,e.target.checked);
+  if(e.target.id==="ffTable")GF.table=e.target.value?+e.target.value:"";
+});
+let armT=null;
+function twoStep(btn,label,fn){
+  if(btn.classList.contains("arm")){clearTimeout(armT);fn();return}
+  btn.classList.add("arm");const old=btn.textContent;btn.textContent=label;
+  armT=setTimeout(()=>{btn.classList.remove("arm");btn.textContent=old},3000);
+}
+$("sheet").addEventListener("click",e=>{
+  const a=e.target.closest("[data-act]"),act=a&&a.dataset.act;
+  if(act==="close"){closeSheet();return}
+  if(act==="add-guest"){e.preventDefault();openGuestForm({table:a.dataset.table||""});return}
+  if(act==="edit-extra"){e.preventDefault();openGuestForm({id:a.dataset.id});return}
+  if(act==="edit-guest"){e.preventDefault();openMoveForm(a.dataset.ref);return}
+  if(act==="restore"){const back=cur&&cur.kind==="move";del("moves",a.dataset.ref);if(back){const t=+a.dataset.ref.split("-")[0];openTable(t,a.dataset.ref)}return}
+  if(act==="remove-guest"){twoStep(a,"Нажмите ещё раз, чтобы убрать",()=>{const ref=cur.ref,t=+ref.split("-")[0];put("moves",ref,{removed:true});del("arrived",ref);openTable(t)});return}
+  if(act==="del-extra"){twoStep(a,"Нажмите ещё раз, чтобы убрать",()=>{del("extras",cur.id);closeSheet()});return}
+  if(act==="del-gift"){twoStep(a,"Нажмите ещё раз, чтобы удалить",()=>{del("gifts",GF.id);closeSheet()});return}
+  if(act==="unpick"){GF.ref=null;GF.isNew=false;GF.table="";drawWho();setTimeout(()=>{const w=$("ffWho");if(w)w.focus()},0);return}
+  const cb=e.target.closest("#ffCur button");
+  if(cb){GF.cur=cb.dataset.cur;$("ffCur").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b===cb));return}
+  const sg=e.target.closest("#ffSugg button");
+  if(sg){
+    if(sg.dataset.new){GF.isNew=true;GF.ref=null;GF.name=GF.name.trim()}
+    else{const p=people().find(x=>x.ref===sg.dataset.ref);GF.ref=p.ref;GF.name=p.n;GF.table=p.t||"";GF.isNew=false}
+    drawWho();const amt=$("ffAmt");if(amt&&!amt.value)amt.focus();return;
+  }
+});
+$("sheet").addEventListener("submit",e=>{
+  e.preventDefault();
+  if(e.target.id==="gf"){
+    const name=$("gfName").value.trim();if(!name){$("gfName").focus();return}
+    const id=cur.id||uid(),prev=cur.id?S.extras[cur.id]:null;
+    const table=$("gfTable").value?+$("gfTable").value:null;
+    put("extras",id,{name,table,note:$("gfNote").value.trim(),at:prev?prev.at:Date.now()});
+    closeSheet();$("q").value="";search();
+    return;
+  }
+  if(e.target.id==="mf"){
+    const ref=cur.ref,[t0,i]=ref.split("-"),n0=T[t0].n[+i];
+    const name=$("mfName").value.trim()||n0,table=$("mfTable").value?+$("mfTable").value:null;
+    const mv={};if(table!==+t0)mv.table=table;if(name!==n0)mv.name=name;
+    if(Object.keys(mv).length)put("moves",ref,mv);else if(S.moves[ref])del("moves",ref);
+    openTable(table||0,ref);return;
+  }
+  if(e.target.id==="ff"){
+    const w=$("ffWho");if(w)GF.name=w.value;
+    const name=(GF.name||"").trim(),amount=parseFloat(String($("ffAmt").value).replace(/\s/g,"").replace(",","."));
+    if(!name){if(w)w.focus();return}
+    if(!(amount>0)){$("ffAmt").focus();$("ffAmt").placeholder="Введите сумму";return}
+    const id=GF.id||uid(),prev=GF.id?S.gifts[GF.id]:null;
+    put("gifts",id,{name,ref:GF.ref||null,table:GF.table?+GF.table:null,amount,cur:GF.cur,note:$("ffNote").value.trim(),at:prev?prev.at:Date.now()});
+    closeSheet();
+  }
+});
+document.addEventListener("click",e=>{
+  const a=e.target.closest("[data-act]");if(!a||a.closest("#sheet"))return;
+  if(a.dataset.act==="add-guest")openGuestForm({name:a.dataset.name||""});
+  if(a.dataset.act==="add-gift")openGiftForm();
+});
+
+/* hide the tab bar while searching */
+function syncSearching(){
+  const a=document.activeElement,f=a&&(a.id==="q"||a.id==="gq");
+  document.body.classList.toggle("searching",!!(f||$("q").value.trim()&&!$("vGuests").hidden||$("gq").value.trim()&&!$("vGifts").hidden));
+}
+for(const id of ["q","gq"]){const el=$(id);el.addEventListener("focus",syncSearching);el.addEventListener("blur",()=>setTimeout(syncSearching,0));el.addEventListener("input",syncSearching)}
+$("clr").addEventListener("click",()=>setTimeout(syncSearching,0));$("gclr").addEventListener("click",()=>setTimeout(syncSearching,0));
+
+/* ---------- tabs ---------- */
+function showView(v){
+  for(const b of document.querySelectorAll(".tab")){const on=b.dataset.view===v;b.setAttribute("aria-selected",on);b.tabIndex=on?0:-1;$(b.dataset.view).hidden=!on}
+  try{localStorage.setItem("qonaq-tab",v)}catch(e){}
+  window.scrollTo(0,0);
+}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>showView(b.dataset.view));
+document.querySelector(".tabbar [role=tablist]").addEventListener("keydown",e=>{
+  if(!["ArrowLeft","ArrowRight","Home","End"].includes(e.key))return;
+  const tabs=[...document.querySelectorAll(".tab")],i=tabs.indexOf(document.activeElement);if(i<0)return;e.preventDefault();
+  const n=e.key==="Home"?0:e.key==="End"?tabs.length-1:(i+(e.key==="ArrowRight"?1:-1)+tabs.length)%tabs.length;
+  tabs[n].focus();showView(tabs[n].dataset.view);});
+
+/* ---------- render ---------- */
+function render(){
+  const ps=people(),tot=ps.length,n=ps.filter(p=>isHere(p.ref)).length;
+  $("tot").textContent=tot;$("cnt").textContent=n;$("barI").style.width=(tot?n/tot*100:0)+"%";
+  const bar=$("bar");bar.setAttribute("aria-valuemax",tot);bar.setAttribute("aria-valuenow",n);bar.setAttribute("aria-valuetext",`${n} из ${tot}`);
+  drawCards();search();drawGifts();
+  if(cur&&cur.kind==="table"){const b=$("sheet").querySelector(".sh-body"),st=b?b.scrollTop:0;
+    $("sheet").innerHTML=tableHTML(cur.t,cur.me);const nb=$("sheet").querySelector(".sh-body");if(nb)nb.scrollTop=st}
+}
+let armed=false;
+$("reset").onclick=e=>{const b=e.currentTarget;
+  if(!armed){armed=true;b.classList.add("arm");b.textContent="Нажмите ещё раз, чтобы сбросить отметки";
+    setTimeout(()=>{armed=false;b.classList.remove("arm");b.textContent="Сбросить все отметки «пришёл»"},3000);return}
+  armed=false;b.classList.remove("arm");b.textContent="Сбросить все отметки «пришёл»";
+  for(const k of Object.keys(S.arrived))del("arrived",k);
+};
+
+document.documentElement.lang="ru";
+loadLocal();
+try{const v=localStorage.getItem("qonaq-tab");if(v==="vGifts")showView(v)}catch(e){}
+render();
+connect();
+</script>
+</body></html>

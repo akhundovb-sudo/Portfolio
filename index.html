@@ -40,7 +40,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="styles.css?v=fast261">
+    <link rel="stylesheet" href="styles.css?v=fast278">
     <!-- Social meta -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bahruz - Portfolio">
@@ -77,7 +77,7 @@
                 <!-- Desktop Navigation -->
                 <nav class="nav desktop-nav home-nav" aria-label="Primary">
                     <a href="#projects" class="home-nav-link">Works</a>
-                    <a href="about.html" class="home-nav-link">About</a>
+                    <!-- About hidden for now: <a href="about.html" class="home-nav-link">About</a> -->
                     <button type="button" class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg><svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/><path d="M12 2V4.5M12 19.5V22M2 12H4.5M19.5 12H22M4.9 4.9L6.7 6.7M17.3 17.3L19.1 19.1M4.9 19.1L6.7 17.3M17.3 6.7L19.1 4.9" fill="none" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
                     <button type="button" onclick="openModal()" class="home-cta">Get in touch</button>
                 </nav>
@@ -100,7 +100,7 @@
                     </div>
                     <nav class="mobile-menu" aria-label="Menu">
                         <a href="#projects" class="mobile-nav-link">Works</a>
-                        <a href="about.html" class="mobile-nav-link">About</a>
+                        <!-- About hidden for now: <a href="about.html" class="mobile-nav-link">About</a> -->
                     </nav>
                     <div class="mobile-menu-bottom">
                         <div class="mobile-social-links">
@@ -158,7 +158,6 @@
         <div class="container">
             <h2 class="projects-heading">Works</h2>
             <div class="projects-grid">
-                <!-- Row 1 -->
                 <!-- Cento: in progress, not linked yet. A looping clip in CSS: the
                      headline types in line by line, zooms away, and the phone
                      comes up in a phone mockup (the phone frame of the case pages) and the
@@ -172,24 +171,6 @@
                         <span class="cento-bg"></span>
                         <p class="cento-title"><span><i>One amount.</i></span> <span><i>Multiple currencies</i></span> <span><i>at once.</i></span></p>
                         <div class="cento-phone"><div class="project-phones"><div class="case-phone case-phone--front"><div class="case-phone-screen" style="--screen: #EDEEF4"><div class="cento-app"><div class="cento-stage"><div class="cento-scroll"><img class="cento-usd" src="images/cento/app-usd.webp?v=1" alt="" width="982" height="235" decoding="async"><i class="cento-patch" style="--l:78.4%;--t:16.81%;--w:13.7%;--h:3.36%"></i><b class="cento-num cento-num--amt" style="--t:16.54%;--fs:5.7cqw"><u>1</u><u>10</u><u>100</u></b><span class="cento-caretbox"><i class="cento-caret"></i></span><div class="cento-row" style="--y:535"><span class="cento-ico cento-ico--flag" style="--f: url(images/cento/crypto-BTC.svg)"></span><span class="cento-code">BTC</span><span class="cento-name">Bitcoin</span><b class="cento-val"><u>0.0000124</u><u>0.0001241</u><u>0.0012410</u></b><span class="cento-sub">1 USD = 0.00001241 BTC</span></div><div class="cento-row" style="--y:775"><span class="cento-ico cento-ico--flag" style="--f: url(images/cento/flag-EU.png)"></span><span class="cento-code">EUR</span><span class="cento-name">Euro</span><b class="cento-val"><u>0.8972150</u><u>8.9721500</u><u>89.7215000</u></b><span class="cento-sub">1 USD = 0.8972 EUR</span></div><div class="cento-row" style="--y:1015"><span class="cento-ico cento-ico--flag" style="--f: url(images/cento/flag-JP.svg)"></span><span class="cento-code">JPY</span><span class="cento-name">Japanese Yen</span><b class="cento-val"><u>157.9053700</u><u>1,579.0537000</u><u>15,790.5370000</u></b><span class="cento-sub">1 USD = 157.9054 JPY</span></div><div class="cento-row" style="--y:1255"><span class="cento-ico cento-ico--flag" style="--f: url(images/cento/flag-GB.svg)"></span><span class="cento-code">GBP</span><span class="cento-name">British Pound</span><b class="cento-val"><u>0.7438000</u><u>7.4380000</u><u>74.3800000</u></b><span class="cento-sub">1 USD = 0.7438 GBP</span></div><div class="cento-row" style="--y:1495"><span class="cento-ico cento-ico--flag" style="--f: url(images/cento/flag-CH.svg)"></span><span class="cento-code">CHF</span><span class="cento-name">Swiss Franc</span><b class="cento-val"><u>0.7982000</u><u>7.9820000</u><u>79.8200000</u></b><span class="cento-sub">1 USD = 0.7982 CHF</span></div><div class="cento-row" style="--y:1735"><span class="cento-ico cento-ico--flag" style="--f: url(images/cento/flag-CA.svg)"></span><span class="cento-code">CAD</span><span class="cento-name">Canadian Dollar</span><b class="cento-val"><u>1.3921000</u><u>13.9210000</u><u>139.2100000</u></b><span class="cento-sub">1 USD = 1.3921 CAD</span></div><div class="cento-row" style="--y:1975"><span class="cento-ico cento-ico--flag" style="--f: url(images/cento/flag-SE.svg)"></span><span class="cento-code">SEK</span><span class="cento-name">Swedish Krona</span><b class="cento-val"><u>9.4632000</u><u>94.6320000</u><u>946.3200000</u></b><span class="cento-sub">1 USD = 9.4632 SEK</span></div></div><div class="cento-blur"></div><img class="cento-status" src="images/cento/app-status.webp?v=1" alt="" width="982" height="125" decoding="async"><img class="cento-btn" src="images/cento/app-btn-gear.webp?v=1" alt="" style="--x:41;--w:105" width="105" height="107" decoding="async"><img class="cento-btn" src="images/cento/app-btn-edit.webp?v=1" alt="" style="--x:626;--w:177" width="177" height="107" decoding="async"><img class="cento-btn" src="images/cento/app-btn-plus.webp?v=1" alt="" style="--x:836;--w:105" width="105" height="107" decoding="async"><div class="cento-kbd"><img src="images/cento/app-kbd.webp?v=1" alt="" width="982" height="810" decoding="async"><i class="cento-key" style="--x:35;--y:194"></i><i class="cento-key cento-key--0a" style="--x:346;--y:668"></i><i class="cento-key cento-key--0b" style="--x:346;--y:668"></i><i class="cento-key cento-key--h" style="--x:655;--y:668"></i></div></div></div></div></div></div></div>
-                    </div>
-                </div>
-
-                <!-- Habbi: in progress, not linked yet. -->
-                <div class="project-card project-card--wip" aria-label="Habbi, in progress">
-                    <div class="project-head">
-                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">Habbi</span><span class="project-sep"> · </span><span class="project-description">Habit tracker</span></span></h3>
-                        <span class="project-wip">In progress</span>
-                    </div>
-                    <!-- The Habits home in a phone; the cursor over the card is an hourglass.
-                         On hover the mascot peeks out from behind the phone's left edge
-                         and waves (script.js [data-mascot]), frame by frame from one sprite. -->
-                    <div class="project-image project-image--phones project-image--habbi" aria-hidden="true">
-                        <div class="project-phones" data-mascot>
-                            <span class="project-mascot"></span>
-                            <span class="project-mascot"></span>
-                            <div class="case-phone case-phone--front"><div class="case-phone-screen case-phone-screen--full"><img src="images/habbi-home.jpg?v=2" alt="" loading="lazy" decoding="async"></div></div>
-                        </div>
                     </div>
                 </div>
 
@@ -215,20 +196,6 @@
                     </div>
                 </a>
 
-                <a href="pos-terminal.html" class="project-card project-card--pos">
-                    <div class="project-head">
-                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava POS</span><span class="project-sep"> · </span><span class="project-description">Payment terminal</span></span></h3>
-                        <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
-                    </div>
-                    <!-- The sale keyed in on the terminal, a push into the pay screen;
-                         a close-up card tap and approval; a cut to a phone paying with
-                         Apple Pay; a cut to a florist's card tap; a dissolve back
-                         (a 12.7s loop, styles.css .pos-video). -->
-                    <div class="project-image project-image--phones project-image--terms" aria-hidden="true">
-                        <video class="pos-video" poster="images/pos-card.webp?v=5" width="1280" height="720" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1"><source src="images/pos-card.mp4?v=6" type="video/mp4"><source src="images/pos-card.webm?v=6" type="video/webm"></video>
-                    </div>
-                </a>
-
                 <a href="myguava-payment.html" class="project-card project-card--pay">
                     <div class="project-head">
                         <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava Payment</span><span class="project-sep"> · </span><span class="project-description">Checkout</span></span></h3>
@@ -241,18 +208,17 @@
                     </div>
                 </a>
 
-                <!-- Row 2 -->
-                <a href="myguava-design-system.html" class="project-card project-card--ds">
+                <a href="pos-terminal.html" class="project-card project-card--pos">
                     <div class="project-head">
-                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava</span><span class="project-sep"> · </span><span class="project-description">Design system</span></span></h3>
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava POS</span><span class="project-sep"> · </span><span class="project-description">Payment terminal</span></span></h3>
                         <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
                     </div>
-                    <!-- One shape morphing through the library's components (button,
-                         loader, checkbox, badge, input, payments table,
-                         switch, tabs, chart, search, toast, palette), a 15.5s loop;
-                         on hover it draws in a little (styles.css .ds-video). -->
-                    <div class="project-image project-image--phones project-image--dsbg" aria-hidden="true">
-                        <video class="ds-video" poster="images/ds-card.webp?v=8" width="1280" height="720" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1"><source src="images/ds-card.mp4?v=16" type="video/mp4"><source src="images/ds-card.webm?v=16" type="video/webm"></video>
+                    <!-- The sale keyed in on the terminal, a push into the pay screen;
+                         a close-up card tap and approval; a cut to a phone paying with
+                         Apple Pay; a cut to a florist's card tap; a dissolve back
+                         (a 12.7s loop, styles.css .pos-video). -->
+                    <div class="project-image project-image--phones project-image--terms" aria-hidden="true">
+                        <video class="pos-video" poster="images/pos-card.webp?v=5" width="1280" height="720" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1"><source src="images/pos-card.mp4?v=6" type="video/mp4"><source src="images/pos-card.webm?v=6" type="video/webm"></video>
                     </div>
                 </a>
 
@@ -308,6 +274,20 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </a>
+
+                <a href="myguava-design-system.html" class="project-card project-card--ds">
+                    <div class="project-head">
+                        <h3 class="project-label"><span class="project-label-text"><span class="project-title">MyGuava</span><span class="project-sep"> · </span><span class="project-description">Design system</span></span></h3>
+                        <span class="project-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M8.5 6H18V15.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></span>
+                    </div>
+                    <!-- One shape morphing through the library's components (button,
+                         loader, checkbox, badge, input, payments table,
+                         switch, tabs, chart, search, toast, palette), a 15.5s loop;
+                         on hover it draws in a little (styles.css .ds-video). -->
+                    <div class="project-image project-image--phones project-image--dsbg" aria-hidden="true">
+                        <video class="ds-video" poster="images/ds-card.webp?v=8" width="1280" height="720" autoplay muted loop playsinline preload="auto" disablepictureinpicture tabindex="-1"><source src="images/ds-card.mp4?v=16" type="video/mp4"><source src="images/ds-card.webm?v=16" type="video/webm"></video>
                     </div>
                 </a>
 
