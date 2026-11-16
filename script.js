@@ -84,6 +84,15 @@ document.querySelectorAll('.project-card').forEach(card => {
 // Contact Modal Functions - Optimized
 let modal = null;
 let isModalOpen = false;
+let modalReturnFocus = null;
+
+// What Tab can reach inside the dialog (copies of links with tabindex="-1" left out).
+function modalFocusables(root) {
+    return Array.prototype.filter.call(
+        root.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+        function (el) { return el.getAttribute('tabindex') !== '-1' && el.offsetParent !== null; }
+    );
+}
 
 // Cache modal element to avoid repeated DOM queries
 function getModal() {
@@ -99,12 +108,16 @@ function openModal() {
     const modalElement = getModal();
     if (modalElement) {
         isModalOpen = true;
+        modalReturnFocus = document.activeElement;
         modalElement.style.display = 'block';
         document.body.style.overflow = 'hidden';
 
         // Use requestAnimationFrame to ensure smooth animation
         requestAnimationFrame(() => {
             modalElement.classList.add('show');
+            // Keyboard and screen-reader users land inside the dialog.
+            const first = modalFocusables(modalElement)[0];
+            if (first) first.focus({ preventScroll: true });
         });
     }
 }
@@ -117,6 +130,11 @@ function closeModal() {
         isModalOpen = false;
         modalElement.classList.remove('show');
         document.body.style.overflow = 'auto';
+        // Back to the button that opened it.
+        if (modalReturnFocus && document.contains(modalReturnFocus)) {
+            modalReturnFocus.focus({ preventScroll: true });
+        }
+        modalReturnFocus = null;
 
         // Hide modal after animation completes
         setTimeout(() => {
@@ -148,6 +166,23 @@ function addModalEventListeners() {
             closeModal();
         }
     }, { passive: true });
+
+    // Keep Tab inside the open dialog (not passive: it has to stop the default move).
+    document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Tab' || !isModalOpen) return;
+        const items = modalFocusables(getModal());
+        if (!items.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        const inside = getModal().contains(document.activeElement);
+        if (event.shiftKey && (document.activeElement === first || !inside)) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && (document.activeElement === last || !inside)) {
+            event.preventDefault();
+            first.focus();
+        }
+    });
 }
 
 // Initialize modal event listeners

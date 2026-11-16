@@ -23,7 +23,7 @@
          browser); set before paint so the page never flashes. -->
     <meta name="color-scheme" content="light dark">
     <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-    <link rel="stylesheet" href="/styles.css?v=fast278">
+    <link rel="stylesheet" href="/styles.css?v=fast282">
     <style>
         /* 404: one centred block on the page ground, like the rest of the site */
         .nf {
@@ -80,15 +80,23 @@
         .nf-cell { border-radius: 2px; }
         .nf-cell.on {
             cursor: pointer;
-            background: var(--c);
+            /* the site's ink; a click recolours a swatch from the palette */
+            background: var(--c, #0F0F0F);
             transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), border-radius 260ms ease, box-shadow 260ms ease, background-color 320ms ease;
         }
-        .nf-digits.is-wave .nf-cell.on {
+        /* the one swatch that fell out of the 0, in the site's accent */
+        .nf-cell.on.nf-fallen {
+            --c: rgb(255, 72, 16);
+            cursor: default;
+            transform-origin: 0 100%;
+            transform: rotate(16deg);
+        }
+        .nf-digits.is-wave .nf-cell.on:not(.nf-fallen) {
             animation: nf-lift 560ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--d) + 450ms) both;
         }
         /* a swatch lifts and rounds under the pointer */
         @media (hover: hover) and (pointer: fine) {
-            .nf-digits:not(.is-wave) .nf-cell.on:hover {
+            .nf-digits:not(.is-wave) .nf-cell.on:not(.nf-fallen):hover {
                 transform: translateY(-14%) scale(1.14);
                 border-radius: 22%;
                 box-shadow: 0 6px 14px -6px rgba(15, 15, 15, 0.45);
@@ -111,7 +119,7 @@
         @media (prefers-reduced-motion: reduce) {
             .nf-digits.is-wave .nf-cell.on, .nf-cell.on.is-pop { animation: none; }
         }
-        html[data-theme="dark"] .nf-cell.on { box-shadow: inset 0 0 0 1px rgba(241, 241, 240, 0.12); }
+        html[data-theme="dark"] .nf-cell.on { background: var(--c, #F1F1F0); }
         html[data-theme="dark"] .nf-code { color: rgba(241, 241, 240, 0.5); }
         html[data-theme="dark"] .nf-text { color: rgba(241, 241, 240, 0.6); }
 
@@ -215,10 +223,10 @@
     </main>
 
     <!-- Contact Modal -->
-    <div id="contactModal" class="modal">
+    <div id="contactModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Let's connect!</h3>
+                <h3 class="modal-title" id="contactModalTitle">Let's connect!</h3>
                 <button class="modal-close" onclick="closeModal()" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
             </div>
             <div class="modal-body">
@@ -285,8 +293,11 @@
                 var row = FOUR[r] + '0' + ZERO[r] + '0' + FOUR[r];
                 for (var c = 0; c < 17; c++) {
                     var el = document.createElement('i');
-                    el.className = 'nf-cell' + (row[c] === '1' ? ' on' : '');
-                    el.style.setProperty('--c', '#' + SCALES[c % 7][r]);
+                    // r4 c10: the 0's right side loses a swatch; it lies at
+                    // the 0's foot (r6 c11), tipped over.
+                    var on = row[c] === '1' && !(r === 4 && c === 10);
+                    var fallen = r === 6 && c === 11;
+                    el.className = 'nf-cell' + (on || fallen ? ' on' : '') + (fallen ? ' nf-fallen' : '');
                     el.style.setProperty('--d', (c * 45 + r * 12) + 'ms');
                     grid.appendChild(el);
                 }
@@ -319,7 +330,7 @@
             }
             grid.addEventListener('click', function (e) {
                 if (window.nfPlaying && window.nfPlaying()) return;
-                var cell = e.target.closest('.nf-cell.on');
+                var cell = e.target.closest('.nf-cell.on:not(.nf-fallen)');
                 if (!cell) return;
                 if (count < GOAL) {
                     count++;
@@ -473,7 +484,7 @@
             });
         })();
     </script>
-    <script src="/script.js?v=20261019a"></script>
+    <script src="/script.js?v=20261116a"></script>
     <script>
         // Mobile Menu Functionality
         function toggleMobileMenu() {
@@ -485,6 +496,7 @@
             
             overlay.classList.toggle('active');
             hamburger.classList.toggle('active');
+            if (hamburger) hamburger.setAttribute('aria-expanded', String(overlay.classList.contains('active')));
             body.classList.toggle('mobile-menu-open');
             html.classList.toggle('mobile-menu-open');
             
