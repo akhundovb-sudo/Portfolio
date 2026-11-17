@@ -183,10 +183,10 @@
             border-radius: 14px;
             background: rgba(15, 15, 15, 0.06);
             color: inherit;
-            font-size: 20px;
             cursor: pointer;
             touch-action: manipulation;
         }
+        .nf-pad svg { display: block; margin: auto; }
         html[data-theme="dark"] .nf-pad button { background: rgba(241, 241, 240, 0.1); }
     </style>
     <!-- Hotjar Tracking Code -->
@@ -210,11 +210,11 @@
             <div class="nf-digits" id="nfDigits" role="img" aria-label="404"></div>
             <p class="nf-hint" id="nfHint" aria-live="polite"></p>
             <div class="nf-pad" id="nfPad" hidden aria-label="Controls">
-                <button type="button" data-k="left" aria-label="Left">←</button>
-                <button type="button" data-k="rotate" aria-label="Rotate">⟳</button>
-                <button type="button" data-k="right" aria-label="Right">→</button>
-                <button type="button" data-k="down" aria-label="Down">↓</button>
-                <button type="button" data-k="drop" aria-label="Drop">⤓</button>
+                <button type="button" data-k="left" aria-label="Left"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                <button type="button" data-k="rotate" aria-label="Rotate"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19.5 12A7.5 7.5 0 1 1 16.8 6.25M19 3.5V8H14.5" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                <button type="button" data-k="right" aria-label="Right"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                <button type="button" data-k="down" aria-label="Down"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5V19M6 13L12 19L18 13" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
+                <button type="button" data-k="drop" aria-label="Drop"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3V14M6.5 8.5L12 14L17.5 8.5M5 20H19" stroke="currentColor" stroke-width="2.25" vector-effect="non-scaling-stroke" stroke-linecap="square" stroke-linejoin="miter"/></svg></button>
             </div>
             <h1 class="nf-title">This page doesn't exist</h1>
             <p class="nf-text">The link may be out of date or have a typo in it. My work and contacts are on the home page.</p>
